@@ -11,12 +11,16 @@
     "@sanity/base",
     "@sanity/default-layout",
     "@sanity/default-login",
-    "@sanity/desk-tool"
+    "@sanity/desk-tool",
+    "table",
+    "@sanity/code-input"
   ],
   "env": {
     "development": {
       "plugins": [
-        "@sanity/vision"
+        "@sanity/vision",
+        "@seidhr/sanity-plugin-timespan-input",
+        "@uib-ub/sanity-plugin-schema-service-portfolio"
       ]
     }
   },
