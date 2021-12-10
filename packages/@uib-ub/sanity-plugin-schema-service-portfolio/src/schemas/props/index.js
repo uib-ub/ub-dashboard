@@ -84,14 +84,33 @@ export const uses = {
     type: 'reference',
     to: [
       { type: 'Software' },
+      { type: 'Language' },
     ]
   }],
   options: {
     semanticSanity: {
-      '@type': '@json'
+      '@type': '@id'
     }
   }
 }
+
+export const resultedIn = {
+  name: 'resultedIn',
+  title: 'Resulted in',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Product' },
+    ]
+  }],
+  options: {
+    semanticSanity: {
+      '@type': '@id'
+    }
+  }
+}
+
 
 export const file = {
   name: 'file',
@@ -472,6 +491,26 @@ export const relation = {
   },
 }
 
+export const subGroupOf = {
+  name: 'subGroupOf',
+  title: 'Undergruppe av',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Group' },
+      ],
+    },
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
 export const presentAt = {
   name: 'presentAt',
   title: 'Var tilstede ved',
@@ -665,6 +704,144 @@ export const composedOf = {
   },
 }
 
+export const dissolved = {
+  name: 'dissolved',
+  title: 'Oppløsning',
+  description: 'Group that was dissolved.',
+  type: 'reference',
+  to: [
+    { type: 'Group' }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const formed = {
+  name: 'formed',
+  title: 'Opprettelse',
+  description: 'Group that was formed.',
+  type: 'reference',
+  to: [
+    { type: 'Group' }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const formedFrom = {
+  name: 'formedFrom',
+  title: 'Opprettet fra',
+  titleEN: 'Formed from',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Group' }
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
+export const joinedWith = {
+  name: 'joinedWith',
+  title: 'Innlemmet i gruppe',
+  titleEN: 'Joined with',
+  description: 'Group that actor(s) joined with',
+  type: 'reference',
+  to: [
+    { type: 'Group' }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const joined = {
+  name: 'joined',
+  title: 'Innlemmet aktør(er)',
+  titleEN: 'Joined',
+  description: 'Actor(s) that joined this group',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Actor' },
+      ]
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
+export const separatedFrom = {
+  name: 'separatedFrom',
+  title: 'Forlot',
+  titleEN: 'Left',
+  description: 'Actor(s) that left this group',
+  type: 'reference',
+  to: [
+    { type: 'Group' }
+  ]
+}
+
+export const separated = {
+  name: 'separated',
+  title: 'Forlot',
+  titleEN: 'Left',
+  description: 'Actor(s) that left this group',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Actor' }
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+
+export const serviceDescription = {
+  name: 'serviceDescription',
+  title: 'Service description',
+  type: 'url',
+}
+
+export const url = {
+  name: 'url',
+  title: 'Url',
+  type: 'url',
+}
+
 export const homepage = {
   name: 'homepage',
   title: 'Hjemmeside',
@@ -672,6 +849,42 @@ export const homepage = {
   description: 'Hjemmeside til ressursen',
   descriptionEN: 'Main homepage for the resource',
   type: 'url',
+}
+
+export const link = {
+  name: 'link',
+  title: 'Links',
+  type: 'array',
+  of: [{
+    type: 'WebResource'
+  }]
+}
+
+export const usedService = {
+  name: 'usedService',
+  title: 'Benytter tjeneste',
+  type: 'array',
+  of: [
+    { type: 'ServiceUsageAssignment' }
+  ]
+}
+
+export const endpoint = {
+  name: 'endpoint',
+  title: 'Endpoints',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Endpoint' }
+    ]
+  }]
+}
+
+export const totalHours = {
+  name: 'totalHours',
+  title: 'totalHours',
+  type: 'number',
 }
 
 export const subjectOf = {

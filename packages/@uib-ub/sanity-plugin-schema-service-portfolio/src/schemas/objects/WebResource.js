@@ -1,6 +1,5 @@
-import { editorialState, accessState, hasType, labelSingleton } from '../props'
+import { labelSingleton } from '../props'
 import { defaultFieldsets } from '../fieldsets'
-import { coalesceLabel } from '../helpers'
 
 export default {
   name: 'WebResource',
@@ -8,7 +7,19 @@ export default {
   type: 'object',
   fieldsets: defaultFieldsets,
   fields: [
-    labelSingleton,
+    {
+      ...labelSingleton,
+      options: {
+        list: [
+          { title: 'Hjemmeside', value: 'homepage' },
+          { title: 'Produksjon', value: 'production' },
+          { title: 'Test', value: 'test' },
+          { title: 'Dev', value: 'dev' },
+          { title: 'API', value: 'api' },
+          { title: 'Git', value: 'git' },
+        ]
+      }
+    },
     {
       name: 'url',
       title: 'URL',

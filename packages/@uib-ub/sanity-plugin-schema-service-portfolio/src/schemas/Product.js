@@ -1,18 +1,20 @@
-import { endpoint, labelSingleton, link, referredToBy, serviceDescription, shortDescription, timespanSingleton, uses } from "./props";
+import { endpoint, file, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton } from "./props";
 
 export default {
-  name: 'Service',
-  title: 'Service',
+  name: 'Product',
+  title: 'Product',
   type: 'document',
   fields: [
     labelSingleton,
     shortDescription,
     referredToBy,
-    serviceDescription,
-    link,
-    endpoint,
-    uses,
     timespanSingleton,
+    link,
+    usedService,
+    endpoint,
+    hadParticipant,
+    image,
+    file
   ],
   preview: {
     select: {

@@ -4,11 +4,9 @@ import {
   accessState,
   label,
   referredToBy,
-  hasType,
 } from './props'
 import { defaultFieldsets } from './fieldsets'
 import { coalesceLabel } from './helpers'
-// import {KulturnavInput} from '../components/kulturnavInput/KulturnavInput'
 
 export default {
   name: 'Place',

@@ -1,6 +1,6 @@
-import { timespan, tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton } from '../props'
+import { tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton, separatedFrom, separated } from '../props'
 import { defaultFieldsets } from '../fieldsets'
-import { coalesceLabel, timespanAsString } from '../helpers'
+import { coalesceLabel } from '../helpers'
 
 var capitalize = require('capitalize')
 
@@ -15,41 +15,8 @@ export default {
     featured,
     timespanSingleton,
     tookPlaceAt,
-    {
-      name: 'separatedFrom',
-      title: 'Forlot',
-      titleEN: 'Left',
-      description: 'Actor(s) that left this group',
-      type: 'reference',
-      to: [
-        { type: 'Group' }
-      ],
-    },
-    {
-      name: 'separated',
-      title: 'Forlot',
-      titleEN: 'Left',
-      description: 'Actor(s) that left this group',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [
-            { type: 'Actor' }
-          ],
-          options: {
-            filter: '_type == "Actor" && references($id)',
-            filterParams: { id: 'd4ad3e47-1498-4b95-9b7f-c25be386691a' },
-          }
-        }
-      ],
-      options: {
-        semanticSanity: {
-          '@container': '@set',
-          '@type': '@id'
-        }
-      }
-    },
+    separatedFrom,
+    separated,
     referredToBy,
   ],
   preview: {

@@ -1,5 +1,6 @@
-import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton } from '../props'
+import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton, formed, formedFrom } from '../props'
 import { defaultFieldsets } from '../fieldsets'
+import { coalesceLabel } from '../helpers'
 
 var capitalize = require('capitalize')
 
@@ -14,26 +15,8 @@ export default {
   fields: [
     labelSingleton,
     featured,
-    {
-      name: 'formedFrom',
-      title: 'Opprettet fra',
-      titleEN: 'Formed from',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [
-            { type: 'Group' }
-          ],
-        }
-      ],
-      options: {
-        semanticSanity: {
-          '@container': '@set',
-          '@type': '@id'
-        }
-      },
-    },
+    formedFrom,
+    formed,
     timespan,
     tookPlaceAt,
     motivatedBy,
@@ -41,13 +24,16 @@ export default {
   ],
   preview: {
     select: {
+      label: 'label',
       type: '_type',
-      edtf: 'timespan.edtf'
+      edtf: 'timespan.edtf',
+      formed: 'formed.label',
     },
     prepare(selection) {
-      const { type, edtf } = selection
+      const { label, type, edtf, formed } = selection
       return {
-        title: `${capitalize(type)}`,
+        title: `${label ?? capitalize(type)}`,
+        title: label ? label : `Opprettelsen av  ${formed ? coalesceLabel(formed) : ''}`,
         subtitle: edtf,
       }
     },

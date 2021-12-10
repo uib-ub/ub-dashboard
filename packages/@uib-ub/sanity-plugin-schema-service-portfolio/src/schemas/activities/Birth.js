@@ -1,6 +1,5 @@
 import { carriedOutBy, tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton } from '../props'
 import { defaultFieldsets } from '../fieldsets'
-import { timespanAsString } from '../helpers'
 
 var capitalize = require('capitalize')
 

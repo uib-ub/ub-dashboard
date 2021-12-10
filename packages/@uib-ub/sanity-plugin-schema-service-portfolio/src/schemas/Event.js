@@ -1,4 +1,3 @@
-import React from 'react'
 import { coalesceLabel } from './helpers'
 import { FaCalendar } from 'react-icons/fa'
 import {

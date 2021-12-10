@@ -1,5 +1,5 @@
-import { coalesceLabel, timespanAsString } from '../helpers'
-import { referredToBy, tookPlaceAt, featured, timespanSingleton, labelSingleton } from '../props'
+import { coalesceLabel } from '../helpers'
+import { referredToBy, tookPlaceAt, featured, timespanSingleton, labelSingleton, joinedWith, joined } from '../props'
 
 var capitalize = require('capitalize')
 
@@ -20,43 +20,8 @@ export default {
     featured,
     timespanSingleton,
     tookPlaceAt,
-    {
-      name: 'joinedWith',
-      title: 'Innlemmet i gruppe',
-      titleEN: 'Joined with',
-      description: 'Group that actor(s) joined with',
-      type: 'reference',
-      to: [
-        { type: 'Group' }
-      ],
-      options: {
-        semanticSanity: {
-          '@container': '@set',
-          '@type': '@id'
-        }
-      }
-    },
-    {
-      name: 'joined',
-      title: 'Innlemmet aktør(er)',
-      titleEN: 'Joined',
-      description: 'Actor(s) that joined this group',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [
-            { type: 'Actor' },
-          ]
-        }
-      ],
-      options: {
-        semanticSanity: {
-          '@container': '@set',
-          '@type': '@id'
-        }
-      },
-    },
+    joinedWith,
+    joined,
     referredToBy,
   ],
   preview: {

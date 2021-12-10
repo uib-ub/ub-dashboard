@@ -1,5 +1,4 @@
-import { array } from "prop-types";
-import { hasType, homepage, labelSingleton, referredToBy, shortDescription, subject, subjectOf, timespanSingleton, uses } from "./props";
+import { hasType, labelSingleton, link, referredToBy, shortDescription, uses } from "./props";
 
 export default {
   name: 'Software',
@@ -11,13 +10,6 @@ export default {
     shortDescription,
     referredToBy,
     uses,
-    {
-      name: 'link',
-      title: 'Links',
-      type: 'array',
-      of: [{
-        type: 'WebResource'
-      }]
-    }
+    link
   ]
 }

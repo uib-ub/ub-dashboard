@@ -1,5 +1,6 @@
-import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton } from '../props'
+import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton, dissolved } from '../props'
 import { defaultFieldsets } from '../fieldsets'
+import { coalesceLabel } from '../helpers'
 
 var capitalize = require('capitalize')
 
@@ -14,6 +15,7 @@ export default {
   fields: [
     labelSingleton,
     featured,
+    dissolved,
     timespan,
     tookPlaceAt,
     motivatedBy,
@@ -21,13 +23,16 @@ export default {
   ],
   preview: {
     select: {
+      label: 'label',
       type: '_type',
-      edtf: 'timespan.edtf'
+      edtf: 'timespan.edtf',
+      dissolved: 'dissolved.label',
     },
     prepare(selection) {
-      const { type, edtf } = selection
+      const { label, type, edtf, dissolved } = selection
       return {
-        title: `${capitalize(type)}`,
+        title: `${label ?? capitalize(type)}`,
+        title: label ?? `Oppløsningen av ${dissolved ? coalesceLabel(dissolved) : ''}`,
         subtitle: edtf,
       }
     },

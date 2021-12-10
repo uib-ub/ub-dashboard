@@ -26,11 +26,19 @@
     },
     {
       "implements": "part:@sanity/base/schema-type",
+      "path": "schemas/Language"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
       "path": "schemas/Place"
     },
     {
       "implements": "part:@sanity/base/schema-type",
-      "path": "schemas/Language"
+      "path": "schemas/Platform"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
+      "path": "schemas/Product"
     },
     {
       "implements": "part:@sanity/base/schema-type",
@@ -63,6 +71,10 @@
     {
       "implements": "part:@sanity/base/schema-type",
       "path": "schemas/objects/ContributionAssignment"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
+      "path": "schemas/objects/ServiceUsageAssignment"
     },
     {
       "implements": "part:@sanity/base/schema-type",

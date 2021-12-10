@@ -1,5 +1,5 @@
 import { FaTag } from 'react-icons/fa'
-import { editorialState, accessState, label, altLabel, broader, domain } from './props'
+import { labelSingleton } from './props'
 import { defaultFieldsets } from './fieldsets'
 import { coalesceLabel } from './helpers'
 
@@ -7,17 +7,10 @@ export default {
   name: 'Role',
   title: 'Rolle',
   type: 'document',
-  initialValue: {
-    editorialState: 'published',
-    accessState: 'open',
-  },
   icon: FaTag,
   fieldsets: defaultFieldsets,
   fields: [
-    editorialState,
-    accessState,
-    label,
-    altLabel,
+    labelSingleton,
   ],
   preview: {
     select: {

@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, memberOf, referredToBy, shortDescription } from "./props";
+import { hasType, labelSingleton, referredToBy, shortDescription, subGroupOf } from "./props";
 
 export default {
   name: 'Group',
@@ -9,6 +9,7 @@ export default {
     hasType,
     shortDescription,
     referredToBy,
+    subGroupOf,
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',

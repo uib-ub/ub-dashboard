@@ -1,4 +1,4 @@
-import { file, hadParticipant, image, labelSingleton, referredToBy, shortDescription, timespanSingleton } from "./props";
+import { file, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
 
 export default {
   name: 'Project',
@@ -7,6 +7,8 @@ export default {
   fields: [
     labelSingleton,
     shortDescription,
+    link,
+    resultedIn,
     referredToBy,
     timespanSingleton,
     hadParticipant,

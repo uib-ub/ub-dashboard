@@ -1,4 +1,5 @@
 import { coalesceLabel } from "../helpers"
+import { timespanSingleton, totalHours } from "../props"
 
 export default {
   name: 'ContributionAssignment',
@@ -39,6 +40,8 @@ export default {
         }
       },
     },
+    timespanSingleton,
+    totalHours
   ],
   preview: {
     select: {
