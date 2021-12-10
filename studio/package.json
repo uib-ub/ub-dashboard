@@ -24,8 +24,12 @@
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0",
+    "sanity-plugin-graph-view": "^1.0.7",
     "sanity-plugin-table": "^2.3.0",
     "styled-components": "^5.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "**/three": "0.119.1"
+  }
 }

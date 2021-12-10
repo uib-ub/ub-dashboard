@@ -1,0 +1,3 @@
+{
+  "query": "*[type != \"Role\" ] { ..., \"title\": coalesce(label, label.no) }"
+}
