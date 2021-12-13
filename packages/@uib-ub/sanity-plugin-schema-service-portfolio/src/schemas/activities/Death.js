@@ -1,4 +1,4 @@
-import { carriedOutBy, timespan, tookPlaceAt, referredToBy, featured, labelSingleton } from '../props'
+import { carriedOutBy, timespan, tookPlaceAt, referredToBy, labelSingleton, deathOf } from '../props'
 import { defaultFieldsets } from '../fieldsets'
 
 var capitalize = require('capitalize')
@@ -9,7 +9,7 @@ export default {
   title: 'Død',
   titleEN: 'Death',
   fieldsets: defaultFieldsets,
-  fields: [labelSingleton, featured, carriedOutBy, timespan, tookPlaceAt, referredToBy],
+  fields: [labelSingleton, deathOf, carriedOutBy, timespan, tookPlaceAt, referredToBy],
   preview: {
     select: {
       edtf: 'timespan.edtf',

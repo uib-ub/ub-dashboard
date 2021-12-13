@@ -1,4 +1,4 @@
-import { endpoint, file, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton } from "./props";
+import { file, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton, composedOfProducts } from "./props";
 
 export default {
   name: 'Product',
@@ -9,11 +9,39 @@ export default {
     shortDescription,
     referredToBy,
     timespanSingleton,
+    composedOfProducts,
     link,
     usedService,
-    endpoint,
     hadParticipant,
-    image,
+    {
+      name: 'activityStream',
+      title: 'Aktivitetsstrøm',
+      titleEN: 'Activity stream',
+      description:
+        'En aktivitetsstrøm samler alle hendelser knyttet til denne aktøren. Fødsel og død er "inline" til personen, mens andre aktiviteter som ekteskap er egne dokument.',
+      descriptionEN: 'Add all known events this smuck did',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [
+            { type: 'BeginningOfExistence' },
+            { type: 'Activity' },
+            { type: 'Event' },
+            { type: 'Joining' },
+            { type: 'Leaving' },
+            { type: 'EndOfExistence' },
+          ]
+        },
+      ],
+      options: {
+        editModal: 'fullscreen',
+        semanticSanity: {
+          '@container': '@list',
+          '@type': '@id'
+        }
+      },
+    }, image,
     file
   ],
   preview: {

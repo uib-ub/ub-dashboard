@@ -1,15 +1,14 @@
-import { carriedOutBy, tookPlaceAt, referredToBy, timespanSingleton, labelSingleton, birthOf } from '../props'
+import { carriedOutBy, tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton, broughtIntoExistence } from '../props'
 import { defaultFieldsets } from '../fieldsets'
 
 var capitalize = require('capitalize')
 
 export default {
-  name: 'Birth',
+  name: 'BeginningOfExistence',
   type: 'document',
-  title: 'Fødsel',
-  titleEN: 'Birth',
+  title: 'Starten på eksistens',
   fieldsets: defaultFieldsets,
-  fields: [labelSingleton, birthOf, carriedOutBy, timespanSingleton, tookPlaceAt, referredToBy],
+  fields: [labelSingleton, broughtIntoExistence, carriedOutBy, timespanSingleton, tookPlaceAt, referredToBy],
   preview: {
     select: {
       edts: 'timespan.edtf',

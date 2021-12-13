@@ -764,7 +764,9 @@ export const joinedWith = {
   description: 'Group that actor(s) joined with',
   type: 'reference',
   to: [
-    { type: 'Group' }
+    { type: 'Group' },
+    { type: 'Project' },
+    { type: 'Product' },
   ],
   options: {
     semanticSanity: {
@@ -810,7 +812,6 @@ export const separatedFrom = {
 export const separated = {
   name: 'separated',
   title: 'Forlot',
-  titleEN: 'Left',
   description: 'Actor(s) that left this group',
   type: 'array',
   of: [
@@ -829,6 +830,91 @@ export const separated = {
   }
 }
 
+export const birthOf = {
+  name: 'birthOf',
+  title: 'Døden til',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Actor' },
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const deathOf = {
+  name: 'deathOf',
+  title: 'Døden til',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Actor' },
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const broughtIntoExistence = {
+  name: 'broughtIntoExistence',
+  title: 'Starten på',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Project' },
+        { type: 'Product' },
+        { type: 'Service' },
+        { type: 'Endpoint' }
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const tookOutOfExistence = {
+  name: 'tookOutOfExistence',
+  title: 'Slutten på',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [
+        { type: 'Project' },
+        { type: 'Product' },
+        { type: 'Service' },
+        { type: 'Endpoint' }
+      ],
+    }
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
 
 export const serviceDescription = {
   name: 'serviceDescription',
@@ -869,6 +955,30 @@ export const usedService = {
   ]
 }
 
+export const servesDataset = {
+  name: 'servesDataset',
+  title: 'Leverer datasett',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Dataset' }
+    ]
+  }]
+}
+
+export const composedOfProducts = {
+  name: 'composedOf',
+  title: 'Består av',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Product' }
+    ]
+  }]
+}
+
 export const endpoint = {
   name: 'endpoint',
   title: 'Endpoints',
@@ -879,6 +989,15 @@ export const endpoint = {
       { type: 'Endpoint' }
     ]
   }]
+}
+
+export const as = {
+  name: 'as',
+  title: 'I rollen som',
+  type: 'reference',
+  to: [
+    { type: 'Role' }
+  ]
 }
 
 export const totalHours = {

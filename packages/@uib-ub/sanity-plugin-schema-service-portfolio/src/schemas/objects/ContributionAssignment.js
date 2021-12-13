@@ -48,12 +48,13 @@ export default {
       actor: 'assignedActor.label',
       name: 'usedName.content',
       role: 'assignedRole.0.label',
+      edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { actor, name, role } = selection
+      const { actor, name, role, edtf } = selection
       return {
         title: name || coalesceLabel(actor),
-        subtitle: `${role ? coalesceLabel(role) : ''}`,
+        subtitle: `${role ? coalesceLabel(role) : ''}${edtf ? ' : ' + edtf : ''}`,
       }
     },
   },

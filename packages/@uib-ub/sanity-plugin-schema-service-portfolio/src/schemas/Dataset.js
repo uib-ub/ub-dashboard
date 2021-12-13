@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, referredToBy, shortDescription, timespanSingleton } from "./props";
+import { hasType, labelSingleton, link, referredToBy, shortDescription, timespanSingleton } from "./props";
 
 export default {
   name: 'Dataset',
@@ -8,6 +8,7 @@ export default {
     labelSingleton,
     hasType,
     shortDescription,
+    link,
     referredToBy
   ]
 }

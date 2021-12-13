@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, link, referredToBy, shortDescription, timespanSingleton, url } from "./props";
+import { hasType, labelSingleton, link, referredToBy, servesDataset, shortDescription, timespanSingleton, url } from "./props";
 
 export default {
   name: 'Endpoint',
@@ -6,9 +6,10 @@ export default {
   type: 'document',
   fields: [
     labelSingleton,
+    shortDescription,
     url,
     hasType,
-    shortDescription,
+    servesDataset,
     timespanSingleton,
     referredToBy
   ],

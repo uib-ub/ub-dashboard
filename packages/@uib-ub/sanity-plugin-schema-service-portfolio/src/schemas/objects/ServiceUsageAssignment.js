@@ -12,6 +12,7 @@ export default {
       type: 'reference',
       to: [
         { type: 'Service' },
+        { type: 'Endpoint' },
       ],
       options: {
         semanticSanity: {

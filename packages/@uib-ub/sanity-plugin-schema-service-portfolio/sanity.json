@@ -86,6 +86,10 @@
     },
     {
       "implements": "part:@sanity/base/schema-type",
+      "path": "schemas/activities/BeginningOfExistence"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
       "path": "schemas/activities/Birth"
     },
     {
@@ -95,6 +99,10 @@
     {
       "implements": "part:@sanity/base/schema-type",
       "path": "schemas/activities/Dissolution"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
+      "path": "schemas/activities/EndOfExistence"
     },
     {
       "implements": "part:@sanity/base/schema-type",
