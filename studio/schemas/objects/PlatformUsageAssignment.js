@@ -2,17 +2,16 @@ import { coalesceLabel } from "../helpers"
 import { timespanSingleton } from "../props"
 
 export default {
-  name: 'ServiceUsageAssignment',
+  name: 'PlatformUsageAssignment',
   type: 'object',
   title: 'Bruk av tjeneste',
   fields: [
     {
-      name: 'assignedService',
-      title: 'Used service',
+      name: 'assignedPlatform',
+      title: 'Used platform',
       type: 'reference',
       to: [
-        { type: 'Service' },
-        { type: 'Endpoint' },
+        { type: 'Platform' },
       ],
       options: {
         semanticSanity: {
@@ -24,13 +23,13 @@ export default {
   ],
   preview: {
     select: {
-      service: 'assignedService.label',
+      platform: 'assignedPlatform.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { service, edtf } = selection
+      const { platform, edtf } = selection
       return {
-        title: coalesceLabel(service),
+        title: coalesceLabel(platform),
         subtitle: edtf
       }
     },

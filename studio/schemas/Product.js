@@ -9,7 +9,6 @@ export default {
     shortDescription,
     referredToBy,
     timespanSingleton,
-    composedOfProducts,
     link,
     usedService,
     hadParticipant,

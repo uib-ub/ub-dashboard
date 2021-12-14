@@ -17,6 +17,7 @@ export { default as Software } from './Software'
 export { default as DigitalImageObject } from './images/DigitalImageObject'
 
 export { default as ContributionAssignment } from './objects/ContributionAssignment'
+export { default as PlatformUsageAssignment } from './objects/PlatformUsageAssignment'
 export { default as ServiceUsageAssignment } from './objects/ServiceUsageAssignment'
 export { default as LinguisticObject } from './objects/LinguisticObject'
 export { default as WebResource } from './objects/WebResource'

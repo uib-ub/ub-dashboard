@@ -1012,6 +1012,15 @@ export const endpoint = {
   }]
 }
 
+export const usedPlatform = {
+  name: 'usedPlatform',
+  title: 'Used platform',
+  type: 'reference',
+  to: [
+    { type: 'PlatformUsageAssignment' }
+  ]
+}
+
 export const as = {
   name: 'as',
   title: 'I rollen som',

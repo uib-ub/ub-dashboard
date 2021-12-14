@@ -12,16 +12,15 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
+    "@sanity/vision",
+    "@seidhr/sanity-plugin-timespan-input",
     "table",
     "@sanity/code-input",
     "graph-view"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision",
-        "@seidhr/sanity-plugin-timespan-input"
-      ]
+      "plugins": []
     }
   },
   "parts": [

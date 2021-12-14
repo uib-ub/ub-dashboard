@@ -1,4 +1,4 @@
-import { dependencies, endpoint, hadParticipant, labelSingleton, link, referredToBy, serviceDescription, shortDescription, timespanSingleton, uses } from "./props";
+import { dependencies, endpoint, hadParticipant, labelSingleton, link, referredToBy, serviceDescription, shortDescription, timespanSingleton, usedPlatform, uses } from "./props";
 
 export default {
   name: 'Service',
@@ -13,6 +13,7 @@ export default {
     link,
     endpoint,
     dependencies,
+    usedPlatform,
     uses,
     hadParticipant,
     {
