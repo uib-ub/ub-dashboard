@@ -1,4 +1,4 @@
-import { file, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
+import { continued, continuedBy, file, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
 
 export default {
   name: 'Project',
@@ -40,7 +40,10 @@ export default {
           '@type': '@id'
         }
       },
-    }, image,
+    },
+    continued,
+    continuedBy,
+    image,
     file
   ],
   preview: {

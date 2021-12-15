@@ -12,11 +12,9 @@ export default {
       options: {
         list: [
           { title: 'Hjemmeside', value: 'homepage' },
-          { title: 'Produksjon', value: 'production' },
-          { title: 'Test', value: 'test' },
-          { title: 'Dev', value: 'dev' },
-          { title: 'API', value: 'api' },
+          { title: 'Dokumentasjon', value: 'documentation' },
           { title: 'Git', value: 'git' },
+          { title: 'Presentation', value: 'presentation' },
         ]
       }
     },

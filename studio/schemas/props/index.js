@@ -975,6 +975,32 @@ export const usedService = {
   ]
 }
 
+export const continued = {
+  name: 'continued',
+  title: 'Continued',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Project' },
+      { type: 'Activity' }
+    ]
+  }]
+}
+
+export const continuedBy = {
+  name: 'continuedBy',
+  title: 'Continued by',
+  type: 'array',
+  of: [{
+    type: 'reference',
+    to: [
+      { type: 'Project' },
+      { type: 'Activity' }
+    ]
+  }]
+}
+
 export const servesDataset = {
   name: 'servesDataset',
   title: 'Leverer datasett',
@@ -1015,8 +1041,8 @@ export const endpoint = {
 export const usedPlatform = {
   name: 'usedPlatform',
   title: 'Used platform',
-  type: 'reference',
-  to: [
+  type: 'array',
+  of: [
     { type: 'PlatformUsageAssignment' }
   ]
 }

@@ -20,7 +20,6 @@ export default {
   fields: [
     editorialState,
     accessState,
-    hasType,
     {
       name: 'body',
       title: 'Tekst',
