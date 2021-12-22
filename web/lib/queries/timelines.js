@@ -1,12 +1,26 @@
-const timelines = groq[
-  ...* [_type == 'Product'] {
-  _id,
+const timelines = groq`[
+  ...*[_type == 'Product'] {
+    _id,
     label,
-    "timelines": usedService[] {
-    "timelineName": assignedService -> label,
-      "events": [
-        timespan
-      ]
+    "timelines": [
+      {
+        "timelineName": @.label,
+        "events": {
+          "versions": [
+            [string(@.timespan.beginOfTheBegin), "Oppstart"],
+            [string(@.timespan.endOfTheEnd), "Avvikling"]
+          ]
+        }
+      },
+      ...usedService[] {
+        "timelineName": assignedService->label,
+        "events": {
+          "versions": [
+            [string(timespan.beginOfTheBegin), "Oppstart"],
+            [string(timespan.endOfTheEnd), "Avvikling"]
+          ]
+        }
+      }
+    ]
   }
-},
-]
+]`

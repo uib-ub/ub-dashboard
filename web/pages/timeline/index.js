@@ -1,33 +1,65 @@
-import { sanityStaticProps, useSanityQuery, PortableText } from "../../lib/sanity";
-import { groq } from "next-sanity";
-import { Heading, Skeleton, Stack } from '@chakra-ui/react'
+import * as React from "react"
+import * as d3 from "d3"
+import { groq } from 'next-sanity'
+import { getClient } from '../../lib/sanity.server'
+import { Container, Heading } from '@chakra-ui/react'
+import Timeline from '../../components/Timeline'
+
+const myQuery = groq`{ 
+  "timelines": [
+  ...*[_type == 'Product'] | order(timespan.beginOfTheBegin asc)  {
+    _id,
+    label,
+    "timelines": [
+      {
+        "timelineName": @.label,
+        "events": {
+          "versions": [
+            [string(@.timespan.beginOfTheBegin), "Oppstart"],
+            [string(@.timespan.endOfTheEnd), "Avvikling"]
+          ]
+        }
+      },
+      ...usedService[] {
+      "timelineName": assignedService->label,
+      "events": {
+        "versions": [
+          [string(timespan.beginOfTheBegin), "Oppstart"],
+          [string(timespan.endOfTheEnd), "Avvikling"]
+        ]
+      }
+    }
+    ]
+  }
+],
+"slot": 
+  *[_type in ['Product', 'Service'] && defined(timespan)]{
+   "d": [string(timespan.beginOfTheBegin), string(timespan.endOfTheEnd)]
+  }
+}`;
+
+export const getStaticProps = async ({ preview = false }) => {
+  const timeline = await getClient(preview).fetch(myQuery)
+
+  return {
+    props: {
+      preview,
+      data: timeline,
+    },
+  }
+}
 
 
-const myQuery = groq`*[ _type in ['Product']]{...}`;
-
-export const getStaticProps = async (context) => ({
-  props: await sanityStaticProps({ context, query: myQuery })
-});
-
-
-export default function ServicesPage(props) {
-  const { data, loading, error } = useSanityQuery(myQuery, props);
-
-  // Render page with data
+export default function ServicesPage({ data }) {
   return (
-    <>
-      {loading && (
-        <Stack>
-          <Skeleton height='20px' />
-        </Stack>
-      )}
-      {error && (
-        <pre>{error}</pre>
-      )}
-      {data.map(p => (
+    <Container maxW="full" centerContent>
+      {/* {data.timelines.map(p => (
         <Heading key={p._id}>{p?.label}</Heading>
-      ))}
+      ))} */}
+
+      <Timeline data={data} />
+
       {/* <PortableText blocks={data.content} /> */}
-    </>
+    </Container>
   )
 }
