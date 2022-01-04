@@ -7,7 +7,7 @@ import Timeline from '../../components/Timeline'
 
 const myQuery = groq`{ 
   "timelines": [
-  ...*[_type == 'Product'] | order(timespan.beginOfTheBegin asc)  {
+  ...*[_type in ['Product', 'Project']] | order(timespan.beginOfTheBegin asc)  {
     _id,
     label,
     "timelines": [
@@ -33,7 +33,7 @@ const myQuery = groq`{
   }
 ],
 "slot": 
-  *[_type in ['Product', 'Service'] && defined(timespan)]{
+  *[_type in ['Product', 'Project', 'Service'] && defined(timespan)]{
    "d": [string(timespan.beginOfTheBegin), string(timespan.endOfTheEnd)]
   }
 }`;

@@ -807,6 +807,7 @@ export const joined = {
       type: 'reference',
       to: [
         { type: 'Actor' },
+        { type: 'Group' },
       ]
     }
   ],

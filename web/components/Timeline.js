@@ -144,7 +144,7 @@ const BarChart = ({ data }) => {
         .attr('x2', 0)
         .attr('y2', (tl, i) => timeScale(tl.events.versions[1][0] === "" ? new Date(today) : new Date(tl.events.versions[1][0])))
         .attr('stroke', (tl) => colors[tl.timelineName] || 'black')
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 14);
 
       const versions = frameworks
         .selectAll('.version')

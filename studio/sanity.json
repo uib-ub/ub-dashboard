@@ -16,7 +16,8 @@
     "@seidhr/sanity-plugin-timespan-input",
     "table",
     "@sanity/code-input",
-    "graph-view"
+    "graph-view",
+    "media"
   ],
   "env": {
     "development": {
