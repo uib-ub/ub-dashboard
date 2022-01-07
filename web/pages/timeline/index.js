@@ -4,6 +4,7 @@ import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Container, Heading } from '@chakra-ui/react'
 import Timeline from '../../components/Timeline'
+import Layout from "../../components/Layout"
 
 const myQuery = groq`{ 
   "timelines": [
@@ -52,14 +53,16 @@ export const getStaticProps = async ({ preview = false }) => {
 
 export default function ServicesPage({ data }) {
   return (
-    <Container maxW="full" centerContent>
-      {/* {data.timelines.map(p => (
+    <Layout>
+      <Container maxW="full" centerContent>
+        {/* {data.timelines.map(p => (
         <Heading key={p._id}>{p?.label}</Heading>
       ))} */}
 
-      <Timeline data={data} />
+        <Timeline data={data} />
 
-      {/* <PortableText blocks={data.content} /> */}
-    </Container>
+        {/* <PortableText blocks={data.content} /> */}
+      </Container>
+    </Layout>
   )
 }

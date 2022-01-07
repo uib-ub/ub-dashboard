@@ -1,70 +1,88 @@
 import * as React from "react"
-import Timeline from 'react-visjs-timeline'
+import dynamic from 'next/dynamic'
+// import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Container, Heading } from '@chakra-ui/react'
+import { Box, Container, Grid, GridItem, Heading, SimpleGrid, Text } from '@chakra-ui/react'
+import cleanDeep from 'clean-deep'
+import Head from "next/head"
+import Link from "next/link"
+import Layout from "../../components/Layout"
 
-const myQuery = groq`{ 
-  "groups": *[_type in ['Project']] | order(timespan.beginOfTheBegin asc)  {
+const MilestonesWithoutSSR = dynamic(
+  () => import('../../components/MilestonesComponent'),
+  { ssr: false }
+)
+
+const myQuery = groq`[
+  ...*[_type in ['Project']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
-    "content": label, 
+    "label": label,
+    "description": pt::text(referredToBy[0].body),
+    "entries": [
+      {
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "text": "x",
+      },
+      select(timespan.endOfTheEnd != "" => {
+        "timestamp": timespan.endOfTheEnd,
+        "text": "Avslutning",
+      }),
+      ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
+        "timestamp": timespan.beginOfTheBegin,
+        "text": label,
+      },
+      select(defined(timespan.beginOfTheBegin) != "" => {
+        "timestamp": timespan.beginOfTheBegin,
+        "text": "Start",
+      }),
+      {
+        "timestamp": "1980-01-01T00:00:00.000Z",
+        "text": "x",
+      },
+    ]
   },
-  "items": [
-    ...*[_type in ['Project']] {
-      "id": coalesce('item-' + _id, _key),
-      "content": label,
-      "start": string(timespan.beginOfTheBegin),
-      "end": string(timespan.endOfTheEnd),
-      "group": _id,
-    },
-    ...*[_type in ['Project'] && defined(activityStream)].activityStream[] {
-      "id": coalesce('item-' + _id, _key),
-      "content": label,
-      "start": string(timespan.beginOfTheBegin),
-      "end": string(timespan.endOfTheEnd),
-      "group": ^._id,
-    }
-  ]
-}`;
+]`;
 
 export const getStaticProps = async ({ preview = false }) => {
-  const timeline = await getClient(preview).fetch(myQuery)
+  let data = await getClient(preview).fetch(myQuery)
+  data = cleanDeep(data)
 
   return {
     props: {
       preview,
-      data: timeline,
+      data: data,
     },
   }
 }
 
-
 export default function Projects({ data }) {
-  const { groups, items } = data
-  const options = {
-    width: '100%',
-    height: '60px',
-    stack: false,
-    zoomMin: 10000000,
-    type: 'box',
-    format: {
-      minorLabels: {
-        minute: 'h:mma',
-        hour: 'ha'
-      }
-    }
-  }
-
-
   return (
-    <Container maxW="full" centerContent>
-      <Timeline
-        options={options}
-        groups={groups}
-        items={items}
-      />
+    <Layout>
+      <Container maxW="full" p="10">
+        {data.map(project => (
+          <Grid maxW="full" templateColumns='repeat(5, 1fr)' my="12" gap="10">
+            <GridItem colSpan={1}>
+              <Heading fontSize="md"><Link href={`/project/${project.id}`}>{project.label}</Link></Heading>
+              <Text noOfLines={4}>{project.description}</Text>
+            </GridItem>
+            <GridItem colSpan={4}>
 
-      {/* <PortableText blocks={data.content} /> */}
-    </Container>
+              <MilestonesWithoutSSR
+                mapping={{
+                  /* category: 'label', */
+                  /* entries: 'entries' */
+                }}
+                data={project.entries}
+              />
+            </GridItem>
+          </Grid>
+        ))}
+        <Box w="100%">
+        </Box>
+
+        {/* <PortableText blocks={data.content} /> */}
+      </Container>
+    </Layout>
   )
 }
