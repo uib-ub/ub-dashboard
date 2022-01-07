@@ -1,43 +1,29 @@
 import * as React from "react"
-import * as d3 from "d3"
+import dynamic from 'next/dynamic'
+
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Container, Heading } from '@chakra-ui/react'
-import Timeline from '../../components/Timeline'
 import Layout from "../../components/Layout"
 
-const myQuery = groq`{ 
-  "timelines": [
-  ...*[_type in ['Product', 'Project']] | order(timespan.beginOfTheBegin asc)  {
-    _id,
-    label,
-    "timelines": [
-      {
-        "timelineName": @.label,
-        "events": {
-          "versions": [
-            [string(@.timespan.beginOfTheBegin), "Oppstart"],
-            [string(@.timespan.endOfTheEnd), "Avvikling"]
-          ]
-        }
-      },
-      ...usedService[] {
-      "timelineName": assignedService->label,
-      "events": {
-        "versions": [
-          [string(timespan.beginOfTheBegin), "Oppstart"],
-          [string(timespan.endOfTheEnd), "Avvikling"]
-        ]
-      }
-    }
-    ]
+const MilestonesWithoutSSR = dynamic(
+  () => import('../../components/MilestonesComponent'),
+  { ssr: false }
+)
+
+const myQuery = groq`[
+  ...*[_type in ['Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)] | order(timespan.beginOfTheBegin asc) {
+    "text": coalesce(label, 'Uten label'),
+    "timestamp": coalesce(
+      select(
+        timespan.date != "" => timespan.date
+      ), 
+      select(
+        timespan.beginOfTheBegin != "" => timespan.beginOfTheBegin
+      )
+    )
   }
-],
-"slot": 
-  *[_type in ['Product', 'Project', 'Service'] && defined(timespan)]{
-   "d": [string(timespan.beginOfTheBegin), string(timespan.endOfTheEnd)]
-  }
-}`;
+]`;
 
 export const getStaticProps = async ({ preview = false }) => {
   const timeline = await getClient(preview).fetch(myQuery)
@@ -51,15 +37,21 @@ export const getStaticProps = async ({ preview = false }) => {
 }
 
 
-export default function ServicesPage({ data }) {
+export default function ActivityTimeline({ data }) {
   return (
     <Layout>
-      <Container maxW="full" centerContent>
-        {/* {data.timelines.map(p => (
-        <Heading key={p._id}>{p?.label}</Heading>
-      ))} */}
+      <Container maxW="full" p="10">
+        <Heading>
+          Timeline
+        </Heading>
 
-        <Timeline data={data} />
+        <MilestonesWithoutSSR
+          mapping={{
+            /* category: 'label', */
+            /* entries: 'entries' */
+          }}
+          data={data}
+        />
 
         {/* <PortableText blocks={data.content} /> */}
       </Container>

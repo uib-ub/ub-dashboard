@@ -15,9 +15,10 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Project']] | order(timespan.beginOfTheBegin asc)  {
+  ...*[_type in ['Product']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
     "label": label,
+    shortDescription,
     "description": pt::text(referredToBy[0].body),
     "entries": [
       {
@@ -62,16 +63,17 @@ export default function Projects({ data }) {
     <Layout>
       <Container maxW="full" p="10">
         <Heading>
-          Projects
+          Products
         </Heading>
         <Grid maxW="full" templateColumns='repeat(5, 1fr)' my="12" gap="10">
           {data.map(item => (
             <React.Fragment key={item.id}>
               <GridItem colSpan={1}>
-                <Heading fontSize="md"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
-                <Text noOfLines={4}>{item.description}</Text>
+                <Heading fontSize="md"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
+                <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
               <GridItem colSpan={4}>
+
                 <MilestonesWithoutSSR
                   mapping={{
                     /* category: 'label', */

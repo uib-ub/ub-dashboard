@@ -61,19 +61,27 @@ export default function Header(props) {
           fontFamily={"Menlo, monospace"}
         >
           <Link href="/">
-            <a>UB-dev</a>
+            <a>UB-dev history</a>
           </Link>
         </Heading>
       </Flex>
 
       <Spacer />
 
-      <Flex placement="auto-end" alignItems={"center"}>
+      <Flex
+        placement="auto-end"
+        alignItems={"center"}
+        fontFamily={"Menlo, monospace"}
+      >
         <Box px="2">
           <ActiveLink href={`/project`} activeClassName="active">
             <a>Prosjekt</a>
           </ActiveLink>
-
+        </Box>
+        <Box px="2">
+          <ActiveLink href={`/product`} activeClassName="active">
+            <a>Produkt</a>
+          </ActiveLink>
         </Box>
         <Box px="2">
           <ActiveLink href={`/timeline`} activeClassName="active">

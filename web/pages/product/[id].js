@@ -7,7 +7,7 @@ import { Box, Container, Heading, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
-import { projectQuery } from "../../lib/queries"
+import { productQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Links from "../../components/Props/Links"
 
@@ -17,11 +17,10 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const projectsQuery = groq`
-  *[_type in ['Project']] {
+  *[_type in ['Product']] {
     _id,
   }
 `;
-
 
 export async function getStaticPaths() {
   const all = await getClient(false).fetch(projectsQuery)
@@ -38,7 +37,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params, preview = false }) {
   const now = new Date()
-  let timeline = await getClient(preview).fetch(projectQuery, { id: params.id, now: now })
+  let timeline = await getClient(preview).fetch(productQuery, { id: params.id, now: now })
   timeline = cleanDeep(timeline)
 
   return {
@@ -62,12 +61,12 @@ export default function Projects({ data }) {
           </Text>
         )}
 
-        {item.hadParticipant && (
-          <Participants participants={item.hadParticipant} />
-        )}
-
         {item.link && (
           <Links links={item.link} />
+        )}
+
+        {item.hadParticipant && (
+          <Participants participants={item.hadParticipant} />
         )}
 
         {item.referredToBy && (
@@ -75,7 +74,6 @@ export default function Projects({ data }) {
             <PortableText blocks={item.referredToBy[0].body} />
           </Container>
         )}
-
 
         <Heading as="h2" size={"lg"} my="5">Tidslinje</Heading>
         <Box w="100%">
