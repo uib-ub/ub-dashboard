@@ -1,6 +1,5 @@
 import * as React from "react"
 import dynamic from 'next/dynamic'
-// import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Heading, Tag, Text } from '@chakra-ui/react'

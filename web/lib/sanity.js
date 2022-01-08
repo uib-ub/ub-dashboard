@@ -6,7 +6,6 @@ import {
   createCurrentUserHook,
 } from 'next-sanity'
 import { config } from './sanityConfig'
-import { serializers } from './serializers'
 import Link from '../components/Link'
 
 /**
