@@ -13,22 +13,23 @@ export default {
   fields: [
     labelSingleton,
     featured,
+    referredToBy,
     timespanSingleton,
-    tookPlaceAt,
     separatedFrom,
     separated,
-    referredToBy,
+    tookPlaceAt,
   ],
   preview: {
     select: {
       type: '_type',
+      separated: 'separated.0.label',
       separatedFrom: 'separatedFrom.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, separatedFrom, edtf } = selection
+      const { type, separated, separatedFrom, edtf } = selection
       return {
-        title: `${capitalize(type)} ${separatedFrom ? coalesceLabel(separatedFrom) : ''}`,
+        title: `${separated ? separated + ' ' : ''}${type} ${separatedFrom ? coalesceLabel(separatedFrom) : ''}`,
         subtitle: edtf,
       }
     },

@@ -15,12 +15,12 @@ export default {
   fields: [
     labelSingleton,
     featured,
-    formedFrom,
+    referredToBy,
     formed,
     timespan,
-    tookPlaceAt,
+    formedFrom,
     motivatedBy,
-    referredToBy,
+    tookPlaceAt,
   ],
   preview: {
     select: {

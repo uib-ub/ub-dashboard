@@ -826,7 +826,9 @@ export const separatedFrom = {
   description: 'Actor(s) that left this group',
   type: 'reference',
   to: [
-    { type: 'Group' }
+    { type: 'Group' },
+    { type: 'Project' },
+    { type: 'Product' },
   ]
 }
 
