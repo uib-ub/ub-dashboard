@@ -1,4 +1,4 @@
-import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton, formed, formedFrom } from '../props'
+import { timespan, tookPlaceAt, referredToBy, motivatedBy, featured, labelSingleton, formed, formedFrom, timespanSingleton } from '../props'
 import { defaultFieldsets } from '../fieldsets'
 import { coalesceLabel } from '../helpers'
 
@@ -16,8 +16,8 @@ export default {
     labelSingleton,
     featured,
     referredToBy,
+    timespanSingleton,
     formed,
-    timespan,
     formedFrom,
     motivatedBy,
     tookPlaceAt,

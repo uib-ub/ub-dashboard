@@ -1,17 +1,24 @@
-import { HStack, StackItem, } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { VStack, StackItem, Tag, TagLabel, TagLeftIcon } from '@chakra-ui/react'
 import Link from '../Link'
 
 const Links = ({ links }) => {
   if (!links) return
 
   return (
-    <HStack my={"3"}>
+    <VStack my={"3"}>
       {links.map(link => (
         <StackItem key={link._key} display={"flex"}>
-          <Link href={link.url}>{link.label}</Link>
+          <Link href={link.url}>
+            <Tag variant='subtle' colorScheme='cyan' mr="2">
+              <TagLeftIcon boxSize='12px' as={ExternalLinkIcon} />
+              <TagLabel>Web</TagLabel>
+            </Tag>
+            {link.label}
+          </Link>
         </StackItem>
       ))}
-    </HStack>
+    </VStack>
   )
 }
 

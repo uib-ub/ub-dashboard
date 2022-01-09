@@ -1,4 +1,4 @@
-import { file, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton, composedOfProducts } from "./props";
+import { hasFile, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton, composedOfProducts } from "./props";
 
 export default {
   name: 'Product',
@@ -41,7 +41,7 @@ export default {
         }
       },
     }, image,
-    file
+    hasFile
   ],
   preview: {
     select: {

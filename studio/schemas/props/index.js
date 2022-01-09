@@ -132,31 +132,29 @@ export const resultedIn = {
 }
 
 
-export const file = {
-  name: 'file',
+export const hasFile = {
+  name: 'hasFile',
   title: 'Fil',
   titleEN: 'File',
   type: 'array',
   of: [
-    { type: 'file' },
+    { type: 'DigitalObject.File' },
   ],
   options: {
-    hotspot: true,
-    layout: 'grid',
     semanticSanity: {
-      '@type': '@json'
+      '@type': 'list'
     }
   }
 }
 
 export const fileSingleton = {
-  name: 'file',
+  name: 'hasFile',
   title: 'Fil',
   titleEN: 'File',
-  type: 'file',
+  type: 'DigitalObject.File',
   options: {
     semanticSanity: {
-      '@type': '@json'
+      '@type': '@id'
     }
   },
 }
@@ -183,10 +181,9 @@ export const image = {
   ),
   type: 'array',
   of: [
-    { type: 'DigitalImageObject' },
+    { type: 'DigitalObject.Image' },
   ],
   options: {
-    hotspot: true,
     layout: 'grid',
     semanticSanity: {
       '@type': '@json'
@@ -214,9 +211,8 @@ export const imageSingleton = {
       </Link>
     </span>
   ),
-  type: 'DigitalImageObject',
+  type: 'DigitalObject.Image',
   options: {
-    hotspot: true,
     semanticSanity: {
       '@type': '@json'
     }
@@ -232,7 +228,7 @@ export const digitallyShownBy = {
   fieldset: 'representation',
   type: 'array',
   of: [
-    { type: 'DigitalImageObject' },
+    { type: 'DigitalObject.Image' },
   ],
   options: {
     hotspot: true,

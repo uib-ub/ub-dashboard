@@ -3,7 +3,7 @@
 */
 
 export default {
-  name: 'DigitalImageObject',
+  name: 'DigitalObject.Image',
   type: 'image',
   title: 'Image',
   options: {
@@ -17,13 +17,14 @@ export default {
     {
       name: 'caption',
       title: 'Bildetekst',
-      titleEN: 'Caption',
       type: 'LocaleString',
+      options: {
+        isHighlighted: true,
+      },
     },
     {
       name: 'alt',
       title: 'Alternative tekst',
-      titleEN: 'Alternative text',
       description: 'Important for SEO and accessiblity.',
       type: 'LocaleString',
       validation: (Rule) => Rule.warning('You should to fill out the alternative text.'),

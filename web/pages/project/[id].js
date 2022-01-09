@@ -2,13 +2,14 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Heading, Tag, Text } from '@chakra-ui/react'
+import { Box, Container, Heading, Image, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
+import { PortableText, urlFor } from "../../lib/sanity"
 import { projectQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Links from "../../components/Props/Links"
+import Files from "../../components/Props/Files"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -53,6 +54,7 @@ export default function Projects({ data }) {
   return (
     <Layout>
       <Container maxW="full" p="10" centerContent>
+        {item.image && (<Image src={urlFor(item.image[0]).url()} maxW={"md"} mb={"5"} />)}
         <Tag size={"lg"}>{item.type}</Tag>
         <Heading textAlign={"center"} mt="5">{item.label}{` (${item.period})`}</Heading>
         {item.shortDescription && (
@@ -68,9 +70,12 @@ export default function Projects({ data }) {
         {item.link && (
           <Links links={item.link} />
         )}
+        {item.hasFile && (
+          <Files files={item.hasFile} />
+        )}
 
         {item.referredToBy && (
-          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} my={"15"} boxShadow={"md"} >
+          <Container maxW={"3xl"} maxH={"40vh"} overflowY={"scroll"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} my={"15"} py={"15"} boxShadow={"md"} >
             <PortableText blocks={item.referredToBy[0].body} />
           </Container>
         )}

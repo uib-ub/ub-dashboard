@@ -8,7 +8,14 @@ export const productQuery = groq`{
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
+    image,
     link,
+    hasFile[] {
+      _key,
+      label,
+      "url": accessPoint.asset->url,
+      "extension": accessPoint.asset->extension
+    },
     hadParticipant[] {
       assignedActor-> {
         "id": _id,
@@ -104,7 +111,14 @@ export const projectQuery = groq`{
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
+    image,
     link,
+    hasFile[] {
+      _key,
+      label,
+      "url": accessPoint.asset->url,
+      "extension": accessPoint.asset->extension
+    },
     hadParticipant[] {
       assignedActor-> {
         "id": _id,

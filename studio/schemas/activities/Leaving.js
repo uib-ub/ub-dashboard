@@ -15,8 +15,8 @@ export default {
     featured,
     referredToBy,
     timespanSingleton,
-    separatedFrom,
     separated,
+    separatedFrom,
     tookPlaceAt,
   ],
   preview: {

@@ -7,17 +7,7 @@ export default {
   type: 'object',
   fieldsets: defaultFieldsets,
   fields: [
-    {
-      ...labelSingleton,
-      options: {
-        list: [
-          { title: 'Hjemmeside', value: 'homepage' },
-          { title: 'Dokumentasjon', value: 'documentation' },
-          { title: 'Git', value: 'git' },
-          { title: 'Presentation', value: 'presentation' },
-        ]
-      }
-    },
+    labelSingleton,
     {
       name: 'url',
       title: 'URL',

@@ -1,4 +1,4 @@
-import { continued, continuedBy, file, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
+import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
 
 export default {
   name: 'Project',
@@ -44,19 +44,21 @@ export default {
     continued,
     continuedBy,
     image,
-    file
+    hasFile
   ],
   preview: {
     select: {
       title: 'label',
+      media: "image.0",
       edtf: 'timespan.edtf',
     },
     prepare(selection) {
-      const { title, edtf } = selection
+      const { title, media, edtf } = selection
 
       return {
         title: title,
         subtitle: edtf,
+        media: media
       }
     },
   },
