@@ -6,7 +6,7 @@ const Links = ({ links }) => {
   if (!links) return
 
   return (
-    <VStack my={"3"}>
+    <VStack my={"2"}>
       {links.map(link => (
         <StackItem key={link._key} display={"flex"}>
           <Link href={link.url}>

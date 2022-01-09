@@ -33,7 +33,7 @@ export default function Header() {
           fontFamily={"Menlo, monospace"}
         >
           <Link href="/">
-            <a>UB-dev history</a>
+            <a>Historien til UB-dev</a>
           </Link>
         </Heading>
       </Flex>

@@ -6,7 +6,7 @@ const Files = ({ files }) => {
   if (!files) return
 
   return (
-    <VStack my={"3"}>
+    <VStack my={"2"}>
       {files.map(file => (
         <StackItem key={file._key} display={"flex"}>
           <Link href={file.url}>
