@@ -5,7 +5,7 @@ import styles from './MilestonesComponent.module.css'
 
 const MilestonesComponent = ({ data, mapping, width, pattern, ...rest }) => {
   return (
-    <Box w={"full"} overflowX={"scroll"} position={"relative"} className='timelines' className={pattern ? styles.background : ''} {...rest}>
+    <Box w={"full"} overflowX={width ? "scroll" : ''} position={"relative"} className='timelines' className={pattern ? styles.background : ''} {...rest}>
       <Box w={width}>
         <Milestones
           aggregateBy="month"
