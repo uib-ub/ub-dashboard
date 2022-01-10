@@ -73,6 +73,8 @@ export default function Projects({ data }) {
               </GridItem>
               <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
                 <MilestonesWithoutSSR
+                  pattern
+                  p="5"
                   mapping={{
                     /* category: 'label', */
                     /* entries: 'entries' */
