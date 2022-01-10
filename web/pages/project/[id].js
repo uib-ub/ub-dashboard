@@ -49,7 +49,7 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
-export default function Projects({ data }) {
+export default function Project({ data }) {
   const { item, milestones } = data
   return (
     <Layout>
@@ -83,7 +83,7 @@ export default function Projects({ data }) {
         )}
 
         {item.referredToBy && (
-          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} >
+          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} pb="4">
             <Heading as="h2" size={"lg"} mt={4} borderBottom={"1px solid"}>Beskrivelse</Heading>
             <Box overflowY={"scroll"} maxH={"40vh"}>
               <PortableText blocks={item.referredToBy[0].body} />

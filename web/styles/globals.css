@@ -56,7 +56,7 @@ a {
 .timelines * .milestones__group__label-vertical {
   position: absolute;
   padding: 0;
-  color: #666;
+  color: #333;
 }
 .timelines * .milestones__group__label-horizontal {
   border-left: 1px solid #000;

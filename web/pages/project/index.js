@@ -24,7 +24,7 @@ const myQuery = groq`[
         "timestamp": $now,
         "text": "Nå",
       },
-      select(timespan.endOfTheEnd != "" => {
+      select(defined(timespan.endOfTheEnd) => {
         "timestamp": timespan.endOfTheEnd,
         "text": "Avslutning",
       }),
@@ -32,7 +32,7 @@ const myQuery = groq`[
         "timestamp": timespan.beginOfTheBegin,
         "text": label,
       },
-      select(defined(timespan.beginOfTheBegin) != "" => {
+      select(defined(timespan.beginOfTheBegin) => {
         "timestamp": timespan.beginOfTheBegin,
         "text": "Start",
       }),
@@ -62,13 +62,13 @@ export default function Projects({ data }) {
     <Layout>
       <Container maxW="full" my="10" p={{ sm: '3', md: "10" }} mt="8">
         <Heading>
-          Projects
+          Prosjekt
         </Heading>
         <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
           {data.map(item => (
             <React.Fragment key={item.id}>
               <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="lg"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
+                <Heading fontSize="xl"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
                 <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
               <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
