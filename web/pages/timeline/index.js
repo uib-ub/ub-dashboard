@@ -40,9 +40,9 @@ export const getStaticProps = async ({ preview = false }) => {
 export default function ActivityTimeline({ data }) {
   return (
     <Layout>
-      <Container maxW="full" p="10">
+      <Container maxW="full" my="10" p={{ sm: '3', md: "10" }} mt="8">
         <Heading>
-          Timeline
+          Tidslinje
         </Heading>
 
         <MilestonesWithoutSSR
@@ -54,6 +54,7 @@ export default function ActivityTimeline({ data }) {
           pattern={true}
           width="2000px"
           p="5"
+          my="12"
         />
 
         {/* <PortableText blocks={data.content} /> */}

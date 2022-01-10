@@ -66,6 +66,11 @@ export default function Header() {
             <a>Tidslinje</a>
           </ActiveLink>
         </Box>
+        <Box px="2">
+          <ActiveLink href={`/graph`} activeClassName="active">
+            <a>Tech-graf</a>
+          </ActiveLink>
+        </Box>
       </Flex>
 
       <Button
@@ -104,6 +109,11 @@ export default function Header() {
             <MenuItem>
               <ActiveLink href={`/timeline`} activeClassName="active">
                 <a>Tidslinje</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/graph`} activeClassName="active">
+                <a>Tech-graf</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>
