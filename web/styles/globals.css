@@ -16,6 +16,10 @@ a {
 }
 
 .milestones {opacity: 1}
+.milestones-label.milestones-text-label {
+  padding-bottom: 5px;
+  display: inline-flex;
+}
 .timelines * .milestones__category_label {
   display: inline-block;
   text-align: right;
