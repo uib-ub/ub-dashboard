@@ -52,7 +52,7 @@ export default function ActivityTimeline({ data }) {
           }}
           data={data}
           pattern={true}
-          width="2000px"
+          width="3800px"
           p="5"
           my="12"
         />
