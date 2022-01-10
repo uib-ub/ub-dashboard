@@ -9,8 +9,13 @@ import {
   useColorMode,
   Spacer,
   Box,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  IconButton,
 } from '@chakra-ui/react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
+import { SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ActiveLink from '../Link/ActiveLink'
 
 export default function Header() {
@@ -41,6 +46,7 @@ export default function Header() {
       <Spacer />
 
       <Flex
+        display={{ base: 'none', md: 'inherit' }}
         placement="auto-end"
         alignItems={"center"}
         fontFamily={"Menlo, monospace"}
@@ -75,6 +81,50 @@ export default function Header() {
           <Icon as={SunIcon} color="white" />
         )}
       </Button>
+
+      <Box display={{ sm: 'inherit', md: 'none' }}>
+        <Menu >
+          <MenuButton
+            as={IconButton}
+            aria-label='Options'
+            icon={<HamburgerIcon />}
+            variant='outline'
+          />
+          <MenuList>
+            <MenuItem>
+              <ActiveLink href={`/project`} activeClassName="active">
+                <a>Prosjekt</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/product`} activeClassName="active">
+                <a>Produkt</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/timeline`} activeClassName="active">
+                <a>Tidslinje</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <Button
+                aria-label="Skift mellom dagmodus eller nattmodus"
+                px="0"
+                ml="5"
+                onClick={toggleColorMode}
+              >
+                {colorMode === 'light' ? (
+                  <Icon as={MoonIcon} />
+                ) : (
+                  <Icon as={SunIcon} color="white" />
+                )}
+              </Button>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
+
+
     </Container>
   )
 }

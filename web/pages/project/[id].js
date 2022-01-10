@@ -56,7 +56,7 @@ export default function Projects({ data }) {
       <Container maxW="full" p="10" centerContent>
         {item.image && (<Image src={urlFor(item.image[0]).url()} maxW={"md"} mb={"5"} />)}
         <Tag size={"lg"}>{item.type}</Tag>
-        <Heading textAlign={"center"} mt="5" size={"6xl"}>{item.label}{` (${item.period})`}</Heading>
+        <Heading textAlign={"center"} mt="5" size={"3xl"}>{item.label}{` (${item.period})`}</Heading>
         {item.shortDescription && (
           <Text fontSize='xl'>
             {item.shortDescription}
@@ -65,10 +65,6 @@ export default function Projects({ data }) {
 
         {item.hadParticipant && (
           <Participants participants={item.hadParticipant} />
-        )}
-
-        {item.link && (
-          <Links links={item.link} />
         )}
 
         <Box w="100%" mb={16}>
@@ -81,6 +77,10 @@ export default function Projects({ data }) {
             data={milestones}
           />
         </Box>
+
+        {item.link && (
+          <Links links={item.link} />
+        )}
 
         {item.referredToBy && (
           <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} >

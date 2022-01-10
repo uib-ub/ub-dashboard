@@ -58,22 +58,21 @@ export const getStaticProps = async ({ preview = false }) => {
   }
 }
 
-export default function Projects({ data }) {
+export default function Products({ data }) {
   return (
     <Layout>
-      <Container maxW="full" p="10">
+      <Container maxW="full" p={{ sm: '3', md: "10" }} mt="8">
         <Heading>
           Products
         </Heading>
-        <Grid maxW="full" templateColumns='repeat(5, 1fr)' my="12" gap="10">
+        <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
           {data.map(item => (
             <React.Fragment key={item.id}>
-              <GridItem colSpan={1}>
-                <Heading fontSize="md"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
+              <GridItem colSpan={{ sm: 1, md: 1 }}>
+                <Heading fontSize="lg"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
                 <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
-              <GridItem colSpan={4}>
-
+              <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
                 <MilestonesWithoutSSR
                   mapping={{
                     /* category: 'label', */
