@@ -40,7 +40,7 @@ export const getStaticProps = async ({ preview = false }) => {
 export default function ActivityTimeline({ data }) {
   return (
     <Layout>
-      <Container maxW="full" my="10" p={{ sm: '3', md: "10" }} mt="8">
+      <Container maxW="full" my="10" px={{ sm: '3', md: "10" }} pt={{ sm: '3', md: "10" }} >
         <Heading>
           Tidslinje
         </Heading>
@@ -53,7 +53,7 @@ export default function ActivityTimeline({ data }) {
           data={data}
           pattern={true}
           width="3800px"
-          p="5"
+          px="5"
           my="12"
         />
 

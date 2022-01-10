@@ -43,7 +43,7 @@ export default function TechGraph({ data }) {
     <Layout>
       <Container maxW="full" my="10" p={{ sm: '3', md: "10" }} mt="8">
         <Heading>
-          Tech-graf
+          Tek-graf
         </Heading>
         <Text fontSize={"2xl"}>Graf med tjenester og programvare kommer...</Text>
 
