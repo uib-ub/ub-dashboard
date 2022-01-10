@@ -68,7 +68,7 @@ export default function Projects({ data }) {
           {data.map(item => (
             <React.Fragment key={item.id}>
               <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="lg"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
+                <Heading fontSize="lg"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
                 <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
               <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
