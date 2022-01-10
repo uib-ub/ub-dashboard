@@ -8,6 +8,7 @@ import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
 import { productQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
+import Files from "../../components/Props/Files"
 import Links from "../../components/Props/Links"
 
 const MilestonesWithoutSSR = dynamic(
@@ -60,22 +61,16 @@ export default function Projects({ data }) {
           </Text>
         )}
 
-        {item.link && (
-          <Links links={item.link} />
-        )}
-
         {item.hadParticipant && (
           <Participants participants={item.hadParticipant} />
         )}
 
-        {item.referredToBy && (
-          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} my={"15"} boxShadow={"md"} >
-            <PortableText blocks={item.referredToBy[0].body} />
-          </Container>
+        {item.link && (
+          <Links links={item.link} />
         )}
 
-        <Heading as="h2" size={"lg"} my="5">Tidslinje</Heading>
-        <Box w="100%">
+        <Box w="100%" mb={16}>
+          <Heading as="h2" size={"lg"} my="5">Tidslinje</Heading>
           <MilestonesWithoutSSR
             mapping={{
               category: 'label',
@@ -84,6 +79,19 @@ export default function Projects({ data }) {
             data={milestones}
           />
         </Box>
+
+        {item.referredToBy && (
+          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} >
+            <Heading as="h2" size={"lg"} mt={4} borderBottom={"1px solid"}>Beskrivelse</Heading>
+            <Box overflowY={"scroll"} maxH={"40vh"}>
+              <PortableText blocks={item.referredToBy[0].body} />
+            </Box>
+          </Container>
+        )}
+
+        {item.hasFile && (
+          <Files files={item.hasFile} />
+        )}
 
       </Container>
     </Layout>

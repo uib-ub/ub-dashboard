@@ -122,6 +122,7 @@ export const resultedIn = {
     type: 'reference',
     to: [
       { type: 'Product' },
+      { type: 'Service' },
     ]
   }],
   options: {
@@ -130,7 +131,6 @@ export const resultedIn = {
     }
   }
 }
-
 
 export const hasFile = {
   name: 'hasFile',

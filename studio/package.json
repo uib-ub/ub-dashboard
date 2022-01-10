@@ -21,7 +21,7 @@
     "@sanity/default-login": "^2.23.2",
     "@sanity/desk-tool": "^2.23.4",
     "@sanity/vision": "^2.23.3",
-    "@seidhr/sanity-plugin-timespan-input": "^1.0.1-1",
+    "@seidhr/sanity-plugin-timespan-input": "^2.0.0",
     "capitalize": "^2.0.4",
     "dayjs": "^1.10.7",
     "prop-types": "^15.7",

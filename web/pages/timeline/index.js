@@ -51,6 +51,9 @@ export default function ActivityTimeline({ data }) {
             /* entries: 'entries' */
           }}
           data={data}
+          pattern={true}
+          width="2000px"
+          p="5"
         />
 
         {/* <PortableText blocks={data.content} /> */}

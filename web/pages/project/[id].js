@@ -56,7 +56,7 @@ export default function Projects({ data }) {
       <Container maxW="full" p="10" centerContent>
         {item.image && (<Image src={urlFor(item.image[0]).url()} maxW={"md"} mb={"5"} />)}
         <Tag size={"lg"}>{item.type}</Tag>
-        <Heading textAlign={"center"} mt="5">{item.label}{` (${item.period})`}</Heading>
+        <Heading textAlign={"center"} mt="5" size={"6xl"}>{item.label}{` (${item.period})`}</Heading>
         {item.shortDescription && (
           <Text fontSize='xl'>
             {item.shortDescription}
@@ -70,19 +70,9 @@ export default function Projects({ data }) {
         {item.link && (
           <Links links={item.link} />
         )}
-        {item.hasFile && (
-          <Files files={item.hasFile} />
-        )}
 
-        {item.referredToBy && (
-          <Container maxW={"3xl"} maxH={"40vh"} overflowY={"scroll"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} my={"15"} py={"15"} boxShadow={"md"} >
-            <PortableText blocks={item.referredToBy[0].body} />
-          </Container>
-        )}
-
-
-        <Heading as="h2" size={"lg"} my="5">Tidslinje</Heading>
-        <Box w="100%">
+        <Box w="100%" mb={16}>
+          <Heading as="h2" size={"lg"} my="5">Tidslinje</Heading>
           <MilestonesWithoutSSR
             mapping={{
               category: 'label',
@@ -91,6 +81,19 @@ export default function Projects({ data }) {
             data={milestones}
           />
         </Box>
+
+        {item.referredToBy && (
+          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} >
+            <Heading as="h2" size={"lg"} mt={4} borderBottom={"1px solid"}>Beskrivelse</Heading>
+            <Box overflowY={"scroll"} maxH={"40vh"}>
+              <PortableText blocks={item.referredToBy[0].body} />
+            </Box>
+          </Container>
+        )}
+
+        {item.hasFile && (
+          <Files files={item.hasFile} />
+        )}
 
       </Container>
     </Layout>
