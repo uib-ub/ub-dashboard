@@ -18,6 +18,16 @@ const theme = extendTheme({
       },
     },
   },
+  components: {
+    Container: {
+      variants: {
+        'wrapper': {
+          maxW: "full",
+          p: { sm: '3', md: "10" },
+        },
+      },
+    },
+  },
 })
 
 export default theme

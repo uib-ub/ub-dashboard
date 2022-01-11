@@ -6,7 +6,7 @@ import { Box, Container, Heading, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
-import { productQuery } from "../../lib/queries"
+import { serviceQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Files from "../../components/Props/Files"
 import Links from "../../components/Props/Links"
@@ -16,14 +16,14 @@ const MilestonesWithoutSSR = dynamic(
   { ssr: false }
 )
 
-const projectsQuery = groq`
-  *[_type in ['Product']] {
+const servicesQuery = groq`
+  *[_type in ['Service']] {
     _id,
   }
 `;
 
 export async function getStaticPaths() {
-  const all = await getClient(false).fetch(projectsQuery)
+  const all = await getClient(false).fetch(servicesQuery)
   return {
     paths:
       all?.map((item) => ({
@@ -37,7 +37,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params, preview = false }) {
   const now = new Date()
-  let timeline = await getClient(preview).fetch(productQuery, { id: params.id, now: now })
+  let timeline = await getClient(preview).fetch(serviceQuery, { id: params.id, now: now })
   timeline = cleanDeep(timeline)
 
   return {
@@ -48,7 +48,7 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
-export default function Product({ data }) {
+export default function Service({ data }) {
   const { item, milestones } = data
   return (
     <Layout>
@@ -65,14 +65,14 @@ export default function Product({ data }) {
           <Participants participants={item.hadParticipant} />
         )}
 
-        <Box w="100%" mb={16} display={{ base: 'none', md: 'inherit' }}>
-
+        <Box w="100%" mb={16} display={{ base: 'none', md: 'block' }}>
           <MilestonesWithoutSSR
             mapping={{
               category: 'label',
               entries: 'entries'
             }}
             data={milestones}
+            display="block"
             pattern
             p="5"
             pb="10"

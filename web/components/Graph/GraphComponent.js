@@ -63,7 +63,7 @@ const Graph = ({ edges, nodes, width, height, targetRef }) => {
   const styledEdges = useMemo(() => {
     return graph.edges.map((edge) => ({
       ...edge,
-      style: edge.id === graph.hoverEdge ? { width: 3, arrow: "forward" } : { width: 1, arrow: "forward" }
+      style: edge.id === graph.hoverEdge ? { width: 4, arrow: "forward" } : { width: 1, arrow: "forward", stroke: "#272643" }
     }));
   }, [graph.edges, graph.hoverEdge]);
 

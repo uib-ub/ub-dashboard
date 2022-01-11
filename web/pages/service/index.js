@@ -15,7 +15,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Product']] | order(timespan.beginOfTheBegin asc)  {
+  ...*[_type in ['Service']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
     "label": label,
     shortDescription,
@@ -58,18 +58,18 @@ export const getStaticProps = async ({ preview = false }) => {
   }
 }
 
-export default function Products({ data }) {
+export default function Services({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
         <Heading>
-          Produkt {data.length ? `(${data.length})` : ''}
+          Tjenester {data.length ? `(${data.length})` : ''}
         </Heading>
         <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
           {data.map(item => (
             <React.Fragment key={item.id}>
               <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="xl"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
+                <Heading fontSize="xl"><Link href={`/service/${item.id}`}>{item.label}</Link></Heading>
                 <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
               <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>

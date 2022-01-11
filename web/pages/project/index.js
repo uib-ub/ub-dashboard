@@ -60,9 +60,9 @@ export const getStaticProps = async ({ preview = false }) => {
 export default function Projects({ data }) {
   return (
     <Layout>
-      <Container maxW="full" my="10" p={{ sm: '3', md: "10" }} mt="8">
+      <Container variant="wrapper">
         <Heading>
-          Prosjekt
+          Prosjekt {data.length ? `(${data.length})` : ''}
         </Heading>
         <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
           {data.map(item => (
