@@ -5,6 +5,29 @@ import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Heading, Text } from '@chakra-ui/react'
 import Layout from "../../components/Layout"
 import cleanDeep from "clean-deep"
+import { entries, flatten, flattenDeep, forIn } from 'lodash-es'
+
+/**
+ * Flatten a multidimensional object
+ *
+ * For example:
+ *   flattenObject({ a: 1, b: { c: 2 } })
+ * Returns:
+ *   { a: 1, c: 2}
+ */
+export const flattenObject = (obj) => {
+  const flattened = {}
+
+  Object.keys(obj).forEach((key) => {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      Object.assign(flattened, flattenObject(obj[key]))
+    } else {
+      flattened[key] = obj[key]
+    }
+  })
+
+  return flattened
+}
 
 const GraphComponentWithoutSSR = dynamic(
   () => import('../../components/Graph/GraphComponent'),
@@ -18,17 +41,17 @@ const myQuery = groq`{
     "size": count(*[references(^._id)]) * 7,
     "style": {
       _type == 'Service' => {
-        "color": "#C7442D"
+        "color": "#DB1D16"
       },
       _type == 'Software' => {
-        "color": "#533064"
+        "color": "#0B7EDB"
       },
       _type == 'Language' => {
-        "color": "#571D35"
+        "color": "#DB8E16"
       }
     }
   },
-  "edges": *[_type in ['Service', 'Software'] && defined(uses)] {
+  "edges": *[_type in ['Service', 'Software', 'Language'] && defined(uses)] {
      uses[] {
       "id": ^._id + _ref,
       "source": ^._id,
@@ -40,8 +63,7 @@ const myQuery = groq`{
 
 export const getStaticProps = async ({ preview = false }) => {
   let graph = await getClient(preview).fetch(myQuery)
-  const flattenedEdges = graph.edges.map(edge => { return { ...edge.uses[0] } })
-  graph.edges = flattenedEdges
+  graph.edges = flattenDeep(graph.edges.map(edge => { return ([...edge.uses.map(use => { return { ...use } })]) }))
   graph = cleanDeep(graph)
 
   return {
