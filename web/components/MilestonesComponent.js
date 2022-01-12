@@ -11,8 +11,9 @@ const MilestonesComponent = ({ data, mapping, width, pattern, ...rest }) => {
       position={"relative"}
       className={pattern ? styles.background : ''}
       {...rest}
+      shadow={"md"}
     >
-      <Box w={width} className='timelines'>
+      <Box w={width} className='timelines' p={"5"}>
         <Milestones
           aggregateBy="month"
           mapping={mapping}

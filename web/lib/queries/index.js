@@ -331,3 +331,55 @@ export const serviceQuery = groq`{
     }
   ]
 }`;
+
+export const actorQuery = groq`{
+  "item": *[_id == $id][0] {
+    "id": _id,
+    "type": _type,
+    "label": label,
+    shortDescription,
+    referredToBy[],
+  },
+  "milestones": [
+    ...*[_id == $id] | order(timespan.beginOfTheBegin asc)  {
+      "id": _id,
+      "type": _type,
+      "label": label,
+      referredToBy[],
+      "entries": [
+        {
+          "timestamp": $now,
+          "text": "Nå",
+        },
+        ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
+          "timestamp": timespan.beginOfTheBegin,
+          "text": label,
+        },
+      ]
+    },
+    ...*[references($id)] | order(timespan.beginOfTheBegin asc)  {
+      "id": _id,
+      "type": _type,
+      "label": label,
+      referredToBy[],
+      "entries": [
+        {
+          "timestamp": $now,
+          "text": "Nå",
+        },
+        select(defined(timespan.endOfTheEnd) => {
+          "timestamp": timespan.endOfTheEnd,
+          "text": "Avslutning",
+        }),
+        ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
+          "timestamp": timespan.beginOfTheBegin,
+          "text": label,
+        },
+        select(defined(timespan.beginOfTheBegin) => {
+          "timestamp": timespan.beginOfTheBegin,
+          "text": "Start",
+        })
+      ]
+    },
+  ]
+}`;

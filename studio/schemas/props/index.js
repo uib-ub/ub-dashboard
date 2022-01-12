@@ -742,7 +742,8 @@ export const formed = {
   description: 'Group that was formed.',
   type: 'reference',
   to: [
-    { type: 'Group' }
+    { type: 'Group' },
+    { type: 'Project' },
   ],
   options: {
     semanticSanity: {
@@ -761,7 +762,8 @@ export const formedFrom = {
     {
       type: 'reference',
       to: [
-        { type: 'Group' }
+        { type: 'Group' },
+        { type: 'Project' },
       ],
     }
   ],

@@ -5,6 +5,7 @@ import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Container, Heading } from '@chakra-ui/react'
 import Layout from "../../components/Layout"
+import cleanDeep from "clean-deep"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -12,7 +13,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Event', 'Activity', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)] | order(timespan.beginOfTheBegin asc) {
+  ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)] | order(timespan.beginOfTheBegin asc) {
     "text": coalesce(label, 'Uten label'),
     "timestamp": coalesce(
       select(
@@ -22,11 +23,26 @@ const myQuery = groq`[
         timespan.beginOfTheBegin != "" => timespan.beginOfTheBegin
       )
     )
+  },
+  ...*[_type in ['Project'] && defined(timespan.endOfTheEnd)] {
+      ...select(defined(timespan.endOfTheEnd) => {
+        "timestamp": timespan.endOfTheEnd,
+        "text": label + " avsluttes",
+      }
+    )
+  },
+  ...*[_type in ['Project'] && defined(timespan.beginOfTheBegin)] {
+      ...select(defined(timespan.beginOfTheBegin) => {
+        "timestamp": timespan.beginOfTheBegin,
+        "text": label + " starter",
+      }
+    )
   }
 ]`;
 
 export const getStaticProps = async ({ preview = false }) => {
-  const timeline = await getClient(preview).fetch(myQuery)
+  let timeline = await getClient(preview).fetch(myQuery)
+  timeline = cleanDeep(timeline)
 
   return {
     props: {
@@ -53,7 +69,7 @@ export default function ActivityTimeline({ data }) {
           }}
           data={data}
           pattern={true}
-          width="3800px"
+          width="5500px"
           maxH="70vh"
           px="5"
           my="5"

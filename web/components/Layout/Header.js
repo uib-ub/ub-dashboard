@@ -62,6 +62,11 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
+          <ActiveLink href={`/person`} activeClassName="active">
+            <a>Personer (WIP)</a>
+          </ActiveLink>
+        </Box>
+        <Box px="2">
           <ActiveLink href={`/service`} activeClassName="active">
             <a>Tjenester (WIP)</a>
           </ActiveLink>
@@ -112,6 +117,16 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
+              <ActiveLink href={`/service`} activeClassName="active">
+                <a>Tjenester (WIP)</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/person`} activeClassName="active">
+                <a>Personer (WIP)</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
               <ActiveLink href={`/timeline`} activeClassName="active">
                 <a>Tidslinje</a>
               </ActiveLink>
@@ -119,11 +134,6 @@ export default function Header() {
             <MenuItem>
               <ActiveLink href={`/graph`} activeClassName="active">
                 <a>Tek-graf</a>
-              </ActiveLink>
-            </MenuItem>
-            <MenuItem>
-              <ActiveLink href={`/service`} activeClassName="active">
-                <a>Tjenester (WIP)</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>

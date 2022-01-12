@@ -14,18 +14,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Grid maxW="full" h="98vh" className={styles.background} alignContent={"center"} justifyContent={"center"} >
-        <Heading fontWeight={"extrabold"} fontSize={["2xl", "5xl", "9xl", ""]}>
+      <Grid maxW="full" py="40" className={styles.background} alignContent={"center"} justifyContent={"center"} >
+        <Heading fontWeight={"bold"} fontSize={["2xl", "5xl", "9xl", ""]}>
           Historien til UB-dev
         </Heading>
-        <Container centerContent>
-          <LockIcon w={40} h={40} />
-          <Button m={10} size={"lg"} variant={"ghost"}>
-            <Link href="/project">
-              Logg inn
-            </Link>
-          </Button>
-        </Container>
       </Grid>
 
       <footer>

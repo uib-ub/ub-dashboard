@@ -5,29 +5,7 @@ import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Heading, Text } from '@chakra-ui/react'
 import Layout from "../../components/Layout"
 import cleanDeep from "clean-deep"
-import { entries, flatten, flattenDeep, forIn } from 'lodash-es'
-
-/**
- * Flatten a multidimensional object
- *
- * For example:
- *   flattenObject({ a: 1, b: { c: 2 } })
- * Returns:
- *   { a: 1, c: 2}
- */
-export const flattenObject = (obj) => {
-  const flattened = {}
-
-  Object.keys(obj).forEach((key) => {
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      Object.assign(flattened, flattenObject(obj[key]))
-    } else {
-      flattened[key] = obj[key]
-    }
-  })
-
-  return flattened
-}
+import { flattenDeep } from 'lodash-es'
 
 const GraphComponentWithoutSSR = dynamic(
   () => import('../../components/Graph/GraphComponent'),
@@ -38,10 +16,13 @@ const myQuery = groq`{
   "nodes": *[_type in ['Service', "Software", "Language"]] {
     "id": _id,
     label,
-    "size": count(*[references(^._id)]) * 7,
+    "size": 12 + (count(*[references(^._id)]) * 4),
     "style": {
-      _type == 'Service' => {
+      _type == 'Service' && !defined(timespan.endOfTheEnd) => {
         "color": "#DB1D16"
+      },
+      _type == 'Service' && defined(timespan.endOfTheEnd) => {
+        "color": "gray"
       },
       _type == 'Software' => {
         "color": "#0B7EDB"
@@ -51,7 +32,7 @@ const myQuery = groq`{
       }
     }
   },
-  "edges": *[_type in ['Service', 'Software', 'Language'] && defined(uses)] {
+  "edges": *[_type in ['Service', 'Software'] && defined(uses)] {
      uses[] {
       "id": ^._id + _ref,
       "source": ^._id,
@@ -83,6 +64,7 @@ export default function TechGraph({ data }) {
           Tek-graf
         </Heading>
         <Box className="graphpaper-background" maxH={"70vh"} overflow={"hidden"} my="5">
+          <Box></Box>
           <GraphComponentWithoutSSR edges={data.edges} nodes={data.nodes} />
         </Box>
 

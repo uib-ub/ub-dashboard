@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, referredToBy, shortDescription, subGroupOf } from "./props";
+import { hasType, labelSingleton, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
 
 export default {
   name: 'Group',
@@ -8,6 +8,7 @@ export default {
     labelSingleton,
     hasType,
     shortDescription,
+    timespanSingleton,
     referredToBy,
     subGroupOf,
     {
@@ -16,7 +17,6 @@ export default {
       titleEN: 'Activity stream',
       description:
         'En aktivitetsstrøm samler alle hendelser knyttet til denne aktøren. Fødsel og død er "inline" til personen, mens andre aktiviteter som ekteskap er egne dokument.',
-      descriptionEN: 'Add all known events this smuck did',
       type: 'array',
       of: [
         {
@@ -39,5 +39,17 @@ export default {
         }
       },
     },
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      subtitle: 'timespan.edtf',
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: `${title}`,
+        subtitle: `${subtitle ?? ''}`,
+      };
+    },
+  },
 }

@@ -95,6 +95,11 @@ export default () =>
                   S.documentTypeList('Leaving')
                 ),
               S.listItem()
+                .title('Flytting')
+                .child(
+                  S.documentTypeList('Move')
+                ),
+              S.listItem()
                 .title('Start på tilværelse')
                 .child(
                   S.documentTypeList('BeginningOfExistence')

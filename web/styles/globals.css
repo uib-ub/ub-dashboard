@@ -22,10 +22,14 @@ a {
   background-size: 35px 35px, 35px 35px, 7px 7px, 7px 7px;
   background-position: -1.4000000000000001px -1.4000000000000001px, -1.4000000000000001px -1.4000000000000001px, -0.7000000000000001px -0.7000000000000001px, -0.7000000000000001px -0.7000000000000001px;
 }
-
 .milestones {opacity: 1}
 .milestones-label.milestones-text-label {
-  border-bottom: #bbb solid 1px;
+  border: #bbb solid 1px;
+  padding: 2px 4px;
+  margin: 2px 5px 2px 0;
+  box-shadow: #ccc 0px 2px 4px;
+  border-radius: 2px;
+  background: #fefefe;
   display: inline-flex;
 }
 .timelines * .milestones__category_label {
