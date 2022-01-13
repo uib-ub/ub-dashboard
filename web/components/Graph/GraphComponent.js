@@ -4,8 +4,17 @@ import { withResizeDetector } from "react-resize-detector";
 import * as Force from "@sayari/trellis/layout/force";
 import { Renderer } from "@sayari/trellis/bindings/react/renderer";
 import { styleNode } from "./utils";
+/* 
+    nodeStrength: -600,
+    linkDistance: 180,
+    linkStrength: undefined,
+    centerStrength: 0.02,
+    nodePadding: 8,
+    tick: 300,
+ */
 
-const force = Force.Layout();
+const force = Force.Layout({
+});
 
 const Graph = ({ edges, nodes, width, height, targetRef }) => {
   const _width = useRef(width);
@@ -25,7 +34,17 @@ const Graph = ({ edges, nodes, width, height, targetRef }) => {
   });
 
   useEffect(() => {
-    force({ nodes, edges }).then(({ nodes, edges }) => {
+    force({
+      nodes, edges,
+      options: {
+        linkDistance: 200,
+        nodePadding: 5000,
+        nodeStrength: -5000,
+        linkStrength: 2,
+        centerStrength: 0.2,
+        tick: 500
+      }
+    }).then(({ nodes, edges }) => {
       const { x, y, zoom } = boundsToViewport(getSelectionBounds(nodes, 60), { width: _width.current, height: _height.current });
       setGraph((graph) => ({ ...graph, nodes, edges, x, y, zoom }));
     });
