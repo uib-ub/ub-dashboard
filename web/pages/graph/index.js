@@ -67,7 +67,7 @@ export default function TechGraph({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
-        <Heading>
+        <Heading size={"3xl"}>
           Tek-graf
         </Heading>
         <Box className="graphpaper-background" maxH={"50vh"} overflow={"hidden"} my="5">

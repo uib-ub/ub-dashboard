@@ -63,7 +63,7 @@ export default function Projects({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
-        <Heading>
+        <Heading size={"3xl"}>
           Prosjekt {data.length ? `(${data.length})` : ''}
         </Heading>
         <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
@@ -85,6 +85,10 @@ export default function Projects({ data }) {
                     /* entries: 'entries' */
                   }}
                   data={item.entries}
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"lg"}
                 />
               </GridItem>
             </React.Fragment>

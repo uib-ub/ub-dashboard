@@ -237,13 +237,28 @@ export const serviceQuery = groq`{
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
-    image,
     link,
-    hasFile[] {
-      _key,
+    uses[]-> {
+      "id": _id,
+      "type": _type,
       label,
-      "url": accessPoint.asset->url,
-      "extension": accessPoint.asset->extension
+      hasType[]-> {
+        "id": _id,
+        label,
+      }
+    },
+    endpoint[]-> {
+      "id": _id,
+      "type": _type,
+      label,
+      url,
+    },
+    usedPlatform[] {
+      ...assignedPlatform-> {
+        "id": _id,
+        label,  
+      },
+      "timespan": timespan.edtf
     },
     hadParticipant[] {
       assignedActor-> {

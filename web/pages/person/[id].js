@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Heading, Tag, Text } from '@chakra-ui/react'
+import { Box, Container, Heading, SimpleGrid, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -49,17 +49,17 @@ export default function Person({ data }) {
   const { item, milestones } = data
   return (
     <Layout>
-      <Container variant="wrapper" centerContent>
+      <Container variant="wrapper">
         <Tag size={"lg"}>{item.type}</Tag>
-        <Heading textAlign={"center"} mt="5" size={"3xl"}>{item.label}</Heading>
+        <Heading mt="5" size={"3xl"}>{item.label}</Heading>
+
         {item.shortDescription && (
-          <Text fontSize='xl'>
+          <Text fontSize='xl' m="0">
             {item.shortDescription}
           </Text>
         )}
 
         <Box w="100%" mb={16} display={{ base: 'none', md: 'inherit' }}>
-
           <MilestonesWithoutSSR
             mapping={{
               category: 'label',
@@ -67,19 +67,26 @@ export default function Person({ data }) {
             }}
             data={milestones}
             pattern
-            p="5"
+            // p="5"
             pb="10"
             my="5"
+            borderRadius={"8"}
+            border={"1px solid"}
+            borderColor={"gray.200"}
+            boxShadow={"lg"}
           />
         </Box>
 
-        {item.referredToBy && (
-          <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} pb="4">
-            <Box overflowY={"scroll"} maxH={"40vh"}>
-              <PortableText blocks={item.referredToBy[0].body} />
+        <SimpleGrid columns={2} spacing={10}>
+          {item.referredToBy && (
+            <Box borderRadius={"8"} border={"1px solid"} borderColor={"gray.200"} boxShadow={"lg"} my={"15"} px="6" pb={"6"}>
+              <Box overflowY={"scroll"} maxH={"20vh"}>
+                <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Biografi</Heading>
+                <PortableText blocks={item.referredToBy[0].body} />
+              </Box>
             </Box>
-          </Container>
-        )}
+          )}
+        </SimpleGrid>
 
       </Container>
     </Layout>

@@ -1,24 +1,25 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Container, Heading, List, ListIcon, ListItem } from '@chakra-ui/react'
+import { Flex, Tag, TagLabel, TagLeftIcon, Text } from '@chakra-ui/react'
 import Link from '../Link'
 
 const Links = ({ links }) => {
   if (!links) return
 
   return (
-    <Container maxW={"3xl"} borderTop={"1px solid"} borderColor={"gray.400"} boxShadow={"sm"} py="3" my="3">
-      <Heading size={"xs"}>Lenker</Heading>
-      <List spacing={3} my={"2"}>
-        {links.map(link => (
-          <ListItem key={link._key} display={"flex"}>
-            <ListIcon as={ExternalLinkIcon} color='green.500' />
-            <Link href={link.url}>
-              {link.label}
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </Container>
+    <Flex alignSelf={"center"} justifyContent={"flex-end"} maxW={"30vw"}>
+      {links.map(link => (
+        <Text key={link._key} maxW={"200px"} isTruncated>
+          <Tag display={"flex"} m="3" size={"lg"}>
+            <TagLeftIcon as={ExternalLinkIcon} color='green.500' />
+            <TagLabel>
+              <Link href={link.url}>
+                {link.label}
+              </Link>
+            </TagLabel>
+          </Tag>
+        </Text>
+      ))}
+    </Flex>
   )
 }
 

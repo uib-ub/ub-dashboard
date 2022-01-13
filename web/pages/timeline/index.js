@@ -58,7 +58,7 @@ export default function ActivityTimeline({ data }) {
     <Layout>
       {/* <Container maxW="full" my="10" px={{ sm: '3', md: "10" }} pt={{ sm: '3', md: "10" }} > */}
       <Container variant="wrapper">
-        <Heading>
+        <Heading size={"3xl"}>
           Tidslinje
         </Heading>
 
@@ -73,6 +73,10 @@ export default function ActivityTimeline({ data }) {
           maxH="70vh"
           px="5"
           my="5"
+          borderRadius={"8"}
+          border={"1px solid"}
+          borderColor={"gray.200"}
+          boxShadow={"lg"}
         />
 
         {/* <PortableText blocks={data.content} /> */}

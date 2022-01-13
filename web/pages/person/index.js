@@ -60,8 +60,8 @@ export default function Persons({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
-        <Heading>
-          Produkt {data.length ? `(${data.length})` : ''}
+        <Heading size={"3xl"}>
+          Personer {data.length ? `(${data.length})` : ''}
         </Heading>
         <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
           {data.map(item => (
@@ -79,6 +79,10 @@ export default function Persons({ data }) {
                     /* entries: 'entries' */
                   }}
                   data={item.entries}
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"lg"}
                 />
               </GridItem>
             </React.Fragment>

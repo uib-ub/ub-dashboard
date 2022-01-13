@@ -81,6 +81,10 @@ export default function Services({ data }) {
                     /* entries: 'entries' */
                   }}
                   data={item.entries}
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"lg"}
                 />
               </GridItem>
             </React.Fragment>
