@@ -10,12 +10,12 @@ const MilestonesComponent = ({ data, mapping, width, pattern, ...rest }) => {
       overflowX={width ? "scroll" : ''}
       position={"relative"}
       className={pattern ? styles.background : ''}
-      {...rest}
       shadow={"md"}
+      {...rest}
     >
       <Box w={width} className='timelines' p={"5"}>
         <Milestones
-          aggregateBy="month"
+          aggregateBy="day"
           mapping={mapping}
           parseTime="%Y-%m-%dT%H:%M:%S.%LZ"
           autoResize="true"

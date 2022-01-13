@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 // import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Grid, GridItem, Heading, Text } from '@chakra-ui/react'
+import { Box, Container, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Head from "next/head"
 import Link from "next/link"
@@ -18,7 +18,9 @@ const myQuery = groq`[
   ...*[_type in ['Project']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
     "label": label,
+    "period": timespan.edtf,
     "description": pt::text(referredToBy[0].body),
+    carriedOutBy[]->,
     "entries": [
       {
         "timestamp": $now,
@@ -68,13 +70,16 @@ export default function Projects({ data }) {
           {data.map(item => (
             <React.Fragment key={item.id}>
               <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="xl"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
+                <Heading fontSize="xl"><Link href={`/project/${item.id}`}>{item.label}</Link>{item.period ? ` (${item.period})` : ''}</Heading>
+                {item.carriedOutBy && (
+                  <Tag colorScheme={"orange"} mt={"2"}>{item.carriedOutBy[0].label}</Tag>
+                )}
                 <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
               </GridItem>
               <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
                 <MilestonesWithoutSSR
                   pattern
-                  p="5"
+                  p="0"
                   mapping={{
                     /* category: 'label', */
                     /* entries: 'entries' */

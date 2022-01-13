@@ -1559,6 +1559,7 @@ export const carriedOutBy = {
     type: 'reference',
     to: [
       { type: 'Actor' },
+      { type: 'Group' },
     ]
   }],
   options: {

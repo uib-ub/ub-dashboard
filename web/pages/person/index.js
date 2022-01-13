@@ -29,6 +29,12 @@ const myQuery = groq`[
         "timestamp": timespan.beginOfTheBegin,
         "text": label,
       },
+      ...*[references(^._id) && _type in ['Project', 'Product']] {
+        "text": ^.label + ' deltar i ' + label,
+        ...hadParticipant[assignedActor._ref == ^.^._id][0] {
+         "timestamp": timespan.beginOfTheBegin
+        }
+      },
       {
         "timestamp": "1980-01-01T00:00:00.000Z",
         "text": "Steinalderen",

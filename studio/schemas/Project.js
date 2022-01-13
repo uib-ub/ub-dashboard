@@ -1,4 +1,4 @@
-import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton } from "./props";
+import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy } from "./props";
 
 export default {
   name: 'Project',
@@ -11,6 +11,7 @@ export default {
     resultedIn,
     referredToBy,
     timespanSingleton,
+    carriedOutBy,
     hadParticipant,
     {
       name: 'activityStream',
