@@ -351,13 +351,13 @@ export const actorQuery = groq`{
           "timestamp": $now,
           "text": "Nå",
         },
-        ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
+        ...activityStream[timespan.beginOfTheBegin != ""] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
       ]
     },
-    ...*[references($id)] | order(timespan.beginOfTheBegin asc)  {
+    ...*[references($id) && _type in ['Project', 'Product', 'Service']] | order(timespan.beginOfTheBegin asc)  {
       "id": _id,
       "type": _type,
       "label": label,

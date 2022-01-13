@@ -24,6 +24,9 @@ export const PortableText = createPortableTextComponent({
   // (https://github.com/sanity-io/block-content-to-react)
   serializers: {
     marks: {
+      strong: ({ children }) => {
+        return <strong>{children.text}</strong>
+      },
       internalLink: ({ mark, children }) => {
         const { reference } = mark
         const href = `/id/${reference._ref}`

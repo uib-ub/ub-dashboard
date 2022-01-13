@@ -7,9 +7,6 @@ import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
 import { actorQuery } from "../../lib/queries"
-import Participants from "../../components/Props/Participants"
-import Files from "../../components/Props/Files"
-import Links from "../../components/Props/Links"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -61,10 +58,6 @@ export default function Person({ data }) {
           </Text>
         )}
 
-        {item.hadParticipant && (
-          <Participants participants={item.hadParticipant} />
-        )}
-
         <Box w="100%" mb={16} display={{ base: 'none', md: 'inherit' }}>
 
           <MilestonesWithoutSSR
@@ -80,21 +73,12 @@ export default function Person({ data }) {
           />
         </Box>
 
-        {item.link && (
-          <Links links={item.link} />
-        )}
-
         {item.referredToBy && (
           <Container maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.400"} boxShadow={"md"} my={"15"} pb="4">
-            <Heading as="h2" size={"lg"} mt={4} borderBottom={"1px solid"}>Beskrivelse</Heading>
             <Box overflowY={"scroll"} maxH={"40vh"}>
               <PortableText blocks={item.referredToBy[0].body} />
             </Box>
           </Container>
-        )}
-
-        {item.hasFile && (
-          <Files files={item.hasFile} />
         )}
 
       </Container>
