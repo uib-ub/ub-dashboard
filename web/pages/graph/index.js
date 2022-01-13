@@ -76,7 +76,7 @@ export default function TechGraph({ data }) {
         </Box>
         <Box>
           {data?.languages && data?.languages.map(lang => (
-            <Heading as="h2" size={"lg"}>{lang.label} ({lang.count})</Heading>
+            <Heading key="lang.id" as="h2" size={"lg"}>{lang.label} ({lang.count})</Heading>
           ))}
         </Box>
 
