@@ -14,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW={"full"} h="100vh" className={background}>
+      <Container maxW={"full"} h="96vh" className={background}>
         <Heading fontWeight={"bold"} fontSize={["2xl", "5xl", "9xl", ""]}>
           Hvem, hva, hvor, hvorfor?
         </Heading>
@@ -24,6 +24,13 @@ export default function Home() {
         </Heading>
         <Text>
           Delvis inspirert av <Link href="https://zenodo.org/record/2575465#.YeFvMhOZOls">PARTHENOS D5.5 Report on the Common Semantic Framework</Link>.
+        </Text>
+
+        <Heading as="h2" fontWeight={"bold"} fontSize={["sm", "md", "xl", "2xl"]}>
+          Presentasjon
+        </Heading>
+        <Text>
+          <Link href="/presentation">Erfaringer og sånt</Link>.
         </Text>
       </Container>
 
