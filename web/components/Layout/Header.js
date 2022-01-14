@@ -62,13 +62,13 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
-          <ActiveLink href={`/actor`} activeClassName="active">
-            <a>Aktører</a>
+          <ActiveLink href={`/service`} activeClassName="active">
+            <a>Tjenester</a>
           </ActiveLink>
         </Box>
         <Box px="2">
-          <ActiveLink href={`/service`} activeClassName="active">
-            <a>Tjenester</a>
+          <ActiveLink href={`/actor`} activeClassName="active">
+            <a>Aktører</a>
           </ActiveLink>
         </Box>
         <Box px="2">
