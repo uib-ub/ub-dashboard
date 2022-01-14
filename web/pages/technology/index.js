@@ -76,12 +76,12 @@ export const getStaticProps = async ({ preview = false }) => {
 }
 
 
-export default function TechGraph({ data }) {
+export default function Technologies({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
         <Heading size={"3xl"}>
-          Tek-graf
+          Teknologi
         </Heading>
         <HStack>
           <Spacer />

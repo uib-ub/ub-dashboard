@@ -77,8 +77,8 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
-          <ActiveLink href={`/graph`} activeClassName="active">
-            <a>Tek-graf</a>
+          <ActiveLink href={`/technology`} activeClassName="active">
+            <a>Teknologi</a>
           </ActiveLink>
         </Box>
       </Flex>
@@ -132,8 +132,8 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
-              <ActiveLink href={`/graph`} activeClassName="active">
-                <a>Tek-graf</a>
+              <ActiveLink href={`/technology`} activeClassName="active">
+                <a>Teknologi</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>
