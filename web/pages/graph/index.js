@@ -2,7 +2,9 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Heading, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, HStack, Spacer, Tag, TagLabel, TagLeftIcon } from '@chakra-ui/react'
+import { FaCode, FaLanguage } from 'react-icons/fa'
+import { FcServices } from 'react-icons/fc'
 import Layout from "../../components/Layout"
 import cleanDeep from "clean-deep"
 import { flattenDeep } from 'lodash-es'
@@ -12,6 +14,12 @@ const GraphComponentWithoutSSR = dynamic(
   { ssr: false }
 )
 
+const colors = {
+  service: "#DB1D16",
+  software: "#0B7EDB",
+  language: "#DB8E16",
+}
+
 const myQuery = groq`{
   "graph": {
     "nodes": *[_type in ['Service', "Software", "Language"]] {
@@ -20,16 +28,16 @@ const myQuery = groq`{
       "size": 12 + (count(*[references(^._id)]) * 4),
       "style": {
         _type == 'Service' && !defined(timespan.endOfTheEnd) => {
-          "color": "#DB1D16"
+          "color": $colors.service
         },
         _type == 'Service' && defined(timespan.endOfTheEnd) => {
           "color": "gray"
         },
         _type == 'Software' => {
-          "color": "#0B7EDB"
+          "color": $colors.software
         },
         _type == 'Language' => {
-          "color": "#DB8E16"
+          "color": $colors.language
         },
       }
     },
@@ -42,7 +50,12 @@ const myQuery = groq`{
       }
     }
   },
-  "languages": *[_type == 'Language'] {
+  "languages": *[_type == 'Language'] | order(label asc) {
+    "id": _id,
+    label,
+    "count": count(*[references(^._id)]),
+  },
+  "softwares": *[_type == 'Software'] | order(label asc) {
     "id": _id,
     label,
     "count": count(*[references(^._id)]),
@@ -50,7 +63,7 @@ const myQuery = groq`{
 }`;
 
 export const getStaticProps = async ({ preview = false }) => {
-  let data = await getClient(preview).fetch(myQuery)
+  let data = await getClient(preview).fetch(myQuery, { colors })
   data.graph.edges = flattenDeep(data.graph.edges.map(edge => { return ([...edge.uses.map(use => { return { ...use } })]) }))
   data = cleanDeep(data)
 
@@ -70,15 +83,50 @@ export default function TechGraph({ data }) {
         <Heading size={"3xl"}>
           Tek-graf
         </Heading>
-        <Box className="graphpaper-background" maxH={"50vh"} overflow={"hidden"} my="5">
-          <Box></Box>
-          <GraphComponentWithoutSSR edges={data.graph.edges} nodes={data.graph.nodes} />
+        <HStack>
+          <Spacer />
+          <Tag size={"md"} variant='subtle'>
+            <TagLeftIcon boxSize='22px' as={FcServices} color={colors.service} />
+            <TagLabel>Tjeneste</TagLabel>
+          </Tag>
+          <Tag size={"md"} variant='subtle'>
+            <TagLeftIcon boxSize='22px' as={FaCode} color={colors.software} />
+            <TagLabel>Programvare</TagLabel>
+          </Tag>
+          <Tag size={"md"} variant='subtle'>
+            <TagLeftIcon boxSize='22px' as={FaLanguage} color={colors.language} />
+            <TagLabel>Språk</TagLabel>
+          </Tag>
+        </HStack>
+        <Box
+          className="graphpaper-background"
+          maxH={"50vh"} overflow={"hidden"}
+          my="5"
+          borderRadius={"8"}
+          border={"1px solid"}
+          borderColor={"gray.200"}
+          boxShadow={"lg"}
+        >
+          <GraphComponentWithoutSSR
+            edges={data.graph.edges}
+            nodes={data.graph.nodes}
+          />
         </Box>
-        <Box>
-          {data?.languages && data?.languages.map(lang => (
-            <Heading key="lang.id" as="h2" size={"lg"}>{lang.label} ({lang.count})</Heading>
-          ))}
-        </Box>
+        <Flex>
+          <Box mr={"8"}>
+            <Heading as="h2" size={"lg"}>Programeringsspråk</Heading>
+            {data?.languages && data?.languages.map(lang => (
+              <Heading key={lang.id} as="h3" size={"md"}>{lang.label} ({lang.count})</Heading>
+            ))}
+          </Box>
+          <Box mr={"8"}>
+            <Heading as="h2" size={"lg"}>Software</Heading>
+            {data?.softwares && data?.softwares.map(software => (
+              <Heading key={software.id} as="h3" size={"md"}>{software.label} ({software.count})</Heading>
+            ))}
+          </Box>
+
+        </Flex>
 
         {/* <PortableText blocks={data.content} /> */}
       </Container>

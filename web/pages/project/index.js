@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 // import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
+import { Box, Center, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Head from "next/head"
 import Link from "next/link"
@@ -18,7 +18,7 @@ const myQuery = groq`[
   ...*[_type in ['Project']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
     "label": label,
-    "period": timespan.edtf,
+    timespan,
     "description": pt::text(referredToBy[0].body),
     carriedOutBy[]->,
     "entries": [
@@ -60,44 +60,54 @@ export const getStaticProps = async ({ preview = false }) => {
 }
 
 export default function Projects({ data }) {
+  const now = new Date()
   return (
     <Layout>
       <Container variant="wrapper">
         <Heading size={"3xl"}>
           Prosjekt {data.length ? `(${data.length})` : ''}
         </Heading>
-        <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
-          {data.map(item => (
-            <React.Fragment key={item.id}>
-              <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="xl"><Link href={`/project/${item.id}`}>{item.label}</Link>{item.period ? ` (${item.period})` : ''}</Heading>
+        <Text fontSize={"2xl"}>Prosjekt-oversikten inkluderer også prosjekt UB-dev ikke har vært involvert i, men som vi har en kobling til på en eller annen måte.</Text>
+        {data.map(item => (
+          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
+            <GridItem colSpan={{ sm: '12', md: "5" }}>
+              <Heading size="lg"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
+              <Flex py={"2"} wrap={"wrap"}>
                 {item.carriedOutBy && (
-                  <Tag colorScheme={"orange"} mt={"2"}>{item.carriedOutBy[0].label}</Tag>
+                  <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
                 )}
-                <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
-              </GridItem>
-              <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
-                <MilestonesWithoutSSR
-                  pattern
-                  p="0"
-                  mapping={{
-                    /* category: 'label', */
-                    /* entries: 'entries' */
-                  }}
-                  data={item.entries}
-                  borderRadius={"8"}
-                  border={"1px solid"}
-                  borderColor={"gray.200"}
-                  boxShadow={"lg"}
-                />
-              </GridItem>
-            </React.Fragment>
-          ))}
-        </Grid>
-        <Box w="100%">
-        </Box>
+                {item.timespan?.edtf ? <Tag variant={"outline"} mr={"2"} mb="2">{item.timespan?.edtf}</Tag> : ''}
+                {new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"blue"} mr={"2"} mb="2">Avsluttet</Tag> : ''}
 
-        {/* <PortableText blocks={data.content} /> */}
+              </Flex>
+            </GridItem>
+            <GridItem colSpan={"1"} display={{ sm: 'none', md: 'inherit' }}>
+              <Center height='100%'>
+                <Divider orientation='vertical' />
+              </Center>
+            </GridItem>
+            <GridItem colSpan={{ sm: '12', md: "6" }}>
+              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
+            </GridItem>
+
+            <GridItem colSpan={"12"} rowSpan={"1"} mb={{ base: "10", md: '0' }}>
+              <MilestonesWithoutSSR
+                pattern
+                p="5"
+                mb={"6"}
+                mapping={{
+                  /* category: 'label', */
+                  /* entries: 'entries' */
+                }}
+                data={item.entries}
+                borderRadius={"8"}
+                border={"1px solid"}
+                borderColor={"gray.200"}
+                boxShadow={"lg"}
+              />
+            </GridItem>
+          </Grid>
+        ))}
       </Container>
     </Layout>
   )

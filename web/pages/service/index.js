@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 // import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Grid, GridItem, Heading, Text } from '@chakra-ui/react'
+import { Box, Center, Container, Divider, Grid, GridItem, Heading, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Head from "next/head"
 import Link from "next/link"
@@ -65,35 +65,38 @@ export default function Services({ data }) {
         <Heading>
           Tjenester {data.length ? `(${data.length})` : ''}
         </Heading>
-        <Grid maxW="full" templateColumns={{ sm: '1fr', md: 'repeat(5, 1fr)' }} my="12" gap={{ sm: "3", md: "10" }}>
-          {data.map(item => (
-            <React.Fragment key={item.id}>
-              <GridItem colSpan={{ sm: 1, md: 1 }}>
-                <Heading fontSize="xl"><Link href={`/service/${item.id}`}>{item.label}</Link></Heading>
-                <Text noOfLines={4}>{item.description ?? item.shortDescription}</Text>
-              </GridItem>
-              <GridItem colSpan={{ sm: 1, md: 4 }} mb={{ base: "10", md: '0' }}>
-                <MilestonesWithoutSSR
-                  pattern
-                  p="5"
-                  mapping={{
-                    /* category: 'label', */
-                    /* entries: 'entries' */
-                  }}
-                  data={item.entries}
-                  borderRadius={"8"}
-                  border={"1px solid"}
-                  borderColor={"gray.200"}
-                  boxShadow={"lg"}
-                />
-              </GridItem>
-            </React.Fragment>
-          ))}
-        </Grid>
-        <Box w="100%">
-        </Box>
+        {data.map(item => (
+          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
+            <GridItem colSpan={{ sm: '12', md: "5" }}>
+              <Heading size="lg"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
+            </GridItem>
+            <GridItem colSpan={"1"} display={{ sm: 'none', md: 'inherit' }}>
+              <Center height='100%'>
+                <Divider orientation='vertical' />
+              </Center>
+            </GridItem>
+            <GridItem colSpan={{ sm: '12', md: "6" }}>
+              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
+            </GridItem>
 
-        {/* <PortableText blocks={data.content} /> */}
+            <GridItem colSpan={"12"} rowSpan={"1"} mb={{ base: "10", md: '0' }}>
+              <MilestonesWithoutSSR
+                pattern
+                p="5"
+                mb={"6"}
+                mapping={{
+                  /* category: 'label', */
+                  /* entries: 'entries' */
+                }}
+                data={item.entries}
+                borderRadius={"8"}
+                border={"1px solid"}
+                borderColor={"gray.200"}
+                boxShadow={"lg"}
+              />
+            </GridItem>
+          </Grid>
+        ))}
       </Container>
     </Layout>
   )

@@ -62,8 +62,8 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
-          <ActiveLink href={`/person`} activeClassName="active">
-            <a>Personer</a>
+          <ActiveLink href={`/actor`} activeClassName="active">
+            <a>Aktører</a>
           </ActiveLink>
         </Box>
         <Box px="2">
@@ -122,8 +122,8 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
-              <ActiveLink href={`/person`} activeClassName="active">
-                <a>Personer</a>
+              <ActiveLink href={`/actor`} activeClassName="active">
+                <a>Aktører</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>

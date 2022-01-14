@@ -15,7 +15,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Product']] | order(timespan.beginOfTheBegin asc)  {
+  ...*[_type in ['Actor', 'Group']] | order(label asc)  {
     "id": _id,
     "label": label,
     shortDescription,
@@ -25,18 +25,22 @@ const myQuery = groq`[
         "timestamp": $now,
         "text": "Nå",
       },
-      select(defined(timespan.endOfTheEnd) => {
-        "timestamp": timespan.endOfTheEnd,
-        "text": "Avslutning",
-      }),
-      ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
+      ...activityStream[timespan.beginOfTheBegin != ""] | order(timespan.beginOfTheBegin desc) -> {
         "timestamp": timespan.beginOfTheBegin,
         "text": label,
       },
-      select(defined(timespan.beginOfTheBegin) => {
-        "timestamp": timespan.beginOfTheBegin,
-        "text": "Start",
-      }),
+      ...*[_type in ['Project', 'Product'] && references(^._id)] {
+        ...select(defined(hadParticipant) => {
+          "text": ^.label + ' deltar i ' + label,
+          ...hadParticipant[assignedActor._ref == ^.^._id][0] {
+            "timestamp": timespan.beginOfTheBegin
+          }
+        }),
+        ...select(^._id in carriedOutBy[]._ref => {
+          "text": ^.label + ' leder ' + label,
+          "timestamp": timespan.beginOfTheBegin
+        })
+      },
       {
         "timestamp": "1980-01-01T00:00:00.000Z",
         "text": "Steinalderen",
@@ -58,14 +62,13 @@ export const getStaticProps = async ({ preview = false }) => {
   }
 }
 
-export default function Products({ data }) {
+export default function Persons({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
         <Heading size={"3xl"}>
-          Produkt {data.length ? `(${data.length})` : ''}
+          Personer {data.length ? `(${data.length})` : ''}
         </Heading>
-        <Text fontSize={"2xl"}>Produkt som definert nå er digitale produkt tilgjengelig på nettet.</Text>
         {data.map(item => (
           <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
             <GridItem colSpan={{ sm: '12', md: "5" }}>

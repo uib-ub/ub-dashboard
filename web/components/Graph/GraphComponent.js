@@ -39,7 +39,7 @@ const Graph = ({ edges, nodes, width, height, targetRef }) => {
       options: {
         linkDistance: 200,
         nodePadding: 5000,
-        nodeStrength: -5000,
+        nodeStrength: -3000,
         linkStrength: 2,
         centerStrength: 0.2,
         tick: 500

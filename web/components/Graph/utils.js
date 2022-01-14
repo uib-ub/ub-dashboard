@@ -29,7 +29,7 @@ export const styleNode = (node, hover) => {
       {
         position: 45,
         color: "#2c698d",
-        stroke: "#bae8e8",
+        stroke: "white",
         icon: {
           type: "textIcon",
           family: "Helvetica",
@@ -43,13 +43,13 @@ export const styleNode = (node, hover) => {
 
   if (hover) {
     style.stroke = [
-      { color: "#bae8e8", width: 2 },
+      { color: "white", width: 2 },
       { color: color(node.count), width: 2 },
-      { color: "#bae8e8", width: 4 }
+      { color: "white", width: 4 }
     ];
   } else {
     style.stroke = [
-      { color: "#bae8e8", width: 2 },
+      { color: "black", width: 2 },
       /* { color: color(node.count), width: 2 } */
     ];
   }
