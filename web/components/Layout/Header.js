@@ -14,12 +14,14 @@ import {
   MenuItem,
   MenuList,
   IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ActiveLink from '../Link/ActiveLink'
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
+  const borderColor = useColorModeValue('#ccdfe0', '#023632')
 
   return (
     <Container
@@ -30,6 +32,7 @@ export default function Header() {
       px="4"
       py="2"
       borderBottom="solid 1px"
+      borderColor={borderColor}
     >
       <Flex direction="row" alignItems="center">
         <Heading

@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, HStack, Spacer, Tag, TagLabel, TagLeftIcon } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, HStack, Spacer, Tag, TagLabel, TagLeftIcon, Text } from '@chakra-ui/react'
 import { FaCode, FaLanguage } from 'react-icons/fa'
 import { FcServices } from 'react-icons/fc'
 import Layout from "../../components/Layout"
@@ -83,6 +83,8 @@ export default function Technologies({ data }) {
         <Heading size={"3xl"}>
           Teknologi
         </Heading>
+        <Text fontSize={"2xl"}>Modellen her er ikke 100%, men gir en viss oversikt.</Text>
+
         <HStack>
           <Spacer />
           <Tag size={"md"} variant='subtle'>

@@ -1,10 +1,11 @@
-import { Box, Container, Heading, Text } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import Link from '../components/Link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  const background = useColorModeValue(styles.background, styles.backgroundDark)
   return (
     <Layout>
       <Head>
@@ -13,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW={"full"} h="100vh" className={styles.background}>
+      <Container maxW={"full"} h="100vh" className={background}>
         <Heading fontWeight={"bold"} fontSize={["2xl", "5xl", "9xl", ""]}>
           Hvem, hva, hvor, hvorfor?
         </Heading>
