@@ -39,6 +39,7 @@ a {
   font-size: 16px;
   font-weight: 700;
   margin-top: -4px;
+  color: #000;
 }
 .timelines * .milestones__horizontal_line {
   position: absolute;
