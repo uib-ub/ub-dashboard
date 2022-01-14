@@ -1,5 +1,4 @@
-import { LockIcon } from '@chakra-ui/icons'
-import { Box, Button, Container, Grid, Heading } from '@chakra-ui/react'
+import { Box, Container, Heading, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import Link from '../components/Link'
@@ -14,11 +13,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Grid maxW="full" py="40" className={styles.background} alignContent={"center"} justifyContent={"center"} >
+      <Container maxW={"full"} h="100vh" className={styles.background}>
         <Heading fontWeight={"bold"} fontSize={["2xl", "5xl", "9xl", ""]}>
-          Historien til UB-dev
+          Hvem, hva, hvor, hvorfor?
         </Heading>
-      </Grid>
+
+        <Heading as="h2" fontWeight={"bold"} fontSize={["sm", "md", "xl", "2xl"]}>
+          Datamodell
+        </Heading>
+        <Text>
+          Delvis inspirert av <Link href="https://zenodo.org/record/2575465#.YeFvMhOZOls">PARTHENOS D5.5 Report on the Common Semantic Framework</Link>.
+        </Text>
+      </Container>
 
       <footer>
       </footer>
