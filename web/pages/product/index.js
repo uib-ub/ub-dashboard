@@ -69,7 +69,7 @@ export default function Products({ data }) {
         {data.map(item => (
           <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
             <GridItem colSpan={{ sm: '12', md: "5" }}>
-              <Heading size="lg"><Link href={`/project/${item.id}`}>{item.label}</Link></Heading>
+              <Heading size="lg"><Link href={`/product/${item.id}`}>{item.label}</Link></Heading>
             </GridItem>
             <GridItem colSpan={"1"} display={{ sm: 'none', md: 'inherit' }}>
               <Center height='100%'>

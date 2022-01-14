@@ -77,6 +77,7 @@ export default function ActivityTimeline({ data }) {
           border={"1px solid"}
           borderColor={"gray.200"}
           boxShadow={"lg"}
+          scrollBehavior="smooth"
         />
 
         {/* <PortableText blocks={data.content} /> */}
