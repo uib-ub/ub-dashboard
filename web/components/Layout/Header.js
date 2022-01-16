@@ -1,11 +1,12 @@
 import React from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import {
   Button,
   Container,
   Flex,
   Heading,
   Icon,
+  Link,
   useColorMode,
   Spacer,
   Box,
@@ -17,6 +18,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { FaPencilAlt } from 'react-icons/fa'
 import ActiveLink from '../Link/ActiveLink'
 
 export default function Header() {
@@ -40,9 +42,9 @@ export default function Header() {
           fontWeight={{ base: 'normal' }}
           fontFamily={"Menlo, monospace"}
         >
-          <Link href="/">
+          <NextLink href="/">
             <a>Historien til UB-dev</a>
-          </Link>
+          </NextLink>
         </Heading>
       </Flex>
 
@@ -84,7 +86,11 @@ export default function Header() {
             <a>Teknologi</a>
           </ActiveLink>
         </Box>
+        <Link href='https://ubdevhistory.sanity.studio/' isExternal>
+          <Icon as={FaPencilAlt} mt={"1"} ml={"3"} />
+        </Link>
       </Flex>
+
 
       <Button
         aria-label="Skift mellom dagmodus eller nattmodus"
@@ -140,6 +146,11 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
+              <Link href='https://ubdevhistory.sanity.studio/' isExternal>
+                <Icon as={FaPencilAlt} ml={"1"} />
+              </Link>
+            </MenuItem>
+            <MenuItem>
               <Button
                 aria-label="Skift mellom dagmodus eller nattmodus"
                 px="0"
@@ -156,8 +167,6 @@ export default function Header() {
           </MenuList>
         </Menu>
       </Box>
-
-
     </Container>
   )
 }

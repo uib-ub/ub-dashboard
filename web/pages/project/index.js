@@ -77,7 +77,7 @@ export default function Projects({ data }) {
                   <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
                 )}
                 {item.timespan?.edtf ? <Tag variant={"outline"} mr={"2"} mb="2">{item.timespan?.edtf}</Tag> : ''}
-                {new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"blue"} mr={"2"} mb="2">Avsluttet</Tag> : ''}
+                {new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">Avsluttet</Tag> : ''}
 
               </Flex>
             </GridItem>

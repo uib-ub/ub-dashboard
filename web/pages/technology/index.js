@@ -2,9 +2,9 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, HStack, Spacer, Tag, TagLabel, TagLeftIcon, Text } from '@chakra-ui/react'
-import { FaCode, FaLanguage } from 'react-icons/fa'
-import { FcServices } from 'react-icons/fc'
+import { Box, Container, Flex, Heading, HStack, list, List, ListItem, Spacer, Tag, TagLabel, TagLeftIcon, Text } from '@chakra-ui/react'
+import { FaCode, FaLanguage, FaCogs } from 'react-icons/fa'
+import { MdOutlineDisabledByDefault } from 'react-icons/md'
 import Layout from "../../components/Layout"
 import cleanDeep from "clean-deep"
 import { flattenDeep } from 'lodash-es'
@@ -18,6 +18,7 @@ const colors = {
   service: "#DB1D16",
   software: "#0B7EDB",
   language: "#DB8E16",
+  discontinued: "gray",
 }
 
 const myQuery = groq`{
@@ -31,7 +32,7 @@ const myQuery = groq`{
           "color": $colors.service
         },
         _type == 'Service' && defined(timespan.endOfTheEnd) => {
-          "color": "gray"
+          "color": $colors.discontinued
         },
         _type == 'Software' => {
           "color": $colors.software
@@ -88,7 +89,7 @@ export default function Technologies({ data }) {
         <HStack>
           <Spacer />
           <Tag size={"md"} variant='subtle'>
-            <TagLeftIcon boxSize='22px' as={FcServices} color={colors.service} />
+            <TagLeftIcon boxSize='22px' as={FaCogs} color={colors.service} />
             <TagLabel>Tjeneste</TagLabel>
           </Tag>
           <Tag size={"md"} variant='subtle'>
@@ -98,6 +99,10 @@ export default function Technologies({ data }) {
           <Tag size={"md"} variant='subtle'>
             <TagLeftIcon boxSize='22px' as={FaLanguage} color={colors.language} />
             <TagLabel>Språk</TagLabel>
+          </Tag>
+          <Tag size={"md"} variant='subtle'>
+            <TagLeftIcon boxSize='22px' as={MdOutlineDisabledByDefault} color={colors.discontinued} />
+            <TagLabel>Avviklet</TagLabel>
           </Tag>
         </HStack>
         <Box
@@ -114,18 +119,24 @@ export default function Technologies({ data }) {
             nodes={data.graph.nodes}
           />
         </Box>
-        <Flex>
+
+        <Flex mt="16">
           <Box mr={"8"}>
             <Heading as="h2" size={"lg"}>Programeringsspråk</Heading>
-            {data?.languages && data?.languages.map(lang => (
-              <Heading key={lang.id} as="h3" size={"md"}>{lang.label} ({lang.count})</Heading>
-            ))}
+            <List>
+              {data?.languages && data?.languages.map(lang => (
+                <ListItem key={lang.id} as="h3" size={"md"}>{lang.label} ({lang.count})</ListItem>
+              ))}
+            </List>
           </Box>
+
           <Box mr={"8"}>
             <Heading as="h2" size={"lg"}>Software</Heading>
-            {data?.softwares && data?.softwares.map(software => (
-              <Heading key={software.id} as="h3" size={"md"}>{software.label} ({software.count})</Heading>
-            ))}
+            <List>
+              {data?.softwares && data?.softwares.map(software => (
+                <ListItem key={software.id} as="h3" size={"md"}>{software.label} ({software.count})</ListItem>
+              ))}
+            </List>
           </Box>
 
         </Flex>

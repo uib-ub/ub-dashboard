@@ -14,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW={"full"} h="96vh" className={background}>
+      <Container maxW={"full"} h="96sanity stvh" className={background}>
         <Heading fontWeight={"bold"} fontSize={["2xl", "5xl", "9xl", ""]}>
           Hvem, hva, hvor, hvorfor?
         </Heading>
@@ -33,9 +33,6 @@ export default function Home() {
           <Link href="/presentation">Erfaringer og sånt</Link>.
         </Text>
       </Container>
-
-      <footer>
-      </footer>
     </Layout >
   )
 }
