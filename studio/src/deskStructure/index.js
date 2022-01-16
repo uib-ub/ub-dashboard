@@ -122,5 +122,5 @@ export default () =>
             ])
         ),
       // We also need to remove the new singletons from the main list
-      ...S.documentTypeListItems().filter(listItem => !['Endpoint', 'Actor', 'Group', 'Place', 'Platform', 'Dataset', 'Role', 'Concept', 'Software', 'Language', 'media.tag', 'Activity', 'Event', 'Formation', 'Dissolution', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Birth', 'Death', 'Product', 'Project', 'Service'].includes(listItem.getId()))
+      ...S.documentTypeListItems().filter(listItem => !['Endpoint', 'Actor', 'Group', 'Place', 'Platform', 'Dataset', 'Role', 'Concept', 'Software', 'Language', 'media.tag', 'Activity', 'Event', 'Move', 'Formation', 'Dissolution', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Birth', 'Death', 'Product', 'Project', 'Service'].includes(listItem.getId()))
     ])
