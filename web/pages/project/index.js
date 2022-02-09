@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 // import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Button, Center, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Head from "next/head"
 import Link from "next/link"
@@ -48,6 +48,7 @@ export const getStaticProps = async ({ preview = false }) => {
 
 export default function Projects({ data }) {
   const [activeFilter, setActiveFilter] = useState(false)
+  const bg = useColorModeValue('gray.100', 'gray.600')
 
   const handleActiveFilter = () => {
     setActiveFilter(!activeFilter)
@@ -83,7 +84,7 @@ export default function Projects({ data }) {
               borderColor={"gray.200"}
               boxShadow={"md"}
               bg={
-                new Date(item.timespan?.endOfTheEnd) < now ? 'gray.100' : ''
+                ['rejected', 'completed'].includes(item.status) ? bg : ''
               }
             >
 
