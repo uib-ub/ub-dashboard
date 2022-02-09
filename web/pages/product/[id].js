@@ -55,7 +55,7 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Product({ data }) {
   const { item, milestones } = data
-  const flattenedMilestones = flatMap(milestones.map(e => e.entries))
+  const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
 
   return (
     <Layout>
@@ -146,22 +146,24 @@ export default function Product({ data }) {
           </GridItem>
 
 
-          {flattenedMilestones.length > 0 && (<GridItem
-            colSpan={6}
-          >
-            <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
-              <MilestonesWithoutSSR
-                data={flattenedMilestones}
-                pattern
-                // p="5"
-                pb="10"
-                borderRadius={"8"}
-                border={"1px solid"}
-                borderColor={"gray.200"}
-                boxShadow={"md"}
-              />
-            </Box>
-          </GridItem>)}
+          {flattenedMilestones.length > 0 && (
+            <GridItem
+              colSpan={6}
+            >
+              <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
+                <MilestonesWithoutSSR
+                  data={flattenedMilestones}
+                  pattern
+                  // p="5"
+                  pb="10"
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"md"}
+                />
+              </Box>
+            </GridItem>
+          )}
 
 
 

@@ -41,6 +41,10 @@ export const productQuery = groq`{
       "label": label,
       referredToBy[],
       "entries": [
+        {
+          "timestamp": $now,
+          "text": "Nå",
+        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Avslutning",

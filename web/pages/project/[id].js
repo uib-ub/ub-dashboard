@@ -156,22 +156,24 @@ export default function Project({ data }) {
           </GridItem>
 
 
-          {flattenedMilestones.length > 0 && (<GridItem
-            colSpan={6}
-          >
-            <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
-              <MilestonesWithoutSSR
-                data={flattenedMilestones}
-                pattern
-                // p="5"
-                pb="10"
-                borderRadius={"8"}
-                border={"1px solid"}
-                borderColor={"gray.200"}
-                boxShadow={"md"}
-              />
-            </Box>
-          </GridItem>)}
+          {flattenedMilestones.length > 0 && (
+            <GridItem
+              colSpan={6}
+            >
+              <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
+                <MilestonesWithoutSSR
+                  data={flattenedMilestones}
+                  pattern
+                  // p="5"
+                  pb="10"
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"md"}
+                />
+              </Box>
+            </GridItem>
+          )}
 
 
 
