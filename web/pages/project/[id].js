@@ -194,7 +194,7 @@ export default function Project({ data }) {
             </GridItem>
           )}
 
-          {(item.hasTeam || item.resultedIn || item.hasFile) && (
+          {(item.hasTeam || item.resultedIn || item.hasFile || item.link) && (
             <GridItem
               colSpan={[6, null, 3]}
               borderRadius={"8"}

@@ -1,11 +1,8 @@
 import React, { useState } from "react"
-import dynamic from 'next/dynamic'
-// import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Button, Center, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
+import { Button, Container, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
-import Head from "next/head"
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import Status from "../../components/Props/Status"

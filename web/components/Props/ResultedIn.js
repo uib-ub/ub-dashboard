@@ -1,7 +1,5 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Table, Thead, Tbody, Th, Tr, Td, Icon, Heading } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Th, Tr, Td, Heading } from '@chakra-ui/react'
 import { lowerCase } from 'lodash-es'
-import { getRouteMatcher } from 'next/dist/shared/lib/router/utils'
 import Link from '../Link'
 
 const ResultedIn = ({ results }) => {
@@ -33,7 +31,6 @@ const ResultedIn = ({ results }) => {
                 <Td>
                   <Link href={`/${lowerCase(r.type)}/${r.id}`}>
                     {r.label}
-                    <Icon ml={2} as={ExternalLinkIcon} color='green.500' />
                   </Link>
                 </Td>
                 <Td>
@@ -48,7 +45,6 @@ const ResultedIn = ({ results }) => {
                   <Td>
                     <Link href={`/${lowerCase(s.type)}/${s.id}`}>
                       <span style={{ display: 'inline-block', transform: 'rotate(90deg)' }}><>&#8626;</></span> {s.label}
-                      <Icon ml={2} as={ExternalLinkIcon} color='green.500' />
                     </Link>
                   </Td>
                   <Td>

@@ -184,7 +184,7 @@ export default function Product({ data }) {
             </GridItem>
           )}
 
-          {(item.hasTeam || item.resultedIn || item.hasFile) && (
+          {(item.hasTeam || item.usedService || item.hasFile || item.link) && (
             <GridItem
               colSpan={[6, null, 3]}
               borderRadius={"8"}
@@ -200,8 +200,8 @@ export default function Product({ data }) {
                 <Team key={team.id} team={team} />
               ))}
 
-              {item.resultedIn && (
-                <ResultedIn results={item.resultedIn} />
+              {item.usedService && (
+                <ResultedIn results={item.usedService} />
               )}
 
               {(item.hasFile || item.link) && (
