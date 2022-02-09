@@ -4,7 +4,7 @@ const Participants = ({ participants }) => {
   if (!participants) return
 
   return (
-    <Wrap my={"3"} >
+    <Wrap maxW={'full'}>
       {participants.map(participant => (
         <WrapItem key={participant.assignedActor.id} px={"4"}>
           <Flex>

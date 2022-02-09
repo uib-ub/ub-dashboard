@@ -15,6 +15,7 @@ export default {
       to: [
         { type: 'Actor' },
         { type: 'Group' },
+        { type: 'Team' },
       ],
       options: {
         semanticSanity: {

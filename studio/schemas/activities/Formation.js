@@ -33,7 +33,6 @@ export default {
       const { label, type, edtf, formed } = selection
       return {
         title: `${label ?? capitalize(type)}`,
-        title: label ? label : `Opprettelsen av  ${formed ? coalesceLabel(formed) : ''}`,
         subtitle: edtf,
       }
     },

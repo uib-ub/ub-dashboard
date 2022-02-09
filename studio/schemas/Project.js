@@ -1,18 +1,72 @@
-import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy } from "./props";
+import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy, hasTeam, identifiedBy } from "./props";
 
 export default {
   name: 'Project',
   title: 'Project',
   type: 'document',
+  groups: [
+    {
+      name: 'core',
+      title: 'Kjerne'
+    },
+    {
+      name: 'actors',
+      title: 'Aktører',
+    },
+    {
+      name: 'timeline',
+      title: 'Tidslinje',
+    },
+    {
+      name: 'resources',
+      title: 'Ressurser',
+    }
+  ],
   fields: [
+    {
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Konseptfase', value: 'planning' },
+          { title: 'Pågående', value: 'ongoing' },
+          { title: 'Avsluttet', value: 'completed' },
+          { title: 'Avslått', value: 'rejected' },
+          { title: 'Forlatt', value: 'abandoned' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      validation: Rule => Rule.required()
+    },
     labelSingleton,
     shortDescription,
-    link,
-    resultedIn,
+    identifiedBy,
     referredToBy,
     timespanSingleton,
-    carriedOutBy,
-    hadParticipant,
+    {
+      ...hasTeam,
+      group: 'actors',
+    },
+    {
+      ...carriedOutBy,
+      description: 'Hvilken institusjon var prosjekteier?',
+      group: 'actors',
+    },
+    {
+      ...hadParticipant,
+      description: 'Hvilke institusjoner var partnere?',
+      group: 'actors',
+    },
+    {
+      ...resultedIn,
+      group: 'timeline',
+    },
+    {
+      ...continuedBy,
+      group: 'timeline',
+    },
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',
@@ -20,6 +74,7 @@ export default {
       description:
         'En aktivitetsstrøm samler alle hendelser knyttet til denne aktøren. Fødsel og død er "inline" til personen, mens andre aktiviteter som ekteskap er egne dokument.',
       descriptionEN: 'Add all known events this smuck did',
+      group: 'timeline',
       type: 'array',
       of: [
         {
@@ -27,6 +82,7 @@ export default {
           to: [
             { type: 'BeginningOfExistence' },
             { type: 'Activity' },
+            { type: 'FundingActivity' },
             { type: 'Event' },
             { type: 'Joining' },
             { type: 'Leaving' },
@@ -42,10 +98,22 @@ export default {
         }
       },
     },
-    continued,
-    continuedBy,
-    image,
-    hasFile
+    {
+      ...continued,
+      group: 'timeline',
+    },
+    {
+      ...link,
+      group: 'resources'
+    },
+    {
+      ...image,
+      group: 'resources'
+    },
+    {
+      ...hasFile,
+      group: 'resources'
+    }
   ],
   preview: {
     select: {

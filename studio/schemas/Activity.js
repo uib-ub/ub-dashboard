@@ -1,15 +1,10 @@
 import { coalesceLabel } from './helpers'
 import { MdLocalActivity } from 'react-icons/md'
 import {
-  timespan,
   referredToBy,
   carriedOutBy,
-  usedSpecificTechnique,
-  usedGeneralTechnique,
-  usedSpecificObject,
   tookPlaceAt,
   hadParticipant,
-  usedObjectOfType,
   labelSingleton,
   accessState,
   editorialState,
@@ -60,7 +55,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{ type: 'Concept' }],
+          to: [{ type: 'ActivityType' }],
         },
       ],
       options: {
@@ -72,20 +67,6 @@ export default {
     },
     carriedOutBy,
     hadParticipant,
-    {
-      name: 'target',
-      title: 'Mål',
-      titleEN: 'Target',
-      type: 'reference',
-      to: [
-        { type: 'Actor' }
-      ],
-      options: {
-        semanticSanity: {
-          '@type': '@id'
-        }
-      },
-    },
     timespanSingleton,
     tookPlaceAt,
     {
@@ -205,7 +186,7 @@ export default {
 
       return {
         title: title,
-        subtitle: `${coalesceLabel(type)} ${edtf}`,
+        subtitle: `${coalesceLabel(type)} ${edtf ?? ''}`,
       }
     },
   },

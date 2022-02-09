@@ -43,7 +43,7 @@ export default function Header() {
           fontFamily={"Menlo, monospace"}
         >
           <NextLink href="/">
-            <a>Historien til UB-dev</a>
+            <a>UB-dev</a>
           </NextLink>
         </Heading>
       </Flex>

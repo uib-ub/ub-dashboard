@@ -17,7 +17,8 @@
     "table",
     "@sanity/code-input",
     "graph-view",
-    "media"
+    "media",
+    "documents-pane"
   ],
   "env": {
     "development": {

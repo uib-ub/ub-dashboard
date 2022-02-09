@@ -1,5 +1,23 @@
 // /deskStructure.js
 import S from '@sanity/desk-tool/structure-builder'
+import DocumentsPane from 'sanity-plugin-documents-pane'
+
+export const getDefaultDocumentNode = () => {
+  // Give all documents the JSON preview, 
+  // as well as the default form view
+  return S.document().views([
+    S.view.form(),
+    S.view.component(DocumentsPane)
+      .options({
+        query: `*[!(_id in path("drafts.**")) && references($id)]`,
+        params: { id: `_id` },
+        useDraft: false,
+        debug: true,
+      })
+      .title('Incoming References')
+  ])
+}
+
 
 export default () =>
   S.list()
@@ -12,6 +30,7 @@ export default () =>
       S.documentTypeListItem('Endpoint'),
       S.divider(),
       S.documentTypeListItem('Actor'),
+      S.documentTypeListItem('Team'),
       S.documentTypeListItem('Group'),
       S.divider(),
       S.listItem()
@@ -27,6 +46,31 @@ export default () =>
                 .title('Emner')
                 .child(
                   S.documentTypeList('Concept')
+                ),
+              S.listItem()
+                .title('Aktivitetstyper')
+                .child(
+                  S.documentTypeList('ActivityType')
+                ),
+              S.listItem()
+                .title('Hendelsestyper')
+                .child(
+                  S.documentTypeList('EventType')
+                ),
+              S.listItem()
+                .title('Gruppetyper')
+                .child(
+                  S.documentTypeList('GroupType')
+                ),
+              S.listItem()
+                .title('Identifikatortyper')
+                .child(
+                  S.documentTypeList('IdentifierType')
+                ),
+              S.listItem()
+                .title('Navnetyper')
+                .child(
+                  S.documentTypeList('NameType')
                 ),
               S.listItem()
                 .title('Språk')
@@ -53,6 +97,11 @@ export default () =>
                 .child(
                   S.documentTypeList('Place')
                 ),
+              S.listItem()
+                .title('Valuta')
+                .child(
+                  S.documentTypeList('Currency')
+                ),
             ])),
       S.divider(),
       S.listItem()
@@ -73,6 +122,11 @@ export default () =>
                 .title('Aktivitet (generisk)')
                 .child(
                   S.documentTypeList('Activity')
+                ),
+              S.listItem()
+                .title('Finansiering')
+                .child(
+                  S.documentTypeList('FundingActivity')
                 ),
               S.listItem()
                 .title('Opprettelse')
@@ -121,6 +175,5 @@ export default () =>
                 )
             ])
         ),
-      // We also need to remove the new singletons from the main list
-      ...S.documentTypeListItems().filter(listItem => !['Endpoint', 'Actor', 'Group', 'Place', 'Platform', 'Dataset', 'Role', 'Concept', 'Software', 'Language', 'media.tag', 'Activity', 'Event', 'Move', 'Formation', 'Dissolution', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Birth', 'Death', 'Product', 'Project', 'Service'].includes(listItem.getId()))
+      // ...S.documentTypeListItems().filter(listItem => !['Endpoint', 'Actor', 'Group', 'Place', 'Platform', 'Dataset', 'Role', 'Concept', 'Software', 'Language', 'media.tag', 'Activity', 'Event', 'Move', 'Formation', 'Dissolution', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Birth', 'Death', 'Product', 'Project', 'Service'].includes(listItem.getId()))
     ])

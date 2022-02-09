@@ -27,6 +27,12 @@ export const productQuery = groq`{
       },
       "timespan": timespan.edtf,
     },
+    usedService[] {
+      "id": assignedService->_id,
+      "type": assignedService->_type,
+      "label": assignedService->label,
+      "period": timespan.edtf,
+    },
   },
   "milestones": [
     ...*[_id == $id] | order(timespan.beginOfTheBegin asc)  {
@@ -35,10 +41,6 @@ export const productQuery = groq`{
       "label": label,
       referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Avslutning",
@@ -47,10 +49,6 @@ export const productQuery = groq`{
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
     ...*[references($id)] | order(timespan.beginOfTheBegin asc)  {
@@ -59,22 +57,10 @@ export const productQuery = groq`{
       "label": label,
       referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
     ...*[_id == $id].usedService[] | order(timespan.beginOfTheBegin asc) {
@@ -82,10 +68,6 @@ export const productQuery = groq`{
       "label": assignedService->label,
       "desc": assignedService->referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Prosjektet slutter å bruke " + assignedService->label,
@@ -107,6 +89,7 @@ export const projectQuery = groq`{
   "item": *[_id == $id][0] {
     "id": _id,
     "type": _type,
+    status,
     "label": label,
     shortDescription,
     "period": timespan.edtf,
@@ -119,6 +102,57 @@ export const projectQuery = groq`{
       "url": accessPoint.asset->url,
       "extension": accessPoint.asset->extension
     },
+    continued[]->{ 
+      "id": _id,
+      label 
+    },
+    continuedBy[]->{ 
+      "id": _id,
+      label 
+    },
+    hasTeam[]-> {
+      "id": _id,
+      label,
+      hasMember[] {
+        assignedActor-> {
+          "id": _id,
+          label,
+        },
+        assignedRole[]-> {
+          "id": _id,
+          label,
+        },
+        "timespan": timespan.edtf,
+      }
+    },
+    "identifier": identifiedBy[] {
+      _type == 'Identifier' => {
+        content,
+        "type": hasType->label
+      }
+    },
+    "funding": activityStream[]-> {
+      _type == 'FundingActivity' =>  {
+        "id": _id,
+        "type": _type,
+        label,
+        "awarder": awarder->label,
+        "amount": fundingAmount.value,
+        "currency": fundingAmount.hasCurrency->label,
+        "period": timespan.edtf,
+      }
+    },
+    carriedOutBy[] {
+      assignedActor-> {
+        "id": _id,
+        label,
+      },
+      assignedRole[]-> {
+        "id": _id,
+        label,
+      },
+      "timespan": timespan.edtf,
+    },
     hadParticipant[] {
       assignedActor-> {
         "id": _id,
@@ -130,6 +164,18 @@ export const projectQuery = groq`{
       },
       "timespan": timespan.edtf,
     },
+    resultedIn[]-> {
+      "id": _id,
+      "type": _type,
+      "period": timespan.edtf,
+      label,
+      usedService[] {
+        "id": assignedService->_id,
+        "type": assignedService->_type,
+        "label": assignedService->label,
+        "period": timespan.edtf,
+      }
+    }
   },
   "milestones": [
     ...*[_id == $id] | order(timespan.beginOfTheBegin asc) {
@@ -142,18 +188,10 @@ export const projectQuery = groq`{
           "timestamp": $now,
           "text": "Nå",
         },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        }),
       ]
     },
     ...*[_type == "Project" && references($id)] | order(timespan.beginOfTheBegin asc)  {
@@ -162,22 +200,10 @@ export const projectQuery = groq`{
       "label": label,
       referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
     ...*[_id == $id].resultedIn[]-> | order(timespan.beginOfTheBegin asc) {
@@ -185,10 +211,6 @@ export const projectQuery = groq`{
       "label": label,
       "desc": referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Prosjektet avvikler " + label,
@@ -208,10 +230,6 @@ export const projectQuery = groq`{
       "label": assignedService->label,
       "desc": assignedService->referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Prosjektet slutter å bruke " + assignedService->label,
@@ -283,18 +301,10 @@ export const serviceQuery = groq`{
           "timestamp": $now,
           "text": "Nå",
         },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
     ...*[references($id)] | order(timespan.beginOfTheBegin asc)  {
@@ -303,22 +313,10 @@ export const serviceQuery = groq`{
       "label": label,
       referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
     ...*[_id == $id].usedService[] | order(timespan.beginOfTheBegin asc) {
@@ -326,10 +324,6 @@ export const serviceQuery = groq`{
       "label": assignedService->label,
       "desc": assignedService->referredToBy[],
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         select(defined(timespan.endOfTheEnd) => {
           "timestamp": timespan.endOfTheEnd,
           "text": "Prosjektet slutter å bruke " + assignedService->label,
@@ -382,18 +376,10 @@ export const actorQuery = groq`{
           "timestamp": $now,
           "text": "Nå",
         },
-        select(defined(timespan.endOfTheEnd) => {
-          "timestamp": timespan.endOfTheEnd,
-          "text": "Avslutning",
-        }),
         ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
-        select(defined(timespan.beginOfTheBegin) => {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": "Start",
-        })
       ]
     },
   ]

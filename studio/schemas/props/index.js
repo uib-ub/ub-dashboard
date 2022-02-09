@@ -10,8 +10,8 @@ const client = sanityClient.withConfig({ apiVersion: '2021-03-25' })
 
 export const hasType = {
   name: 'hasType',
-  type: 'array',
   title: 'Klassifisert som',
+  type: 'array',
   of: [
     {
       type: 'reference',
@@ -123,6 +123,7 @@ export const resultedIn = {
     to: [
       { type: 'Product' },
       { type: 'Service' },
+      { type: 'Group' },
     ]
   }],
   options: {
@@ -783,6 +784,7 @@ export const joinedWith = {
   type: 'reference',
   to: [
     { type: 'Group' },
+    { type: 'Team' },
     { type: 'Project' },
     { type: 'Product' },
   ],
@@ -806,6 +808,7 @@ export const joined = {
       to: [
         { type: 'Actor' },
         { type: 'Group' },
+        { type: 'Team' },
       ]
     }
   ],
@@ -1555,13 +1558,7 @@ export const carriedOutBy = {
   title: 'Utført av',
   titleEN: 'Carried out by',
   type: 'array',
-  of: [{
-    type: 'reference',
-    to: [
-      { type: 'Actor' },
-      { type: 'Group' },
-    ]
-  }],
+  of: [{ type: 'ContributionAssignment' }],
   options: {
     semanticSanity: {
       '@container': '@set',
@@ -1703,10 +1700,25 @@ export const memberOf = {
  */
 export const hasMember = {
   name: 'hasMember',
-  title: 'Har deler',
+  title: 'Har medlem',
   titleEN: 'Has member',
   type: 'array',
   of: [{ type: 'reference', to: [{ type: 'HumanMadeObject' }] }],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
+
+export const hasTeam = {
+  name: 'hasTeam',
+  title: 'Har team',
+  titleEN: 'Has team',
+  type: 'array',
+  of: [{ type: 'reference', to: [{ type: 'Team' }] }],
   options: {
     semanticSanity: {
       '@container': '@set',

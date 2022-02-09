@@ -1,25 +1,30 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Flex, Tag, TagLabel, TagLeftIcon, Text } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Th, Tr, Td, Icon } from '@chakra-ui/react'
 import Link from '../Link'
 
 const Links = ({ links }) => {
   if (!links) return
 
   return (
-    <Flex alignSelf={"center"} justifyContent={"flex-end"} maxW={"30vw"}>
-      {links.map(link => (
-        <Text key={link._key} maxW={"200px"} isTruncated>
-          <Tag display={"flex"} m="3" size={"lg"}>
-            <TagLeftIcon as={ExternalLinkIcon} color='green.500' />
-            <TagLabel>
-              <Link href={link.url}>
+    <Table size='sm' mx={0}>
+      <Thead>
+        <Tr>
+          <Th>Lenker</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {links.map(link => (
+          <Tr key={link._key}>
+            <Td>
+              <Link href={link.url} isExternal>
                 {link.label}
+                <Icon ml={2} as={ExternalLinkIcon} color='green.500' />
               </Link>
-            </TagLabel>
-          </Tag>
-        </Text>
-      ))}
-    </Flex>
+            </Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
   )
 }
 

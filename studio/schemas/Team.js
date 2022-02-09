@@ -1,24 +1,20 @@
-import { hasType, labelSingleton, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
+import { hasMember, hasType, labelSingleton, referredToBy, shortDescription, timespanSingleton } from "./props";
 
 export default {
-  name: 'Group',
-  title: 'Group',
+  name: 'Team',
+  title: 'Team',
   type: 'document',
   fields: [
     labelSingleton,
-    {
-      ...hasType,
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'GroupType' }],
-        },
-      ],
-    },
+    /* hasType, */
     shortDescription,
+    {
+      ...hasMember,
+      type: 'array',
+      of: [{ type: 'ContributionAssignment' }],
+    },
     timespanSingleton,
     referredToBy,
-    subGroupOf,
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',

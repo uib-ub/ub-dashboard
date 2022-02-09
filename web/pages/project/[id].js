@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Image, SimpleGrid, Spacer, Tag, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Image, Spacer, Tag, Text, VStack } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText, urlFor } from "../../lib/sanity"
@@ -10,6 +10,13 @@ import { projectQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Links from "../../components/Props/Links"
 import Files from "../../components/Props/Files"
+import Team from "../../components/Props/Team"
+import Link from "../../components/Link"
+import { flatMap, flatten, upperCase } from 'lodash-es'
+import ResultedIn from "../../components/Props/ResultedIn"
+import Status from "../../components/Props/Status"
+import Funding from "../../components/Props/Funding"
+import Ids from "../../components/Props/Ids"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -51,6 +58,8 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Project({ data }) {
   const { item, milestones } = data
+  const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
+
   return (
     <Layout>
       <Container variant="wrapper">
@@ -59,16 +68,26 @@ export default function Project({ data }) {
             <Image src={urlFor(item.image[0]).url()} mb={"5"} />
           </Box>
         )}
-        <Tag size={"lg"}>{item.type}</Tag>
+
         <Flex>
-          <Heading mt="5" size={"3xl"}>{item.label}</Heading>
-
-          <Spacer />
-
-          {item.link && (
-            <Links links={item.link} />
+          <span style={{ paddingInlineEnd: '0.5rem' }}>{item.type}</span>
+          <span style={{ paddingInlineEnd: '0.5rem' }}>|</span>
+          <span style={{ paddingInlineEnd: '0.5rem' }}>{item.period}</span>
+          {item.status && (
+            <>
+              <span style={{ paddingInlineEnd: '0.5rem' }}>|</span>
+              <Status size={'md'} status={item.status} />
+            </>
+          )}
+          {item.identifier && (
+            <Ids size={'md'} identifier={item.identifier} />
           )}
         </Flex>
+
+        <Heading mt="5" fontSize={{ base: '3xl', md: '4xl', lg: '5xl', xl: '6xl' }}>
+          {item.label}
+
+        </Heading>
 
         {item.shortDescription && (
           <Text fontSize='xl' m="0">
@@ -76,47 +95,140 @@ export default function Project({ data }) {
           </Text>
         )}
 
-        {item.hadParticipant && (
-          <Participants participants={item.hadParticipant} />
-        )}
+        <Grid
+          my={10}
+          maxW={'full'}
+          gap={5}
+          templateColumns='repeat(6, 1fr)'
+        >
 
-        <SimpleGrid columns={2} spacing={10}>
+          {item.carriedOutBy && (
+            <GridItem
+              colSpan={[6]}
+            >
+              <Participants participants={item.carriedOutBy} />
+            </GridItem>
+          )}
+
+          {item.hadParticipant && (
+            <GridItem
+              colSpan={6}
+            >
+              <Participants participants={item.hadParticipant} />
+            </GridItem>
+          )}
+
+
+          <GridItem colSpan={6}>
+            <Flex direction={['column', null, 'row']}>
+              {item.continued && (
+                <Box display={"inline-block"} m={3}>
+                  <span>Fortsettelse av </span>
+                  <VStack display={"inline-block"}>
+                    {item.continued.map(e => (
+                      <Heading key={e.id} size={"md"}>
+                        <Link href={`/project/${e.id}`}>
+                          {e.label}
+                        </Link>
+                      </Heading>
+                    ))}
+                  </VStack>
+                </Box>
+              )}
+
+              <Spacer />
+
+              {item.continuedBy && (
+                <Box display={"inline-block"} m={3}>
+                  <span>Fortsatt av </span>
+                  <VStack display={"inline-block"}>
+                    {item.continuedBy?.map(e => (
+                      <Heading key={e.id} size={"md"}>
+                        <Link href={`/project/${e.id}`}>
+                          {e.label}
+                        </Link>
+                      </Heading>
+                    ))}
+                  </VStack>
+                </Box>
+              )}
+            </Flex>
+          </GridItem>
+
+
+          {flattenedMilestones.length > 0 && (<GridItem
+            colSpan={6}
+          >
+            <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
+              <MilestonesWithoutSSR
+                data={flattenedMilestones}
+                pattern
+                // p="5"
+                pb="10"
+                borderRadius={"8"}
+                border={"1px solid"}
+                borderColor={"gray.200"}
+                boxShadow={"md"}
+              />
+            </Box>
+          </GridItem>)}
+
+
+
           {item.referredToBy && (
-            <Box borderRadius={"8"} border={"1px solid"} borderColor={"gray.200"} boxShadow={"lg"} my={"15"} px="6" pb={"6"}>
-              <Box overflowY={"scroll"} maxH={"20vh"}>
+            <GridItem
+              colSpan={[6, null, 3]}
+              borderRadius={"8"}
+              border={"1px solid"}
+              borderColor={"gray.200"}
+              boxShadow={"md"}
+              px="6"
+              pb={"6"}
+            >
+              <Box>
                 <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Beskrivelse</Heading>
                 <PortableText blocks={item.referredToBy[0].body} />
               </Box>
-            </Box>
+            </GridItem>
           )}
 
-          {item.hasFile && (
-            <Box maxW={"3xl"} borderRadius={"8"} border={"1px solid"} borderColor={"gray.200"} boxShadow={"lg"} my={"15"} px="6" pb={"6"}>
-              <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"} mb="4">Filer</Heading>
-              <Files files={item.hasFile} />
-            </Box>
-          )}
-        </SimpleGrid>
+          {(item.hasTeam || item.resultedIn || item.hasFile) && (
+            <GridItem
+              colSpan={[6, null, 3]}
+              borderRadius={"8"}
+              border={"1px solid"}
+              borderColor={"gray.200"}
+              boxShadow={"md"}
+              px="6"
+              pb={"6"}
+            >
+              {item.funding && <Funding stream={item.funding} />}
 
-        <Box w="100%" mb={16} display={{ base: 'none', md: 'inherit' }}>
-          <MilestonesWithoutSSR
-            mapping={{
-              category: 'label',
-              entries: 'entries'
-            }}
-            data={milestones}
-            pattern
-            // p="5"
-            pb="10"
-            my="5"
-            borderRadius={"8"}
-            border={"1px solid"}
-            borderColor={"gray.200"}
-            boxShadow={"lg"}
-          />
-        </Box>
+              {item.hasTeam && item.hasTeam.map(team => (
+                <Team key={team.id} team={team} />
+              ))}
+
+              {item.resultedIn && (
+                <ResultedIn results={item.resultedIn} />
+              )}
+
+              {(item.hasFile || item.link) && (
+                <>
+                  <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
+                  {item.link && (
+                    <Links links={item.link} />
+                  )}
+
+                  {item.hasFile && (
+                    <Files files={item.hasFile} />
+                  )}
+                </>
+              )}
+            </GridItem>
+          )}
+        </Grid>
 
       </Container>
-    </Layout>
+    </Layout >
   )
 }

@@ -25,18 +25,10 @@ const myQuery = groq`[
         "timestamp": $now,
         "text": "Nå",
       },
-      select(defined(timespan.endOfTheEnd) => {
-        "timestamp": timespan.endOfTheEnd,
-        "text": "Avslutning",
-      }),
       ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
         "timestamp": timespan.beginOfTheBegin,
         "text": label,
       },
-      select(defined(timespan.beginOfTheBegin) => {
-        "timestamp": timespan.beginOfTheBegin,
-        "text": "Start",
-      }),
       {
         "timestamp": "1980-01-01T00:00:00.000Z",
         "text": "Steinalderen",

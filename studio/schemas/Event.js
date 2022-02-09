@@ -64,7 +64,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{ type: 'Concept' }],
+          to: [{ type: 'EventType' }],
         },
       ],
       validation: (Rule) => Rule.required(),
