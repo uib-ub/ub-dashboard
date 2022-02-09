@@ -822,9 +822,9 @@ export const joined = {
 
 export const separatedFrom = {
   name: 'separatedFrom',
-  title: 'Forlot',
+  title: 'Utmeldt fra',
   titleEN: 'Left',
-  description: 'Actor(s) that left this group',
+  description: 'Group that lost member',
   type: 'reference',
   to: [
     { type: 'Group' },
@@ -835,7 +835,7 @@ export const separatedFrom = {
 
 export const separated = {
   name: 'separated',
-  title: 'Forlot',
+  title: 'Hvem meldte seg ut?',
   description: 'Actor(s) that left this group',
   type: 'array',
   of: [
