@@ -12,7 +12,7 @@ const Status = ({ status, ...rest }) => {
   }
 
   return (
-    <Tag colorScheme={colors[status]} {...rest}>{status}</Tag>
+    <Tag mr={2} colorScheme={colors[status]} {...rest}>{status}</Tag>
   )
 }
 
