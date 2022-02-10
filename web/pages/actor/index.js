@@ -70,8 +70,8 @@ export default function Persons({ data }) {
           Personer {data.length ? `(${data.length})` : ''}
         </Heading>
         {data.map(item => (
-          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
-            <GridItem colSpan={{ sm: '12', md: "5" }}>
+          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ base: "3", md: "6" }}>
+            <GridItem colSpan={{ base: '12', md: "5" }}>
               <Heading size="lg"><Link href={`/actor/${item.id}`}>{item.label}</Link></Heading>
             </GridItem>
             <GridItem colSpan={"1"} display={{ sm: 'none', md: 'inherit' }}>

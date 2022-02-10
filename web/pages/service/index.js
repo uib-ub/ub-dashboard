@@ -52,11 +52,11 @@ export default function Services({ data }) {
         <Heading>
           Tjenester {data.length ? `(${data.length})` : ''}
         </Heading>
-        <Grid maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ sm: "3", md: "6" }}>
+        <Grid maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ base: "3", md: "6" }}>
           {data.map(item => (
             <GridItem
               key={item.id}
-              colSpan={{ sm: '12', md: "6", xl: '4' }}
+              colSpan={{ base: '12', md: "6", xl: '4' }}
               p={5}
               borderRadius={"8"}
               border={"1px solid"}

@@ -57,7 +57,7 @@ export async function getStaticProps({ params, preview = false }) {
 export default function Service({ data }) {
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
-  console.log(item)
+  const gitRepo = item.link.filter(l => l.label === 'git')
 
   return (
     <Layout>
@@ -232,10 +232,20 @@ export default function Service({ data }) {
               pb={"6"}
             >
 
-              <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Bruker</Heading>
+              <Heading
+                as="h2"
+                size={"md"}
+                mt={4}
+                borderBottom={"1px solid"}
+                fontWeight={"light"}
+              >
+                Bruker
+              </Heading>
+
               {item.uses && item.uses.map(u => (
                 <Tag key={u.id} size={"lg"} mt={"3"} mr={"3"}>{u.label}</Tag>
               ))}
+
               {item.usedPlatform && item.usedPlatform.map(u => (
                 <Tag key={u.id} size={"lg"} mt={"3"} mr={"3"}>{u.label}</Tag>
               ))}
