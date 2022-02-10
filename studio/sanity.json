@@ -18,7 +18,8 @@
     "@sanity/code-input",
     "graph-view",
     "media",
-    "documents-pane"
+    "documents-pane",
+    "vercel-deploy"
   ],
   "env": {
     "development": {
@@ -33,6 +34,10 @@
     {
       "name": "part:@sanity/desk-tool/structure",
       "path": "./src/deskStructure/index.js"
+    },
+    {
+      "implements": "part:@sanity/base/absolutes",
+      "path": "./src/parts/bundleChecker.js"
     }
   ]
 }

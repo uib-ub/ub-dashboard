@@ -25,6 +25,7 @@ export default () =>
     .items([
       S.documentTypeListItem('Project'),
       S.documentTypeListItem('Product'),
+      S.documentTypeListItem('Software'),
       S.documentTypeListItem('Service'),
       S.documentTypeListItem('Dataset'),
       S.documentTypeListItem('Endpoint'),
@@ -78,9 +79,14 @@ export default () =>
                   S.documentTypeList('Language')
                 ),
               S.listItem()
-                .title('Programvare')
+                .title('Programmeringsspråk')
                 .child(
-                  S.documentTypeList('Software')
+                  S.documentTypeList('ProgrammingLanguage')
+                ),
+              S.listItem()
+                .title('Protokoll')
+                .child(
+                  S.documentTypeList('ProtocolType')
                 ),
               S.listItem()
                 .title('Plattform')
