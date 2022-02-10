@@ -1,11 +1,11 @@
 import { coalesceLabel } from '../helpers'
-import { referredToBy, tookPlaceAt, featured, timespanSingleton, labelSingleton, joinedWith, joined, as } from '../props'
+import { referredToBy, featured, timespanSingleton, labelSingleton, as, transferredFrom, transferredTo } from '../props'
+
 
 export default {
-  name: 'Joining',
+  name: 'TransferOfActor',
   type: 'document',
-  title: 'Innlemmelse',
-  titleEN: 'Joining',
+  title: 'Overføring',
   fieldsets: [
     {
       name: 'minimum',
@@ -17,10 +17,9 @@ export default {
     labelSingleton,
     featured,
     timespanSingleton,
-    joinedWith,
-    joined,
+    transferredFrom,
+    transferredTo,
     as,
-    tookPlaceAt,
     referredToBy,
   ],
   preview: {

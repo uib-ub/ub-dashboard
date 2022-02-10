@@ -155,6 +155,11 @@ export default () =>
                   S.documentTypeList('Leaving')
                 ),
               S.listItem()
+                .title('Overføring (personell)')
+                .child(
+                  S.documentTypeList('TransferOfActor')
+                ),
+              S.listItem()
                 .title('Flytting')
                 .child(
                   S.documentTypeList('Move')

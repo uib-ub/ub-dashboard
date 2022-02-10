@@ -44,6 +44,7 @@ export { default as Formation } from './activities/Formation'
 export { default as Joining } from './activities/Joining'
 export { default as Leaving } from './activities/Leaving'
 export { default as Move } from './activities/Move'
+export { default as TransferOfActor } from './activities/TransferOfActor'
 
 export { default as blockContent } from './text/blockContent'
 export { default as LocaleString } from './text/LocaleString'

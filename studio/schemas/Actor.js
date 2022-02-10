@@ -2,7 +2,7 @@ import { labelSingleton, referredToBy, shortDescription } from "./props";
 
 export default {
   name: 'Actor',
-  title: 'Actor',
+  title: 'Person',
   type: 'document',
   fields: [
     labelSingleton,
@@ -24,6 +24,7 @@ export default {
             { type: 'Activity' },
             { type: 'Event' },
             { type: 'Joining' },
+            { type: 'TransferOfActor' },
             { type: 'Leaving' },
             { type: 'Death' },
           ]

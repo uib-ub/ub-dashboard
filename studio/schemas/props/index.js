@@ -820,6 +820,45 @@ export const joined = {
   },
 }
 
+export const transferredTo = {
+  name: 'transferredTo',
+  title: 'Overført til',
+  titleEN: 'Joined with',
+  description: 'Group that actor(s) transfered to',
+  type: 'reference',
+  to: [
+    { type: 'Group' },
+    { type: 'Team' },
+    { type: 'Project' },
+    { type: 'Product' },
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  }
+}
+
+export const transferredFrom = {
+  name: 'transferredFrom',
+  title: 'Overført fra',
+  description: 'Overført fra',
+  type: 'reference',
+  to: [
+    { type: 'Group' },
+    { type: 'Team' },
+    { type: 'Project' },
+    { type: 'Product' },
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
 export const separatedFrom = {
   name: 'separatedFrom',
   title: 'Utmeldt fra',

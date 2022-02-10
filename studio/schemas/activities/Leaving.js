@@ -2,8 +2,6 @@ import { tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton,
 import { defaultFieldsets } from '../fieldsets'
 import { coalesceLabel } from '../helpers'
 
-var capitalize = require('capitalize')
-
 export default {
   name: 'Leaving',
   type: 'document',
