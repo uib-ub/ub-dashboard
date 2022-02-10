@@ -57,7 +57,6 @@ export async function getStaticProps({ params, preview = false }) {
 export default function Service({ data }) {
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
-  const gitRepo = item.link.filter(l => l.label === 'git')
 
   return (
     <Layout>
