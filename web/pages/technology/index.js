@@ -23,7 +23,7 @@ const colors = {
 
 const myQuery = groq`{
   "graph": {
-    "nodes": *[_type in ['Service', "Software", "Language"]] {
+    "nodes": *[_type in ['Service', "Software", "Language"] && !(_id in path("drafts.**"))] {
       "id": _id,
       label,
       "size": 12 + (count(*[references(^._id)]) * 4),

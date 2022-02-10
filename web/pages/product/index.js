@@ -7,7 +7,7 @@ import Link from "next/link"
 import Layout from "../../components/Layout"
 
 const myQuery = groq`[
-  ...*[_type in ['Product']] | order(timespan.beginOfTheBegin desc)  {
+  ...*[_type in ['Product'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
     "label": label,
     timespan,

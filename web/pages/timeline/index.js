@@ -13,7 +13,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)] | order(timespan.beginOfTheBegin asc) {
+  ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)  && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin asc) {
     "text": coalesce(label, 'Uten label'),
     "timestamp": coalesce(
       select(

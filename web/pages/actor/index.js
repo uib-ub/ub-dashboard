@@ -15,7 +15,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const myQuery = groq`[
-  ...*[_type in ['Actor', 'Group']] | order(label asc)  {
+  ...*[_type in ['Actor', 'Group'] && !(_id in path("drafts.**"))] | order(label asc)  {
     "id": _id,
     "label": label,
     shortDescription,

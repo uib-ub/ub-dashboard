@@ -8,7 +8,7 @@ import Layout from "../../components/Layout"
 
 
 const myQuery = groq`[
-  ...*[_type in ['Service']] | order(label asc)  {
+  ...*[_type in ['Service'] && !(_id in path("drafts.**"))] | order(label asc)  {
     "id": _id,
     "label": label,
     shortDescription,

@@ -9,7 +9,7 @@ import Status from "../../components/Props/Status"
 import Funding from "../../components/Props/Funding"
 
 const myQuery = groq`[
-  ...*[_type in ['Project']] | order(timespan.beginOfTheBegin desc)  {
+  ...*[_type in ['Project'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
     "label": label,
     status,

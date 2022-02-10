@@ -222,7 +222,15 @@ export default function Service({ data }) {
           )}
 
           {(item.uses || item.usedPlatform) && (
-            <GridItem borderRadius={"8"} border={"1px solid"} borderColor={"gray.200"} boxShadow={"lg"} px="6" pb={"6"}>
+            <GridItem
+              colSpan={[6, null, 3]}
+              borderRadius={"8"}
+              border={"1px solid"}
+              borderColor={"gray.200"}
+              boxShadow={"lg"}
+              px="6"
+              pb={"6"}
+            >
 
               <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Bruker</Heading>
               {item.uses && item.uses.map(u => (
