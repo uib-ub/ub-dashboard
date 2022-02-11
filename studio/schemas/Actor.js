@@ -24,7 +24,7 @@ export default {
             { type: 'Activity' },
             { type: 'Event' },
             { type: 'Joining' },
-            { type: 'TransferOfActor' },
+            { type: 'TransferOfMember' },
             { type: 'Leaving' },
             { type: 'Death' },
           ]

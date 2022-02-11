@@ -3,7 +3,7 @@ import { referredToBy, featured, timespanSingleton, labelSingleton, as, transfer
 
 
 export default {
-  name: 'TransferOfActor',
+  name: 'TransferOfMember',
   type: 'document',
   title: 'Overføring',
   fieldsets: [

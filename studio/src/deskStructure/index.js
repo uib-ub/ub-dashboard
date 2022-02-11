@@ -157,7 +157,7 @@ export default () =>
               S.listItem()
                 .title('Overføring (personell)')
                 .child(
-                  S.documentTypeList('TransferOfActor')
+                  S.documentTypeList('TransferOfMember')
                 ),
               S.listItem()
                 .title('Flytting')
