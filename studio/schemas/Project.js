@@ -1,4 +1,4 @@
-import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy, hasTeam, identifiedBy } from "./props";
+import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy, hasTeam, identifiedBy, hasType, motivatedBy } from "./props";
 
 export default {
   name: 'Project',
@@ -40,6 +40,10 @@ export default {
       },
       validation: Rule => Rule.required()
     },
+    {
+      ...hasType,
+      of: [{ type: 'reference', to: [{ type: 'ProjectType' }] }]
+    },
     labelSingleton,
     shortDescription,
     identifiedBy,
@@ -65,6 +69,18 @@ export default {
     },
     {
       ...continuedBy,
+      group: 'timeline',
+    },
+    {
+      ...motivatedBy,
+      of: [
+        {
+          type: 'reference',
+          to: [
+            { type: 'Project' }
+          ],
+        },
+      ],
       group: 'timeline',
     },
     {

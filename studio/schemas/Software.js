@@ -6,9 +6,21 @@ export default {
   type: 'document',
   fields: [
     labelSingleton,
-    hasType,
     shortDescription,
+    {
+      ...hasType,
+      type: 'array',
+      of: [
+        { type: 'reference', to: [{ type: 'SoftwareType' }] }
+      ]
+    },
     referredToBy,
+    {
+      name: 'hasSoftwarePart',
+      title: 'Has part',
+      type: 'array',
+      of: [{ type: 'VolatileSoftware' }]
+    },
     uses,
     link
   ]

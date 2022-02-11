@@ -979,6 +979,26 @@ export const tookOutOfExistence = {
   }
 }
 
+export const competence = {
+  name: 'competence',
+  title: 'Kompetanse',
+  type: 'array',
+  of: [{ type: 'reference', to: [{ type: 'CompetenceType' }] }]
+}
+
+export const availability = {
+  name: 'availability',
+  title: 'Kompetanse',
+  type: 'reference', to: [{ type: 'AvailabilityType' }]
+}
+
+export const condidionOfUse = {
+  name: 'conditionOfUse',
+  title: 'Kompetanse',
+  type: 'array',
+  of: [{ type: 'reference', to: [{ type: 'ConditionOfUseType' }] }]
+}
+
 export const serviceDescription = {
   name: 'serviceDescription',
   title: 'Service description',

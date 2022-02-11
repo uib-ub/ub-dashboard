@@ -156,7 +156,7 @@ export default function Project({ data }) {
           </GridItem>
 
 
-          {flattenedMilestones.length > 0 && (
+          {flattenedMilestones.length > 1 && (
             <GridItem
               colSpan={6}
             >

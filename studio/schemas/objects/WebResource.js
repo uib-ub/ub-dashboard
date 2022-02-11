@@ -1,4 +1,4 @@
-import { labelSingleton } from '../props'
+import { labelSingleton, shortDescription } from '../props'
 import { defaultFieldsets } from '../fieldsets'
 
 export default {
@@ -12,7 +12,8 @@ export default {
       name: 'url',
       title: 'URL',
       type: 'url'
-    }
+    },
+    shortDescription,
   ],
   preview: {
     select: {
