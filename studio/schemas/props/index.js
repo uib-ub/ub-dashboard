@@ -85,7 +85,6 @@ export const uses = {
     type: 'reference',
     to: [
       { type: 'Software' },
-      { type: 'Language' },
     ]
   }],
   options: {
@@ -121,6 +120,7 @@ export const resultedIn = {
   of: [{
     type: 'reference',
     to: [
+      { type: 'Software' },
       { type: 'Product' },
       { type: 'Service' },
       { type: 'Group' },
@@ -988,15 +988,27 @@ export const competence = {
 
 export const availability = {
   name: 'availability',
-  title: 'Kompetanse',
+  title: 'Tilgjengelighet',
   type: 'reference', to: [{ type: 'AvailabilityType' }]
 }
 
 export const condidionOfUse = {
   name: 'conditionOfUse',
-  title: 'Kompetanse',
+  title: 'Bruksvilkår',
   type: 'array',
   of: [{ type: 'reference', to: [{ type: 'ConditionOfUseType' }] }]
+}
+
+export const programmedWith = {
+  name: 'programmedWith',
+  title: 'Programmert med',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [{ type: 'ProgrammingLanguage' }]
+    }
+  ]
 }
 
 export const serviceDescription = {

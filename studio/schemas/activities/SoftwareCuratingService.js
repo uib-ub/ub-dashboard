@@ -1,11 +1,10 @@
 import { coalesceLabel } from '../helpers'
-import { referredToBy, tookPlaceAt, featured, timespanSingleton, labelSingleton, joinedWith, joined, as } from '../props'
+import { referredToBy, timespanSingleton, labelSingleton, carriedOutBy, competence } from '../props'
 
 export default {
-  name: 'Joining',
+  name: 'SoftwareCuratingService',
   type: 'document',
-  title: 'Innlemmelse',
-  titleEN: 'Joining',
+  title: 'Software curating service',
   fieldsets: [
     {
       name: 'minimum',
@@ -15,27 +14,23 @@ export default {
   ],
   fields: [
     labelSingleton,
-    featured,
     timespanSingleton,
-    joinedWith,
-    joined,
-    as,
-    tookPlaceAt,
     referredToBy,
+    carriedOutBy,
+    competence,
   ],
   preview: {
     select: {
       type: '_type',
       joinedWith: 'joinedWith.label',
       joined: 'joined.0.label',
-      edtf: 'timespan.edtf',
-      role: 'as.label'
+      edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf, role } = selection
+      const { type, joinedWith, joined, edtf } = selection
       return {
         title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: `${role} ${edtf}`,
+        subtitle: edtf,
       }
     },
   },

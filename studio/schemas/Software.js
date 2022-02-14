@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, link, referredToBy, shortDescription, uses } from "./props";
+import { hasType, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
 
 export default {
   name: 'Software',
@@ -14,13 +14,20 @@ export default {
         { type: 'reference', to: [{ type: 'SoftwareType' }] }
       ]
     },
-    referredToBy,
+    {
+      name: 'maintainedBy',
+      title: 'Eies av',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'Group' }] }]
+    },
     {
       name: 'hasSoftwarePart',
       title: 'Has part',
       type: 'array',
-      of: [{ type: 'VolatileSoftware' }]
+      of: [{ type: 'reference', to: [{ type: 'VolatileSoftware' }] }]
     },
+    referredToBy,
+    programmedWith,
     uses,
     link
   ]

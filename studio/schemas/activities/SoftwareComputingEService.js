@@ -8,50 +8,79 @@ export default {
   title: 'Software computing service',
   fieldsets: [
     {
-      name: 'minimum',
-      title: 'Minimumsregistrering',
-      options: { collapsible: true, collapsed: false },
+      name: 'extra',
+      title: 'Ekstra informasjon',
+      options: { collapsible: true, collapsed: true },
+    },
+  ],
+  groups: [
+    {
+      name: 'extra',
+      title: 'Ekstra informasjon',
     },
   ],
   fields: [
     labelSingleton,
     timespanSingleton,
-    referredToBy,
-    carriedOutBy,
     {
-      name: 'providesAccessPoint',
-      title: 'Access points',
-      type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'AccessPoint' }]
-      }]
+      name: 'providedBy',
+      title: 'Levert av',
+      type: 'reference',
+      to: [{ type: 'Group' }]
     },
     {
-      name: 'hostSoftwareObject',
-      title: 'holder software',
+      name: 'runsOnRequest',
+      title: 'Kjører software',
       type: 'reference',
       to: [
         { type: 'VolatileSoftware' },
         { type: 'Software' },
       ]
     },
-    competence,
-    availability,
-    condidionOfUse,
+    {
+      name: 'designatedAccessPoint',
+      title: 'Access points',
+      type: 'array',
+      of: [{ type: 'AccessPoint' }]
+    },
+    {
+      name: 'exposeService',
+      title: 'Tilbyr tjeneste',
+      type: 'array',
+      of: [{ type: 'AccessPoint' }]
+      //of: [{ type: 'EService' }]
+    },
+    {
+      ...competence,
+      fieldset: 'extra',
+      group: 'extra',
+    },
+    {
+      ...availability,
+      fieldset: 'extra',
+      group: 'extra',
+    },
+    {
+      ...condidionOfUse,
+      fieldset: 'extra',
+      group: 'extra',
+    },
+    {
+      ...referredToBy,
+      fieldset: 'extra',
+      group: 'extra',
+    },
   ],
   preview: {
     select: {
-      type: '_type',
-      joinedWith: 'joinedWith.label',
-      joined: 'joined.0.label',
+      title: 'label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf } = selection
+      const { title, edtf } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: edtf,
+        title: `${title} ${edtf ?? ''}`,
+        subtitle: `Deployment`,
       }
     },
   },

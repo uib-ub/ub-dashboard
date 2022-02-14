@@ -42,7 +42,8 @@ export default {
     },
     {
       ...hasType,
-      of: [{ type: 'reference', to: [{ type: 'ProjectType' }] }]
+      of: [{ type: 'reference', to: [{ type: 'ProjectType' }] }],
+      validation: Rule => Rule
     },
     labelSingleton,
     shortDescription,

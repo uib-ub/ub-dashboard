@@ -4,7 +4,7 @@ import { referredToBy, timespanSingleton, labelSingleton, carriedOutBy, competen
 
 export default {
   name: 'SoftwareDeliveryEService',
-  type: 'object',
+  type: 'document',
   title: 'Software delivery service',
   fieldsets: [
     {
@@ -19,15 +19,12 @@ export default {
     referredToBy,
     carriedOutBy,
     {
-      name: 'providesAccessPoint',
+      name: 'designatedAccessPoint',
       title: 'Access points',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'AccessPoint' }]
-      }]
+      of: [{ type: 'AccessPoint' }]
     },
-    {
+    /* {
       name: 'hostSoftwareObject',
       title: 'holder software',
       type: 'reference',
@@ -35,23 +32,22 @@ export default {
         { type: 'VolatileSoftware' },
         { type: 'Software' },
       ]
-    },
+    }, */
     competence,
     availability,
     condidionOfUse,
   ],
   preview: {
     select: {
-      type: '_type',
-      joinedWith: 'joinedWith.label',
-      joined: 'joined.0.label',
+      title: 'label',
+      provider: 'carriedOutBy.0.assignedActor.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf } = selection
+      const { title, provider, edtf } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: edtf,
+        title: `${title}`,
+        subtitle: `${provider ?? ''} ${edtf ?? ''}`,
       }
     },
   },

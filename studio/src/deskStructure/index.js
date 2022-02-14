@@ -25,10 +25,77 @@ export default () =>
     .items([
       S.documentTypeListItem('Project'),
       S.documentTypeListItem('Product'),
-      S.documentTypeListItem('Software'),
-      S.documentTypeListItem('Service'),
+      S.listItem()
+        .title('Software')
+        .child(
+          S.list()
+            // Sets a title for our new list
+            .title('Software')
+            // Add items to the array
+            // Each will pull one of our new singletons
+            .items([
+              S.listItem()
+                .title('Software etter eier')
+                //.icon(FaGlasses)
+                .child(
+                  // List out all categories
+                  S.documentTypeList('Group')
+                    .title('Software etter eier')
+                    // This should be possible => .filter('_type == "Group" && _id in *[_type in ["Software", "VolatileSoftware"]].maintainedBy[]._ref')
+                    .filter('_type == "Group"')
+                    .child((param) =>
+                      // List out project documents where the _id for the selected
+                      // category appear as a _ref in the project’s categories array
+                      S.documentList()
+                        .schemaType('Software')
+                        .title('Software')
+                        .filter('_type in ["Software", "VolatileSoftware"] && $param in maintainedBy[]._ref')
+                        .params({ param }),
+                    ),
+                ),
+              S.listItem()
+                .title('Programvare')
+                .child(
+                  S.documentTypeList('Software')
+                ),
+              S.listItem()
+                .title('Kildekode')
+                .child(
+                  S.documentTypeList('VolatileSoftware')
+                ),
+            ])),
+      S.listItem()
+        .title('Tjenester')
+        .child(
+          S.list()
+            // Sets a title for our new list
+            .title('Tjenester')
+            // Add items to the array
+            // Each will pull one of our new singletons
+            .items([
+              S.listItem()
+                .title('Repository-tjenester')
+                .child(
+                  S.documentTypeList('HostingService')
+                ),
+              S.listItem()
+                .title('Plattformtjenester')
+                .child(
+                  S.documentTypeList('SoftwareComputingEService')
+                ),
+              S.listItem()
+                .title('Hosting-tjenester')
+                .child(
+                  S.documentTypeList('SoftwareDeliveryEService')
+                ),
+              S.listItem()
+                .title('Utviklingstjenester')
+                .child(
+                  S.documentTypeList('SoftwareCuratingService')
+                ),
+            ])),
       S.documentTypeListItem('Dataset'),
-      S.documentTypeListItem('Endpoint'),
+      S.documentTypeListItem('AccessPoint'),
       S.divider(),
       S.documentTypeListItem('Actor'),
       S.documentTypeListItem('Team'),

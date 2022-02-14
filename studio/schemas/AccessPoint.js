@@ -5,8 +5,14 @@ export default {
   title: 'Endpoint',
   type: 'document',
   fields: [
-    labelSingleton,
-    url, // Should be more generic? or some conditional?
+    {
+      ...labelSingleton,
+      validation: Rule => Rule
+    },
+    {
+      ...url,
+      type: 'string'
+    }, // Should be more generic? or some conditional?
     {
       ...hasType,
       type: 'reference',
@@ -14,19 +20,19 @@ export default {
         { type: 'ProtocolType' }
       ]
     },
-    timespanSingleton,
   ],
   preview: {
     select: {
       title: 'label',
       url: 'url',
+      type: 'hasType.label'
     },
     prepare(selection) {
-      const { title, url } = selection
+      const { title, url, type } = selection
 
       return {
-        title: title,
-        subtitle: url,
+        title: `${title ?? url}`,
+        subtitle: type,
       }
     },
   },
