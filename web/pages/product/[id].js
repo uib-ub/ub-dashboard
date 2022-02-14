@@ -5,7 +5,7 @@ import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Flex, Heading, VStack, Image, Grid, GridItem, Spacer, Tag, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
+import { PortableText, urlFor } from "../../lib/sanity"
 import { productQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Files from "../../components/Props/Files"
