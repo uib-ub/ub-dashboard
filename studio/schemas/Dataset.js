@@ -6,8 +6,14 @@ export default {
   type: 'document',
   fields: [
     labelSingleton,
-    hasType,
     shortDescription,
+    hasType,
+    {
+      name: 'hostedBy',
+      title: 'Hosted by',
+      type: 'array',
+      of: [{ type: 'HostingService' }]
+    },
     link,
     referredToBy
   ]

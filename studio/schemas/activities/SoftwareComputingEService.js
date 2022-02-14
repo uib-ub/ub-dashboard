@@ -44,6 +44,12 @@ export default {
       of: [{ type: 'AccessPoint' }]
     },
     {
+      name: 'deployHookSetting',
+      title: 'Deploy hook settings',
+      type: 'array',
+      of: [{ type: 'DeployHookSetting' }]
+    },
+    {
       name: 'exposeService',
       title: 'Tilbyr tjeneste',
       type: 'array',

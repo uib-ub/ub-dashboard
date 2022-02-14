@@ -17,7 +17,12 @@ export default {
     labelSingleton,
     timespanSingleton,
     referredToBy,
-    carriedOutBy,
+    {
+      name: 'providedBy',
+      title: 'Levert av',
+      type: 'reference',
+      to: [{ type: 'Group' }]
+    },
     {
       name: 'designatedAccessPoint',
       title: 'Access points',
@@ -40,7 +45,7 @@ export default {
   preview: {
     select: {
       title: 'label',
-      provider: 'carriedOutBy.0.assignedActor.label',
+      provider: 'providedBy.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {

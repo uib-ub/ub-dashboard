@@ -73,18 +73,18 @@ export default () =>
             // Add items to the array
             // Each will pull one of our new singletons
             .items([
-              S.listItem()
-                .title('Repository-tjenester')
+              /* S.listItem()
+                .title('Hosting-tjenester')
                 .child(
                   S.documentTypeList('HostingService')
-                ),
+                ), */
               S.listItem()
                 .title('Plattformtjenester')
                 .child(
                   S.documentTypeList('SoftwareComputingEService')
                 ),
               S.listItem()
-                .title('Hosting-tjenester')
+                .title('SoftwareDeliveryEService')
                 .child(
                   S.documentTypeList('SoftwareDeliveryEService')
                 ),

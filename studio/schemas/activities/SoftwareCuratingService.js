@@ -16,21 +16,25 @@ export default {
     labelSingleton,
     timespanSingleton,
     referredToBy,
-    carriedOutBy,
+    {
+      name: 'providedBy',
+      title: 'Levert av',
+      type: 'reference',
+      to: [{ type: 'Group' }]
+    },
     competence,
   ],
   preview: {
     select: {
-      type: '_type',
-      joinedWith: 'joinedWith.label',
-      joined: 'joined.0.label',
+      title: 'label',
+      provider: 'providedBy.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf } = selection
+      const { title, provider, edtf } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: edtf,
+        title: `${title}`,
+        subtitle: `${provider ?? ''} ${edtf ?? ''}`,
       }
     },
   },
