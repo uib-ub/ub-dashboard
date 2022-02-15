@@ -1,10 +1,9 @@
-import { coalesceLabel } from "../helpers"
 import { labelSingleton } from "../props"
 
 export default {
-  name: 'DeployHookSetting',
+  name: 'NetlifyDeploymentConfig',
   type: 'object',
-  title: 'Deploy hook settings',
+  title: 'Netlify build hook settings',
   fields: [
     {
       ...labelSingleton,
@@ -13,24 +12,25 @@ export default {
     {
       name: 'projectName',
       title: 'Prosjekt navn',
-      description: 'This is the actual Project Name listed in your CI/CD account. Navigate to your Project Settings within Vercel to find your Project Name.',
+      description: 'The Netlify site name',
       type: 'string',
       validation: Rule => Rule.required()
     },
     {
-      name: 'teamSlug',
-      title: 'Team slug',
-      description: 'If your project is part of a Team you will need to fill out this field. Navigate to your Team from within the provider, and use the URL slug (ie. vercel.com/team-666).',
+      name: 'apiId',
+      title: 'API id',
+      description: 'The Netfliy API ID of your site (see Site Settings > General > Site Details > Site Information -> API ID).',
       type: 'string'
     },
     {
-      name: 'deployHook',
-      title: 'Deploy hook url',
+      name: 'buildHook',
+      title: 'Build hook url',
+      description: 'The id of a build hook you have created for your site within the Netlify administration panel (see Site Settings > Build & Deploy > Continuous Deployment -> Build Hooks).',
       type: 'url',
       validation: Rule => Rule.required()
     },
     {
-      name: 'tokenEnvironmentName',
+      name: 'useEnvironmentVariableName',
       title: 'Token navn',
       description: 'Token som skal brukes til å hente deployment informasjon. NB! Ikke lim inn the faktiske token!',
       type: 'string',

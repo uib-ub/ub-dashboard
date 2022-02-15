@@ -27,7 +27,10 @@ export default {
       name: 'designatedAccessPoint',
       title: 'Access points',
       type: 'array',
-      of: [{ type: 'AccessPoint' }]
+      of: [{ type: 'AccessPoint' }],
+      options: {
+        editModal: 'popover'
+      }
     },
     /* {
       name: 'hostSoftwareObject',
