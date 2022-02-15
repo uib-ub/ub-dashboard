@@ -18,7 +18,10 @@ export default {
       name: 'hostedBy',
       title: 'Hosted by',
       type: 'array',
-      of: [{ type: 'HostingService' }]
+      of: [{
+        type: 'reference',
+        to: [{ type: 'HostingService' }]
+      }]
     },
     {
       name: 'runBy',

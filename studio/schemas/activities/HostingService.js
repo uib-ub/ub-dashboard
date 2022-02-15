@@ -17,6 +17,36 @@ export default {
       validation: Rule => Rule,
     },
     {
+      name: 'hasPlatformCapability',
+      title: 'Is platform?',
+      type: 'boolean',
+    },
+    {
+      name: 'hasComputingCapability',
+      title: 'Is host?',
+      type: 'boolean',
+    },
+    {
+      name: 'deployHookSetting',
+      title: 'Deploy hook settings',
+      type: 'array',
+      hidden: ({ parent, value }) => !value && parent?.hasPlatformCapability !== true,
+      of: [
+        { type: 'VercelDeploymentConfig' },
+        { type: 'NetlifyDeploymentConfig' },
+      ],
+      /* fieldset: 'core',
+      group: 'core', */
+    },
+    {
+      name: 'exposeService',
+      title: 'Tilbyr tjeneste',
+      type: 'array',
+      hidden: ({ parent, value }) => !value && parent?.hasComputingCapability !== true,
+      of: [{ type: 'AccessPoint' }]
+      //of: [{ type: 'EService' }]
+    },
+    {
       name: 'componentOf',
       title: 'Hosting provider',
       description: 'Who provides this service?',
