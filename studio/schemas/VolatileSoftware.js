@@ -16,7 +16,7 @@ export default {
     },
     {
       name: 'hostedBy',
-      title: 'Hosted by',
+      title: 'Source code hosted by',
       type: 'array',
       of: [{
         type: 'reference',

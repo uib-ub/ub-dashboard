@@ -26,21 +26,21 @@ export default () =>
       S.documentTypeListItem('Project'),
       S.documentTypeListItem('Product'),
       S.listItem()
-        .title('Software')
+        .title('Programvare')
         .child(
           S.list()
             // Sets a title for our new list
-            .title('Software')
+            .title('Programvare og kildekode')
             // Add items to the array
             // Each will pull one of our new singletons
             .items([
               S.listItem()
-                .title('Software etter eier')
+                .title('Programvare etter eier')
                 //.icon(FaGlasses)
                 .child(
                   // List out all categories
                   S.documentTypeList('Group')
-                    .title('Software etter eier')
+                    .title('Programvareeiere')
                     // This should be possible => .filter('_type == "Group" && _id in *[_type in ["Software", "VolatileSoftware"]].maintainedBy[]._ref')
                     .filter('_type == "Group"')
                     .child((param) =>
@@ -48,13 +48,13 @@ export default () =>
                       // category appear as a _ref in the project’s categories array
                       S.documentList()
                         .schemaType('Software')
-                        .title('Software')
+                        .title('Programvare')
                         .filter('_type in ["Software", "VolatileSoftware"] && $param in maintainedBy[]._ref')
                         .params({ param }),
                     ),
                 ),
               S.listItem()
-                .title('Programvare')
+                .title('Alle programvarer')
                 .child(
                   S.documentTypeList('Software')
                 ),
@@ -73,18 +73,18 @@ export default () =>
             // Add items to the array
             // Each will pull one of our new singletons
             .items([
-              /* S.listItem()
-                .title('Hosting-tjenester')
+              S.listItem()
+                .title('Data/kildekode-tjenester')
                 .child(
                   S.documentTypeList('HostingService')
-                ), */
+                ),
               S.listItem()
-                .title('Plattformtjenester')
+                .title('Plattform/server-tjenester')
                 .child(
                   S.documentTypeList('SoftwareComputingEService')
                 ),
               S.listItem()
-                .title('SoftwareDeliveryEService')
+                .title('Verttjenester (kildekode++)')
                 .child(
                   S.documentTypeList('SoftwareDeliveryEService')
                 ),

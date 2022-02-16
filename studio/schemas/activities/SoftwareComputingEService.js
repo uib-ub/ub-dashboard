@@ -138,13 +138,14 @@ export default {
   preview: {
     select: {
       title: 'label',
+      providedBy: 'providedBy.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { title, edtf } = selection
+      const { title, providedBy, edtf } = selection
       return {
         title: `${title} ${edtf ?? ''}`,
-        subtitle: `Deployment`,
+        subtitle: providedBy ? `Deployed by ${providedBy}` : 'Deployment',
       }
     },
   },
