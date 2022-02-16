@@ -57,7 +57,7 @@ const columns = [
         ) :
           <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
         }
-        <Link href={`/software/${row.values.id}`}>
+        <Link href={`/dataset/${row.values.id}`}>
           {row.values.name}
         </Link>
       </Flex>
