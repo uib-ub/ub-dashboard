@@ -18,7 +18,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const allActorsQuery = groq`
-  *[_type in ['Actor']] {
+  *[_type in ['Actor', 'Group', 'Team']] {
     _id,
   }
 `;
