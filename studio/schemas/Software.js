@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
+import { hasType, image, imageSingleton, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
 
 export default {
   name: 'Software',
@@ -29,6 +29,21 @@ export default {
     referredToBy,
     programmedWith,
     uses,
-    link
-  ]
+    link,
+    imageSingleton,
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      owner: 'maintainedBy.0.label',
+      media: 'image',
+    },
+    prepare({ title, owner, media }) {
+      return {
+        title: `${title}`,
+        subtitle: `${owner ?? ''}`,
+        media: media
+      };
+    },
+  },
 }
