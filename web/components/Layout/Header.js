@@ -67,10 +67,20 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
+          <ActiveLink href={`/software`} activeClassName="active">
+            <a>Programvare</a>
+          </ActiveLink>
+        </Box>
+        <Box px="2">
+          <ActiveLink href={`/dataset`} activeClassName="active">
+            <a>Datasett</a>
+          </ActiveLink>
+        </Box>
+        {/* <Box px="2">
           <ActiveLink href={`/service`} activeClassName="active">
             <a>Tjenester</a>
           </ActiveLink>
-        </Box>
+        </Box> */}
         <Box px="2">
           <ActiveLink href={`/actor`} activeClassName="active">
             <a>Aktører</a>
@@ -126,10 +136,20 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
+              <ActiveLink href={`/software`} activeClassName="active">
+                <a>Programvare</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/dataset`} activeClassName="active">
+                <a>Datasett</a>
+              </ActiveLink>
+            </MenuItem>
+            {/* <MenuItem>
               <ActiveLink href={`/service`} activeClassName="active">
                 <a>Tjenester</a>
               </ActiveLink>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem>
               <ActiveLink href={`/actor`} activeClassName="active">
                 <a>Aktører</a>
@@ -153,15 +173,21 @@ export default function Header() {
             <MenuItem>
               <Button
                 aria-label="Skift mellom dagmodus eller nattmodus"
-                px="0"
-                ml="5"
+                p={3}
+
                 onClick={toggleColorMode}
-              >
-                {colorMode === 'light' ? (
+                leftIcon={colorMode === 'light' ? (
                   <Icon as={MoonIcon} />
                 ) : (
                   <Icon as={SunIcon} color="white" />
-                )}
+                )
+                }
+              >
+                {/* {colorMode === 'light' ? (
+                  <Icon as={MoonIcon} />
+                ) : (
+                  <Icon as={SunIcon} color="white" />
+                )} */}
               </Button>
             </MenuItem>
           </MenuList>

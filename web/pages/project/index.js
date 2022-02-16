@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Button, Container, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
+import { Button, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import Status from "../../components/Props/Status"
 import Funding from "../../components/Props/Funding"
+import Period from "../../components/Props/Period"
 
 const myQuery = groq`[
   ...*[_type in ['Project'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
@@ -85,19 +86,6 @@ export default function Projects({ data }) {
               }
             >
 
-              <Flex py={"2"} wrap={"wrap"}>
-                {item.timespan?.edtf &&
-                  <Tag variant={"outline"} mr={"2"} mb="2">{item.timespan?.edtf}</Tag>
-                }
-
-                {item.status &&
-                  <Status mr={"2"} mb="2" status={item.status} />
-                }
-
-                {!item.status && new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">completed or overdue</Tag> : ''}
-              </Flex>
-
-
               <Heading
                 fontSize={['xl', '2xl', '2xl', '2xl', '3xl']}
                 isTruncated
@@ -105,12 +93,27 @@ export default function Projects({ data }) {
                 <Link href={`/project/${item.id}`}>{item.label}</Link>
               </Heading>
 
+              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
+
               {item.carriedOutBy && (
                 <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
               )}
 
-              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
-              {item.funding && <Funding stream={item.funding} />}
+              <Divider my={3} />
+
+              <Flex wrap={"wrap"} columnGap={'20px'} rowGap={'10px'}>
+                {item.funding && <Funding stream={item.funding} />}
+
+                {item.timespan?.edtf &&
+                  <Period period={item.timespan?.edtf} />
+                }
+
+                {item.status &&
+                  <Status status={item.status} />
+                }
+
+                {!item.status && new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">completed or overdue</Tag> : ''}
+              </Flex>
             </GridItem>
           ))}
         </Grid>

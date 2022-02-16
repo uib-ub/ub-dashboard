@@ -1,10 +1,11 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Container, Grid, GridItem, Heading, Text, Flex, Tag } from '@chakra-ui/react'
+import { Container, Grid, GridItem, Heading, Text, Flex, Tag, Divider } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Link from "next/link"
 import Layout from "../../components/Layout"
+import Period from "../../components/Props/Period"
 
 const myQuery = groq`[
   ...*[_type in ['Product'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
@@ -62,14 +63,23 @@ export default function Products({ data }) {
                 <Link href={`/product/${item.id}`}>{item.label}</Link>
               </Heading>
 
-              <Flex py={"2"} wrap={"wrap"}>
-                {item.carriedOutBy && (
-                  <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
-                )}
-                {item.timespan?.edtf ? <Tag variant={"outline"} mr={"2"} mb="2">{item.timespan?.edtf}</Tag> : ''}
-                {new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">Avsluttet</Tag> : ''}
-              </Flex>
               <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
+
+              <Divider my={3} />
+
+              <Flex wrap={"wrap"} columnGap={'20px'}>
+                {item.funding && <Funding stream={item.funding} />}
+
+                {item.timespan?.edtf &&
+                  <Period period={item.timespan?.edtf} />
+                }
+
+                {item.status &&
+                  <Status status={item.status} />
+                }
+
+                {!item.status && new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">completed or overdue</Tag> : ''}
+              </Flex>
             </GridItem>
 
           ))}

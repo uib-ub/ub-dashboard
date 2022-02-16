@@ -1,27 +1,18 @@
-import { Tooltip } from '@chakra-ui/react'
+import { Heading, Tooltip, VStack } from '@chakra-ui/react'
 
 const Ids = ({ identifier, ...rest }) => {
   if (!identifier) return
 
-  const colors = {
-    planning: 'pink',
-    ongoing: 'blue',
-    completed: 'green',
-    rejected: 'red',
-    abandoned: 'gray',
-  }
-
   return (
-    <>
+    <VStack spacing={1} align={'flex-start'}>
+      <Heading fontSize={'md'} color={'gray.600'}>Prosjekt ID</Heading>
+
       {identifier.map(i => (
-        <>
-          <span style={{ paddingInlineEnd: '0.5rem' }}>|</span>
-          <Tooltip label={i.type} aria-label={i.type}>
-            {i.content}
-          </Tooltip>
-        </>
+        <Tooltip label={i.type} aria-label={i.type}>
+          {i.content}
+        </Tooltip>
       ))}
-    </>
+    </VStack>
   )
 }
 

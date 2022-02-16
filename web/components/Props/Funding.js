@@ -5,7 +5,7 @@ const Funding = ({ stream, ...rest }) => {
   if (!stream) return
 
   return (
-    <Box my={5}>
+    <Box>
       {stream.length > 0 && stream.map((f, i) => (
         <Stat key={i}>
           <StatLabel>Finansiering</StatLabel>

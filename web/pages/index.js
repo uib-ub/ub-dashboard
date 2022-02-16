@@ -25,7 +25,7 @@ export default function Home() {
             borderColor={"gray.200"}
             boxShadow={"md"}
           >
-            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "4xl", "6xl"]} textTransform={'uppercase'}>
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
               <Link href={`/project`}>
                 Prosjekt
               </Link>
@@ -41,9 +41,25 @@ export default function Home() {
             borderColor={"gray.200"}
             boxShadow={"md"}
           >
-            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "4xl", "6xl"]} textTransform={'uppercase'}>
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
               <Link href={`/product`}>
                 Produkt
+              </Link>
+            </Heading>
+          </GridItem>
+
+          <GridItem
+            colSpan={6}
+            p={5}
+            bg={'yellow.500'}
+            borderRadius={"8"}
+            border={"1px solid"}
+            borderColor={"gray.200"}
+            boxShadow={"md"}
+          >
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
+              <Link href={`/software`}>
+                Programvare
               </Link>
             </Heading>
           </GridItem>
@@ -57,12 +73,13 @@ export default function Home() {
             borderColor={"gray.200"}
             boxShadow={"md"}
           >
-            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "4xl", "6xl"]} textTransform={'uppercase'}>
-              <Link href={`/service`}>
-                Tjenester
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
+              <Link href={`/dataset`}>
+                Datasett
               </Link>
             </Heading>
           </GridItem>
+
 
           <GridItem
             colSpan={6}
@@ -73,11 +90,28 @@ export default function Home() {
             borderColor={"gray.200"}
             boxShadow={"md"}
           >
-            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "4xl", "6xl"]} textTransform={'uppercase'}>
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
               <Link href={`/actor`}>
                 Aktører
               </Link>
             </Heading>
+          </GridItem>
+
+          <GridItem
+            colSpan={6}
+            p={5}
+            bg={'gray.300'}
+            borderRadius={"8"}
+            border={"1px solid"}
+            borderColor={"gray.200"}
+            boxShadow={"md"}
+          >
+            <Heading as="h2" fontWeight={"bold"} fontSize={["2xl", "3xl", "3xl", "4xl"]} textTransform={'uppercase'}>
+              <Link href={`/service`}>
+                Tjenester
+              </Link>
+            </Heading>
+            <Text>Fases ut...</Text>
           </GridItem>
 
           <GridItem colSpan={12}>
