@@ -8,5 +8,18 @@ export default {
     labelSingleton,
     shortDescription,
     referredToBy
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      subtitle: 'shortDescription',
+    },
+    prepare(selection) {
+      const { title, subtitle } = selection
+      return {
+        title: `${title ?? ''}`,
+        subtitle: subtitle
+      }
+    },
+  },
 }

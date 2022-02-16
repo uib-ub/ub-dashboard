@@ -1,7 +1,7 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Grid, GridItem, Heading, Text, Flex, Tag, Image } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Text, Tag, Image } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Link from "next/link"
 import Layout from "../../components/Layout"
@@ -40,23 +40,28 @@ const columns = [
   {
     Header: "",
     accessor: "image",
-    sortable: false,
-    Cell: ({ row }) => (
-      row.values.image ? (
-        <Image
-          border={'solid #eee 1px'}
-          src={urlFor(row.values.image).url()}
-          boxSize='50px'
-          objectFit='cover'
-        />
-      ) :
-        null
-    )
+    isVisible: 'false'
   },
   {
     Header: "Navn",
     accessor: "name",
-    Cell: ({ row }) => (<Link href={`/software/${row.values.id}`}>{row.values.name}</Link>)
+    Cell: ({ row }) => (
+      <Flex columnGap={3} alignItems={'center'}>
+        {row.values.image ? (
+          <Image
+            border={'solid #eee 1px'}
+            src={urlFor(row.values.image).url()}
+            boxSize='30px'
+            objectFit='cover'
+          />
+        ) :
+          <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
+        }
+        <Link href={`/software/${row.values.id}`}>
+          {row.values.name}
+        </Link>
+      </Flex>
+    )
   },
   {
     Header: "Beskrivelse",

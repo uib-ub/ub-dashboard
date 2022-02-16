@@ -8,9 +8,12 @@ import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
 import { softwareQuery } from "../../lib/queries"
 import MaintainedBy from "../../components/Props/MaintainedBy"
-import { MdDashboard, MdMenuBook } from 'react-icons/md'
+import { MdDashboard } from 'react-icons/md'
+import { GiEvilBook } from 'react-icons/gi'
 import { BiNetworkChart } from 'react-icons/bi'
 import ItemHeader from "../../components/Props/ItemHeader"
+import MissingBlock from "../../components/MissingBlock"
+import { GrHistory } from "react-icons/gr"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -66,8 +69,9 @@ export default function Software({ data }) {
         <Tabs colorScheme='green' my={10}>
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
+            <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
           <TabPanels>
@@ -116,7 +120,11 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Graf kommer</Text>
+                <MissingBlock
+                  heading="Historikk-komponenten er ikke ferdig..."
+                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
+                  icon={GrHistory}
+                />
               </Grid>
             </TabPanel>
 
@@ -126,12 +134,29 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Dokumentasjon kommer</Text>
+                <MissingBlock
+                  heading="Graph-komponenten er ikke ferdig..."
+                  text="Alt tar tid, også grafer :-("
+                  icon={BiNetworkChart}
+                />
+              </Grid>
+            </TabPanel>
+
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <MissingBlock
+                  heading="Dokumentasjonskomponenten er ikke ferdig..."
+                  text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"
+                  icon={GiEvilBook}
+                />
               </Grid>
             </TabPanel>
           </TabPanels>
         </Tabs>
-
 
       </Container>
     </Layout>

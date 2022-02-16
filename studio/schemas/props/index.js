@@ -820,6 +820,26 @@ export const joined = {
   },
 }
 
+export const transferred = {
+  name: 'transferred',
+  title: 'Overførte',
+  description: 'Hvem ble overført?',
+  type: 'reference',
+  to: [
+    { type: 'Actor' },
+    { type: 'Group' },
+    { type: 'Team' },
+    { type: 'Project' },
+    { type: 'Product' },
+  ],
+  options: {
+    semanticSanity: {
+      '@container': '@set',
+      '@type': '@id'
+    }
+  },
+}
+
 export const transferredTo = {
   name: 'transferredTo',
   title: 'Overført til',

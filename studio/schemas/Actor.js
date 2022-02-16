@@ -1,4 +1,4 @@
-import { labelSingleton, referredToBy, shortDescription } from "./props";
+import { competence, imageSingleton, labelSingleton, referredToBy, shortDescription } from "./props";
 
 export default {
   name: 'Actor',
@@ -8,6 +8,7 @@ export default {
     labelSingleton,
     shortDescription,
     referredToBy,
+    competence,
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',
@@ -38,5 +39,21 @@ export default {
         }
       },
     },
-  ]
+    imageSingleton
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      subtitle: 'shortDescription',
+      media: 'image',
+    },
+    prepare(selection) {
+      const { title, subtitle, media } = selection
+      return {
+        title: `${title ?? ''}`,
+        subtitle: subtitle,
+        media: media,
+      }
+    },
+  },
 }

@@ -5,7 +5,7 @@ import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Flex, Grid, GridItem, Heading, Image, Spacer, Tag, Text, VStack, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText, urlFor } from "../../lib/sanity"
+import { PortableText } from "../../lib/sanity"
 import { projectQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Links from "../../components/Props/Links"
@@ -21,6 +21,9 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard, MdMenuBook } from 'react-icons/md'
 import Period from "../../components/Props/Period"
 import { BiNetworkChart } from "react-icons/bi"
+import MissingBlock from "../../components/MissingBlock"
+import { GiEvilBook } from "react-icons/gi"
+import { GrHistory } from "react-icons/gr"
 
 
 const MilestonesWithoutSSR = dynamic(
@@ -82,7 +85,7 @@ export default function Project({ data }) {
               <Status size={'md'} status={item.status} />
             )}
             {item.identifier && (
-              <Ids size={'md'} identifier={item.identifier} />
+              <Ids size={'md'} identifiers={item.identifier} />
             )}
           </Flex>
         </ItemHeader>
@@ -90,6 +93,7 @@ export default function Project({ data }) {
         <Tabs colorScheme='green' my={10}>
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
@@ -103,21 +107,50 @@ export default function Project({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {item.carriedOutBy && (
+                {(item.carriedOutBy || item.hadParticipant) && (
                   <GridItem
-                    colSpan={[6]}
+                    colSpan={[3]}
                   >
-                    <Participants participants={item.carriedOutBy} />
+                    <Heading mb={5}>Eiere</Heading>
+                    <Box
+                      borderRadius={"8"}
+                      border={"1px solid"}
+                      borderColor={"gray.200"}
+                      boxShadow={"md"}
+                      p={5}
+                      pb={0}
+                    >
+                      {item.carriedOutBy && (
+                        <Participants participants={item.carriedOutBy} />
+                      )}
+
+                      {item.hadParticipant && (
+                        <Participants participants={item.hadParticipant} />
+                      )}
+                    </Box>
                   </GridItem>
                 )}
 
-                {item.hadParticipant && (
+                {item.hasTeam && (
                   <GridItem
-                    colSpan={6}
+                    colSpan={[3]}
                   >
-                    <Participants participants={item.hadParticipant} />
+                    <Heading mb={5}>Medlemmer</Heading>
+                    <Box
+                      borderRadius={"8"}
+                      border={"1px solid"}
+                      borderColor={"gray.200"}
+                      boxShadow={"md"}
+                      p={5}
+                      pb={0}
+                    >
+                      {item.hasTeam && item.hasTeam.map(team => (
+                        <Team key={team.id} team={team} />
+                      ))}
+                    </Box>
                   </GridItem>
                 )}
+
 
 
                 <GridItem colSpan={6}>
@@ -207,9 +240,6 @@ export default function Project({ data }) {
                   >
                     {item.funding && <Funding stream={item.funding} />}
 
-                    {item.hasTeam && item.hasTeam.map(team => (
-                      <Team key={team.id} team={team} />
-                    ))}
 
                     {item.resultedIn && (
                       <ResultedIn results={item.resultedIn} />
@@ -238,7 +268,11 @@ export default function Project({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Graf kommer</Text>
+                <MissingBlock
+                  heading="Historikk-komponenten er ikke ferdig..."
+                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
+                  icon={GrHistory}
+                />
               </Grid>
             </TabPanel>
 
@@ -248,7 +282,25 @@ export default function Project({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Dokumentasjon kommer</Text>
+                <MissingBlock
+                  heading="Graph-komponenten er ikke ferdig..."
+                  text="Alt tar tid, også grafer :-("
+                  icon={BiNetworkChart}
+                />
+              </Grid>
+            </TabPanel>
+
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <MissingBlock
+                  heading="Dokumentasjonskomponenten er ikke ferdig..."
+                  text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"
+                  icon={GiEvilBook}
+                />
               </Grid>
             </TabPanel>
           </TabPanels>

@@ -70,27 +70,20 @@ export default function Persons({ data }) {
           Personer {data.length ? `(${data.length})` : ''}
         </Heading>
         {data.map(item => (
-          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ base: "3", md: "6" }}>
-            <GridItem colSpan={{ base: '12', md: "5" }}>
+          <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="5" gap={{ base: "3", md: "6" }}>
+            <GridItem colSpan={{ base: '12', md: "12" }}>
               <Heading size="lg"><Link href={`/actor/${item.id}`}>{item.label}</Link></Heading>
-            </GridItem>
-            <GridItem colSpan={"1"} display={{ sm: 'none', md: 'inherit' }}>
-              <Center height='100%'>
-                <Divider orientation='vertical' />
-              </Center>
-            </GridItem>
-            <GridItem colSpan={{ sm: '12', md: "6" }}>
               <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
             </GridItem>
 
-            <GridItem colSpan={"12"} rowSpan={"1"} mb={{ base: "10", md: '0' }}>
+            {/* <GridItem colSpan={"12"} rowSpan={"1"} mb={{ base: "10", md: '0' }}>
               <MilestonesWithoutSSR
                 pattern
                 p="5"
                 mb={"6"}
                 mapping={{
-                  /* category: 'label', */
-                  /* entries: 'entries' */
+                  category: 'label',
+                  entries: 'entries'
                 }}
                 data={item.entries}
                 borderRadius={"8"}
@@ -98,7 +91,7 @@ export default function Persons({ data }) {
                 borderColor={"gray.200"}
                 boxShadow={"lg"}
               />
-            </GridItem>
+            </GridItem> */}
           </Grid>
         ))}
       </Container>

@@ -6,7 +6,7 @@ const Participants = ({ participants }) => {
   return (
     <Wrap maxW={'full'}>
       {participants.map(participant => (
-        <WrapItem key={participant.assignedActor.id} px={"4"}>
+        <WrapItem key={participant.assignedActor.id} pr={4} pb={4}>
           <Flex>
 
             <Avatar size='sm' name={participant.assignedActor.label} />
@@ -27,8 +27,9 @@ const Participants = ({ participants }) => {
             </Box>
           </Flex>
         </WrapItem>
-      ))}
-    </Wrap>
+      ))
+      }
+    </Wrap >
   )
 }
 

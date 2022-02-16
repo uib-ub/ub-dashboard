@@ -11,6 +11,9 @@ import MaintainedBy from "../../components/Props/MaintainedBy"
 import { MdDashboard, MdMenuBook } from 'react-icons/md'
 import { BiNetworkChart } from 'react-icons/bi'
 import ItemHeader from "../../components/Props/ItemHeader"
+import MissingBlock from "../../components/MissingBlock"
+import { GiEvilBook } from "react-icons/gi"
+import { FaRegSadTear } from "react-icons/fa"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -73,11 +76,23 @@ export default function Dataset({ data }) {
           <TabPanels>
             <TabPanel>
               <Grid
-                my={10}
                 maxW={'full'}
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
+                <GridItem
+                  minHeight={'20vh'}
+                  border={'solid #eee 1px'}
+                  borderRadius={3}
+                  colSpan={[6]}
+                >
+                  <MissingBlock
+                    heading="Uffda, her mangler mye"
+                    text="TODO: lag GROQ-spørringer og visualiser!"
+                    icon={FaRegSadTear}
+                  />
+                </GridItem>
+
                 {item.maintainedBy && (
                   <GridItem
                     colSpan={[6]}
@@ -116,7 +131,11 @@ export default function Dataset({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Graf kommer</Text>
+                <MissingBlock
+                  heading="Graph-komponenten er ikke ferdig..."
+                  text="Alt tar tid, også grafer :-("
+                  icon={BiNetworkChart}
+                />
               </Grid>
             </TabPanel>
 
@@ -126,7 +145,11 @@ export default function Dataset({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <Text>Dokumentasjon kommer</Text>
+                <MissingBlock
+                  heading="Dokumentasjonskomponenten er ikke ferdig..."
+                  text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"
+                  icon={GiEvilBook}
+                />
               </Grid>
             </TabPanel>
           </TabPanels>

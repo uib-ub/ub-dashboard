@@ -384,10 +384,16 @@ export const serviceQuery = groq`{
 export const actorQuery = groq`{
   "item": * [_id == $id][0] {
     "id": _id,
-      "type": _type,
-        "label": label,
-          shortDescription,
-          referredToBy[],
+    "type": _type,
+    "label": label,
+    shortDescription,
+    image,
+    referredToBy[],
+    competence[]-> {
+      "id": _id,
+      label,
+      shortDescription,
+    },
   },
   "milestones": [
     ...* [_id == $id] | order(timespan.beginOfTheBegin asc)  {

@@ -23,7 +23,7 @@ const colors = {
 
 const myQuery = groq`{
   "graph": {
-    "nodes": *[_type in ['Service', "Software", "Language"] && !(_id in path("drafts.**"))] {
+    "nodes": *[_type in ['Service', "Software", "ProgrammingLanguage", "Language" ] && !(_id in path("drafts.**"))] {
       "id": _id,
       label,
       "size": 12 + (count(*[references(^._id)]) * 4),
@@ -37,12 +37,12 @@ const myQuery = groq`{
         _type == 'Software' => {
           "color": $colors.software
         },
-        _type == 'Language' => {
+        _type in ['ProgrammingLanguage', 'Language'] => {
           "color": $colors.language
         },
       }
     },
-    "edges": *[_type in ['Service', 'Software'] && defined(uses)] {
+    "edges": *[_type in ['Service', 'Software'] && !(_id in path("drafts.**")) && defined(uses)] {
       uses[] {
         "id": ^._id + _ref,
         "source": ^._id,
@@ -51,12 +51,12 @@ const myQuery = groq`{
       }
     }
   },
-  "languages": *[_type == 'Language'] | order(label asc) {
+  "languages": *[_type  in ["ProgrammingLanguage"] && !(_id in path("drafts.**"))] | order(label asc) {
     "id": _id,
     label,
     "count": count(*[references(^._id)]),
   },
-  "softwares": *[_type == 'Software'] | order(label asc) {
+  "softwares": *[_type == 'Software' && !(_id in path("drafts.**"))] | order(label asc) {
     "id": _id,
     label,
     "count": count(*[references(^._id)]),

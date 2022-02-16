@@ -1,6 +1,4 @@
-import { coalesceLabel } from '../helpers'
-import { referredToBy, featured, timespanSingleton, labelSingleton, as, transferredFrom, transferredTo } from '../props'
-
+import { referredToBy, featured, timespanSingleton, labelSingleton, as, transferredFrom, transferredTo, transferred } from '../props'
 
 export default {
   name: 'TransferOfMember',
@@ -17,6 +15,7 @@ export default {
     labelSingleton,
     featured,
     timespanSingleton,
+    transferred,
     transferredFrom,
     transferredTo,
     as,
@@ -24,16 +23,17 @@ export default {
   ],
   preview: {
     select: {
-      type: '_type',
-      joinedWith: 'joinedWith.label',
-      joined: 'joined.0.label',
+      transferred: 'transferred.label',
+      transferredFrom: 'transferredFrom.label',
+      transferredTo: 'transferredTo.label',
+      role: 'as.label',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf } = selection
+      const { transferred, transferredFrom, transferredTo, role, edtf } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: edtf,
+        title: `${transferred ? transferred + ' ' : ''}overført fra ${transferredFrom ? transferredFrom : ''} til ${transferredTo ? transferredTo : ''}`,
+        subtitle: `${role} ${edtf}`,
       }
     },
   },

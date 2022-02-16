@@ -72,7 +72,7 @@ export default function Service({ data }) {
             </>
           )}
           {item.identifier && (
-            <Ids size={'md'} identifier={item.identifier} />
+            <Ids size={'md'} identifiers={item.identifier} />
           )}
         </Flex>
 

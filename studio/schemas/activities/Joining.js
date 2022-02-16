@@ -34,7 +34,7 @@ export default {
     prepare(selection) {
       const { type, joinedWith, joined, edtf, role } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
+        title: `${joined ? joined + ' ' : ''}${type ?? ''} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
         subtitle: `${role} ${edtf}`,
       }
     },
