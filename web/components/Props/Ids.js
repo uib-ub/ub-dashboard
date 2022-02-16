@@ -8,8 +8,8 @@ const Ids = ({ identifiers }) => {
     <VStack spacing={1} align={'flex-start'}>
       <Heading fontSize={'md'} color={'gray.600'}>Prosjekt ID</Heading>
 
-      {identifiers.length === 1 && identifiers.map(i => (
-        <Tooltip label={i.type} aria-label={i.type}>
+      {identifiers.length === 1 && identifiers.map((i, index) => (
+        <Tooltip key={index} label={i.type} aria-label={i.type}>
           {i.content}
         </Tooltip>
       ))}
@@ -25,7 +25,7 @@ const Ids = ({ identifiers }) => {
             <PopoverHeader>Alle ID-er</PopoverHeader>
             <PopoverBody>
               {identifiers.map((i, index) => (
-                <Text my={0} size={'xs'} key={index}>
+                <Text key={index} my={0} size={'xs'} >
                   <strong>{i.type}</strong>: {i.content}
                 </Text>
               ))}

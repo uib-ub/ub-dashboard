@@ -6,6 +6,8 @@ import cleanDeep from 'clean-deep'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import Period from "../../components/Props/Period"
+import Funding from "../../components/Props/Funding"
+import Status from "../../components/Props/Status"
 
 const myQuery = groq`[
   ...*[_type in ['Product'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {

@@ -22,6 +22,8 @@ import Period from "../../components/Props/Period"
 import MissingBlock from "../../components/MissingBlock"
 import { GiEvilBook } from "react-icons/gi"
 import { GrHistory } from "react-icons/gr"
+import Status from "../../components/Props/Status"
+import Ids from "../../components/Props/Ids"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),

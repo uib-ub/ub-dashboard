@@ -29,7 +29,6 @@ export function DataTable<Data extends object>({
     headerGroups,
     rows,
     prepareRow,
-    setHiddenColumns
   } = useTable({
     columns,
     data,
@@ -40,6 +39,7 @@ export function DataTable<Data extends object>({
 
   return (
     <Table {...getTableProps()}>
+      {/* eslint-disable react/jsx-key */}
       <Thead>
         {headerGroups.map((headerGroup) => (
           <Tr {...headerGroup.getHeaderGroupProps()}>
