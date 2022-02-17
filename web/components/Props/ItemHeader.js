@@ -34,7 +34,7 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
               {continued && (
                 <VStack>
                   {continued.map(e => (
-                    <Link href={`/project/${e.id}`}>
+                    <Link key={e.id} href={`/project/${e.id}`}>
                       <IconButton
                         isRound
                         aria-label={e.label}
@@ -48,7 +48,7 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
               {continuedBy && (
                 <VStack>
                   {continuedBy.map(e => (
-                    <Link href={`/project/${e.id}`}>
+                    <Link key={e.id} href={`/project/${e.id}`}>
                       <IconButton
                         isRound
                         aria-label={e.label}

@@ -146,7 +146,7 @@ export default function Project({ data }) {
                       p={5}
                     >
                       {item.hasTeam && item.hasTeam.map(team => (
-                        <Participants participants={team.hasMember} />
+                        <Participants key={team.id} participants={team.hasMember} />
                       ))}
                     </Box>
                   </GridItem>
