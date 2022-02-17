@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer } fro
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
 
-const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) => {
+const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, children }) => {
   return (
     <Grid>
       <Flex columnGap={'30px'}>
@@ -17,6 +17,7 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
               mb={"5"}
               boxSize='100px'
               objectFit='cover'
+              alt=''
             />
           ) :
             <Box
@@ -68,6 +69,14 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
           <Heading size={"xl"}>
             {label}
           </Heading>
+          {quote && (
+            <Text fontSize='lg' m="0">
+              <em>
+                {quote}
+              </em>
+            </Text>
+          )}
+
           {blurb && (
             <Text fontSize='md' m="0">
               {blurb}

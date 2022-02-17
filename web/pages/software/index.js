@@ -1,8 +1,7 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Grid, GridItem, Heading, Text, Tag, Image } from '@chakra-ui/react'
-import cleanDeep from 'clean-deep'
+import { Box, Container, Flex, Heading, Image } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from "../../components/DataTable"
@@ -53,6 +52,7 @@ const columns = [
             src={urlFor(row.values.image).url()}
             boxSize='30px'
             objectFit='cover'
+            alt=''
           />
         ) :
           <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
@@ -88,40 +88,6 @@ export default function Softwares({ data }) {
         <Box my={5}>
           <DataTable columns={columns} data={data} />
         </Box>
-
-        {/* <Grid maxW="full" templateColumns={'repeat(12, 1fr)'} my="12" gap={{ base: "3", md: "6" }}>
-          {data.map(item => (
-            <GridItem
-              key={item.id}
-              colSpan={{ base: '12', md: "6", xl: '4' }}
-              p={5}
-              borderRadius={"8"}
-              border={"1px solid"}
-              borderColor={"gray.200"}
-              boxShadow={"md"}
-              bg={
-                new Date(item.timespan?.endOfTheEnd) < now ? 'gray.100' : ''
-              }
-            >
-              <Heading
-                fontSize={['xl', '2xl', '2xl', '2xl', '3xl']}
-                isTruncated
-              >
-                <Link href={`/product/${item.id}`}>{item.label}</Link>
-              </Heading>
-
-              <Flex py={"2"} wrap={"wrap"}>
-                {item.carriedOutBy && (
-                  <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
-                )}
-                {item.timespan?.edtf ? <Tag variant={"outline"} mr={"2"} mb="2">{item.timespan?.edtf}</Tag> : ''}
-                {new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">Avsluttet</Tag> : ''}
-              </Flex>
-              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
-            </GridItem>
-
-          ))}
-        </Grid> */}
       </Container>
     </Layout>
   )

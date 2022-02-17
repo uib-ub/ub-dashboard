@@ -7,8 +7,19 @@ export default {
   fields: [
     labelSingleton,
     shortDescription,
+    {
+      name: 'quote',
+      title: 'Sitat',
+      description: 'Kort, kort sitat med hermetegn!',
+      type: 'string'
+    },
     referredToBy,
-    competence,
+    {
+      name: 'hasSkill',
+      title: 'Kompetanse',
+      type: 'array',
+      of: [{ type: 'Skill' }]
+    },
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',

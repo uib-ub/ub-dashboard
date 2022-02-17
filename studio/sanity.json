@@ -19,7 +19,8 @@
     "graph-view",
     "media",
     "documents-pane",
-    "vercel-deploy"
+    "vercel-deploy",
+    "unicorn-slider"
   ],
   "env": {
     "development": {
@@ -38,6 +39,10 @@
     {
       "implements": "part:@sanity/base/absolutes",
       "path": "./src/parts/bundleChecker.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input-resolver",
+      "path": "./src/parts/inputResolver.js"
     }
   ]
 }

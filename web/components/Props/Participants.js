@@ -1,4 +1,5 @@
 import { Avatar, Badge, Box, Flex, Wrap, WrapItem, Text } from '@chakra-ui/react'
+import Link from '../Link'
 
 const Participants = ({ participants }) => {
   if (!participants) return
@@ -12,7 +13,9 @@ const Participants = ({ participants }) => {
 
             <Box ml="3">
               <Text fontWeight='bold' my={"0"}>
-                {participant.assignedActor.label}
+                <Link href={`/actor/${participant.assignedActor.id}`}>
+                  {participant.assignedActor.label}
+                </Link>
               </Text>
 
               <Text fontSize='sm' my={"0"}>

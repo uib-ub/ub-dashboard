@@ -17,11 +17,13 @@ import { useTable, useSortBy, Column } from "react-table";
 export type DataTableProps<Data extends object> = {
   data: Data[];
   columns: Column<Data>[];
+  size: string;
 };
 
 export function DataTable<Data extends object>({
   data,
-  columns
+  columns,
+  size = 'md'
 }: DataTableProps<Data>) {
   const {
     getTableProps,
@@ -38,7 +40,7 @@ export function DataTable<Data extends object>({
   }, useSortBy);
 
   return (
-    <Table {...getTableProps()}>
+    <Table size={size} {...getTableProps()}>
       {/* eslint-disable react/jsx-key */}
       <Thead>
         {headerGroups.map((headerGroup) => (

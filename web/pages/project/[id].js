@@ -91,8 +91,14 @@ export default function Project({ data }) {
           </Flex>
         </ItemHeader>
 
-        <Tabs colorScheme='green' my={10}>
-          <TabList>
+        <Tabs
+          colorScheme='green'
+          my={10}
+          display='flex'
+          flexDirection='column'
+          maxW={'full'}
+        >
+          <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
@@ -100,7 +106,9 @@ export default function Project({ data }) {
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
-          <TabPanels mt={3}>
+          <TabPanels
+            mt={3}
+          >
             <TabPanel>
               <Grid
                 maxW={'full'}
@@ -153,11 +161,11 @@ export default function Project({ data }) {
                 {flattenedMilestones.length > 1 && (
                   <GridItem
                     colSpan={6}
+                    display={{ base: 'none', md: 'inherit' }}
                   >
                     <Heading size={'lg'} mb={5}>Tidslinje</Heading>
                     <Box
                       w="100%"
-                      display={{ base: 'none', md: 'inherit' }}
                     >
                       <MilestonesWithoutSSR
                         data={flattenedMilestones}

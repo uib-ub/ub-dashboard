@@ -51,6 +51,7 @@ const columns = [
             src={urlFor(row.values.image).url()}
             boxSize='30px'
             objectFit='cover'
+            alt=''
           />
         ) :
           <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>

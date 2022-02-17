@@ -87,12 +87,19 @@ export default function Product({ data }) {
           </Flex>
         </ItemHeader>
 
-        <Tabs colorScheme='green' my={10}>
-          <TabList>
+        <Tabs
+          colorScheme='green'
+          my={10}
+          display='flex'
+          flexDirection='column'
+          maxW={'full'}
+        >
+          <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
+            <Tab><Icon as={MdMenuBook} mr={2} /> Data</Tab>
           </TabList>
 
           <TabPanels mt={3}>

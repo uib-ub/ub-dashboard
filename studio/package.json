@@ -32,6 +32,7 @@
     "sanity-plugin-graph-view": "^1.0.7",
     "sanity-plugin-media": "^1.4.4",
     "sanity-plugin-table": "^2.3.0",
+    "sanity-plugin-unicorn-slider": "^0.0.2",
     "sanity-plugin-vercel-deploy": "^2.1.6",
     "styled-components": "^5.2.0"
   },

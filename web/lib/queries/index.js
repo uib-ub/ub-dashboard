@@ -25,9 +25,35 @@ export const softwareQuery = groq`{
     "period": timespan.edtf,
     referredToBy[],
     image,
+
     hasSoftwarePart[]-> {
       "id": _id,
-      label
+      label,
+      hasType[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      hostedBy[]-> {
+        ...,
+        "id": _id,
+        "type": _type,
+        componentOf-> {
+          "id": _id,
+          "type": _type,
+          label
+        }
+      },
+      runBy[]-> {
+        "id": _id,
+        "type": _type,
+        ...,
+      },
+      provisionedBy[]-> {
+        "id": _id,
+        "type": _type,
+        ...,
+      }
     },
     maintainedBy[]-> {
       "id": _id,
@@ -469,12 +495,18 @@ export const actorQuery = groq`{
     "type": _type,
     "label": label,
     shortDescription,
+    quote,
     image,
     referredToBy[],
-    competence[]-> {
-      "id": _id,
-      label,
+    hasSkill[] {
+      "label": competence->.label,
+      level,
       shortDescription,
+    },
+    "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Team', 'Group']] | order(timespan.beginOfTheBegin asc)  {
+      "id": _id,
+      "type": _type,
+      "label": label,
     },
   },
   "milestones": [
@@ -489,22 +521,6 @@ export const actorQuery = groq`{
           "text": "Nå",
         },
         ...activityStream[timespan.beginOfTheBegin != ""] | order(timespan.beginOfTheBegin desc) -> {
-          "timestamp": timespan.beginOfTheBegin,
-          "text": label,
-        },
-      ]
-    },
-    ...* [references($id) && _type in ['Project', 'Product', 'Service']] | order(timespan.beginOfTheBegin asc)  {
-      "id": _id,
-      "type": _type,
-      "label": label,
-      referredToBy[],
-      "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
-        ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },

@@ -1006,6 +1006,13 @@ export const competence = {
   of: [{ type: 'reference', to: [{ type: 'CompetenceType' }] }]
 }
 
+export const competenceSingleton = {
+  name: 'competence',
+  title: 'Kompetanse',
+  type: 'reference',
+  to: [{ type: 'CompetenceType' }]
+}
+
 export const availability = {
   name: 'availability',
   title: 'Tilgjengelighet',

@@ -42,6 +42,7 @@ export { default as PlatformUsageAssignment } from './objects/PlatformUsageAssig
 export { default as Identifier } from './objects/Identifier'
 export { default as Name } from './objects/Name'
 export { default as ServiceUsageAssignment } from './objects/ServiceUsageAssignment'
+export { default as Skill } from './objects/Skill'
 export { default as WebResource } from './objects/WebResource'
 export { default as BeginningOfExistence } from './activities/BeginningOfExistence'
 export { default as FundingActivity } from './activities/FundingActivity'
