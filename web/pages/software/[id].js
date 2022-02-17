@@ -14,9 +14,15 @@ import { BiNetworkChart } from 'react-icons/bi'
 import ItemHeader from "../../components/Props/ItemHeader"
 import MissingBlock from "../../components/MissingBlock"
 import { GrHistory } from "react-icons/gr"
+import GraphComponent from '../../components/Graph/GraphComponent'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
+  { ssr: false }
+)
+
+const GraphComponentWithoutSSR = dynamic(
+  () => import('../../components/Graph/GraphComponent'),
   { ssr: false }
 )
 
@@ -52,8 +58,9 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
+
 export default function Software({ data }) {
-  const { item } = data
+  const { item, graph } = data
 
   return (
     <Layout>
@@ -134,11 +141,13 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
-                <MissingBlock
-                  heading="Graph-komponenten er ikke ferdig..."
-                  text="Alt tar tid, også grafer :-("
-                  icon={BiNetworkChart}
-                />
+                <Box>
+                  <pre>{JSON.stringify(graph, null, 2)}</pre>
+                </Box>
+                {/* <GraphComponentWithoutSSR
+                  edges={data.graph.edges}
+                  nodes={data.graph.nodes}
+                /> */}
               </Grid>
             </TabPanel>
 
