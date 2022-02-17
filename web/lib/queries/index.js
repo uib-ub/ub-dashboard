@@ -34,97 +34,89 @@ export const softwareQuery = groq`{
       label
     }
   },
-  "graph": *[_id == $id] {
-    "nodes": [{
-      "id": _id,
-      "type": _type,
-      label,
-      "edges": [
-        ...hasType[]-> {
-          "id": ^._id + _id,
-          "source": ^._id,
-          "target": _id,
-        },
-        ...hasSoftwarePart[]-> {
-          "id": ^._id + _id,
-          "source": ^._id,
-          "target": _id,
-        },
-        ...hasSoftwarePart[]-> {
-          "id": ^._id + _id,
-          "source": ^._id,
-          "target": _id,
-        },
-        ...maintainedBy[]-> {
-          "id": ^._id + _id,
-          "source": ^._id,
-          "target": _id,
-        },
-        ...programmedWith[]-> {
-          "id": ^._id + _id,
-          "source": ^._id,
-          "target": _id,
-        },
-      ],
-      "nodes": [
-        ...hasType[]-> {
-          "id": _id,
-          "type": _type,
-          label
-        },
-        ...hasSoftwarePart[]-> {
-          "id": _id,
-          "type": _type,
-          label,
-          "edges": [
-            ...hasType[]-> {
-              "id": ^._id + _id,
-              "source": ^._id,
-              "target": _id,
-            },
-            ...hostedBy[]-> {
-              "id": ^._id + _id,
-              "source": ^._id,
-              "target": _id,
-            },
-            ...runBy[]-> {
-              "id": ^._id + _id,
-              "source": ^._id,
-              "target": _id,
-            },
-          ],
-          "nodes": [
-            ...hasType[]-> {
-              "id": _id,
-              "type": _type,
-              label
-            },
-            ...hostedBy[]-> {
-              "id": _id,
-              "type": _type,
-              label
-            },
-            ...runBy[]-> {
-              "id": _id,
-              "type": _type,
-              label
-            }
-          ]
-        },
-        ...maintainedBy[]-> {
-          "id": _id,
-          "type": _type,
-          label
-        },
-        ...programmedWith[]-> {
-          "id": _id,
-          "type": _type,
-          label
-        }
-      ]
-    }]
+  "graph": *[_id == $id][0] {
+    "nodes": [
+      {
+        "id": _id,
+        "type": _type,
+        label,
+      },
+      ...hasType[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      ...hasSoftwarePart[]->.hasType[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      ...hasSoftwarePart[]->.hostedBy[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      ...hasSoftwarePart[]->.runBy[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      ...hasSoftwarePart[]-> {
+        "id": _id,
+        "type": _type,
+        label,
+      },
+      ...maintainedBy[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      },
+      ...programmedWith[]-> {
+        "id": _id,
+        "type": _type,
+        label
+      }
+    ],
+    "edges": [
+      ...hasType[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...hasSoftwarePart[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...maintainedBy[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...programmedWith[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...hasSoftwarePart[]->.hasType[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...hasSoftwarePart[]->.hostedBy[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+      ...hasSoftwarePart[]->.runBy[]-> {
+        "id": ^._id + _id,
+        "source": ^._id,
+        "target": _id,
+      },
+    ],
   }
 }`
+
 
 export const productQuery = groq`{
   "item": * [_id == $id][0] {

@@ -1,7 +1,7 @@
 import { Table, Thead, Tbody, Th, Tr, Td, Heading } from '@chakra-ui/react'
 import Link from '../Link'
 
-const Team = ({ team }) => {
+const Team = ({ team, size = 'sm' }) => {
   if (!team) return
 
   return (
@@ -9,13 +9,10 @@ const Team = ({ team }) => {
       <Heading
         as="h2"
         size={"md"}
-        my={4}
-        borderBottom={"1px solid"}
-        fontWeight={"light"}
       >
         {team.label}
       </Heading>
-      <Table size='sm' mx={0}>
+      <Table size={size} mx={0}>
         <Thead>
           <Tr>
             <Th>Navn</Th>

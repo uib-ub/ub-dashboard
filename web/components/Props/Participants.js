@@ -8,12 +8,13 @@ const Participants = ({ participants }) => {
       {participants.map(participant => (
         <WrapItem key={participant.assignedActor.id} pr={4} pb={4}>
           <Flex>
-
             <Avatar size='sm' name={participant.assignedActor.label} />
+
             <Box ml="3">
               <Text fontWeight='bold' my={"0"}>
                 {participant.assignedActor.label}
               </Text>
+
               <Text fontSize='sm' my={"0"}>
                 <Badge colorScheme='green'>
                   {participant.assignedRole && (<>
@@ -24,6 +25,7 @@ const Participants = ({ participants }) => {
                   </>)}
                 </Badge>
               </Text>
+
             </Box>
           </Flex>
         </WrapItem>

@@ -24,7 +24,7 @@ import { BiNetworkChart } from "react-icons/bi"
 import MissingBlock from "../../components/MissingBlock"
 import { GiEvilBook } from "react-icons/gi"
 import { GrHistory } from "react-icons/gr"
-
+import { AiOutlineTeam } from "react-icons/ai"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -76,6 +76,8 @@ export default function Project({ data }) {
           label={item.label}
           blurb={item.shortDescription}
           image={item.image}
+          continued={item.continued}
+          continuedBy={item.continuedBy}
         >
           <Flex columnGap={'30px'} mt={4}>
             {item.period && (
@@ -93,15 +95,16 @@ export default function Project({ data }) {
         <Tabs colorScheme='green' my={10}>
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
+            <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels mt={3}>
             <TabPanel>
               <Grid
-                my={10}
+
                 maxW={'full'}
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
@@ -111,14 +114,13 @@ export default function Project({ data }) {
                   <GridItem
                     colSpan={[3]}
                   >
-                    <Heading mb={5}>Eiere</Heading>
+                    <Heading size={'lg'} mb={5}>Institusjoner</Heading>
                     <Box
                       borderRadius={"8"}
                       border={"1px solid"}
                       borderColor={"gray.200"}
                       boxShadow={"md"}
                       p={5}
-                      pb={0}
                     >
                       {item.carriedOutBy && (
                         <Participants participants={item.carriedOutBy} />
@@ -135,66 +137,30 @@ export default function Project({ data }) {
                   <GridItem
                     colSpan={[3]}
                   >
-                    <Heading mb={5}>Medlemmer</Heading>
+                    <Heading size={'lg'} mb={5}>Medlemmer</Heading>
                     <Box
                       borderRadius={"8"}
                       border={"1px solid"}
                       borderColor={"gray.200"}
                       boxShadow={"md"}
                       p={5}
-                      pb={0}
                     >
                       {item.hasTeam && item.hasTeam.map(team => (
-                        <Team key={team.id} team={team} />
+                        <Participants participants={team.hasMember} />
                       ))}
                     </Box>
                   </GridItem>
                 )}
 
-
-
-                <GridItem colSpan={6}>
-                  <Flex direction={['column', null, 'row']}>
-                    {item.continued && (
-                      <Box display={"inline-block"} m={3}>
-                        <span>Fortsettelse av </span>
-                        <VStack display={"inline-block"}>
-                          {item.continued.map(e => (
-                            <Heading key={e.id} size={"md"}>
-                              <Link href={`/project/${e.id}`}>
-                                {e.label}
-                              </Link>
-                            </Heading>
-                          ))}
-                        </VStack>
-                      </Box>
-                    )}
-
-                    <Spacer />
-
-                    {item.continuedBy && (
-                      <Box display={"inline-block"} m={3}>
-                        <span>Fortsatt av </span>
-                        <VStack display={"inline-block"}>
-                          {item.continuedBy?.map(e => (
-                            <Heading key={e.id} size={"md"}>
-                              <Link href={`/project/${e.id}`}>
-                                {e.label}
-                              </Link>
-                            </Heading>
-                          ))}
-                        </VStack>
-                      </Box>
-                    )}
-                  </Flex>
-                </GridItem>
-
-
                 {flattenedMilestones.length > 1 && (
                   <GridItem
                     colSpan={6}
                   >
-                    <Box w="100%" display={{ base: 'none', md: 'inherit' }}>
+                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
+                    <Box
+                      w="100%"
+                      display={{ base: 'none', md: 'inherit' }}
+                    >
                       <MilestonesWithoutSSR
                         data={flattenedMilestones}
                         pattern
@@ -209,56 +175,77 @@ export default function Project({ data }) {
                   </GridItem>
                 )}
 
-
-
                 {item.referredToBy && (
                   <GridItem
                     colSpan={[6, null, 3]}
-                    borderRadius={"8"}
-                    border={"1px solid"}
-                    borderColor={"gray.200"}
-                    boxShadow={"md"}
-                    px="6"
-                    pb={"6"}
                   >
-                    <Box>
-                      <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Beskrivelse</Heading>
+                    <Heading size={'lg'} mb={5}>Sammendrag</Heading>
+                    <Box
+                      borderRadius={"8"}
+                      border={"1px solid"}
+                      borderColor={"gray.200"}
+                      boxShadow={"md"}
+                      px={5}
+                    >
                       <PortableText blocks={item.referredToBy[0].body} />
                     </Box>
                   </GridItem>
                 )}
 
-                {(item.hasTeam || item.resultedIn || item.hasFile || item.link) && (
+                {(item.resultedIn || item.hasFile || item.link) && (
                   <GridItem
                     colSpan={[6, null, 3]}
-                    borderRadius={"8"}
-                    border={"1px solid"}
-                    borderColor={"gray.200"}
-                    boxShadow={"md"}
-                    px="6"
-                    py={"6"}
                   >
-                    {item.funding && <Funding stream={item.funding} />}
+                    <Heading size={'lg'} mb={5}>Diverse</Heading>
+                    <Box
+                      borderRadius={"8"}
+                      border={"1px solid"}
+                      borderColor={"gray.200"}
+                      boxShadow={"md"}
+                      p={5}
+                    >
+                      {item.funding && <Funding stream={item.funding} />}
 
 
-                    {item.resultedIn && (
-                      <ResultedIn results={item.resultedIn} />
-                    )}
+                      {item.resultedIn && (
+                        <ResultedIn results={item.resultedIn} />
+                      )}
 
-                    {(item.hasFile || item.link) && (
-                      <>
-                        <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
-                        {item.link && (
-                          <Links links={item.link} />
-                        )}
+                      {(item.hasFile || item.link) && (
+                        <>
+                          <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
+                          {item.link && (
+                            <Links links={item.link} />
+                          )}
 
-                        {item.hasFile && (
-                          <Files files={item.hasFile} />
-                        )}
-                      </>
-                    )}
+                          {item.hasFile && (
+                            <Files files={item.hasFile} />
+                          )}
+                        </>
+                      )}
+                    </Box>
                   </GridItem>
                 )}
+              </Grid>
+            </TabPanel>
+
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <Box
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"md"}
+                  p={5}
+                >
+                  {item.hasTeam && item.hasTeam.map(team => (
+                    <Team key={team.id} team={team} size="md" />
+                  ))}
+                </Box>
               </Grid>
             </TabPanel>
 

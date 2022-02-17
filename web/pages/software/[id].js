@@ -81,7 +81,7 @@ export default function Software({ data }) {
             <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels mt={3}>
             <TabPanel>
               <Grid
                 my={10}
@@ -141,13 +141,23 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
+                <Box
+                  className="graphpaper-background"
+                  maxH={"50vh"} overflow={"hidden"}
+                  my="5"
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"lg"}
+                >
+                  <GraphComponentWithoutSSR
+                    edges={graph.edges}
+                    nodes={graph.nodes}
+                  />
+                </Box>
                 <Box>
                   <pre>{JSON.stringify(graph, null, 2)}</pre>
                 </Box>
-                {/* <GraphComponentWithoutSSR
-                  edges={data.graph.edges}
-                  nodes={data.graph.nodes}
-                /> */}
               </Grid>
             </TabPanel>
 
@@ -157,6 +167,7 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
+
                 <MissingBlock
                   heading="Dokumentasjonskomponenten er ikke ferdig..."
                   text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"

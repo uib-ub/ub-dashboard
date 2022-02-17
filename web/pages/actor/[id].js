@@ -67,7 +67,7 @@ export default function Person({ data }) {
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels mt={3}>
             <TabPanel>
               {item.competence && (
                 <Box my={10}>

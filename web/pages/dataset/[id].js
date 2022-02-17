@@ -73,7 +73,7 @@ export default function Dataset({ data }) {
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels mt={3}>
             <TabPanel>
               <Grid
                 maxW={'full'}

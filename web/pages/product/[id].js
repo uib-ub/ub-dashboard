@@ -95,7 +95,7 @@ export default function Product({ data }) {
             <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels mt={3}>
             <TabPanel>
               <Grid
                 my={10}

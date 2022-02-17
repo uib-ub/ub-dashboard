@@ -1,7 +1,6 @@
 import React from 'react'
 import NextLink from 'next/link'
 import {
-  Button,
   Container,
   Flex,
   Heading,
@@ -101,20 +100,18 @@ export default function Header() {
         </Link>
       </Flex>
 
-
-      <Button
+      <IconButton
         aria-label="Skift mellom dagmodus eller nattmodus"
         display={{ base: 'none', md: 'inherit' }}
         px="0"
         ml="5"
         onClick={toggleColorMode}
-      >
-        {colorMode === 'light' ? (
+        icon={colorMode === 'light' ? (
           <Icon as={MoonIcon} />
         ) : (
           <Icon as={SunIcon} color="white" />
         )}
-      </Button>
+      />
 
       <Box display={{ sm: 'inherit', md: 'none' }}>
         <Menu >
@@ -171,24 +168,18 @@ export default function Header() {
               </Link>
             </MenuItem>
             <MenuItem>
-              <Button
+              <IconButton
                 aria-label="Skift mellom dagmodus eller nattmodus"
-                p={3}
-
+                display={{ base: 'none', md: 'inherit' }}
+                px="0"
+                ml="5"
                 onClick={toggleColorMode}
-                leftIcon={colorMode === 'light' ? (
+                icon={colorMode === 'light' ? (
                   <Icon as={MoonIcon} />
                 ) : (
                   <Icon as={SunIcon} color="white" />
-                )
-                }
-              >
-                {/* {colorMode === 'light' ? (
-                  <Icon as={MoonIcon} />
-                ) : (
-                  <Icon as={SunIcon} color="white" />
-                )} */}
-              </Button>
+                )}
+              />
             </MenuItem>
           </MenuList>
         </Menu>

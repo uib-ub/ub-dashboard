@@ -63,7 +63,7 @@ export default function Projects({ data }) {
 
         <Flex>
           <Button mr={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis alle' : 'Vis aktive'}</Button>
-          <Button mr={3} isDisabled>Vis UBBs</Button>
+          {/* <Button mr={3} isDisabled>Vis UBBs</Button> */}
         </Flex>
 
         <Grid
