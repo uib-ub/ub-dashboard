@@ -271,6 +271,7 @@ export const projectQuery = groq`{
           label,
         },
         "timespan": timespan.edtf,
+        "active": select(timespan.endOfTheEnd < now() => false, true)
       }
   },
   "identifier": identifiedBy[] {
@@ -514,17 +515,16 @@ export const actorQuery = groq`{
       "id": _id,
       "type": _type,
       "label": label,
-      referredToBy[],
       "entries": [
         {
           "timestamp": $now,
           "text": "Nå",
         },
-        ...activityStream[timespan.beginOfTheBegin != ""] | order(timespan.beginOfTheBegin desc) -> {
+        ...*[references($id) && _type in ['Leaving', 'TransferOfMember', 'Joining', 'Activity', 'Team']] | order(timespan.beginOfTheBegin asc)  {
           "timestamp": timespan.beginOfTheBegin,
           "text": label,
         },
       ]
     },
   ]
-} `;
+}`;

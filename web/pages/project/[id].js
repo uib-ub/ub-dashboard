@@ -2,29 +2,31 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
 import { projectQuery } from "../../lib/queries"
 import Participants from "../../components/Props/Participants"
 import Links from "../../components/Props/Links"
 import Files from "../../components/Props/Files"
 import Team from "../../components/Props/Team"
-import Link from "../../components/Link"
 import { flatMap } from 'lodash-es'
 import ResultedIn from "../../components/Props/ResultedIn"
 import Status from "../../components/Props/Status"
 import Funding from "../../components/Props/Funding"
 import Ids from "../../components/Props/Ids"
 import ItemHeader from "../../components/Props/ItemHeader"
-import { MdDashboard, MdMenuBook } from 'react-icons/md'
+import { MdDashboard } from 'react-icons/md'
 import Period from "../../components/Props/Period"
 import { BiNetworkChart } from "react-icons/bi"
 import MissingBlock from "../../components/MissingBlock"
-import { GiEvilBook } from "react-icons/gi"
 import { GrHistory } from "react-icons/gr"
 import { AiOutlineTeam } from "react-icons/ai"
+import AbstractWidget from '../../components/Widgets/AbstractWidget'
+import CurrentMembersWidget from '../../components/Widgets/CurrentMembersWidget'
+import { VscFileCode } from 'react-icons/vsc'
+import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
+
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -101,9 +103,10 @@ export default function Project({ data }) {
           <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
-            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
-            <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
+            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab isDisabled><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
+            <Spacer />
+            <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
           </TabList>
 
           <TabPanels
@@ -140,22 +143,7 @@ export default function Project({ data }) {
                 )}
 
                 {item.hasTeam && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                  >
-                    <Heading size={'lg'} mb={5}>Medlemmer</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      p={5}
-                    >
-                      {item.hasTeam && item.hasTeam.map(team => (
-                        <Participants key={team.id} participants={team.hasMember} />
-                      ))}
-                    </Box>
-                  </GridItem>
+                  <CurrentMembersWidget value={item.hasTeam} />
                 )}
 
                 {flattenedMilestones.length > 1 && (
@@ -182,21 +170,7 @@ export default function Project({ data }) {
                 )}
 
                 {item.referredToBy && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                  >
-                    <Heading size={'lg'} mb={5}>Sammendrag</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      px={10}
-                      pb={5}
-                    >
-                      <PortableText value={item.referredToBy[0].body} />
-                    </Box>
-                  </GridItem>
+                  <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
                 {(item.resultedIn || item.hasFile || item.link) && (
@@ -285,18 +259,9 @@ export default function Project({ data }) {
             </TabPanel>
 
             <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <MissingBlock
-                  heading="Dokumentasjonskomponenten er ikke ferdig..."
-                  text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"
-                  icon={GiEvilBook}
-                />
-              </Grid>
+              <ItemDataWidget value={item} />
             </TabPanel>
+
           </TabPanels>
         </Tabs>
 

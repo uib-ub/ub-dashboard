@@ -2,11 +2,9 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import { CodeBlock, dracula } from 'react-code-blocks'
+import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
 import { softwareQuery } from "../../lib/queries"
 import MaintainedBy from "../../components/Props/MaintainedBy"
 import { MdDashboard } from 'react-icons/md'
@@ -16,6 +14,8 @@ import { GrHistory } from "react-icons/gr"
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
 import MissingBlock from "../../components/MissingBlock"
+import AbstractWidget from '../../components/Widgets/AbstractWidget'
+import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -83,9 +83,10 @@ export default function Software({ data }) {
         >
           <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            <Tab isDisabled><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            <Spacer />
             <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
           </TabList>
 
@@ -109,20 +110,7 @@ export default function Software({ data }) {
                 )}
 
                 {item.referredToBy && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                    borderRadius={"8"}
-                    border={"1px solid"}
-                    borderColor={"gray.200"}
-                    boxShadow={"md"}
-                    px="6"
-                    pb={"6"}
-                  >
-                    <Box>
-                      <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Beskrivelse</Heading>
-                      <PortableText value={item.referredToBy[0].body} />
-                    </Box>
-                  </GridItem>
+                  <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
               </Grid>
@@ -184,19 +172,9 @@ export default function Software({ data }) {
             </TabPanel>
 
             <TabPanel>
-              <Box
-                overflowX={'scroll'}
-                fontFamily={'mono'}
-                fontSize={'sm'}
-              >
-                <CodeBlock
-                  style={{ overflowX: 'scroll' }}
-                  text={JSON.stringify(item, null, 2)}
-                  theme={dracula}
-                  language="json"
-                />
-              </Box>
+              <ItemDataWidget value={item} />
             </TabPanel>
+
           </TabPanels>
         </Tabs>
 

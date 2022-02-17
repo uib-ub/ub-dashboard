@@ -15,6 +15,7 @@ import MissingBlock from "../../components/MissingBlock"
 import { flatMap } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
+import AbstractWidget from '../../components/Widgets/AbstractWidget'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -175,22 +176,9 @@ export default function Person({ data }) {
                 )}
 
                 {item.referredToBy && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                  >
-                    <Heading size={'lg'} mb={5}>Sammendrag</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      px={10}
-                      pb={5}
-                    >
-                      <PortableText value={item.referredToBy[0].body} />
-                    </Box>
-                  </GridItem>
+                  <AbstractWidget value={item.referredToBy[0].body} />
                 )}
+
               </Grid>
 
             </TabPanel>

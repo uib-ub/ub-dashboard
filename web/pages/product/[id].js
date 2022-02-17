@@ -16,7 +16,7 @@ import ResultedIn from "../../components/Props/ResultedIn"
 import Link from "../../components/Link"
 import Funding from "../../components/Props/Funding"
 import ItemHeader from "../../components/Props/ItemHeader"
-import { MdDashboard, MdMenuBook } from "react-icons/md"
+import { MdDashboard } from "react-icons/md"
 import { BiNetworkChart } from "react-icons/bi"
 import Period from "../../components/Props/Period"
 import MissingBlock from "../../components/MissingBlock"
@@ -24,6 +24,9 @@ import { GiEvilBook } from "react-icons/gi"
 import { GrHistory } from "react-icons/gr"
 import Status from "../../components/Props/Status"
 import Ids from "../../components/Props/Ids"
+import AbstractWidget from '../../components/Widgets/AbstractWidget'
+import { VscFileCode } from 'react-icons/vsc'
+import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -96,10 +99,11 @@ export default function Product({ data }) {
         >
           <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
-            <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={MdMenuBook} mr={2} /> Dokumentasjon</Tab>
-            <Tab><Icon as={MdMenuBook} mr={2} /> Data</Tab>
+            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab isDisabled><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
+            <Tab isDisabled><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            <Spacer />
+            <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
           </TabList>
 
           <TabPanels mt={3}>
@@ -184,23 +188,8 @@ export default function Product({ data }) {
                   </GridItem>
                 )}
 
-
-
                 {item.referredToBy && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                    borderRadius={"8"}
-                    border={"1px solid"}
-                    borderColor={"gray.200"}
-                    boxShadow={"md"}
-                    px="6"
-                    pb={"6"}
-                  >
-                    <Box>
-                      <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Beskrivelse</Heading>
-                      <PortableText value={item.referredToBy[0].body} />
-                    </Box>
-                  </GridItem>
+                  <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
                 {(item.hasTeam || item.usedService || item.hasFile || item.link) && (
@@ -281,6 +270,11 @@ export default function Product({ data }) {
                 />
               </Grid>
             </TabPanel>
+
+            <TabPanel>
+              <ItemDataWidget value={item} />
+            </TabPanel>
+
           </TabPanels>
         </Tabs>
 

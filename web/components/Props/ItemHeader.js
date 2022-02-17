@@ -1,7 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon } from '@chakra-ui/react'
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
+import { BsChatQuote } from 'react-icons/bs'
 
 const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, children }) => {
   return (
@@ -72,7 +73,7 @@ const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, childr
           {quote && (
             <Text fontSize='lg' m="0">
               <em>
-                {quote}
+                <Icon as={BsChatQuote} mr={2} />{quote}
               </em>
             </Text>
           )}

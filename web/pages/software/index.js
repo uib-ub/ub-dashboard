@@ -7,7 +7,7 @@ import Layout from "../../components/Layout"
 import { DataTable } from "../../components/DataTable"
 import { urlFor } from "../../lib/sanity"
 
-const myQuery = groq`[
+const allSoftwareQuery = groq`[
   ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
     image,
@@ -19,8 +19,7 @@ const myQuery = groq`[
 
 export const getStaticProps = async ({ preview = false }) => {
   const now = new Date()
-  let data = await getClient(preview).fetch(myQuery, { now: now })
-  /* data = cleanDeep(data) */
+  let data = await getClient(preview).fetch(allSoftwareQuery, { now: now })
 
   return {
     props: {
