@@ -105,7 +105,7 @@ export default function Person({ data }) {
                   <Box borderRadius={"8"} border={"1px solid"} borderColor={"gray.200"} boxShadow={"lg"} my={"15"} px="6" pb={"6"}>
                     <Box overflowY={"scroll"} maxH={"20vh"}>
                       <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Biografi</Heading>
-                      <PortableText blocks={item.referredToBy[0].body} />
+                      <PortableText value={item.referredToBy[0].body} />
                     </Box>
                   </Box>
                 )}

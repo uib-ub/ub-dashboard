@@ -187,7 +187,7 @@ export default function Project({ data }) {
                       boxShadow={"md"}
                       px={5}
                     >
-                      <PortableText blocks={item.referredToBy[0].body} />
+                      <PortableText value={item.referredToBy[0].body} />
                     </Box>
                   </GridItem>
                 )}

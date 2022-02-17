@@ -113,7 +113,7 @@ export default function Software({ data }) {
                   >
                     <Box>
                       <Heading as="h2" size={"md"} mt={4} borderBottom={"1px solid"} fontWeight={"light"}>Beskrivelse</Heading>
-                      <PortableText blocks={item.referredToBy[0].body} />
+                      <PortableText value={item.referredToBy[0].body} />
                     </Box>
                   </GridItem>
                 )}

@@ -80,7 +80,7 @@ export default function ActivityTimeline({ data }) {
           scrollBehavior="smooth"
         />
 
-        {/* <PortableText blocks={data.content} /> */}
+        {/* <PortableText value={data.content} /> */}
       </Container>
     </Layout>
   )

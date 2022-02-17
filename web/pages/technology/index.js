@@ -141,7 +141,7 @@ export default function Technologies({ data }) {
 
         </Flex>
 
-        {/* <PortableText blocks={data.content} /> */}
+        {/* <PortableText value={data.content} /> */}
       </Container>
     </Layout >
   )

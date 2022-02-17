@@ -22,7 +22,7 @@ export default function Presentation() {
             <iframe src="https://slides.com/tarjelavik/sprint-2022/embed" title="Erfaringer" scrolling="no" frameBorder="0" webkitallowfullscreen mozallowfullscreen allowFullScreen></iframe>
           </AspectRatio>
         </Box>
-        {/* <PortableText blocks={data.content} /> */}
+        {/* <PortableText value={data.content} /> */}
       </Container>
     </Layout >
   )
