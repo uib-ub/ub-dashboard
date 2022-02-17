@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Grid, GridItem, Heading, Image, Spacer, Tag, Text, VStack, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -36,7 +36,6 @@ const projectsQuery = groq`
     _id,
   }
 `;
-
 
 export async function getStaticPaths() {
   const all = await getClient(false).fetch(projectsQuery)
@@ -75,7 +74,7 @@ export default function Project({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image}
+          image={item.image[0]}
           continued={item.continued}
           continuedBy={item.continuedBy}
         >
@@ -104,7 +103,6 @@ export default function Project({ data }) {
           <TabPanels mt={3}>
             <TabPanel>
               <Grid
-
                 maxW={'full'}
                 gap={5}
                 templateColumns='repeat(6, 1fr)'

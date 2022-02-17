@@ -13,7 +13,7 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
             <Image
               border={'solid #eee 1px'}
               borderRadius={3}
-              src={urlFor(image).url()}
+              src={urlFor(image).width(200).url()}
               mb={"5"}
               boxSize='100px'
               objectFit='cover'
