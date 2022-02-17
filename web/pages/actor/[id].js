@@ -2,6 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
+import useWindowSize from 'react-use/lib/useWindowSize'
 import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
@@ -14,6 +15,11 @@ import MissingBlock from "../../components/MissingBlock"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
+  { ssr: false }
+)
+
+const ConfettiWithoutSSR = dynamic(
+  () => import('react-confetti'),
   { ssr: false }
 )
 
@@ -50,9 +56,19 @@ export async function getStaticProps({ params, preview = false }) {
 }
 
 export default function Person({ data }) {
+  const { width, height } = useWindowSize()
   const { item, milestones } = data
   return (
     <Layout>
+
+      {item.label === "Tarje Sælen Lavik" && (
+        <ConfettiWithoutSSR
+          recycle={false}
+          numberOfPieces={1000}
+          width={width}
+          height={height}
+        />
+      )}
       <Container variant="wrapper">
         <ItemHeader
           label={item.label}
