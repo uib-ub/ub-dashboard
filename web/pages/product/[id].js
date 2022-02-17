@@ -72,7 +72,7 @@ export default function Product({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image}
+          image={item.image?.[0]}
         >
           <Flex columnGap={'30px'} mt={4}>
             {item.period && (
