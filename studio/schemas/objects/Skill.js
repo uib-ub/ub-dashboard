@@ -15,6 +15,7 @@ export default {
       to: [
         { type: 'CompetenceType' },
         { type: 'ProgrammingLanguage' },
+        { type: 'Software' },
       ],
       validation: Rule => Rule.required()
     },
