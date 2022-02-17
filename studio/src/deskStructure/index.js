@@ -141,7 +141,7 @@ export default () =>
                   S.documentTypeList('NameType')
                 ),
               S.listItem()
-                .title('Språk')
+                .title('Språk (ikke bruk)')
                 .child(
                   S.documentTypeList('Language')
                 ),
