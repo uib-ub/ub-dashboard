@@ -74,7 +74,7 @@ export default function Project({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image[0]}
+          image={item.image?.[0]}
           continued={item.continued}
           continuedBy={item.continuedBy}
         >
@@ -110,7 +110,7 @@ export default function Project({ data }) {
 
                 {(item.carriedOutBy || item.hadParticipant) && (
                   <GridItem
-                    colSpan={[3]}
+                    colSpan={[6, null, 3]}
                   >
                     <Heading size={'lg'} mb={5}>Institusjoner</Heading>
                     <Box
@@ -133,7 +133,7 @@ export default function Project({ data }) {
 
                 {item.hasTeam && (
                   <GridItem
-                    colSpan={[3]}
+                    colSpan={[6, null, 3]}
                   >
                     <Heading size={'lg'} mb={5}>Medlemmer</Heading>
                     <Box
@@ -183,7 +183,8 @@ export default function Project({ data }) {
                       border={"1px solid"}
                       borderColor={"gray.200"}
                       boxShadow={"md"}
-                      px={5}
+                      px={10}
+                      pb={5}
                     >
                       <PortableText value={item.referredToBy[0].body} />
                     </Box>

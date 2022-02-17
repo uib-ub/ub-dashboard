@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer } from '@chakra-ui/react'
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
 
@@ -29,7 +29,6 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
           {(continued || continuedBy) && (
             <Flex
               mt={2}
-              justifyContent={'space-between'}
             >
               {continued && (
                 <VStack>
@@ -44,6 +43,8 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
                   ))}
                 </VStack>
               )}
+
+              <Spacer />
 
               {continuedBy && (
                 <VStack>
@@ -74,8 +75,8 @@ const ItemHeader = ({ label, blurb, image, continued, continuedBy, children }) =
           )}
           {children}
         </Grid>
-      </Flex>
-    </Grid>
+      </Flex >
+    </Grid >
   )
 }
 
