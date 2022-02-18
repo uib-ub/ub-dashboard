@@ -1,4 +1,4 @@
-import { hasType, imageSingleton, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
+import { hasType, logo, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
 
 export default {
   name: 'Schema',
@@ -30,13 +30,13 @@ export default {
     programmedWith,
     uses,
     link,
-    imageSingleton,
+    logo,
   ],
   preview: {
     select: {
       title: 'label',
       owner: 'maintainedBy.0.label',
-      media: 'image',
+      media: 'logo',
     },
     prepare({ title, owner, media }) {
       return {

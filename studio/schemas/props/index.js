@@ -220,6 +220,33 @@ export const imageSingleton = {
   },
 }
 
+export const logo = {
+  name: 'logo',
+  title: 'Logo',
+  description: (
+    <span>
+      Last opp eller velg et bilde. Dette er bildet som brukes som forhåndsvisning.{' '}
+      <Link target="blank" href={'https://muna.xyz/docs/model/properties#image'}>
+        <BsFillQuestionCircleFill />
+      </Link>
+    </span>
+  ),
+  descriptionEN: (
+    <span>
+      Upload or choose a image. This image will be used for previews.{' '}
+      <Link target="blank" href={'https://muna.xyz/docs/model/properties#image'}>
+        <BsFillQuestionCircleFill />
+      </Link>
+    </span>
+  ),
+  type: 'DigitalObject.Image',
+  options: {
+    semanticSanity: {
+      '@type': '@json'
+    }
+  },
+}
+
 export const digitallyShownBy = {
   name: 'digitallyShownBy',
   title: 'Digitale bilder',

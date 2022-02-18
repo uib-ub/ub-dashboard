@@ -1,4 +1,4 @@
-import { continued, continuedBy, hasFile, hadParticipant, image, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy, hasTeam, identifiedBy, hasType, motivatedBy } from "./props";
+import { continued, continuedBy, hasFile, hadParticipant, logo, labelSingleton, link, referredToBy, resultedIn, shortDescription, timespanSingleton, carriedOutBy, hasTeam, identifiedBy, hasType, motivatedBy, image } from "./props";
 
 export default {
   name: 'Project',
@@ -124,6 +124,10 @@ export default {
       group: 'resources'
     },
     {
+      ...logo,
+      group: 'resources'
+    },
+    {
       ...image,
       group: 'resources'
     },
@@ -135,7 +139,7 @@ export default {
   preview: {
     select: {
       title: 'label',
-      media: "image.0",
+      media: "logo",
       edtf: 'timespan.edtf',
     },
     prepare(selection) {

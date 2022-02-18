@@ -1,4 +1,4 @@
-import { hasFile, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton, composedOfProducts } from "./props";
+import { hasFile, hadParticipant, image, labelSingleton, link, referredToBy, usedService, shortDescription, timespanSingleton, composedOfProducts, logo } from "./props";
 
 export default {
   name: 'Product',
@@ -40,20 +40,24 @@ export default {
           '@type': '@id'
         }
       },
-    }, image,
+    },
+    logo,
+    image,
     hasFile
   ],
   preview: {
     select: {
       title: 'label',
       edtf: 'timespan.edtf',
+      media: 'logo,'
     },
     prepare(selection) {
-      const { title, edtf } = selection
+      const { title, edtf, media } = selection
 
       return {
         title: title,
         subtitle: edtf,
+        media: media,
       }
     },
   },
