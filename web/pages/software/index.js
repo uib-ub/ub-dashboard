@@ -10,7 +10,7 @@ import { urlFor } from "../../lib/sanity"
 const allSoftwareQuery = groq`[
   ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
-    image,
+    logo,
     "name": label,
     "description": coalesce(shortDescription, pt::text(referredToBy[0].body), '–'),
     "owner": coalesce(maintainedBy[0]->.label, '–'),
@@ -37,7 +37,7 @@ const columns = [
   },
   {
     Header: "",
-    accessor: "image",
+    accessor: "logo",
     isVisible: 'false'
   },
   {
@@ -45,10 +45,10 @@ const columns = [
     accessor: "name",
     Cell: ({ row }) => (
       <Flex columnGap={3} alignItems={'center'}>
-        {row.values.image ? (
+        {row.values.logo ? (
           <Image
             border={'solid #eee 1px'}
-            src={urlFor(row.values.image).url()}
+            src={urlFor(row.values.logo).url()}
             boxSize='30px'
             objectFit='cover'
             alt=''

@@ -16,6 +16,7 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import MissingBlock from "../../components/MissingBlock"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
+import HasType from "../../components/Props/HasType"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -23,7 +24,7 @@ const MilestonesWithoutSSR = dynamic(
 )
 
 const GraphComponentWithoutSSR = dynamic(
-  () => import('../../components/Graph/GraphComponent'),
+  () => import('../../components/GraphFlow'),
   { ssr: false }
 )
 
@@ -59,7 +60,6 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
-
 export default function Software({ data }) {
   const { item, graph } = data
 
@@ -70,8 +70,9 @@ export default function Software({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image}
+          image={item.logo}
         >
+          <HasType types={item.hasType} />
         </ItemHeader>
 
         <Tabs
@@ -137,21 +138,15 @@ export default function Software({ data }) {
                 borderRadius={3}
               >
                 <Box
-                  className="graphpaper-background"
-                  maxH={"50vh"} overflow={"hidden"}
-                  my="5"
                   borderRadius={"8"}
                   border={"1px solid"}
                   borderColor={"gray.200"}
                   boxShadow={"lg"}
+                  minHeight={'60vh'}
                 >
                   <GraphComponentWithoutSSR
-                    edges={graph.edges}
-                    nodes={graph.nodes}
+                    data={graph}
                   />
-                </Box>
-                <Box>
-                  <pre>{JSON.stringify(graph, null, 2)}</pre>
                 </Box>
               </Grid>
             </TabPanel>
@@ -172,7 +167,7 @@ export default function Software({ data }) {
             </TabPanel>
 
             <TabPanel>
-              <ItemDataWidget value={item} />
+              <ItemDataWidget value={graph} />
             </TabPanel>
 
           </TabPanels>

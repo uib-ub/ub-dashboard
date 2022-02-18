@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 // import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Center, Container, Divider, Flex, Grid, GridItem, Heading, Image, Text } from '@chakra-ui/react'
+import { Box, Center, Container, Divider, Flex, Grid, GridItem, Heading, Icon, Image, Text } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Head from "next/head"
 import Link from "next/link"
@@ -59,13 +59,19 @@ const columns = [
         {row.values.image ? (
           <Image
             border={'solid #eee 1px'}
+            borderRadius='full'
             src={urlFor(row.values.image).url()}
             boxSize='30px'
             objectFit='cover'
             alt=''
           />
         ) :
-          <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
+          <Icon viewBox='0 0 200 200' w={'30px'} h={'30px'} color='gray.200'>
+            <path
+              fill='currentColor'
+              d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+            />
+          </Icon>
         }
         <Link href={`/actor/${row.values.id}`}>
           {row.values.label}

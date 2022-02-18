@@ -63,7 +63,7 @@ export default function Dataset({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image}
+          image={item.logo}
         >
         </ItemHeader>
 

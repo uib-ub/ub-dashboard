@@ -26,6 +26,7 @@ import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import CurrentMembersWidget from '../../components/Widgets/CurrentMembersWidget'
 import { VscFileCode } from 'react-icons/vsc'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
+import HasType from "../../components/Props/HasType"
 
 
 const MilestonesWithoutSSR = dynamic(
@@ -76,7 +77,7 @@ export default function Project({ data }) {
         <ItemHeader
           label={item.label}
           blurb={item.shortDescription}
-          image={item.image?.[0]}
+          image={item.logo}
           continued={item.continued}
           continuedBy={item.continuedBy}
         >
@@ -89,6 +90,9 @@ export default function Project({ data }) {
             )}
             {item.identifier && (
               <Ids size={'md'} identifiers={item.identifier} />
+            )}
+            {item.hasType && (
+              <HasType types={item.hasType} />
             )}
           </Flex>
         </ItemHeader>

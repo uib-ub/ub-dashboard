@@ -70,6 +70,7 @@ const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, childr
           <Heading size={"xl"}>
             {label}
           </Heading>
+
           {quote && (
             <Text fontSize='lg' m="0">
               <em>
@@ -79,10 +80,11 @@ const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, childr
           )}
 
           {blurb && (
-            <Text fontSize='md' m="0">
+            <Text fontSize='md' m={0} mb={5}>
               {blurb}
             </Text>
           )}
+
           {children}
         </Grid>
       </Flex >

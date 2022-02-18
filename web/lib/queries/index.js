@@ -8,7 +8,7 @@ export const datasetQuery = groq`{
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
-    image,
+    logo,
     maintainedBy[]-> {
       "id": _id,
       label
@@ -20,12 +20,15 @@ export const softwareQuery = groq`{
   "item": *[_id == $id][0] {
     "id": _id,
     "type": _type,
-    "label": label,
+    label,
+    hasType[]-> {
+      "id": _id,
+      label
+    },
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
-    image,
-
+    logo,
     hasSoftwarePart[]-> {
       "id": _id,
       label,
@@ -66,60 +69,29 @@ export const softwareQuery = groq`{
         "id": _id,
         "type": _type,
         label,
-      },
-      ...hasType[]-> {
-        "id": _id,
-        "type": _type,
-        label
-      },
-      ...hasSoftwarePart[]->.hasType[]-> {
-        "id": _id,
-        "type": _type,
-        label
+        "hasType": hasType[]->.label,
+        "maintainedBy": maintainedBy[]->.label,
+        "programmedWith": programmedWith[]->.label,
       },
       ...hasSoftwarePart[]->.hostedBy[]-> {
         "id": _id,
         "type": _type,
-        label
+        label,
       },
       ...hasSoftwarePart[]->.runBy[]-> {
         "id": _id,
         "type": _type,
-        label
+        label,
       },
       ...hasSoftwarePart[]-> {
         "id": _id,
         "type": _type,
         label,
+        "hasType": hasType[]->.label,
       },
-      ...maintainedBy[]-> {
-        "id": _id,
-        "type": _type,
-        label
-      },
-      ...programmedWith[]-> {
-        "id": _id,
-        "type": _type,
-        label
-      }
     ],
     "edges": [
-      ...hasType[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
       ...hasSoftwarePart[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
-      ...maintainedBy[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
-      ...programmedWith[]-> {
         "id": ^._id + _id,
         "source": ^._id,
         "target": _id,
@@ -152,6 +124,7 @@ export const productQuery = groq`{
     shortDescription,
     "period": timespan.edtf,
     referredToBy[],
+    logo,
     image,
     link,
     hasFile[] {
@@ -236,33 +209,38 @@ export const productQuery = groq`{
 export const projectQuery = groq`{
   "item": * [_id == $id][0] {
     "id": _id,
-      "type": _type,
-        status,
-        "label": label,
-          shortDescription,
-          "period": timespan.edtf,
-            referredToBy[],
-            image,
-            link,
-            hasFile[] {
+    "type": _type,
+    status,
+    label,
+    hasType[]-> {
+      "id": _id,
+      label
+    },
+    shortDescription,
+    "period": timespan.edtf,
+    referredToBy[],
+    logo,
+    image,
+    link,
+    hasFile[] {
       _key,
-        label,
-        "url": accessPoint.asset -> url,
-          "extension": accessPoint.asset -> extension
+      label,
+      "url": accessPoint.asset -> url,
+      "extension": accessPoint.asset -> extension
     },
     continued[] -> {
       "id": _id,
       label
     },
-      continuedBy[] -> {
-        "id": _id,
-        label
-      },
-      hasTeam[] -> {
-        "id": _id,
-        label,
-        hasMember[] {
-          assignedActor-> {
+    continuedBy[] -> {
+      "id": _id,
+      label
+    },
+    hasTeam[] -> {
+      "id": _id,
+      label,
+      hasMember[] {
+        assignedActor-> {
           "id": _id,
           label,
         },
@@ -273,7 +251,7 @@ export const projectQuery = groq`{
         "timespan": timespan.edtf,
         "active": select(timespan.endOfTheEnd < now() => false, true)
       }
-  },
+    },
   "identifier": identifiedBy[] {
     _type == 'Identifier' => {
       content,
@@ -286,45 +264,45 @@ export const projectQuery = groq`{
       "type": _type,
         label,
         "awarder": awarder -> label,
-          "amount": fundingAmount.value,
-            "currency": fundingAmount.hasCurrency -> label,
-              "period": timespan.edtf,
+        "amount": fundingAmount.value,
+        "currency": fundingAmount.hasCurrency -> label,
+        "period": timespan.edtf,
       }
-},
-carriedOutBy[] {
-  assignedActor -> {
-    "id": _id,
-    label,
-  },
-    assignedRole[] -> {
+    },
+    carriedOutBy[] {
+      assignedActor -> {
+        "id": _id,
+        label,
+      },
+        assignedRole[] -> {
+          "id": _id,
+          label,
+        },
+        "timespan": timespan.edtf,
+        },
+    hadParticipant[] {
+      assignedActor -> {
+        "id": _id,
+        label,
+      },
+        assignedRole[] -> {
+          "id": _id,
+          label,
+        },
+        "timespan": timespan.edtf,
+        },
+    resultedIn[] -> {
       "id": _id,
+      "type": _type,
+      "period": timespan.edtf,
       label,
-    },
-    "timespan": timespan.edtf,
-    },
-hadParticipant[] {
-  assignedActor -> {
-    "id": _id,
-    label,
-  },
-    assignedRole[] -> {
-      "id": _id,
-      label,
-    },
-    "timespan": timespan.edtf,
-    },
-resultedIn[] -> {
-  "id": _id,
-  "type": _type,
-  "period": timespan.edtf,
-  label,
-  usedService[] {
-    "id": assignedService -> _id,
-    "type": assignedService -> _type,
-    "label": assignedService -> label,
-    "period": timespan.edtf,
-  }
-}
+      usedService[] {
+        "id": assignedService -> _id,
+        "type": assignedService -> _type,
+        "label": assignedService -> label,
+        "period": timespan.edtf,
+      }
+    }
   },
 "milestones": [
   ...* [_id == $id] | order(timespan.beginOfTheBegin asc) {

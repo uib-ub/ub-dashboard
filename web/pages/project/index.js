@@ -1,22 +1,30 @@
 import React, { useState } from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Button, Container, Divider, Flex, Grid, GridItem, Heading, Tag, Text, useColorModeValue } from '@chakra-ui/react'
+import { Button, Container, Divider, Flex, Grid, GridItem, Heading, Spacer, Tag, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import Status from "../../components/Props/Status"
 import Funding from "../../components/Props/Funding"
 import Period from "../../components/Props/Period"
+import HasType from "../../components/Props/HasType"
 
 const myQuery = groq`[
   ...*[_type in ['Project'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
     "label": label,
+    hasType[]-> {
+      "id": _id,
+      label
+    },
     status,
     timespan,
     "description": pt::text(referredToBy[0].body),
-    carriedOutBy[]->,
+    carriedOutBy[] {
+      "id": assignedActor->._id,
+      "label": assignedActor->.label
+    },
     "funding": activityStream[]-> {
       _type == 'FundingActivity' =>  {
         "id": _id,
@@ -86,18 +94,14 @@ export default function Projects({ data }) {
               }
             >
 
+
               <Heading
                 fontSize={['xl', '2xl', '2xl', '2xl', '3xl']}
-                isTruncated
               >
                 <Link href={`/project/${item.id}`}>{item.label}</Link>
               </Heading>
 
               <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
-
-              {item.carriedOutBy && (
-                <Tag colorScheme={"orange"} mr={"2"} mb="2">{item.carriedOutBy[0].label}</Tag>
-              )}
 
               <Divider my={3} />
 
@@ -113,6 +117,21 @@ export default function Projects({ data }) {
                 }
 
                 {!item.status && new Date(item.timespan?.endOfTheEnd) < now ? <Tag colorScheme={"red"} mr={"2"} mb="2">completed or overdue</Tag> : ''}
+
+                {item.hasType && (
+                  <HasType types={item.hasType} />
+                )}
+
+                {item.carriedOutBy && (
+                  <VStack spacing={1} align={'flex-start'}>
+                    <Heading fontSize={'md'} color={'gray.600'}>Eier</Heading>
+                    <Flex>
+                      {item.carriedOutBy.map(tag => (
+                        <Tag key={tag.id} colorScheme={'orange'} mr={"2"} mb="2">{tag.label}</Tag>
+                      ))}
+                    </Flex>
+                  </VStack>
+                )}
               </Flex>
             </GridItem>
           ))}

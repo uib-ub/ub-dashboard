@@ -1,7 +1,7 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Heading, Text, Flex, Image } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, Flex, Image, Icon } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from "../../components/DataTable"
@@ -37,7 +37,7 @@ const columns = [
   },
   {
     Header: "",
-    accessor: "image",
+    accessor: "logo",
     isVisible: 'false'
   },
   {
@@ -45,16 +45,22 @@ const columns = [
     accessor: "name",
     Cell: ({ row }) => (
       <Flex columnGap={3} alignItems={'center'}>
-        {row.values.image ? (
+        {row.values.logo ? (
           <Image
             border={'solid #eee 1px'}
-            src={urlFor(row.values.image).url()}
+            borderRadius='full'
+            src={urlFor(row.values.logo).url()}
             boxSize='30px'
             objectFit='cover'
             alt=''
           />
         ) :
-          <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
+          <Icon viewBox='0 0 200 200' w={'30px'} h={'30px'} color='gray.200'>
+            <path
+              fill='currentColor'
+              d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+            />
+          </Icon>
         }
         <Link href={`/dataset/${row.values.id}`}>
           {row.values.name}
