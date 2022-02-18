@@ -22,7 +22,7 @@ const Team = ({ team, size = 'sm' }) => {
         </Thead>
         <Tbody>
           {team.hasMember.map(member => (
-            <Tr key={member._key}>
+            <Tr key={member.id}>
               <Td>
                 <Link href={`/actor/${member.assignedActor.id}`}>
                   {member.assignedActor.label}
