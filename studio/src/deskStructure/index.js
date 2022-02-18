@@ -63,6 +63,21 @@ export default () =>
                 .child(
                   S.documentTypeList('VolatileSoftware')
                 ),
+              S.listItem()
+                .title('Programmeringsspråk')
+                .child(
+                  S.documentTypeList('ProgrammingLanguage')
+                ),
+              S.listItem()
+                .title('Dataskjema (ala CIDOC-CRM)')
+                .child(
+                  S.documentTypeList('Schema')
+                ),
+              S.listItem()
+                .title('Format (ala JSON, XML)')
+                .child(
+                  S.documentTypeList('EncodingType')
+                ),
             ])),
       S.listItem()
         .title('Tjenester')
@@ -84,7 +99,7 @@ export default () =>
                   S.documentTypeList('SoftwareComputingEService')
                 ),
               S.listItem()
-                .title('Verttjenester (kildekode++)')
+                .title('Verttjenester (tenk GitHub)')
                 .child(
                   S.documentTypeList('SoftwareDeliveryEService')
                 ),
@@ -121,6 +136,11 @@ export default () =>
                   S.documentTypeList('ActivityType')
                 ),
               S.listItem()
+                .title('Kompetansetyper')
+                .child(
+                  S.documentTypeList('CompetenceType')
+                ),
+              S.listItem()
                 .title('Hendelsestyper')
                 .child(
                   S.documentTypeList('EventType')
@@ -151,7 +171,7 @@ export default () =>
                   S.documentTypeList('ProgrammingLanguage')
                 ),
               S.listItem()
-                .title('Protokoll')
+                .title('Protokoll (som HTTP)')
                 .child(
                   S.documentTypeList('ProtocolType')
                 ),

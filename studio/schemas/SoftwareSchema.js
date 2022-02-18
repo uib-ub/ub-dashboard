@@ -1,7 +1,7 @@
 import { hasType, imageSingleton, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
 
 export default {
-  name: 'Software',
+  name: 'Schema',
   title: 'Software',
   type: 'document',
   fields: [
