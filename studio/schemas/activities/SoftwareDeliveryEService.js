@@ -1,5 +1,4 @@
-import { coalesceLabel } from '../helpers'
-import { referredToBy, timespanSingleton, labelSingleton, carriedOutBy, competence, availability, condidionOfUse } from '../props'
+import { referredToBy, timespanSingleton, labelSingleton, competence, availability, condidionOfUse, logo } from '../props'
 
 
 export default {
@@ -44,18 +43,21 @@ export default {
     competence,
     availability,
     condidionOfUse,
+    logo,
   ],
   preview: {
     select: {
       title: 'label',
       provider: 'providedBy.label',
-      edtf: 'timespan.edtf'
+      edtf: 'timespan.edtf',
+      media: 'logo',
     },
     prepare(selection) {
-      const { title, provider, edtf } = selection
+      const { title, provider, edtf, media } = selection
       return {
         title: `${title}`,
         subtitle: `${provider ?? ''} ${edtf ?? ''}`,
+        media: media,
       }
     },
   },
