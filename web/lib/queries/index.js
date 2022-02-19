@@ -67,51 +67,68 @@ export const softwareQuery = groq`{
     "nodes": [
       {
         "id": _id,
-        "type": _type,
         label,
-        "hasType": hasType[]->.label,
-        "maintainedBy": maintainedBy[]->.label,
-        "programmedWith": programmedWith[]->.label,
-      },
-      ...hasSoftwarePart[]->.hostedBy[]-> {
-        "id": _id,
-        "type": _type,
-        label,
-      },
-      ...hasSoftwarePart[]->.runBy[]-> {
-        "id": _id,
-        "type": _type,
-        label,
+        "subtitle": "Programvare",
+        logo,
+        "info": {
+          "Type:": hasType[]->.label,
+          "Eier:": maintainedBy[0]->.label,
+          "Språk:": programmedWith[0]->.label,
+        }
       },
       ...hasSoftwarePart[]-> {
         "id": _id,
-        "type": _type,
         label,
-        "hasType": hasType[]->.label,
+        "subtitle": "Kildekode",
+        "info": {
+          "Type:": hasType[]->.label,
+        }
+      },
+      ...hasSoftwarePart[]->.hostedBy[]-> {
+        "id": _id,
+        label,
+        "subtitle": "Repositorium",
+        "logo": componentOf->.providedBy->.logo,
+        "info": {
+          "Host:": componentOf->.label,
+        },
+      },
+      ...hasSoftwarePart[]->.runBy[]-> {
+        "id": _id,
+        label,
+        "subtitle": "Deployment",
+        "logo": providedBy->.logo,
+        "info": {
+          "Leverandør:": providedBy->.label,
+        }
       },
     ],
     "edges": [
-      ...hasSoftwarePart[]-> {
-        "id": ^._id + _id,
+      {
         "source": ^._id,
         "target": _id,
-      },
-      ...hasSoftwarePart[]->.hasType[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
-      ...hasSoftwarePart[]->.hostedBy[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
-      ...hasSoftwarePart[]->.runBy[]-> {
-        "id": ^._id + _id,
-        "source": ^._id,
-        "target": _id,
-      },
-    ],
+        "label": "parts",
+        "children": [
+          ...hasSoftwarePart[]-> {
+            "source": ^._id,
+            "target": _id,
+            "label": "source code parts",
+            "children": [
+              ...hostedBy[]-> {
+                "source": ^._id,
+                "target": _id,
+                "label": "Hosted by",
+              },
+              ...runBy[]-> {
+                "source": coalesce( runsOnRequest._ref, ^._id),
+                "target": _id,
+                "label": "Run by",
+              },
+            ]
+          },
+        ],
+      }
+    ]
   }
 }`
 

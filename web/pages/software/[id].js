@@ -23,8 +23,8 @@ const MilestonesWithoutSSR = dynamic(
   { ssr: false }
 )
 
-const GraphComponentWithoutSSR = dynamic(
-  () => import('../../components/GraphFlow'),
+const NodeFlowComponentWithoutSSR = dynamic(
+  () => import('../../components/NodeFlow'),
   { ssr: false }
 )
 
@@ -114,6 +114,21 @@ export default function Software({ data }) {
                   <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
+                {graph && (
+                  <GridItem
+                    colSpan={[6]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"lg"}
+                    minHeight={'60vh'}
+                  >
+                    <NodeFlowComponentWithoutSSR
+                      data={graph}
+                    />
+                  </GridItem>
+                )}
+
               </Grid>
             </TabPanel>
 
@@ -144,7 +159,7 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'60vh'}
                 >
-                  <GraphComponentWithoutSSR
+                  <NodeFlowComponentWithoutSSR
                     data={graph}
                   />
                 </Box>
@@ -167,7 +182,7 @@ export default function Software({ data }) {
             </TabPanel>
 
             <TabPanel>
-              <ItemDataWidget value={graph} />
+              <ItemDataWidget value={item} />
             </TabPanel>
 
           </TabPanels>

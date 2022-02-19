@@ -1,17 +1,24 @@
 import React, { useState, useCallback } from 'react';
+import { useMeasure } from "react-use";
+import { Box } from '@chakra-ui/react'
 import ReactFlow, {
-  Background,
   ReactFlowProvider,
   addEdge,
   removeElements,
   isNode,
+  Background,
 } from 'react-flow-renderer';
 import dagre from 'dagre';
 
-import styles from './GraphFlow.module.css'
+import styles from './NodeFlow.module.css'
+import InfoNode from './InfoNode';
 
-const position = { x: 0, y: 0 };
+const position = { x: 20, y: 0 };
 const edgeType = 'smoothstep';
+
+const nodeTypes = {
+  special: InfoNode,
+};
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -21,7 +28,7 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 // const nodes = useStoreState(state => state.nodes) and then node.__rf.width, node.__rf.height
 
 const nodeWidth = 172;
-const nodeHeight = 36;
+const nodeHeight = 172;
 
 const getLayoutedElements = (elements, direction = 'TB') => {
   const isHorizontal = direction === 'LR';
@@ -56,21 +63,38 @@ const getLayoutedElements = (elements, direction = 'TB') => {
   });
 };
 
+function flat(array) {
+  var result = [];
+  array.forEach(function (a) {
+    result.push(a);
+    if (Array.isArray(a.children)) {
+      result = result.concat(flat(a.children));
+    }
+  });
+  return result;
+}
 
-export default function GraphFlow({ data }) {
+export default function NodeFlow({ data }) {
+  const [ref, { height, width }] = useMeasure();
+  const edges = flat(data.edges)
+
   const initialElements = [
     ...data.nodes.map((node, index) => {
       return {
         id: node.id,
-        type: index === 0 ? 'input' : null, // input node
+        type: 'special',
         data: {
-          label:
-            <div>
-              {node.label}<br />
-              <strong>{node.type}</strong>
-            </div>
+          ...node
         },
         position: position,
+      }
+    }),
+    ...edges.map((edge, i) => {
+      return {
+        ...edge,
+        id: `e${i}`,
+        animated: true,
+        type: edgeType,
       }
     })
   ];
@@ -93,20 +117,24 @@ export default function GraphFlow({ data }) {
   );
 
   return (
-    <div style={{ width: '400px', height: '400px' }} className={styles.layoutflow}>
-      <ReactFlowProvider>
-        <ReactFlow
-          elements={elements}
-          onConnect={onConnect}
-          onElementsRemove={onElementsRemove}
-          connectionLineType="smoothstep"
-        />
-        <div className={styles.controls}>
-          <button onClick={() => onLayout('TB')}>vertical layout</button>
-          <button onClick={() => onLayout('LR')}>horizontal layout</button>
-        </div>
-      </ReactFlowProvider>
-    </div>
+    <Box ref={ref} minH={'full'} overflow={'hidden'}>
+      <div style={{ height: height, width: width }} className={styles.layoutflow}>
+        <ReactFlowProvider>
+          <ReactFlow
+            elements={elements}
+            nodeTypes={nodeTypes}
+            onConnect={onConnect}
+            onElementsRemove={onElementsRemove}
+            connectionLineType="smoothstep"
+          />
+          <Background color="#aaa" gap={16} />
+          {/* <div className={styles.controls}>
+            <button onClick={() => onLayout('TB')}>vertical layout</button>
+            <button onClick={() => onLayout('LR')}>horizontal layout</button>
+          </div> */}
+        </ReactFlowProvider>
+      </div>
+    </Box>
   )
 }
 
