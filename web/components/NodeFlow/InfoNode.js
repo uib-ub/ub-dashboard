@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, Grid, Heading, Image, Tag, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
 import { urlFor } from '../../lib/sanity';
@@ -14,7 +14,7 @@ const InfoNode = ({ data }) => {
     >
       <Handle type="target" position={Position.Top} />
 
-      <Container p={0} centerContent>
+      <Flex columnGap={5}>
         {data.logo && <Image
           border={'solid #eee 1px'}
           src={urlFor(data.logo).url()}
@@ -22,10 +22,11 @@ const InfoNode = ({ data }) => {
           objectFit='cover'
           alt=''
         />}
-
-        <Heading size={'xs'}>{data.label}</Heading>
-        <Tag size={'sm'}>{data.subtitle}</Tag>
-      </Container>
+        <Box>
+          <Heading size={'xs'}>{data.label}</Heading>
+          <Tag size={'sm'}>{data.subtitle}</Tag>
+        </Box>
+      </Flex>
 
       <Grid as="dl" templateColumns={'1fr 3fr'} columnGap={2} mt={2}>
         {data.info && Object.entries(data.info).map(([key, value], index) => (

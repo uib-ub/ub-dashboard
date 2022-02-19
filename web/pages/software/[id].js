@@ -113,8 +113,8 @@ export default function Software({ data }) {
                 {item.referredToBy && (
                   <AbstractWidget value={item.referredToBy[0].body} />
                 )}
-                {/* 
-                {graph && (
+
+                {graph?.nodes.length > 1 && (
                   <GridItem
                     colSpan={[6]}
                     borderRadius={"8"}
@@ -127,22 +127,8 @@ export default function Software({ data }) {
                       data={graph}
                     />
                   </GridItem>
-                )} */}
+                )}
 
-              </Grid>
-            </TabPanel>
-
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <MissingBlock
-                  heading="Historikk-komponenten er ikke ferdig..."
-                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
-                  icon={GrHistory}
-                />
               </Grid>
             </TabPanel>
 
@@ -157,12 +143,26 @@ export default function Software({ data }) {
                   border={"1px solid"}
                   borderColor={"gray.200"}
                   boxShadow={"lg"}
-                  minHeight={'60vh'}
+                  minHeight={'80vh'}
                 >
                   <NodeFlowComponentWithoutSSR
                     data={graph}
                   />
                 </Box>
+              </Grid>
+            </TabPanel>
+
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <MissingBlock
+                  heading="Historikk-komponenten er ikke ferdig..."
+                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
+                  icon={GrHistory}
+                />
               </Grid>
             </TabPanel>
 

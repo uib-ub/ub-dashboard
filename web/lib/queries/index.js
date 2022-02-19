@@ -88,7 +88,7 @@ export const softwareQuery = groq`{
         "id": _id,
         label,
         "subtitle": "Repositorium",
-        "logo": componentOf->.providedBy->.logo,
+        "logo": coalesce(componentOf->.logo, componentOf->.providedBy->.logo),
         "info": {
           "Host:": componentOf->.label,
         },
@@ -101,6 +101,11 @@ export const softwareQuery = groq`{
         "info": {
           "Leverandør:": providedBy->.label,
         }
+      },
+      ...hasSoftwarePart[]->.runBy[]->.exposeService[] {
+        "id": _key,
+        "label": url,
+        "subtitle": "Endpoint",
       },
     ],
     "edges": [
@@ -123,6 +128,13 @@ export const softwareQuery = groq`{
                 "source": coalesce( runsOnRequest._ref, ^._id),
                 "target": _id,
                 "label": "Run by",
+                "children": [
+                  ...exposeService[] {
+                    "source": ^._id,
+                    "target": _key,
+                    "label": "Offers service",
+                  }
+                ],
               },
             ]
           },
