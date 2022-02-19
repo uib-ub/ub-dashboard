@@ -2,7 +2,7 @@ import { Box, StatHelpText, StatLabel, StatNumber, Stat } from '@chakra-ui/react
 import millify from "millify"
 
 const Funding = ({ stream, ...rest }) => {
-  if (!stream) return
+  if (!stream) return null
 
   return (
     <Box>

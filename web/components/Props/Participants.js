@@ -2,7 +2,7 @@ import { Avatar, Badge, Box, Flex, Wrap, WrapItem, Text } from '@chakra-ui/react
 import Link from '../Link'
 
 const Participants = ({ participants }) => {
-  if (!participants) return
+  if (!participants) return null
 
   return (
     <Wrap maxW={'full'}>

@@ -2,7 +2,7 @@ import { Table, Thead, Tbody, Th, Tr, Td, Heading } from '@chakra-ui/react'
 import Link from '../Link'
 
 const Team = ({ team, size = 'sm' }) => {
-  if (!team) return
+  if (!team) return null
 
   return (
     <>

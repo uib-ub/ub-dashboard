@@ -1,7 +1,7 @@
 import { Heading, VStack } from '@chakra-ui/react'
 
 const Period = ({ period }) => {
-  if (!period) return
+  if (!period) return null
 
   return (
     <VStack spacing={1} align={'flex-start'}>

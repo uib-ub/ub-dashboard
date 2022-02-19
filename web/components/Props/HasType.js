@@ -1,7 +1,7 @@
 import { Flex, Heading, Tag, VStack } from '@chakra-ui/react'
 
 const HasType = ({ types, ...rest }) => {
-  if (!types) return
+  if (!types) return null
 
   return (
     <VStack spacing={1} align={'flex-start'}>

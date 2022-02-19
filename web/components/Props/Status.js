@@ -2,7 +2,7 @@ import { Heading, Tag, VStack } from '@chakra-ui/react'
 import { upperCase } from 'lodash-es'
 
 const Status = ({ status, ...rest }) => {
-  if (!status) return
+  if (!status) return null
 
   const colors = {
     planning: 'pink',

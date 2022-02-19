@@ -2,7 +2,7 @@ import { ArrowUpDownIcon } from '@chakra-ui/icons'
 import { Heading, Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverArrow, PopoverCloseButton, PopoverAnchor, Tooltip, VStack, Text, } from '@chakra-ui/react'
 
 const Ids = ({ identifiers }) => {
-  if (!identifiers) return
+  if (!identifiers) return null
 
   return (
     <VStack spacing={1} align={'flex-start'}>

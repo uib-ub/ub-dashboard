@@ -3,7 +3,7 @@ import { lowerCase } from 'lodash-es'
 import Link from '../Link'
 
 const ResultedIn = ({ results }) => {
-  if (!results) return
+  if (!results) return null
 
   return (
     <>

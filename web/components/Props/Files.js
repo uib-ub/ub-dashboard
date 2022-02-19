@@ -3,7 +3,7 @@ import { Icon, Table, Thead, Tbody, Th, Tr, Td, Tag, TagLabel } from '@chakra-ui
 import Link from '../Link'
 
 const Files = ({ files }) => {
-  if (!files) return
+  if (!files) return null
 
   return (
     <Table size='sm'>

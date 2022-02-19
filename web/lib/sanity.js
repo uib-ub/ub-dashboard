@@ -37,11 +37,11 @@ const serializers = {
       const { blank, href } = value
       const text = children.length ? children[0] : children
       return blank ? (
-        <Link href={href} isExternal>
+        <a href={href} target="_blank" rel='noreferrer'>
           {text}
-        </Link>
+        </a>
       ) : (
-        <Link href={href}>{text}</Link>
+        <a href={href}>{text}</a>
       )
     },
   },

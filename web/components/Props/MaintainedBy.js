@@ -1,7 +1,7 @@
 import { Avatar, Box, Flex, Wrap, WrapItem, Text } from '@chakra-ui/react'
 
 const MaintainedBy = ({ maintainers }) => {
-  if (!maintainers) return
+  if (!maintainers) return null
 
   return (
     <Wrap maxW={'full'}>
