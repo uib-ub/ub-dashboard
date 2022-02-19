@@ -1,4 +1,4 @@
-import { hasType, identifiedBy, labelSingleton, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
+import { hasType, identifiedBy, labelSingleton, logo, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
 import sanityClient from 'part:@sanity/base/client'
 
 const client = sanityClient.withConfig({ apiVersion: '2021-03-25' })
@@ -61,17 +61,20 @@ export default {
         }
       },
     },
+    logo
   ],
   preview: {
     select: {
       title: 'label',
       subtitle: 'hasType.0.label',
       period: 'timespan.edtf',
+      media: 'logo',
     },
-    prepare({ title, subtitle, period }) {
+    prepare({ title, subtitle, period, media }) {
       return {
         title: `${title}`,
         subtitle: `${subtitle ?? ''} ${period ?? ''}`,
+        media: media
       };
     },
   },

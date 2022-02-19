@@ -70,6 +70,7 @@ export default {
       title: 'Kjører software',
       type: 'reference',
       to: [
+        { type: 'HostingService' },
         { type: 'VolatileSoftware' },
         { type: 'Software' },
       ]

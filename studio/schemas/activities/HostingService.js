@@ -88,7 +88,7 @@ export default {
       const { title, provider, edtf, accessPoint } = selection
       return {
         title: `${title ?? provider} ${edtf ?? ''}`,
-        subtitle: accessPoint,
+        subtitle: provider ?? accessPoint,
       }
     },
   },
