@@ -8,10 +8,8 @@ import ReactFlow, {
   isNode,
   Background,
 } from 'react-flow-renderer';
-import dagre from 'dagre';
-
-import styles from './NodeFlow.module.css'
 import InfoNode from './InfoNode';
+import dagre from 'dagre';
 
 const position = { x: 20, y: 0 };
 const edgeType = 'smoothstep';
@@ -118,7 +116,7 @@ export default function NodeFlow({ data }) {
 
   return (
     <Box ref={ref} minH={'full'} overflow={'hidden'}>
-      <div style={{ height: height, width: width }} className={styles.layoutflow}>
+      <div style={{ height: height, width: width }}>
         <ReactFlowProvider>
           <ReactFlow
             elements={elements}
