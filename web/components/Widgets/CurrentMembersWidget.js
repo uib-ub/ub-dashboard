@@ -2,7 +2,7 @@ import { Box, GridItem, Heading } from '@chakra-ui/react';
 import Participants from '../Props/Participants';
 
 export default function CurrentMembersWidget({ value }) {
-  if (!value) return
+  if (!value) return null
 
   return (
     <GridItem
