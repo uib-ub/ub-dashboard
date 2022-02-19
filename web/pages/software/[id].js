@@ -84,8 +84,8 @@ export default function Software({ data }) {
         >
           <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
+            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab isDisabled><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
             <Spacer />
             <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
@@ -113,7 +113,7 @@ export default function Software({ data }) {
                 {item.referredToBy && (
                   <AbstractWidget value={item.referredToBy[0].body} />
                 )}
-
+                {/* 
                 {graph && (
                   <GridItem
                     colSpan={[6]}
@@ -127,7 +127,7 @@ export default function Software({ data }) {
                       data={graph}
                     />
                   </GridItem>
-                )}
+                )} */}
 
               </Grid>
             </TabPanel>

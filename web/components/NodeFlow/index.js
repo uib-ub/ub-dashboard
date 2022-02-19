@@ -116,7 +116,7 @@ export default function NodeFlow({ data }) {
 
   return (
     <Box ref={ref} minH={'full'} overflow={'hidden'}>
-      <div style={{ height: height, width: width }}>
+      <Box h={height} w={width} flexGrow={1} position="relative">
         <ReactFlowProvider>
           <ReactFlow
             elements={elements}
@@ -131,7 +131,7 @@ export default function NodeFlow({ data }) {
             <button onClick={() => onLayout('LR')}>horizontal layout</button>
           </div> */}
         </ReactFlowProvider>
-      </div>
+      </Box>
     </Box>
   )
 }
