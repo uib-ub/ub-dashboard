@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Grid, Heading, Image, Tag, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
+import middleTruncate from '../../lib/functions/middleTruncate';
 import { urlFor } from '../../lib/sanity';
 
 const InfoNode = ({ data }) => {
@@ -11,6 +12,7 @@ const InfoNode = ({ data }) => {
       borderRadius={'sm'}
       p={5}
       bg={'white'}
+      w={'sm'}
     >
       <Handle type="target" position={Position.Top} />
 

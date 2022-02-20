@@ -1,12 +1,14 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Image } from '@chakra-ui/react'
+import { Box, Button, Container, Flex, Heading, Icon, IconButton, Image } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from "../../components/DataTable"
 import { urlFor } from "../../lib/sanity"
+import { GrFormEdit } from 'react-icons/gr'
 
+const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 const allSoftwareQuery = groq`[
   ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
     "id": _id,
@@ -30,11 +32,6 @@ export const getStaticProps = async ({ preview = false }) => {
 }
 
 const columns = [
-  {
-    Header: "id",
-    accessor: "id",
-    isVisible: 'false'
-  },
   {
     Header: "",
     accessor: "logo",
@@ -69,7 +66,18 @@ const columns = [
   {
     Header: "Eier",
     accessor: "owner"
-  }
+  },
+  {
+    Header: "",
+    accessor: "id",
+    Cell: ({ row }) => (
+      <a href={`${studio}/desk/intent/edit/id=${row.values.id}`} target={'_blank'} rel={'noreferrer'}>
+        <Button leftIcon={<Icon as={GrFormEdit} />} size={'sm'}>
+          Redigér
+        </Button>
+      </a>
+    )
+  },
 ];
 
 

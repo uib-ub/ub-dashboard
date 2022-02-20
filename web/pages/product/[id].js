@@ -73,6 +73,7 @@ export default function Product({ data }) {
     <Layout>
       <Container variant="wrapper">
         <ItemHeader
+          id={item.id}
           label={item.label}
           blurb={item.shortDescription}
           image={item.logo}

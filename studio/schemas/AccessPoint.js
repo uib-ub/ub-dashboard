@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, link, referredToBy, servesDataset, shortDescription, timespanSingleton, url } from "./props";
+import { hasType, labelSingleton, link, shortDescription } from "./props";
 
 export default {
   name: 'AccessPoint',
@@ -10,21 +10,25 @@ export default {
       validation: Rule => Rule
     },
     {
-      ...url,
-      type: 'string'
+      name: 'value',
+      title: 'Adresse',
+      type: 'string',
+      validation: Rule => Rule.required()
     }, // Should be more generic? or some conditional?
     {
       ...hasType,
       type: 'reference',
       to: [
         { type: 'ProtocolType' }
-      ]
+      ],
+      validation: Rule => Rule
     },
+    shortDescription,
   ],
   preview: {
     select: {
       title: 'label',
-      url: 'url',
+      url: 'value',
       type: 'hasType.label'
     },
     prepare(selection) {

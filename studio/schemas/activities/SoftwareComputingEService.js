@@ -51,12 +51,20 @@ export default {
       description: 'Tilgangspunkt for den overordnede hosten',
       type: 'array',
       of: [{ type: 'AccessPoint' }],
+      initialValue: {
+        _type: 'AccessPoint',
+        hasType: {
+          _type: 'reference',
+          _ref: '904829b8-5722-4776-948c-8841a9c5bdd5' // HTTP
+        }
+      },
       fieldset: 'core',
       group: 'core',
     },
     {
       name: 'deployHookSetting',
       title: 'Deploy hook settings',
+      description: 'Hvordan oppdateres tjenesten?',
       type: 'array',
       of: [
         { type: 'VercelDeploymentConfig' },
@@ -76,6 +84,32 @@ export default {
       ]
     },
     {
+      name: 'accessPoint',
+      title: 'Tilgangspunkt',
+      description: 'Hvilke adresser har tjenesten?',
+      type: 'array',
+      of: [{ type: 'AccessPoint' }],
+      initialValue: {
+        _type: 'AccessPoint',
+        hasType: {
+          _type: 'reference',
+          _ref: '904829b8-5722-4776-948c-8841a9c5bdd5' // HTTP
+        }
+      },
+    },
+    {
+      name: 'provisionedBy',
+      title: 'Provisjonert av',
+      description: 'Dersom tjenesten er provisjonert av Ansible, Terraform eller lignende, lenk til koden.',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [
+          { type: 'VolatileSoftware' },
+        ]
+      }]
+    },
+    {
       name: 'hostsDataset',
       title: 'Holder dataset',
       type: 'array',
@@ -89,6 +123,7 @@ export default {
     {
       name: 'curatesDataset',
       title: 'Kuraterer dataset',
+      description: 'Er denne tjenesten "editor" for et datasett?',
       type: 'array',
       of: [{
         type: 'reference',
@@ -96,24 +131,6 @@ export default {
           { type: 'Dataset' },
         ]
       }]
-    },
-    {
-      name: 'provisionedBy',
-      title: 'Provisjonert av',
-      type: 'array',
-      of: [{
-        type: 'reference',
-        to: [
-          { type: 'VolatileSoftware' },
-        ]
-      }]
-    },
-    {
-      name: 'exposeService',
-      title: 'Tilbyr tjeneste',
-      type: 'array',
-      of: [{ type: 'AccessPoint' }]
-      //of: [{ type: 'EService' }]
     },
     {
       ...competence,
@@ -140,13 +157,15 @@ export default {
     select: {
       title: 'label',
       providedBy: 'providedBy.label',
-      edtf: 'timespan.edtf'
+      edtf: 'timespan.edtf',
+      media: 'providedBy.logo'
     },
     prepare(selection) {
-      const { title, providedBy, edtf } = selection
+      const { title, providedBy, edtf, media } = selection
       return {
         title: `${title} ${edtf ?? ''}`,
         subtitle: providedBy ? `Deployed by ${providedBy}` : 'Deployment',
+        media: media,
       }
     },
   },

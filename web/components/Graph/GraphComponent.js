@@ -48,7 +48,7 @@ const Graph = ({ edges, nodes, width, height, targetRef }) => {
       const { x, y, zoom } = boundsToViewport(getSelectionBounds(nodes, 60), { width: _width.current, height: _height.current });
       setGraph((graph) => ({ ...graph, nodes, edges, x, y, zoom }));
     });
-  }, []);
+  }, [nodes, edges]);
 
   const onNodeDrag = useCallback(({ nodeX, nodeY, target: { id, x = 0, y = 0 } }) => {
     setGraph((graph) => ({

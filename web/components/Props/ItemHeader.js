@@ -3,8 +3,11 @@ import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
 import { BsChatQuote } from 'react-icons/bs'
+import { GrFormEdit } from 'react-icons/gr'
 
-const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, children }) => {
+const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
+
+const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, children }) => {
   return (
     <Grid>
       <Flex columnGap={'30px'}>
@@ -67,9 +70,17 @@ const ItemHeader = ({ label, blurb, quote, image, continued, continuedBy, childr
         </Box>
 
         <Grid>
-          <Heading size={"xl"}>
-            {label}
-          </Heading>
+          <Flex align="center" columnGap={3}>
+            <Heading as="h1" size="xl" letterSpacing={"tighter"}>
+              {label}
+            </Heading>
+
+            {id &&
+              <a href={`${studio}/desk/intent/edit/id=${id}`} target={'_blank'} rel={'noreferrer'}>
+                <IconButton as={GrFormEdit} size={'xs'} />
+              </a>
+            }
+          </Flex>
 
           {quote && (
             <Text fontSize='lg' m="0">

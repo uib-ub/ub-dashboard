@@ -20,6 +20,11 @@ export default {
       validation: Rule => Rule.required()
     },
     {
+      name: 'wantToLearn',
+      title: 'Ønsker å lære?',
+      type: 'boolean'
+    },
+    {
       name: 'level',
       title: 'Hvor godt kan du dette da (1-10)?',
       type: 'number',

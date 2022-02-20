@@ -89,6 +89,7 @@ export default function Person({ data }) {
 
       <Container variant="wrapper">
         <ItemHeader
+          id={item.id}
           label={item.label}
           blurb={item.shortDescription}
           quote={item.quote}

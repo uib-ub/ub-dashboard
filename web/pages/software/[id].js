@@ -68,6 +68,7 @@ export default function Software({ data }) {
       <Container variant="wrapper">
 
         <ItemHeader
+          id={item.id}
           label={item.label}
           blurb={item.shortDescription}
           image={item.logo}

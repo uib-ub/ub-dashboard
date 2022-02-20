@@ -51,13 +51,14 @@ export default {
       provider: 'providedBy.label',
       edtf: 'timespan.edtf',
       media: 'logo',
+      providerLogo: 'providedBy.logo',
     },
     prepare(selection) {
-      const { title, provider, edtf, media } = selection
+      const { title, provider, edtf, media, providerLogo } = selection
       return {
         title: `${title}`,
         subtitle: `${provider ?? ''} ${edtf ?? ''}`,
-        media: media,
+        media: media ?? providerLogo,
       }
     },
   },
