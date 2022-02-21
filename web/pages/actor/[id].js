@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -59,6 +59,19 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
+const colors = [
+  'red.600',
+  'red.500',
+  'yellow.500',
+  'yellow.400',
+  'yellow.300',
+  'green.300',
+  'green.400',
+  'green.500',
+  'green.600',
+  'green.700',
+]
+
 const columns = [
   {
     Header: "Felt",
@@ -67,6 +80,13 @@ const columns = [
   {
     Header: "Nivå (1-10)",
     accessor: "level",
+    Cell: ({ row }) => (
+      <Flex columnGap={1}>
+        {[...Array(10)].map((x, i) =>
+          <Box w={5} h={2} key={i} borderRadius={'25%'} bg={row.values.level > i ? colors[i] : 'gray.200'} />
+        )}
+      </Flex>
+    )
   },
 ];
 

@@ -5,6 +5,7 @@ import Link from '../Link'
 import { BsChatQuote } from 'react-icons/bs'
 import { GrFormEdit } from 'react-icons/gr'
 
+
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, children }) => {
@@ -12,7 +13,6 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
     <Grid>
       <Flex columnGap={'30px'}>
         <Box>
-
           {image ? (
             <Image
               border={'solid #eee 1px'}
@@ -31,6 +31,7 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
             >
             </Box>
           }
+
           {(continued || continuedBy) && (
             <Flex
               mt={2}
