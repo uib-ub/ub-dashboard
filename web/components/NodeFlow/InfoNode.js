@@ -1,7 +1,6 @@
-import { Box, Container, Flex, Grid, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Image, Tag, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
-import middleTruncate from '../../lib/functions/middleTruncate';
 import { urlFor } from '../../lib/sanity';
 
 const InfoNode = ({ data }) => {
@@ -17,15 +16,18 @@ const InfoNode = ({ data }) => {
       <Handle type="target" position={Position.Top} />
 
       <Flex columnGap={5}>
-        {data.logo && <Image
-          border={'solid #eee 1px'}
-          src={urlFor(data.logo).url()}
-          boxSize='50px'
-          objectFit='cover'
-          alt=''
-        />}
+        {data.logo &&
+          <Image
+            border={'solid #eee 1px'}
+            src={urlFor(data.logo).url()}
+            boxSize='50px'
+            objectFit='cover'
+            alt=''
+            draggable='false'
+          />
+        }
         <Box>
-          <Heading size={'xs'}>{data.label}</Heading>
+          <Heading size={'md'}>{data.label}</Heading>
           <Tag size={'sm'}>{data.subtitle}</Tag>
         </Box>
       </Flex>
