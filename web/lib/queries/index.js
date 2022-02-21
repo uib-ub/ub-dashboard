@@ -104,6 +104,16 @@ export const softwareQuery = groq`{
           "Url:": designatedAccessPoint[0].value
         }
       },
+      ...hasSoftwarePart[]->.runBy[]->.provisionedBy[]-> {
+        "id": _id,
+        label,
+        "subtitle": "Provisioning repository",
+        "logo": providedBy->.logo,
+        "info": {
+          "Leverandør:": providedBy->.label,
+          "Url:": designatedAccessPoint[0].value
+        }
+      },
       ...hasSoftwarePart[]->.runBy[]->.accessPoint[] {
         "id": _key,
         "label": value,
@@ -135,7 +145,12 @@ export const softwareQuery = groq`{
                     "source": ^._id,
                     "target": _key,
                     "label": "Offers service",
-                  }
+                  },
+                  ...provisionedBy[]-> {
+                    "source": ^._id,
+                    "target": _id,
+                    "label": "Provisioned by",
+                  },
                 ],
               },
             ]
