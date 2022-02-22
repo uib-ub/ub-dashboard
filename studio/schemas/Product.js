@@ -2,7 +2,7 @@ import { hasFile, hadParticipant, image, labelSingleton, link, referredToBy, use
 
 export default {
   name: 'Product',
-  title: 'Product',
+  title: 'Produkt',
   type: 'document',
   fields: [
     labelSingleton,

@@ -2,7 +2,7 @@ import { continued, continuedBy, hasFile, hadParticipant, logo, labelSingleton, 
 
 export default {
   name: 'Project',
-  title: 'Project',
+  title: 'Prosjekt',
   type: 'document',
   groups: [
     {
