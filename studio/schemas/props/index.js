@@ -79,7 +79,7 @@ export const accessState = {
 export const uses = {
   name: 'uses',
   title: 'Uses',
-  description: 'List software og programmeringsspråk denne tjenesten benytter.',
+  description: 'Programvare-avhengigheter',
   type: 'array',
   of: [{
     type: 'reference',

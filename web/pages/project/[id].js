@@ -27,6 +27,7 @@ import CurrentMembersWidget from '../../components/Widgets/CurrentMembersWidget'
 import { VscFileCode } from 'react-icons/vsc'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import HasType from "../../components/Props/HasType"
+import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 
 
 const MilestonesWithoutSSR = dynamic(
@@ -82,18 +83,10 @@ export default function Project({ data }) {
           continuedBy={item.continuedBy}
         >
           <Flex columnGap={'30px'} mt={4}>
-            {item.period && (
-              <Period size={'md'} period={item.period} />
-            )}
-            {item.status && (
-              <Status size={'md'} status={item.status} />
-            )}
-            {item.identifier && (
-              <Ids size={'md'} identifiers={item.identifier} />
-            )}
-            {item.hasType && (
-              <HasType types={item.hasType} />
-            )}
+            <Period size={'md'} period={item.period} />
+            <Status size={'md'} status={item.status} />
+            <Ids size={'md'} identifiers={item.identifier} />
+            <ItemHeaderStatsWidget types={item.hasType} />
           </Flex>
         </ItemHeader>
 
@@ -104,7 +97,7 @@ export default function Project({ data }) {
           flexDirection='column'
           maxW={'full'}
         >
-          <TabList overflowY='scroll'>
+          <TabList overflowX='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
             <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>

@@ -37,6 +37,7 @@ export { default as DigitalObjectImage } from './images/DigitalObjectImage'
 
 export { default as ContributionAssignment } from './objects/ContributionAssignment'
 export { default as VercelDeploymentConfig } from './objects/VercelDeploymentConfig'
+export { default as GitLabCIConfig } from './objects/GitLabCIConfig'
 export { default as NetlifyDeploymentConfig } from './objects/NetlifyDeploymentConfig'
 export { default as DigitalObjectFile } from './objects/DigitalObjectFile'
 export { default as LinguisticObject } from './objects/LinguisticObject'

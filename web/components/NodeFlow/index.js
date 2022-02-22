@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useMeasure } from "react-use";
-import { Box } from '@chakra-ui/react'
+import { Box, textDecoration } from '@chakra-ui/react'
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -93,6 +93,9 @@ export default function NodeFlow({ data }) {
         id: `e${i}`,
         animated: true,
         type: edgeType,
+        arrowHeadType: 'arrow',
+        style: { strokeWidth: 2 },
+        labelStyle: { textTransform: 'uppercase' },
       }
     })
   ];

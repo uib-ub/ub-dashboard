@@ -16,7 +16,8 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import MissingBlock from "../../components/MissingBlock"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
-import HasType from "../../components/Props/HasType"
+import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
+import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -73,7 +74,12 @@ export default function Software({ data }) {
           blurb={item.shortDescription}
           image={item.logo}
         >
-          <HasType types={item.hasType} />
+          <Flex columnGap={'30px'} mt={4}>
+            <ItemHeaderStatsWidget data={item.hasType} heading="Type" />
+            <ItemHeaderStatsWidget data={item.systemOwner} heading="Systemeier" />
+            <ItemHeaderStatsWidget data={item.productOwner} heading="Produkteier" />
+            <ItemHeaderStatsAvatarWidget data={item.maintainedBy} heading="Team" size="sm" />
+          </Flex>
         </ItemHeader>
 
         <Tabs
@@ -83,7 +89,7 @@ export default function Software({ data }) {
           flexDirection='column'
           maxW={'full'}
         >
-          <TabList overflowY='scroll'>
+          <TabList overflowX='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
@@ -100,35 +106,11 @@ export default function Software({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
-                {item.maintainedBy && (
-                  <GridItem
-                    colSpan={[6]}
-                    border={'solid #eee 1px'}
-                    borderRadius={3}
-                    py={3}
-                  >
-                    <MaintainedBy maintainers={item.maintainedBy} />
-                  </GridItem>
-                )}
 
                 {item.referredToBy && (
                   <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
-                {graph?.nodes.length > 1 && (
-                  <GridItem
-                    colSpan={[6]}
-                    borderRadius={"8"}
-                    border={"1px solid"}
-                    borderColor={"gray.200"}
-                    boxShadow={"lg"}
-                    minHeight={'60vh'}
-                  >
-                    <NodeFlowComponentWithoutSSR
-                      data={graph}
-                    />
-                  </GridItem>
-                )}
 
               </Grid>
             </TabPanel>

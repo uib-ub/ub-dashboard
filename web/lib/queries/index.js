@@ -20,15 +20,27 @@ export const softwareQuery = groq`{
   "item": *[_id == $id][0] {
     "id": _id,
     "type": _type,
+    logo,
     label,
     hasType[]-> {
       "id": _id,
       label
     },
     shortDescription,
-    "period": timespan.edtf,
     referredToBy[],
-    logo,
+    "period": timespan.edtf,
+    systemOwner-> {
+      "id": _id,
+      label
+    },
+    productOwner-> {
+      "id": _id,
+      label
+    },
+    maintainedBy[]-> {
+      "id": _id,
+      label
+    },
     hasSoftwarePart[]-> {
       "id": _id,
       label,
@@ -58,10 +70,6 @@ export const softwareQuery = groq`{
         ...,
       }
     },
-    maintainedBy[]-> {
-      "id": _id,
-      label
-    }
   },
   "graph": *[_id == $id][0] {
     "nodes": [
@@ -79,6 +87,7 @@ export const softwareQuery = groq`{
       ...hasSoftwarePart[]-> {
         "id": _id,
         label,
+        shortDescription,
         "subtitle": "Kildekode",
         "info": {
           "Type:": hasType[]->.label,
@@ -87,11 +96,12 @@ export const softwareQuery = groq`{
       ...hasSoftwarePart[]->.hostedBy[]-> {
         "id": _id,
         label,
+        shortDescription,
         "subtitle": "Repositorium",
         "logo": coalesce(componentOf->.logo, componentOf->.providedBy->.logo),
         "info": {
           "Host:": componentOf->.label,
-          "Url:": accessPoint[0]->.value
+          "Url:": designatedAccessPoint[0].value
         },
       },
       ...hasSoftwarePart[]->.runBy[]-> {
@@ -147,9 +157,10 @@ export const softwareQuery = groq`{
                     "label": "Offers service",
                   },
                   ...provisionedBy[]-> {
-                    "source": ^._id,
-                    "target": _id,
-                    "label": "Provisioned by",
+                    "source": _id,
+                    "target": ^._id,
+                    'targetHandle': 'p',
+                    "label": "Provisions",
                   },
                 ],
               },

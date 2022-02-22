@@ -40,7 +40,6 @@ export default {
       title: 'Access points',
       type: 'array',
       of: [{ type: 'AccessPoint' }]
-
     },
     {
       name: 'hasPlatformCapability',
@@ -54,8 +53,7 @@ export default {
       type: 'array',
       hidden: ({ parent, value }) => !value && parent?.hasPlatformCapability !== true,
       of: [
-        { type: 'VercelDeploymentConfig' },
-        { type: 'NetlifyDeploymentConfig' },
+        { type: 'GitLabCIConfig' },
       ],
       /* fieldset: 'core',
       group: 'core', */

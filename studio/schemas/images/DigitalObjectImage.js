@@ -18,9 +18,6 @@ export default {
       name: 'caption',
       title: 'Bildetekst',
       type: 'LocaleString',
-      options: {
-        isHighlighted: true,
-      },
     },
     {
       name: 'alt',
@@ -28,9 +25,6 @@ export default {
       description: 'Important for SEO and accessiblity.',
       type: 'LocaleString',
       validation: (Rule) => Rule.warning('You should to fill out the alternative text.'),
-      options: {
-        isHighlighted: true,
-      },
     }
   ],
 }
