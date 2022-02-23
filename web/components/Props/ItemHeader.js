@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon, Tooltip } from '@chakra-ui/react'
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
 import { BsChatQuote } from 'react-icons/bs'
@@ -40,11 +40,13 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
                 <VStack>
                   {continued.map(e => (
                     <Link key={e.id} href={`/project/${e.id}`}>
-                      <IconButton
-                        isRound
-                        aria-label={e.label}
-                        icon={<ChevronLeftIcon />}
-                      />
+                      <Tooltip label={`Fortsatte: ${e.label}`} placement='right-end'>
+                        <IconButton
+                          isRound
+                          aria-label={e.label}
+                          icon={<ChevronLeftIcon />}
+                        />
+                      </Tooltip>
                     </Link>
                   ))}
                 </VStack>
@@ -56,11 +58,13 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
                 <VStack>
                   {continuedBy.map(e => (
                     <Link key={e.id} href={`/project/${e.id}`}>
-                      <IconButton
-                        isRound
-                        aria-label={e.label}
-                        icon={<ChevronRightIcon />}
-                      />
+                      <Tooltip label={`Fortsatt av: ${e.label}`} placement='right-end'>
+                        <IconButton
+                          isRound
+                          aria-label={e.label}
+                          icon={<ChevronRightIcon />}
+                        />
+                      </Tooltip>
                     </Link>
                   ))}
                 </VStack>
