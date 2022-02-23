@@ -10,14 +10,19 @@ import { GrFormEdit } from 'react-icons/gr'
 
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 const allSoftwareQuery = groq`[
-  ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
+  ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(currentOrFormerMaintainerTeam[0].assignedActor->.label asc)  {
     "id": _id,
     logo,
     "name": label,
     "description": coalesce(shortDescription, pt::text(referredToBy[0].body), '–'),
-    "owner": coalesce(maintainedBy[0]->.label, '–'),
+    "manager": coalesce(currentOrFormerManager[0].assignedActor->.label, '–'),
+    "team": coalesce(
+      currentOrFormerMaintainerTeam[0].assignedActor->.label, 
+      externalSoftware, 
+      '–'
+    ),
   },
-]`;
+]`
 
 export const getStaticProps = async ({ preview = false }) => {
   const now = new Date()
@@ -64,8 +69,15 @@ const columns = [
     accessor: "description"
   },
   {
-    Header: "Eier",
-    accessor: "owner"
+    Header: "Forvalter",
+    accessor: "manager"
+  },
+  {
+    Header: "Team",
+    accessor: "team",
+    Cell: ({ row }) => (
+      row.values.team === true ? 'Ekstern' : row.values.team
+    )
   },
   {
     Header: "",
