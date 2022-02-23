@@ -1,22 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useMeasure } from "react-use";
 import { Box } from '@chakra-ui/react'
 import ReactFlow, {
   ReactFlowProvider,
-  addEdge,
-  removeElements,
   isNode,
   Background,
+  Controls,
 } from 'react-flow-renderer';
 import InfoNode from './InfoNode';
 import dagre from 'dagre';
-
-const position = { x: 20, y: 0 };
-const edgeType = 'smoothstep';
-
-const nodeTypes = {
-  special: InfoNode,
-};
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -25,16 +17,18 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 // In a real world app you would use the correct width and height values of
 // const nodes = useStoreState(state => state.nodes) and then node.__rf.width, node.__rf.height
 
-const nodeWidth = 172;
-const nodeHeight = 172;
+const NODE_DEFAULT_WIDTH = 372;
+const NODE_DEFAULT_HEIGHT = 176;
 
-const getLayoutedElements = (elements, direction = 'TB') => {
-  const isHorizontal = direction === 'LR';
-  dagreGraph.setGraph({ rankdir: direction });
+const getLayoutedElements = (elements) => {
+  dagreGraph.setGraph({ rankdir: 'TB' });
 
   elements.forEach((el) => {
     if (isNode(el)) {
-      dagreGraph.setNode(el.id, { width: nodeWidth, height: nodeHeight });
+      dagreGraph.setNode(el.id, {
+        width: el.__rf?.width ?? NODE_DEFAULT_WIDTH,
+        height: el.__rf?.height ?? NODE_DEFAULT_HEIGHT,
+      });
     } else {
       dagreGraph.setEdge(el.source, el.target);
     }
@@ -45,15 +39,18 @@ const getLayoutedElements = (elements, direction = 'TB') => {
   return elements.map((el) => {
     if (isNode(el)) {
       const nodeWithPosition = dagreGraph.node(el.id);
-      el.targetPosition = isHorizontal ? 'left' : 'top';
-      el.sourcePosition = isHorizontal ? 'right' : 'bottom';
+      el.targetPosition = 'top';
+      el.sourcePosition = 'bottom';
 
       // unfortunately we need this little hack to pass a slightly different position
       // to notify react flow about the change. Moreover we are shifting the dagre node position
       // (anchor=center center) to the top left so it matches the react flow node anchor point (top left).
       el.position = {
-        x: nodeWithPosition.x - nodeWidth / 2 + Math.random() / 1000,
-        y: nodeWithPosition.y - nodeHeight / 2,
+        x:
+          nodeWithPosition.x -
+          nodeWithPosition.width / 2 +
+          Math.random() / 1000,
+        y: nodeWithPosition.y - nodeWithPosition.height / 2,
       };
     }
 
@@ -80,12 +77,14 @@ function flat(array) {
 
 export default function NodeFlow({ data }) {
   const [ref, { height, width }] = useMeasure();
-  const edges = flat(data.edges)
+  const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
 
   const onLoad = (reactFlowInstance) => {
     reactFlowInstance.project({ x: width, y: height });
-    reactFlowInstance.fitView();
+    reactFlowInstance.fitView({ padding: 0.15, includeHiddenNodes: true });
   };
+
+  const edges = flat(data.edges)
 
   const initialElements = [
     ...data.nodes.map((node) => {
@@ -95,7 +94,7 @@ export default function NodeFlow({ data }) {
         data: {
           ...node
         },
-        position: position,
+        position: { x: 0, y: 0 },
       }
     }),
     ...edges.map((edge, i) => {
@@ -103,39 +102,35 @@ export default function NodeFlow({ data }) {
         ...edge,
         id: `e${i}`,
         animated: true,
-        type: edgeType,
+        type: 'smoothstep',
         arrowHeadType: 'arrow',
         style: { strokeWidth: 2 },
         labelStyle: { textTransform: 'uppercase' },
       }
     })
   ];
+
   const layoutedElements = getLayoutedElements(initialElements);
 
   const [elements, setElements] = useState(layoutedElements);
-  const onConnect = (params) =>
-    setElements((els) =>
-      addEdge({ ...params, type: 'smoothstep', animated: true }, els)
-    );
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
 
   return (
-    <Box ref={ref} minH={'full'} overflow={'hidden'}>
-      <Box h={height} w={width} flexGrow={1} position="relative">
-        <ReactFlowProvider>
-          <ReactFlow
-            elements={elements}
-            nodeTypes={nodeTypes}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            connectionLineType="smoothstep"
-            onLoad={onLoad}
-          />
-          <Background color="#aaa" gap={16} />
-        </ReactFlowProvider>
-      </Box>
+    <Box ref={ref} w={'full'} h={'70vh'} overflow={'hidden'} flexGrow={1} position="relative">
+      {/* <Box h={height} w={width} overflow={'hidden'} flexGrow={1} position="relative" > */}
+      <ReactFlowProvider>
+        <Controls
+          style={{ top: 10, left: 10, boxShadow: 'none' }}
+        />
+        <ReactFlow
+          onLoad={onLoad}
+          elements={elements}
+          nodeTypes={nodeTypes}
+          connectionLineType="smoothstep"
+          nodesConnectable={false}
+        />
+        <Background color="#777" gap={16} />
+      </ReactFlowProvider>
+      {/* </Box> */}
     </Box>
   )
 }
-

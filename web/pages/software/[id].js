@@ -83,6 +83,7 @@ export default function Software({ data }) {
         </ItemHeader>
 
         <Tabs
+          isLazy
           colorScheme='green'
           my={10}
           display='flex'
