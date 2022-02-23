@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer, Table } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { softwareQuery } from "../../lib/queries"
@@ -76,9 +76,9 @@ export default function Software({ data }) {
         >
           <Flex columnGap={'30px'} mt={4}>
             <ItemHeaderStatsWidget data={item.hasType} heading="Type" />
-            <ItemHeaderStatsWidget data={item.systemOwner} heading="Systemeier" />
-            <ItemHeaderStatsWidget data={item.productOwner} heading="Produkteier" />
-            <ItemHeaderStatsAvatarWidget data={item.maintainedBy} heading="Team" size="sm" />
+            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" />
+            <ItemHeaderStatsWidget data={item.currentOrFormerManager?.[0]} heading="Forvalter" />
+            <ItemHeaderStatsAvatarWidget data={item.currentOrFormerMaintainerTeam?.[0]} heading="Team" size="sm" />
           </Flex>
         </ItemHeader>
 
@@ -111,7 +111,54 @@ export default function Software({ data }) {
                   <AbstractWidget value={item.referredToBy[0].body} />
                 )}
 
-
+                {item.hasSoftwarePart && (
+                  <GridItem colSpan={6}>
+                    <Heading>Består av (WIP):</Heading>
+                    {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
+                      <Box key={part.id} mb={5}>
+                        <Heading size={'md'}>
+                          Kildekode: {part.label}
+                        </Heading>
+                        {part.hostedBy && part.hostedBy.map(i => (
+                          <Box key={i.id} ml={5}>
+                            <Heading size={'sm'}>
+                              {i.label} - {i.componentOf.label}
+                            </Heading>
+                            <Text size={'sm'} ml={5} my={1}>
+                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                {i.url}
+                              </a>
+                            </Text>
+                          </Box>
+                        ))}
+                        {part.runBy && part.runBy.map(i => (
+                          <Box key={i.id} ml={5}>
+                            <Heading size={'sm'}>
+                              {i.label} - {i.providedBy.label}
+                            </Heading>
+                            <Text size={'sm'} ml={5} my={1}>
+                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                {i.url}
+                              </a>
+                            </Text>
+                          </Box>
+                        ))}
+                        {part.provisionedBy && part.provisionedBy.map(i => (
+                          <Box key={i.id} ml={5}>
+                            <Heading size={'md'}>
+                              {i.label}
+                            </Heading>
+                            <Text size={'sm'} ml={5} my={1}>
+                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                {i.url}
+                              </a>
+                            </Text>
+                          </Box>
+                        ))}
+                      </Box>
+                    ))}
+                  </GridItem>
+                )}
               </Grid>
             </TabPanel>
 
@@ -126,7 +173,7 @@ export default function Software({ data }) {
                   border={"1px solid"}
                   borderColor={"gray.200"}
                   boxShadow={"lg"}
-                  minHeight={'80vh'}
+                  minHeight={'90vh'}
                 >
                   <NodeFlowComponentWithoutSSR
                     data={graph}

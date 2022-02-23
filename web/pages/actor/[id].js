@@ -16,6 +16,7 @@ import { flatMap } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
+import { FaHatWizard } from 'react-icons/fa'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/MilestonesComponent'),
@@ -81,10 +82,13 @@ const columns = [
     Header: "Nivå (1-10)",
     accessor: "level",
     Cell: ({ row }) => (
-      <Flex columnGap={1}>
+      <Flex columnGap={1} alignItems="center">
         {[...Array(10)].map((x, i) =>
           <Box w={5} h={2} key={i} borderRadius={'25%'} bg={row.values.level > i ? colors[i] : 'gray.200'} />
         )}
+        {row.values.level === 10 &&
+          <Icon as={FaHatWizard} ml={2} color={'green.900'} />
+        }
       </Flex>
     )
   },
@@ -130,29 +134,6 @@ export default function Person({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
-
-                {flattenedMilestones.length > 1 && (
-                  <GridItem
-                    colSpan={6}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
-                    <Box
-                      w="100%"
-                    >
-                      <MilestonesWithoutSSR
-                        data={flattenedMilestones}
-                        pattern
-                        // p="5"
-                        pb="10"
-                        borderRadius={"8"}
-                        border={"1px solid"}
-                        borderColor={"gray.200"}
-                        boxShadow={"md"}
-                      />
-                    </Box>
-                  </GridItem>
-                )}
 
                 {item.hasSkill && (
                   <GridItem
@@ -206,15 +187,32 @@ export default function Person({ data }) {
 
             <TabPanel>
               <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
+                maxW={'full'}
+                gap={5}
+                templateColumns='repeat(6, 1fr)'
               >
-                <MissingBlock
-                  heading="Historikk-komponenten er ikke ferdig..."
-                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
-                  icon={GrHistory}
-                />
+                {flattenedMilestones.length > 1 && (
+                  <GridItem
+                    colSpan={6}
+                    display={{ base: 'none', md: 'inherit' }}
+                  >
+                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
+                    <Box
+                      w="100%"
+                    >
+                      <MilestonesWithoutSSR
+                        data={flattenedMilestones}
+                        pattern
+                        // p="5"
+                        pb="10"
+                        borderRadius={"8"}
+                        border={"1px solid"}
+                        borderColor={"gray.200"}
+                        boxShadow={"md"}
+                      />
+                    </Box>
+                  </GridItem>
+                )}
               </Grid>
             </TabPanel>
 

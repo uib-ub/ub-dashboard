@@ -4,11 +4,37 @@ export default {
   name: 'VolatileSoftware',
   title: 'Source code',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'core',
+      title: 'Kjernemetadata',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      }
+    },
+    {
+      name: 'extra',
+      title: 'Ekstra',
+      options: {
+        columns: 2
+      },
+    }
+  ],
   fields: [
-    labelSingleton,
-    shortDescription,
+    {
+      ...labelSingleton,
+    },
+    {
+      ...shortDescription,
+    },
+    {
+      ...referredToBy,
+      fieldset: 'core',
+    },
     {
       ...hasType,
+      fieldset: 'core',
       type: 'array',
       of: [
         { type: 'reference', to: [{ type: 'SoftwareType' }] }
@@ -29,18 +55,24 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'SoftwareComputingEService' }] }]
     },
-    programmedWith,
-    uses,
-    link,
-    referredToBy,
     {
+      ...programmedWith,
+      fieldset: 'extra',
+      description: 'Only use if necessary, prefer to register on source code.'
+    },
+    {
+      ...uses,
+      fieldset: 'extra',
+    },
+    link,
+    /* This feels wrong... {
       name: 'curatedBy',
       title: 'Kuratert av',
       type: 'reference',
       to: [
         { type: 'SoftwareCuratingService' },
       ]
-    },
+    }, */
   ],
   preview: {
     select: {
@@ -48,7 +80,7 @@ export default {
     },
     prepare({ title }) {
       return {
-        title: `${title}`,
+        title: `⌨️ ${title}`,
         subtitle: `Kildekode`,
       };
     },

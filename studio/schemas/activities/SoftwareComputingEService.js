@@ -163,7 +163,7 @@ export default {
     prepare(selection) {
       const { title, providedBy, edtf, media } = selection
       return {
-        title: `${title} ${edtf ?? ''}`,
+        title: `📡 ${title} ${edtf ?? ''}`,
         subtitle: providedBy ? `Deployed by ${providedBy}` : 'Deployment',
         media: media,
       }

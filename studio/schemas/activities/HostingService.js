@@ -93,7 +93,7 @@ export default {
     prepare(selection) {
       const { title, provider, edtf, accessPoint, media, providerLogo } = selection
       return {
-        title: `${title ?? provider} ${edtf ?? ''}`,
+        title: `🗄️ ${title ?? provider} ${edtf ?? ''}`,
         subtitle: provider ?? accessPoint,
         media: media ?? providerLogo,
       }

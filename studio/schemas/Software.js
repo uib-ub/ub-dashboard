@@ -1,9 +1,24 @@
 import { hasType, logo, labelSingleton, link, programmedWith, referredToBy, shortDescription, uses } from "./props";
-// hidden: ({ parent, value }) => !value && parent?.hasComputingCapability !== true,
+
 export default {
   name: 'Software',
   title: 'Software',
   type: 'document',
+  validation: Rule => Rule.custom(fields => {
+    // Count ContrubutionAssignment timespans without a timespan.endOfTheEnd
+    const activeSystemOwner = fields.currentOrFormerSystemOwner?.reduce((a, v) => (!v.timespan?.endOfTheEnd ? a + 1 : a), 0)
+    const activeManager = fields.currentOrFormerManager?.reduce((a, v) => (!v.timespan?.endOfTheEnd ? a + 1 : a), 0)
+
+    // Only 1 active system owner or manager is allowed
+    if ((activeSystemOwner && activeSystemOwner !== 1) || (activeManager && activeManager !== 1)) return (
+      `Det kan bare være
+       ${(activeSystemOwner && activeSystemOwner !== 1) ? 'én aktiv systemeier' : ''} 
+       ${(activeSystemOwner && activeSystemOwner !== 1) && (activeManager && activeManager !== 1) ? ' og ' : ''} 
+       ${(activeManager && activeManager !== 1) ? 'én aktiv produkteier ' : ''} 
+       (registrer en sluttdato i EDTF-feltet).`
+    )
+    return true
+  }),
   fieldsets: [
     {
       name: 'core',
@@ -49,10 +64,10 @@ export default {
       ...labelSingleton,
     },
     {
-      ...referredToBy,
+      ...shortDescription,
     },
     {
-      ...shortDescription,
+      ...referredToBy,
       fieldset: 'core',
     },
     {
@@ -64,34 +79,33 @@ export default {
       ]
     },
     {
-      name: 'designatedAccessPoint',
-      title: 'Access point',
+      name: 'websiteUrl',
+      title: 'Nettside',
       fieldset: 'core',
-      type: 'AccessPoint',
+      type: 'url',
     },
     {
-      name: 'systemOwner',
+      name: 'currentOrFormerSystemOwner',
       title: 'Systemeier',
       description: 'System eier er alltid en direktøren, så vi registrer institusjon eller avdeling her.',
       fieldset: 'accountability',
-      type: 'reference',
-      to: [{ type: 'Group' }],
-
+      type: 'array',
+      of: [{ type: 'ContributionAssignment' }]
     },
     {
-      name: 'productOwner',
+      name: 'currentOrFormerManager',
       title: 'Produkteier',
       description: 'Hvem er ansvarlig for utviklingen og/eller driften av denne programvaren?',
       fieldset: 'accountability',
-      type: 'reference',
-      to: [{ type: 'Actor' }],
+      type: 'array',
+      of: [{ type: 'ContributionAssignment' }]
     },
     {
-      name: 'maintainedBy',
+      name: 'currentOrFormerMaintainerTeam',
       title: 'Eies av team',
       fieldset: 'team',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'Group' }] }],
+      of: [{ type: 'ContributionAssignment' }]
     },
     {
       name: 'hasSoftwarePart',
@@ -115,13 +129,13 @@ export default {
   preview: {
     select: {
       title: 'label',
-      owner: 'maintainedBy.0.label',
+      owner: 'currentOrFormerMaintainerTeam.0.assignedActor.label',
       external: 'externalSoftware',
       media: 'logo',
     },
     prepare({ title, owner, external, media }) {
       return {
-        title: title,
+        title: `🖥️ ${title}`,
         subtitle: `${external === true ? 'Ekstern programvare. ' : ''}${owner ?? ''}`,
         media: media
       };

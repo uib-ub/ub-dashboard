@@ -29,17 +29,23 @@ export const softwareQuery = groq`{
     shortDescription,
     referredToBy[],
     "period": timespan.edtf,
-    systemOwner-> {
-      "id": _id,
-      label
+    currentOrFormerSystemOwner[] {
+      "id": assignedActor->._id,
+      "label": assignedActor->.label,
+      "role": assignedRole->.label,
+      "period": timespan.edtf,
     },
-    productOwner-> {
-      "id": _id,
-      label
+    currentOrFormerManager[] {
+      "id": assignedActor->._id,
+      "label": assignedActor->.label,
+      "role": assignedRole->.label,
+      "period": timespan.edtf,
     },
-    maintainedBy[]-> {
-      "id": _id,
-      label
+    currentOrFormerMaintainerTeam[] {
+      "id": assignedActor->._id,
+      "label": assignedActor->.label,
+      "role": assignedRole->.label,
+      "period": timespan.edtf,
     },
     hasSoftwarePart[]-> {
       "id": _id,
@@ -53,6 +59,7 @@ export const softwareQuery = groq`{
         ...,
         "id": _id,
         "type": _type,
+        "url": designatedAccessPoint[0].value,
         componentOf-> {
           "id": _id,
           "type": _type,
@@ -60,14 +67,21 @@ export const softwareQuery = groq`{
         }
       },
       runBy[]-> {
+        ...,
         "id": _id,
         "type": _type,
-        ...,
+        "url": designatedAccessPoint[0].value,
+        providedBy-> {
+          "id": _id,
+          "type": _type,
+          label
+        },
       },
       provisionedBy[]-> {
+        ...,
         "id": _id,
         "type": _type,
-        ...,
+        "url": designatedAccessPoint[0].value,
       }
     },
   },
@@ -80,7 +94,9 @@ export const softwareQuery = groq`{
         logo,
         "info": {
           "Type:": hasType[]->.label,
-          "Eier:": maintainedBy[0]->.label,
+          "Eier:": currentOrFormerSystemOwner[0].assignedActor->.label,
+          "Forvalter:": currentOrFormerManager[0].assignedActor->.label,
+          "Team:": currentOrFormerMaintainerTeam[0].assignedActor->.label,
           "Språk:": programmedWith[0]->.label,
         }
       },

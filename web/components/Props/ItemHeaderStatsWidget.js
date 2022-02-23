@@ -2,7 +2,7 @@ import { Flex, Heading, Tag, VStack } from '@chakra-ui/react'
 import Link from '../Link'
 
 const ItemHeaderStatsWidget = ({ heading, data, ...rest }) => {
-  if (!data && !heading) return null
+  if (!data || !heading) return null
 
   return (
     <VStack spacing={1} align={'flex-start'}>
