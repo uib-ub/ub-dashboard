@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useMeasure } from "react-use";
-import { Box, textDecoration } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -61,6 +61,11 @@ const getLayoutedElements = (elements, direction = 'TB') => {
   });
 };
 
+/**
+ * Our edges are nested, so we need to deeply flatten the array
+ * @param {*} array 
+ * @returns array
+ */
 function flat(array) {
   var result = [];
   array.forEach(function (a) {
@@ -72,12 +77,18 @@ function flat(array) {
   return result;
 }
 
+
 export default function NodeFlow({ data }) {
   const [ref, { height, width }] = useMeasure();
   const edges = flat(data.edges)
 
+  const onLoad = (reactFlowInstance) => {
+    reactFlowInstance.project({ x: width, y: height });
+    reactFlowInstance.fitView();
+  };
+
   const initialElements = [
-    ...data.nodes.map((node, index) => {
+    ...data.nodes.map((node) => {
       return {
         id: node.id,
         type: 'special',
@@ -109,14 +120,6 @@ export default function NodeFlow({ data }) {
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
 
-  const onLayout = useCallback(
-    (direction) => {
-      const layoutedElements = getLayoutedElements(elements, direction);
-      setElements(layoutedElements);
-    },
-    [elements]
-  );
-
   return (
     <Box ref={ref} minH={'full'} overflow={'hidden'}>
       <Box h={height} w={width} flexGrow={1} position="relative">
@@ -127,12 +130,9 @@ export default function NodeFlow({ data }) {
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             connectionLineType="smoothstep"
+            onLoad={onLoad}
           />
           <Background color="#aaa" gap={16} />
-          {/* <div className={styles.controls}>
-            <button onClick={() => onLayout('TB')}>vertical layout</button>
-            <button onClick={() => onLayout('LR')}>horizontal layout</button>
-          </div> */}
         </ReactFlowProvider>
       </Box>
     </Box>
