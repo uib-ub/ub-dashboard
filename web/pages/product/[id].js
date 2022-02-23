@@ -77,21 +77,18 @@ export default function Product({ data }) {
           label={item.label}
           blurb={item.shortDescription}
           image={item.logo}
+          continued={item.continued}
+          continuedBy={item.continuedBy}
         >
           <Flex columnGap={'30px'} mt={4}>
-            {item.period && (
-              <Period size={'md'} period={item.period} />
-            )}
-            {item.status && (
-              <Status size={'md'} status={item.status} />
-            )}
-            {item.identifier && (
-              <Ids size={'md'} identifiers={item.identifier} />
-            )}
+            <Period size={'md'} period={item.period} />
+            <Status size={'md'} status={item.status} />
+            <Ids size={'md'} identifiers={item.identifier} />
           </Flex>
         </ItemHeader>
 
         <Tabs
+          lazy
           colorScheme='green'
           my={10}
           display='flex'
@@ -100,7 +97,7 @@ export default function Product({ data }) {
         >
           <TabList overflowY='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab isDisabled><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Tab isDisabled><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
             <Spacer />
@@ -131,44 +128,6 @@ export default function Product({ data }) {
                     <Participants participants={item.hadParticipant} />
                   </GridItem>
                 )}
-
-
-                <GridItem colSpan={6}>
-                  <Flex direction={['column', null, 'row']}>
-                    {item.continued && (
-                      <Box display={"inline-block"} m={3}>
-                        <span>Fortsettelse av </span>
-                        <VStack display={"inline-block"}>
-                          {item.continued.map(e => (
-                            <Heading key={e.id} size={"md"}>
-                              <Link href={`/project/${e.id}`}>
-                                {e.label}
-                              </Link>
-                            </Heading>
-                          ))}
-                        </VStack>
-                      </Box>
-                    )}
-
-                    <Spacer />
-
-                    {item.continuedBy && (
-                      <Box display={"inline-block"} m={3}>
-                        <span>Fortsatt av </span>
-                        <VStack display={"inline-block"}>
-                          {item.continuedBy?.map(e => (
-                            <Heading key={e.id} size={"md"}>
-                              <Link href={`/project/${e.id}`}>
-                                {e.label}
-                              </Link>
-                            </Heading>
-                          ))}
-                        </VStack>
-                      </Box>
-                    )}
-                  </Flex>
-                </GridItem>
-
 
                 {flattenedMilestones.length > 1 && (
                   <GridItem

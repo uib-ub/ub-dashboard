@@ -135,6 +135,29 @@ export default function Person({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
+                {flattenedMilestones.length > 1 && (
+                  <GridItem
+                    colSpan={6}
+                    display={{ base: 'none', md: 'inherit' }}
+                  >
+                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
+                    <Box
+                      w="100%"
+                    >
+                      <MilestonesWithoutSSR
+                        data={flattenedMilestones}
+                        pattern
+                        // p="5"
+                        pb="10"
+                        borderRadius={"8"}
+                        border={"1px solid"}
+                        borderColor={"gray.200"}
+                        boxShadow={"md"}
+                      />
+                    </Box>
+                  </GridItem>
+                )}
+
                 {item.hasSkill && (
                   <GridItem
                     colSpan={[6, null, 3]}
@@ -187,32 +210,15 @@ export default function Person({ data }) {
 
             <TabPanel>
               <Grid
-                maxW={'full'}
-                gap={5}
-                templateColumns='repeat(6, 1fr)'
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
               >
-                {flattenedMilestones.length > 1 && (
-                  <GridItem
-                    colSpan={6}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
-                    <Box
-                      w="100%"
-                    >
-                      <MilestonesWithoutSSR
-                        data={flattenedMilestones}
-                        pattern
-                        // p="5"
-                        pb="10"
-                        borderRadius={"8"}
-                        border={"1px solid"}
-                        borderColor={"gray.200"}
-                        boxShadow={"md"}
-                      />
-                    </Box>
-                  </GridItem>
-                )}
+                <MissingBlock
+                  heading="Historikk-komponenten er ikke ferdig..."
+                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
+                  icon={GrHistory}
+                />
               </Grid>
             </TabPanel>
 

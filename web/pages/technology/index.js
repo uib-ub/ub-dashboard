@@ -122,7 +122,7 @@ export default function Technologies({ data }) {
 
         <Flex mt="16">
           <Box mr={"8"}>
-            <Heading as="h2" size={"lg"}>Programeringsspråk</Heading>
+            <Heading as="h2" size={"lg"}>Programmeringsspråk</Heading>
             <List>
               {data?.languages && data?.languages.map(lang => (
                 <ListItem key={lang.id} as="h3" size={"md"}>{lang.label} ({lang.count})</ListItem>
