@@ -1,5 +1,6 @@
 import { Table, Thead, Tbody, Th, Tr, Td, Heading } from '@chakra-ui/react'
 import { lowerCase } from 'lodash-es'
+import React from 'react'
 import Link from '../Link'
 
 const ResultedIn = ({ results }) => {
@@ -26,8 +27,8 @@ const ResultedIn = ({ results }) => {
         </Thead>
         <Tbody>
           {results.map(r => (
-            <>
-              <Tr key={r.id}>
+            <React.Fragment key={r.id}>
+              <Tr>
                 <Td>
                   <Link href={`/${lowerCase(r.type)}/${r.id}`}>
                     {r.label}
@@ -55,7 +56,7 @@ const ResultedIn = ({ results }) => {
                   </Td>
                 </Tr>
               ))}
-            </>
+            </React.Fragment>
           ))}
         </Tbody>
       </Table>
