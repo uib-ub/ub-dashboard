@@ -6,7 +6,7 @@ const Participants = ({ participants }) => {
 
   return (
     <Wrap maxW={'full'}>
-      {participants.filter(i => i.active !== false).map(participant => (
+      {participants.map(participant => (
         <WrapItem key={participant.assignedActor.id} pr={4} pb={4}>
           <Flex>
             <Avatar size='sm' name={participant.assignedActor.label} />

@@ -8,7 +8,7 @@ export default function CurrentMembersWidget({ value }) {
     <GridItem
       colSpan={[6, null, 3]}
     >
-      <Heading size={['lg']} mb={5}>Aktive medlemmer</Heading>
+      <Heading size={['lg']} mb={5}>Medlemmer</Heading>
       <Box
         borderRadius={"8"}
         border={"1px solid"}

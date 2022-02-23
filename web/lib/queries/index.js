@@ -322,7 +322,6 @@ export const projectQuery = groq`{
           label,
         },
         "timespan": timespan.edtf,
-        "active": select(timespan.endOfTheEnd < now() => false, true)
       }
     },
   "identifier": identifiedBy[] {
