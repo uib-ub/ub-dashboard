@@ -1,23 +1,17 @@
 import * as React from "react"
-import dynamic from 'next/dynamic'
-// import { Milestones } from 'react-milestones-vis'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Center, Container, Divider, Flex, Grid, GridItem, Heading, Icon, Image, Text } from '@chakra-ui/react'
-import cleanDeep from 'clean-deep'
-import Head from "next/head"
+import { arrayToTree } from "performant-array-to-tree";
+import { Box, Container, Flex, Heading, Icon, Image, Tabs, Tab, TabPanels, TabPanel, TabList, List, ListItem, UnorderedList } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from '../../components/DataTable'
 import { urlFor } from '../../lib/sanity'
+import { MdDashboard } from "react-icons/md"
+import { GrHistory } from "react-icons/gr"
 
-const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
-  { ssr: false }
-)
-
-const myQuery = groq`[
-  ...*[_type in ['Actor', 'Group'] && !(_id in path("drafts.**"))] | order(label asc)  {
+const allActor = groq`{
+  "list": *[_type in ['Actor', 'Group'] && !(_id in path("drafts.**"))] | order(label asc)  {
     "id": _id,
     "type": _type,
     "label": label,
@@ -25,12 +19,55 @@ const myQuery = groq`[
     shortDescription,
     "description": pt::text(referredToBy[0].body),
   },
-]`
+  ...*[_id == "org-hierarchy"][0]{
+    tree[] {
+      // Make sure you include each item's _key and parent
+      _key,
+      parent,
+      value {
+        reference->{
+          "id": _id,
+          label,
+        }
+      }
+    }
+  }
+}`
+
+const TreeList = ({ data }) => {
+  if (!data) return null
+  const tree = arrayToTree(data, { rootParentIds: 'parent', id: "_key", parentId: "parent" })
+
+  return (
+    <UnorderedList>
+      {tree.map(node => (
+        <TreeListItem data={node} />
+      ))}
+    </UnorderedList>
+  )
+}
+
+const TreeListItem = ({ data }) => {
+
+  return (
+    <ListItem>
+      <Heading size={'sm'}>
+        <Link href={`/actor/${data.data.value.reference.id}`}>
+          {data.data.value.reference.label}
+        </Link>
+      </Heading>
+      <UnorderedList>
+        {data.children.map(child => (
+          <TreeListItem data={child} />
+        ))}
+      </UnorderedList>
+    </ListItem>
+  )
+}
 
 export const getStaticProps = async ({ preview = false }) => {
   const now = new Date()
-  let data = await getClient(preview).fetch(myQuery, { now: now })
-  data = cleanDeep(data)
+  let data = await getClient(preview).fetch(allActor)
 
   return {
     props: {
@@ -90,16 +127,38 @@ const columns = [
 ];
 
 export default function Persons({ data }) {
+  const { list, tree } = data
+
   return (
     <Layout>
       <Container variant="wrapper">
         <Heading size={"3xl"}>
-          Personer {data.length ? `(${data.length})` : ''}
+          Personer og grupper
         </Heading>
 
-        <Box my={5}>
-          <DataTable columns={columns} data={data} />
-        </Box>
+        <Tabs lazy colorScheme='green' my={10}>
+          <TabList>
+            <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
+          </TabList>
+
+          <TabPanels mt={3}>
+            <TabPanel>
+              <Box my={5}>
+                <DataTable columns={columns} data={list} />
+              </Box>
+            </TabPanel>
+
+            <TabPanel>
+              <Box my={5}>
+                <TreeList data={tree} />
+                {/* <pre>{JSON.stringify(tree, null, 2)}</pre> */}
+              </Box>
+            </TabPanel>
+          </TabPanels>
+
+        </Tabs>
+
 
       </Container>
     </Layout>

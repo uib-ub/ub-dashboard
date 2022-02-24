@@ -1,6 +1,7 @@
 // /deskStructure.js
 import S from '@sanity/desk-tool/structure-builder'
 import DocumentsPane from 'sanity-plugin-documents-pane'
+import { createDeskHierarchy } from '@sanity/hierarchical-document-list'
 
 export const getDefaultDocumentNode = () => {
   // Give all documents the JSON preview, 
@@ -114,7 +115,31 @@ export default () =>
       S.divider(),
       S.documentTypeListItem('Actor'),
       S.documentTypeListItem('Team'),
-      S.documentTypeListItem('Group'),
+      S.listItem()
+        .title('Grupper')
+        .child(
+          S.list()
+            .title('Grupper')
+            .items([
+              S.listItem()
+                .title('Alle grupper')
+                .child(
+                  S.documentTypeList('Group')
+                ),
+              createDeskHierarchy({
+                title: 'Oranisasjonshierarki',
+                documentId: 'org-hierarchy',
+                referenceTo: ['Group', 'Actor'],
+                // ❓ Optional: provide filters and/or parameters for narrowing which documents can be added
+                /* referenceOptions: {
+                  filter: 'status in $acceptedStatuses',
+                  filterParams: {
+                    acceptedStatuses: ['published', 'approved']
+                  }
+                } */
+              })
+            ])
+        ),
       S.divider(),
       S.listItem()
         .title('Autoriteter')

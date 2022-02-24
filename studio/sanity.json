@@ -20,7 +20,8 @@
     "media",
     "documents-pane",
     "vercel-deploy",
-    "unicorn-slider"
+    "unicorn-slider",
+    "@sanity/hierarchical-document-list"
   ],
   "env": {
     "development": {
