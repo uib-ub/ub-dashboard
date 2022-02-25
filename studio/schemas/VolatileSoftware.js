@@ -29,10 +29,6 @@ export default {
       ...shortDescription,
     },
     {
-      ...referredToBy,
-      fieldset: 'core',
-    },
-    {
       ...hasType,
       fieldset: 'core',
       type: 'array',
@@ -43,6 +39,7 @@ export default {
     {
       name: 'hostedBy',
       title: 'Source code hosted by',
+      fieldset: 'core',
       type: 'array',
       of: [{
         type: 'reference',
@@ -52,8 +49,20 @@ export default {
     {
       name: 'runBy',
       title: 'Deployed by',
+      fieldset: 'core',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'SoftwareComputingEService' }] }]
+    },
+    {
+      name: 'documentationAccessPoint',
+      title: 'Dokumentasjon',
+      fieldset: 'core',
+      type: 'array',
+      of: [{ type: 'AccessPoint' }]
+    },
+    {
+      ...referredToBy,
+      fieldset: 'core',
     },
     {
       ...programmedWith,

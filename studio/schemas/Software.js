@@ -54,6 +54,12 @@ export default {
       },
     }
   ],
+  groups: [
+    {
+      name: 'parts',
+      title: 'Komponenter',
+    },
+  ],
   fields: [
     {
       name: 'externalSoftware',
@@ -111,8 +117,17 @@ export default {
       name: 'hasSoftwarePart',
       title: 'Has part',
       fieldset: 'parts',
+      group: 'parts',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'VolatileSoftware' }] }],
+    },
+    {
+      name: 'runBy',
+      title: 'Deployed by',
+      fieldset: 'parts',
+      group: 'parts',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'SoftwareComputingEService' }] }]
     },
     {
       ...programmedWith,

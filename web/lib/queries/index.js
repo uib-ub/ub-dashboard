@@ -109,6 +109,16 @@ export const softwareQuery = groq`{
           "Type:": hasType[]->.label,
         }
       },
+      ...runBy[]-> {
+        "id": _id,
+        label,
+        "subtitle": "Deployment",
+        "logo": providedBy->.logo,
+        "info": {
+          "Leverandør:": providedBy->.label,
+          "Url:": designatedAccessPoint[0].value
+        }
+      },
       ...hasSoftwarePart[]->.hostedBy[]-> {
         "id": _id,
         label,
@@ -147,6 +157,31 @@ export const softwareQuery = groq`{
       },
     ],
     "edges": [
+      {
+        "source": ^._id,
+        "target": _id,
+        "label": "parts",
+        "children": [
+          ...runBy[]-> {
+            "source": coalesce( runsOnRequest._ref, ^._id),
+            "target": _id,
+            "label": "Run by",
+            "children": [
+              ...accessPoint[] {
+                "source": ^._id,
+                "target": _key,
+                "label": "Offers service",
+              },
+              ...provisionedBy[]-> {
+                "source": _id,
+                "target": ^._id,
+                'targetHandle': 'p',
+                "label": "Provisions",
+              },
+            ],
+          },
+        ]
+      },
       {
         "source": ^._id,
         "target": _id,

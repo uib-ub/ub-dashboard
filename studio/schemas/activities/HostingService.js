@@ -1,4 +1,4 @@
-import { referredToBy, timespanSingleton, labelSingleton } from '../props'
+import { referredToBy, timespanSingleton, labelSingleton, identifiedBy } from '../props'
 
 export default {
   name: 'HostingService',
@@ -15,6 +15,10 @@ export default {
     {
       ...labelSingleton,
       validation: Rule => Rule,
+    },
+    {
+      ...identifiedBy,
+      of: [{ type: 'Identifier' }]
     },
     {
       name: 'componentOf',

@@ -4,11 +4,13 @@ export default {
   name: 'AccessPoint',
   title: 'Endpoint',
   type: 'document',
+  initialValue: {
+    hasType: {
+      _type: 'reference',
+      _ref: '904829b8-5722-4776-948c-8841a9c5bdd5' // HTTP
+    }
+  },
   fields: [
-    {
-      ...labelSingleton,
-      validation: Rule => Rule
-    },
     {
       name: 'value',
       title: 'Adresse',
@@ -21,6 +23,10 @@ export default {
       to: [
         { type: 'ProtocolType' }
       ],
+      validation: Rule => Rule
+    },
+    {
+      ...labelSingleton,
       validation: Rule => Rule
     },
     shortDescription,
