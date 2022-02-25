@@ -41,7 +41,7 @@ const TreeList = ({ data }) => {
   return (
     <UnorderedList>
       {tree.map(node => (
-        <TreeListItem data={node} />
+        <TreeListItem key={node.id} data={node} />
       ))}
     </UnorderedList>
   )
@@ -58,7 +58,7 @@ const TreeListItem = ({ data }) => {
       </Heading>
       <UnorderedList>
         {data.children.map(child => (
-          <TreeListItem data={child} />
+          <TreeListItem key={child.id} data={child} />
         ))}
       </UnorderedList>
     </ListItem>
