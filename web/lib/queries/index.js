@@ -361,8 +361,9 @@ export const projectQuery = groq`{
     },
   "identifier": identifiedBy[] {
     _type == 'Identifier' => {
+      "id": _key,
       content,
-        "type": hasType -> label
+      "type": hasType -> label
     }
   },
   "funding": activityStream[] -> {

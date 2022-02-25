@@ -45,8 +45,8 @@ const InfoNode = ({ data }) => {
       </Flex>
 
       <Grid as="dl" templateColumns={'1fr 3fr'} columnGap={2} mt={2}>
-        {data.info && Object.entries(data.info).map(([key, value], index) => (
-          <React.Fragment key={index}>
+        {data.info && Object.entries(data.info).map(([key, value]) => (
+          <React.Fragment key={key}>
             <Heading as="dt" fontWeight="semibold" fontSize="xs">
               {key}
             </Heading>
