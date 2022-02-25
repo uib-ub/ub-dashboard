@@ -13,14 +13,14 @@ import { BiNetworkChart } from 'react-icons/bi'
 import { GrHistory } from "react-icons/gr"
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
-import MissingBlock from "../../components/MissingBlock"
+import MissingBlock from "../../components/Widgets/MissingBlock"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 

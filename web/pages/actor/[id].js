@@ -11,7 +11,7 @@ import { actorQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { GrHistory } from 'react-icons/gr'
-import MissingBlock from "../../components/MissingBlock"
+import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
@@ -19,7 +19,7 @@ import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import { FaHatWizard } from 'react-icons/fa'
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 

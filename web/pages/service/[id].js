@@ -18,7 +18,7 @@ import Link from "../../components/Link"
 import { flatMap } from 'lodash-es'
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 

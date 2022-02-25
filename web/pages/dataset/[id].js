@@ -11,13 +11,13 @@ import MaintainedBy from "../../components/Props/MaintainedBy"
 import { MdDashboard } from 'react-icons/md'
 import { BiNetworkChart } from 'react-icons/bi'
 import ItemHeader from "../../components/Props/ItemHeader"
-import MissingBlock from "../../components/MissingBlock"
+import MissingBlock from "../../components/WidgetsMissingBlock"
 import { GiEvilBook } from "react-icons/gi"
 import { FaRegSadTear } from "react-icons/fa"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 

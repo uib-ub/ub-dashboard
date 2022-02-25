@@ -19,7 +19,7 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import Period from "../../components/Props/Period"
 import { BiNetworkChart } from "react-icons/bi"
-import MissingBlock from "../../components/MissingBlock"
+import MissingBlock from "../../components/Widgets/MissingBlock"
 import { GrHistory } from "react-icons/gr"
 import { AiOutlineTeam } from "react-icons/ai"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
@@ -31,7 +31,7 @@ import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 

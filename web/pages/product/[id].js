@@ -19,7 +19,7 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from "react-icons/md"
 import { BiNetworkChart } from "react-icons/bi"
 import Period from "../../components/Props/Period"
-import MissingBlock from "../../components/MissingBlock"
+import MissingBlock from "../../components/Widgets/MissingBlock"
 import { GiEvilBook } from "react-icons/gi"
 import { GrHistory } from "react-icons/gr"
 import Status from "../../components/Props/Status"
@@ -29,7 +29,7 @@ import { VscFileCode } from 'react-icons/vsc'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 
 const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/MilestonesComponent'),
+  () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
 
