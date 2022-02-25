@@ -1,25 +1,17 @@
 import * as React from "react"
-import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
 import { datasetQuery } from "../../lib/queries"
 import MaintainedBy from "../../components/Props/MaintainedBy"
 import { MdDashboard } from 'react-icons/md'
-import { BiNetworkChart } from 'react-icons/bi'
 import ItemHeader from "../../components/Props/ItemHeader"
 import MissingBlock from "../../components/Widgets/MissingBlock"
 import { GiEvilBook } from "react-icons/gi"
 import { FaRegSadTear } from "react-icons/fa"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
-
-const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/Timeline/MilestonesComponent'),
-  { ssr: false }
-)
 
 const allSoftwareQuery = groq`
   *[_type in ['Dataset']] {
