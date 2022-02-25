@@ -67,6 +67,8 @@ export { default as blockContent } from './text/blockContent'
 export { default as LocaleString } from './text/LocaleString'
 
 export { default as Iframe } from './text/plugs/Iframe'
+export { default as Illustration } from './text/plugs/Illustration'
+export { default as IllustrationWithCaption } from './text/plugs/IllustrationWithCaption'
 export { default as PageHeader } from './text/plugs/PageHeader'
 export { default as SingleLevelChart } from './text/plugs/SingleLevelChart'
 export { default as Table } from './text/plugs/Table'

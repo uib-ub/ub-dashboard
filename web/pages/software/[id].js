@@ -70,8 +70,8 @@ export default function Software({ data }) {
         >
           <Flex columnGap={'30px'} mt={4}>
             <ItemHeaderStatsWidget data={item.hasType} heading="Type" />
-            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" />
-            <ItemHeaderStatsWidget data={item.currentOrFormerManager?.[0]} heading="Forvalter" />
+            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" linkBase={"actor"} />
+            <ItemHeaderStatsWidget data={item.currentOrFormerManager?.[0]} heading="Forvalter" linkBase={"actor"} />
             <ItemHeaderStatsAvatarWidget data={item.currentOrFormerMaintainerTeam?.[0]} heading="Team" size="sm" />
           </Flex>
         </ItemHeader>
@@ -107,7 +107,7 @@ export default function Software({ data }) {
                 )}
 
                 {item.hasSoftwarePart && (
-                  <GridItem colSpan={6}>
+                  <GridItem colSpan={[6, null, 3]}>
                     <Heading>Består av (WIP):</Heading>
                     {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
                       <Box key={part.id} mb={5}>

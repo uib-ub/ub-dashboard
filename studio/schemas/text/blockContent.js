@@ -118,6 +118,7 @@ export default {
         { type: 'Place' },
       ],
     },
+    { type: 'IllustrationWithCaption' },
     { type: 'PageHeader' },
     { type: 'SingleLevelChart' },
     { type: 'Table' },
