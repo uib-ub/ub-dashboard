@@ -2,11 +2,10 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer, Table } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { softwareQuery } from "../../lib/queries"
-import MaintainedBy from "../../components/Props/MaintainedBy"
 import { MdDashboard } from 'react-icons/md'
 import { GiEvilBook } from 'react-icons/gi'
 import { BiNetworkChart } from 'react-icons/bi'
@@ -18,11 +17,6 @@ import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
-
-const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/Timeline/MilestonesComponent'),
-  { ssr: false }
-)
 
 const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
