@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^1.8.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@gitbeaker/node": "^35.4.0",
     "@portabletext/react": "^1.0.3",
     "@sanity/image-url": "^1.0.1",
     "@sayari/trellis": "^0.3.1",
