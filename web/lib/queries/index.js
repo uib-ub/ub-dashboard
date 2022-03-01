@@ -26,6 +26,10 @@ export const softwareQuery = groq`{
       "id": _id,
       label
     },
+    hasType[]-> {
+      "id": _id,
+      label
+    },
     shortDescription,
     referredToBy[],
     "period": timespan.edtf,
@@ -60,6 +64,7 @@ export const softwareQuery = groq`{
         "id": _id,
         "type": _type,
         "url": designatedAccessPoint[0].value,
+        "gitappID": identifiedBy["6776dda0-395d-4961-8079-3aace810bb7b" in hasType[]._ref].content,
         componentOf-> {
           "id": _id,
           "type": _type,

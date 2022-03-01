@@ -17,6 +17,7 @@ import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
+import RepositoryStatus from '../../components/GitLab/RepositoryStatus.server'
 
 const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
@@ -124,6 +125,7 @@ export default function Software({ data }) {
                                 {i.url}
                               </a>
                             </Text>
+                            <RepositoryStatus id={i.gitappID} />
                           </Box>
                         ))}
                         {part.runBy && part.runBy.map(i => (
