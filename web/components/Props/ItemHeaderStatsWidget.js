@@ -11,7 +11,7 @@ const ItemHeaderStatsWidget = ({ heading, data, linkBase, ...rest }) => {
         {Array.isArray(data) && data.map(item => (
           <>
             {linkBase &&
-              <Link href={`/${linkBase}/${item.id}`}><Tag key={item.id} variant={'outline'} mr={"2"} mb="2">{item.label}</Tag></Link>
+              <Link key={item.id} href={`/${linkBase}/${item.id}`}><Tag key={item.id} variant={'outline'} mr={"2"} mb="2">{item.label}</Tag></Link>
             }
             {!linkBase &&
               <Tag key={item.id} variant={'outline'} mr={"2"} mb="2">{item.label}</Tag>

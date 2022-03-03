@@ -17,6 +17,8 @@ import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
+import RepositoryInfo from '../../components/Repository/RepositoryInfo'
+import middleTruncate from '../../lib/functions/middleTruncate'
 
 const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
@@ -117,13 +119,11 @@ export default function Software({ data }) {
                         {part.hostedBy && part.hostedBy.map(i => (
                           <Box key={i.id} ml={5}>
                             <Heading size={'sm'}>
-                              {i.label} - {i.componentOf.label}
+                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
                             </Heading>
-                            <Text size={'sm'} ml={5} my={1}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                {i.url}
-                              </a>
-                            </Text>
+                            {i.gitlabId && i.host && (
+                              <RepositoryInfo id={i.gitlabId} host={i.host} />
+                            )}
                           </Box>
                         ))}
                         {part.runBy && part.runBy.map(i => (
