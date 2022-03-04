@@ -8,10 +8,11 @@ const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function RepositoryInfo({ id, host }) {
   const { data, error } = useSwr(
-    id ? `/api/git/${id}` : null,
+    id ? `/api/${host.toLowerCase()}/${id}` : null,
     fetcher
   )
 
+  console.log(id, host)
   if (error) return <div>Failed to load repository</div>
   if (!data) return <div>Loading...</div>
 
@@ -19,7 +20,7 @@ export default function RepositoryInfo({ id, host }) {
     <Suspense fallback={<Skeleton height='60px' />}>
       <Flex>
         <StatGroup>
-          {data?.open_issues_count && (
+          {data?.open_issues_count > 0 && (
             <Stat>
               <StatLabel>Åpne saker</StatLabel>
               <StatNumber>{data.open_issues_count}</StatNumber>

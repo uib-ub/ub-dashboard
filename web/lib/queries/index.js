@@ -60,8 +60,7 @@ export const softwareQuery = groq`{
         "id": _id,
         "type": _type,
         "url": designatedAccessPoint[0].value,
-        "gitlabId": identifiedBy[0].content,
-        "host": componentOf->.designatedAccessPoint[0].value,
+        "gitid": coalesce(identifiedBy[0].content, label),
         componentOf-> {
           "id": _id,
           "type": _type,

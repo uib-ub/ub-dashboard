@@ -121,8 +121,8 @@ export default function Software({ data }) {
                             <Heading size={'sm'}>
                               <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
                             </Heading>
-                            {i.gitlabId && i.host && (
-                              <RepositoryInfo id={i.gitlabId} host={i.host} />
+                            {i.gitid && i.componentOf.label && (
+                              <RepositoryInfo id={i.gitid} host={i.componentOf.label} />
                             )}
                           </Box>
                         ))}
