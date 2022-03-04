@@ -10,35 +10,55 @@ export default async function handler(req, res) {
     auth: process.env.NEXT_PUBLIC_GITHUB_TOKEN
   });
 
-  console.log(id)
-
   switch (method) {
     case 'GET':
 
-      project = await octokit.graphql(
-        `
-        query lastIssues($owner: String!, $repo: String!, $num: Int = 3) {
+      const project = await octokit.graphql(
+        `query projectInfo($owner: String!, $repo: String!) {
           repository(owner: $owner, name: $repo) {
-            issues(last: $num) {
+            name,
+            description,
+            visibility,
+            isArchived,
+            createdAt,
+            updatedAt,
+            languages(last: 10) {
               edges {
                 node {
-                  title
+                  name
                 }
               }
-            }
+            },
+            mentionableUsers(last: 10) {
+              edges {
+                node {
+                  name
+                }
+              }
+            },
           }
-        }
-        `,
+        }`,
         {
           owner: id[0],
           repo: id[1]
         }
       )
+
       res.status(200).json({
-        /* last_activity_at: project.updated_at,
-        description: project.body,
-        visibility: project.state, */
-        ...project,
+        last_activity_at: project.repository.updatedAt,
+        description: project.repository.description,
+        visibility: project.repository.visibility,
+        archived: project.repository.isArchived,
+        languages: project.repository.languages.edges?.length > 0
+          ? project.repository.languages.edges.map(lang => (
+            lang.node.name
+          ))
+          : undefined,
+        users: project.repository.mentionableUsers.edges?.length > 0
+          ? project.repository.mentionableUsers.edges.map(lang => (
+            lang.node.name
+          ))
+          : undefined,
       })
       break
     default:

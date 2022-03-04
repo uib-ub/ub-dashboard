@@ -1,8 +1,9 @@
 import { Suspense } from 'react'
-import { Flex, Skeleton, StatGroup, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
+import { Flex, Skeleton, StatGroup, Stat, StatLabel, StatNumber, Tag, TagLeftIcon, TagLabel, Badge, HStack } from '@chakra-ui/react'
 import useSwr from 'swr'
 import { formatRelative } from 'date-fns'
 import { nb } from 'date-fns/locale'
+import { VscIssues } from 'react-icons/vsc'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
@@ -18,21 +19,30 @@ export default function RepositoryInfo({ id, host }) {
 
   return (
     <Suspense fallback={<Skeleton height='60px' />}>
-      <Flex>
-        <StatGroup>
-          {data?.open_issues_count > 0 && (
-            <Stat>
-              <StatLabel>Åpne saker</StatLabel>
-              <StatNumber>{data.open_issues_count}</StatNumber>
-            </Stat>
-          )}
-          {data?.last_activity_at && (
-            <Stat>
-              <StatLabel>Sist oppdatert</StatLabel>
-              <StatNumber>{formatRelative(new Date(data.last_activity_at), new Date(), { locale: nb })}</StatNumber>
-            </Stat>
-          )}
-        </StatGroup>
+      <Flex alignItems={'center'} gap={3} my={3}>
+        {data?.open_issues_count > 0 && (
+          <Tag size={'lg'} variant={'outline'}>
+            <TagLeftIcon boxSize='12px' as={VscIssues} />
+            <TagLabel>Saker <Badge colorScheme={'red'}>{data.open_issues_count}</Badge></TagLabel>
+          </Tag>
+        )}
+
+        {data?.last_activity_at && (
+          <Tag size={'lg'} variant={'outline'}>
+            <TagLeftIcon boxSize='12px' as={VscIssues} />
+            <TagLabel>Oppdatert {formatRelative(new Date(data.last_activity_at), new Date(), { locale: nb })}</TagLabel>
+          </Tag>
+        )}
+
+        {data?.languages && (
+          <HStack spacing={3}>
+            {data.languages.map((lang) => (
+              <Tag size={'lg'} key={lang} variant='outline' colorScheme='blue'>
+                {lang}
+              </Tag>
+            ))}
+          </HStack>
+        )}
       </Flex>
     </Suspense>
   )
