@@ -59,8 +59,8 @@ export const softwareQuery = groq`{
         ...,
         "id": _id,
         "type": _type,
-        "url": designatedAccessPoint[0].value,
-        "gitid": coalesce(identifiedBy[0].content, label),
+        "url": designatedAccessPoint.value,
+        mainId,
         componentOf-> {
           "id": _id,
           "type": _type,
@@ -71,7 +71,7 @@ export const softwareQuery = groq`{
         ...,
         "id": _id,
         "type": _type,
-        "url": designatedAccessPoint[0].value,
+        "url": designatedAccessPoint.value,
         providedBy-> {
           "id": _id,
           "type": _type,
@@ -82,7 +82,7 @@ export const softwareQuery = groq`{
         ...,
         "id": _id,
         "type": _type,
-        "url": designatedAccessPoint[0].value,
+        "url": designatedAccessPoint.value,
       }
     },
   },
@@ -117,7 +117,7 @@ export const softwareQuery = groq`{
         "logo": providedBy->.logo,
         "info": {
           "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint[0].value
+          "Url:": designatedAccessPoint.value
         }
       },
       ...hasSoftwarePart[]->.hostedBy[]-> {
@@ -128,7 +128,7 @@ export const softwareQuery = groq`{
         "logo": coalesce(componentOf->.logo, componentOf->.providedBy->.logo),
         "info": {
           "Host:": componentOf->.label,
-          "Url:": designatedAccessPoint[0].value
+          "Url:": designatedAccessPoint.value
         },
       },
       ...hasSoftwarePart[]->.runBy[]-> {
@@ -138,7 +138,7 @@ export const softwareQuery = groq`{
         "logo": providedBy->.logo,
         "info": {
           "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint[0].value
+          "Url:": designatedAccessPoint.value
         }
       },
       ...hasSoftwarePart[]->.runBy[]->.provisionedBy[]-> {
@@ -148,7 +148,7 @@ export const softwareQuery = groq`{
         "logo": providedBy->.logo,
         "info": {
           "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint[0].value
+          "Url:": designatedAccessPoint.value
         }
       },
       ...hasSoftwarePart[]->.runBy[]->.accessPoint[] {

@@ -17,14 +17,14 @@ export default {
       type: 'string',
       validation: Rule => Rule.required()
     }, // Should be more generic? or some conditional?
-    {
+    /* {
       ...hasType,
       type: 'reference',
       to: [
         { type: 'ProtocolType' }
       ],
       validation: Rule => Rule
-    },
+    }, */
     {
       ...labelSingleton,
       validation: Rule => Rule

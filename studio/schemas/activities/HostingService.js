@@ -14,36 +14,39 @@ export default {
   fields: [
     {
       ...labelSingleton,
-      validation: Rule => Rule,
+      description: ''
     },
     {
+      name: 'mainId',
+      title: 'Identifier',
+      description: 'Could be GitLab ID or Github name like "owner/repo".',
+      type: 'string',
+      validation: Rule => Rule.required(),
+    },
+    {
+      name: 'remoteName',
+      title: 'Remote navn',
+      description: 'Add name of this remote, "origin" will be used as the main repository if there are multiple hosts.',
+      type: 'string',
+      validation: Rule => Rule.required(),
+      initialValue: 'origin'
+    },
+    /* {
       ...identifiedBy,
       of: [{ type: 'Identifier' }]
-    },
+    }, */
     {
       name: 'componentOf',
       title: 'Hosting provider',
       description: 'Who provides this service?',
+      validation: Rule => Rule.required(),
       type: 'reference',
       to: [{ type: 'SoftwareDeliveryEService' }]
     },
-    /*     {
-      name: 'providedBy',
-      title: 'Access points',
-      type: 'array',
-      of: [{
-        type: 'reference',
-        to: [
-          { type: 'Group' },
-          { type: 'Actor' },
-        ]
-      }]
-    }, */
     {
       name: 'designatedAccessPoint',
-      title: 'Access points',
-      type: 'array',
-      of: [{ type: 'AccessPoint' }]
+      title: 'Service access point',
+      type: 'AccessPoint'
     },
     {
       name: 'hasPlatformCapability',
@@ -71,6 +74,7 @@ export default {
     {
       name: 'accessPoint',
       title: 'Tilgangspunkt',
+      description: 'If this is a host, what domain is available?',
       type: 'array',
       of: [{ type: 'AccessPoint' }],
       initialValue: {

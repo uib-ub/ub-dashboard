@@ -49,15 +49,7 @@ export default {
       name: 'designatedAccessPoint',
       title: 'Access points',
       description: 'Tilgangspunkt for den overordnede hosten',
-      type: 'array',
-      of: [{ type: 'AccessPoint' }],
-      initialValue: {
-        _type: 'AccessPoint',
-        hasType: {
-          _type: 'reference',
-          _ref: '904829b8-5722-4776-948c-8841a9c5bdd5' // HTTP
-        }
-      },
+      type: 'AccessPoint',
       fieldset: 'core',
       group: 'core',
     },

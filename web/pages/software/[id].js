@@ -12,13 +12,11 @@ import { BiNetworkChart } from 'react-icons/bi'
 import { GrHistory } from "react-icons/gr"
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
-import MissingBlock from "../../components/Widgets/MissingBlock"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
-import RepositoryInfo from '../../components/Repository/RepositoryInfo'
-import middleTruncate from '../../lib/functions/middleTruncate'
+import RepositoryInfo from '../../components/Repository/RepositoryInfo.client'
 
 const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
@@ -89,8 +87,8 @@ export default function Software({ data }) {
           <TabList overflowX='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
-            <Tab isDisabled><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            {/* <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab> */}
             <Spacer />
             <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
           </TabList>
@@ -104,54 +102,53 @@ export default function Software({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {item.referredToBy && (
-                  <AbstractWidget value={item.referredToBy[0].body} />
-                )}
-
                 {item.hasSoftwarePart && (
                   <GridItem colSpan={[6, null, 3]}>
                     <Heading>Består av (WIP):</Heading>
-                    {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                      <Box key={part.id} mb={5}>
-                        <Heading size={'md'}>
-                          Kildekode: {part.label}
-                        </Heading>
-                        {part.hostedBy && part.hostedBy.map(i => (
-                          <Box key={i.id} ml={5}>
-                            <Heading size={'sm'}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
-                            </Heading>
-                            {i.gitid && i.componentOf.label && (
-                              <RepositoryInfo id={i.gitid} host={i.componentOf.label} />
-                            )}
-                          </Box>
-                        ))}
-                        {part.runBy && part.runBy.map(i => (
-                          <Box key={i.id} ml={5}>
-                            <Heading size={'sm'}>
-                              {i.label} - {i.providedBy.label}
-                            </Heading>
-                            <Text size={'sm'} ml={5} my={1}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                {i.url}
-                              </a>
-                            </Text>
-                          </Box>
-                        ))}
-                        {part.provisionedBy && part.provisionedBy.map(i => (
-                          <Box key={i.id} ml={5}>
-                            <Heading size={'md'}>
-                              {i.label}
-                            </Heading>
-                            <Text size={'sm'} ml={5} my={1}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                {i.url}
-                              </a>
-                            </Text>
-                          </Box>
-                        ))}
-                      </Box>
-                    ))}
+                    <Grid>
+                      {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
+                        <GridItem key={part.id} mb={5} p={3} border="solid 1px" borderColor={"gray.300"}>
+                          <Heading size={'md'}>
+                            Kildekode: {part.label}
+                          </Heading>
+
+                          {part.hostedBy && part.hostedBy.map(i => (
+                            <Box key={i.id} ml={5}>
+                              <Heading size={'sm'}>
+                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
+                              </Heading>
+                              {i.mainId && i.componentOf.label && (
+                                <RepositoryInfo id={i.mainId} host={i.componentOf.label} />
+                              )}
+                            </Box>
+                          ))}
+                          {part.runBy && part.runBy.map(i => (
+                            <Box key={i.id} ml={5}>
+                              <Heading size={'sm'}>
+                                {i.label} - {i.providedBy.label}
+                              </Heading>
+                              <Text size={'sm'} ml={5} my={1}>
+                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                  {i.url}
+                                </a>
+                              </Text>
+                            </Box>
+                          ))}
+                          {part.provisionedBy && part.provisionedBy.map(i => (
+                            <Box key={i.id} ml={5}>
+                              <Heading size={'md'}>
+                                {i.label}
+                              </Heading>
+                              <Text size={'sm'} ml={5} my={1}>
+                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                  {i.url}
+                                </a>
+                              </Text>
+                            </Box>
+                          ))}
+                        </GridItem>
+                      ))}
+                    </Grid>
                   </GridItem>
                 )}
               </Grid>
@@ -183,28 +180,27 @@ export default function Software({ data }) {
                 border={'solid #eee 1px'}
                 borderRadius={3}
               >
+
+                {item.referredToBy && (
+                  <AbstractWidget value={item.referredToBy[0].body} />
+                )}
+
+              </Grid>
+            </TabPanel>
+
+            {/* <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
                 <MissingBlock
                   heading="Historikk-komponenten er ikke ferdig..."
                   text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
                   icon={GrHistory}
                 />
               </Grid>
-            </TabPanel>
-
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-
-                <MissingBlock
-                  heading="Dokumentasjonskomponenten er ikke ferdig..."
-                  text="TODO: hent README eller annen lenket dokumentasjon fra Sanity"
-                  icon={GiEvilBook}
-                />
-              </Grid>
-            </TabPanel>
+            </TabPanel> */}
 
             <TabPanel>
               <ItemDataWidget value={item} />

@@ -36,6 +36,16 @@ export default async function handler(req, res) {
                 }
               }
             },
+            readmeMain: object(expression: "main:README.md") {
+              ... on Blob {
+                text
+              }
+            },
+            readmeMaster: object(expression: "master:README.md") {
+              ... on Blob {
+                text
+              }
+            },
           }
         }`,
         {
@@ -59,6 +69,7 @@ export default async function handler(req, res) {
             lang.node.name
           ))
           : undefined,
+        readme: project.repository.readmeMain?.text ?? project.repository.readmeMaster?.text
       })
       break
     default:
