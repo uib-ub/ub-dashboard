@@ -96,59 +96,63 @@ export default function Software({ data }) {
           <TabPanels mt={3}>
             <TabPanel>
               <Grid
-                my={10}
+                my={5}
                 maxW={'full'}
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
 
                 {item.hasSoftwarePart && (
-                  <GridItem colSpan={[6, null, 3]}>
-                    <Heading>Består av (WIP):</Heading>
-                    <Grid>
-                      {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                        <GridItem key={part.id} mb={5} p={3} border="solid 1px" borderColor={"gray.300"}>
-                          <Heading size={'md'}>
-                            Kildekode: {part.label}
-                          </Heading>
+                  <GridItem colSpan={[6]}>
+                    <Tabs orientation='vertical' size={'sm'} variant={'unstyled'} isLazy>
+                      <TabList>
+                        {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
+                          <Tab _selected={{ color: 'white', bg: 'blue.500' }} key={part.id}>{part.label}</Tab>
+                        ))}
+                      </TabList>
 
-                          {part.hostedBy && part.hostedBy.map(i => (
-                            <Box key={i.id} ml={5}>
-                              <Heading size={'sm'}>
-                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
-                              </Heading>
-                              {i.mainId && i.componentOf.label && (
-                                <RepositoryInfo id={i.mainId} host={i.componentOf.label} />
-                              )}
-                            </Box>
-                          ))}
-                          {part.runBy && part.runBy.map(i => (
-                            <Box key={i.id} ml={5}>
-                              <Heading size={'sm'}>
-                                {i.label} - {i.providedBy.label}
-                              </Heading>
-                              <Text size={'sm'} ml={5} my={1}>
-                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                  {i.url}
-                                </a>
-                              </Text>
-                            </Box>
-                          ))}
-                          {part.provisionedBy && part.provisionedBy.map(i => (
-                            <Box key={i.id} ml={5}>
-                              <Heading size={'md'}>
-                                {i.label}
-                              </Heading>
-                              <Text size={'sm'} ml={5} my={1}>
-                                <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                  {i.url}
-                                </a>
-                              </Text>
-                            </Box>
-                          ))}
-                        </GridItem>
-                      ))}
-                    </Grid>
+                      <TabPanels>
+                        {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
+                          <TabPanel key={part.id} mb={5} p={3}>
+
+                            {part.hostedBy && part.hostedBy.map(i => (
+                              <Box key={i.id} ml={5}>
+                                <Heading size={'md'}>
+                                  <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
+                                </Heading>
+                                {i.mainId && i.componentOf.label && (
+                                  <RepositoryInfo id={i.mainId} host={i.componentOf.label} />
+                                )}
+                              </Box>
+                            ))}
+                            {part.runBy && part.runBy.map(i => (
+                              <Box key={i.id} ml={5}>
+                                <Heading size={'sm'}>
+                                  {i.label} - {i.providedBy.label}
+                                </Heading>
+                                <Text size={'sm'} ml={5} my={1}>
+                                  <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                    {i.url}
+                                  </a>
+                                </Text>
+                              </Box>
+                            ))}
+                            {part.provisionedBy && part.provisionedBy.map(i => (
+                              <Box key={i.id} ml={5}>
+                                <Heading size={'md'}>
+                                  {i.label}
+                                </Heading>
+                                <Text size={'sm'} ml={5} my={1}>
+                                  <a href={i.url} target={'_blank'} rel={'noreferrer'}>
+                                    {i.url}
+                                  </a>
+                                </Text>
+                              </Box>
+                            ))}
+                          </TabPanel>
+                        ))}
+                      </TabPanels>
+                    </Tabs>
                   </GridItem>
                 )}
               </Grid>

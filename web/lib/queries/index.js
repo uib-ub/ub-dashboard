@@ -120,6 +120,11 @@ export const softwareQuery = groq`{
           "Url:": designatedAccessPoint.value
         }
       },
+      ...runBy[]->.accessPoint[] {
+        "id": _key,
+        "label": value,
+        "subtitle": "Endpoint",
+      },
       ...hasSoftwarePart[]->.hostedBy[]-> {
         "id": _id,
         label,
@@ -164,7 +169,7 @@ export const softwareQuery = groq`{
         "label": "parts",
         "children": [
           ...runBy[]-> {
-            "source": coalesce( runsOnRequest._ref, ^._id),
+            "source": coalesce(runsOnRequest._ref, ^._id),
             "target": _id,
             "label": "Run by",
             "children": [

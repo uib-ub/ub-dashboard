@@ -115,7 +115,7 @@ export default function NodeFlow({ data }) {
   const [elements, setElements] = useState(layoutedElements);
 
   return (
-    <Box ref={ref} w={'full'} h={'70vh'} overflow={'hidden'} flexGrow={1} position="relative">
+    <Box ref={ref} w={'full'} h={'90vh'} overflow={'hidden'} flexGrow={1} position="relative">
       {/* <Box h={height} w={width} overflow={'hidden'} flexGrow={1} position="relative" > */}
       <ReactFlowProvider>
         <Controls
