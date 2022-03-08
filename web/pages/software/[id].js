@@ -105,7 +105,7 @@ export default function Software({ data }) {
                 {item.hasSoftwarePart && (
                   <GridItem colSpan={[6]}>
                     <Tabs orientation='vertical' size={'sm'} variant={'unstyled'} isLazy>
-                      <TabList>
+                      <TabList minW={'20vw'}>
                         {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
                           <Tab _selected={{ color: 'white', bg: 'blue.500' }} key={part.id}>{part.label}</Tab>
                         ))}
@@ -113,10 +113,9 @@ export default function Software({ data }) {
 
                       <TabPanels>
                         {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                          <TabPanel key={part.id} mb={5} p={3}>
-
+                          <TabPanel key={part.id} mb={5} ml={5}>
                             {part.hostedBy && part.hostedBy.map(i => (
-                              <Box key={i.id} ml={5}>
+                              <Box key={i.id} mb={10}>
                                 <Heading size={'md'}>
                                   <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
                                 </Heading>

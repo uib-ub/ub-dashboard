@@ -1,10 +1,11 @@
 import { Suspense } from 'react'
-import { Flex, Skeleton, Tag, TagLeftIcon, TagLabel, Badge } from '@chakra-ui/react'
+import { Flex, Skeleton, Tag, TagLeftIcon, TagLabel, Badge, Box } from '@chakra-ui/react'
 import useSwr from 'swr'
 import { formatRelative } from 'date-fns'
 import { nb } from 'date-fns/locale'
 import { VscCalendar, VscIssues } from 'react-icons/vsc'
 import ReactMarkdown from 'react-markdown'
+import styles from "./RepositoryInfo.module.css"
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
@@ -43,7 +44,9 @@ export default function RepositoryInfo({ id, host }) {
 
       </Flex>
 
-      {data.readme && (<ReactMarkdown>{data.readme}</ReactMarkdown>)}
+      {data.readme && (
+        <ReactMarkdown className={styles.readme}>{data.readme}</ReactMarkdown>
+      )}
     </Suspense>
   )
 }
