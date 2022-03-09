@@ -87,7 +87,9 @@ export default function Software({ data }) {
           <TabList overflowX='scroll'>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            {item.referredToBy && (
+              <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
+            )}
             {/* <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab> */}
             <Spacer />
             <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
@@ -105,7 +107,7 @@ export default function Software({ data }) {
                 {item.hasSoftwarePart && (
                   <GridItem colSpan={[6]}>
                     <Tabs orientation='vertical' size={'sm'} variant={'unstyled'} isLazy>
-                      <TabList minW={'20vw'}>
+                      <TabList>
                         {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
                           <Tab _selected={{ color: 'white', bg: 'blue.500' }} key={part.id}>{part.label}</Tab>
                         ))}
@@ -177,19 +179,21 @@ export default function Software({ data }) {
               </Grid>
             </TabPanel>
 
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
+            {item.referredToBy && (
+              <TabPanel>
+                <Grid
+                  minHeight={'20vh'}
+                  border={'solid #eee 1px'}
+                  borderRadius={3}
+                >
 
-                {item.referredToBy && (
-                  <AbstractWidget value={item.referredToBy[0].body} />
-                )}
+                  {item.referredToBy && (
+                    <AbstractWidget value={item.referredToBy[0].body} />
+                  )}
 
-              </Grid>
-            </TabPanel>
+                </Grid>
+              </TabPanel>
+            )}
 
             {/* <TabPanel>
               <Grid

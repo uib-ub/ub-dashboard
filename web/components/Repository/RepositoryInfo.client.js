@@ -45,7 +45,9 @@ export default function RepositoryInfo({ id, host }) {
       </Flex>
 
       {data.readme && (
-        <ReactMarkdown className={styles.readme}>{data.readme}</ReactMarkdown>
+        <Box overflowX={'scroll'}>
+          <ReactMarkdown className={styles.readme}>{data.readme}</ReactMarkdown>
+        </Box>
       )}
     </Suspense>
   )
