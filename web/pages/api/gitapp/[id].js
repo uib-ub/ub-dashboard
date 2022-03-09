@@ -16,12 +16,14 @@ export default async function handler(req, res) {
       // Get data from your database
       try {
         const data = await api.Projects.show(id);
+        const languages = await api.Projects.languages(id);
         const readme = await api.RepositoryFiles.showRaw(id, 'README.md');
-        if (data && readme) {
+        if (data && readme && languages) {
           res.status(200).json({
             last_activity_at: data.last_activity_at,
             description: data.description,
             readme: readme,
+            languages: Object.entries(languages).map(([k, v]) => { return k }),
             visibility: data.visibility,
             archived: data.archived,
             open_issues_count: data.open_issues_count,
