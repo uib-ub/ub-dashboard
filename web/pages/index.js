@@ -46,6 +46,7 @@ export default function Home() {
                 Produkt
               </Link>
             </Heading>
+            <Text>Fases ut...</Text>
           </GridItem>
 
           <GridItem
