@@ -1,7 +1,7 @@
 {
   "root": true,
   "project": {
-    "name": "ub-dev-history"
+    "name": "ub-dashboard"
   },
   "api": {
     "projectId": "4vucuus1",
