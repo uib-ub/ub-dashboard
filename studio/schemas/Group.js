@@ -1,4 +1,4 @@
-import { hasType, identifiedBy, labelSingleton, logo, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
+import { hasMember, hasType, identifiedBy, labelSingleton, logo, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
 import sanityClient from 'part:@sanity/base/client'
 
 const client = sanityClient.withConfig({ apiVersion: '2021-03-25' })
@@ -33,6 +33,10 @@ export default {
     timespanSingleton,
     referredToBy,
     subGroupOf,
+    {
+      ...hasMember,
+      description: 'Brukes ikke for medlemskap i en organisasjons offisielle enheter. Benyttes for "adhoc" grupper.'
+    },
     {
       name: 'activityStream',
       title: 'Aktivitetsstrøm',
