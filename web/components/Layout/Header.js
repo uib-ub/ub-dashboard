@@ -42,7 +42,7 @@ export default function Header() {
           fontFamily={"Menlo, monospace"}
         >
           <NextLink href="/">
-            <a>UB-dev</a>
+            <a>UB dashboard</a>
           </NextLink>
         </Heading>
       </Flex>

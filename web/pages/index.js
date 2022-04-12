@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>UB-Dev</title>
+        <title>UB dashboard</title>
         <meta name="description" content="UB-dev" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
