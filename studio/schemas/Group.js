@@ -35,7 +35,9 @@ export default {
     subGroupOf,
     {
       ...hasMember,
-      description: 'Brukes ikke for medlemskap i en organisasjons offisielle enheter. Benyttes for "adhoc" grupper.'
+      description: 'Brukes ikke for medlemskap i en organisasjons offisielle enheter. Benyttes for "adhoc" grupper.',
+      type: 'array',
+      of: [{ type: 'ContributionAssignment' }],
     },
     {
       name: 'activityStream',

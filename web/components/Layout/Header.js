@@ -95,7 +95,7 @@ export default function Header() {
             <a>Teknologi</a>
           </ActiveLink>
         </Box>
-        <Link href='https://ubdevhistory.sanity.studio/' isExternal>
+        <Link href='https://ub-dashboard.sanity.studio/' isExternal>
           <Icon as={FaPencilAlt} mt={"1"} ml={"3"} />
         </Link>
       </Flex>
