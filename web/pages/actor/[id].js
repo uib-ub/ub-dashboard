@@ -17,6 +17,9 @@ import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import { FaHatWizard } from 'react-icons/fa'
+import Period from '../../components/Props/Period'
+import ItemHeaderStatsWidget from '../../components/Props/ItemHeaderStatsWidget'
+import Participants from '../../components/Props/Participants'
 
 const MilestonesWithoutSSR = dynamic(
   () => import('../../components/Timeline/MilestonesComponent'),
@@ -113,12 +116,16 @@ export default function Person({ data }) {
 
       <Container variant="wrapper">
         <ItemHeader
-          id={item.id}
           label={item.label}
           blurb={item.shortDescription}
-          quote={item.quote}
-          image={item.image}
+          image={item.logo}
+          continued={item.continued}
+          continuedBy={item.continuedBy}
         >
+          <Flex columnGap={'30px'} mt={4}>
+            <Period size={'md'} period={item.period} />
+            <ItemHeaderStatsWidget types={item.hasType} />
+          </Flex>
         </ItemHeader>
 
         <Tabs colorScheme='green' my={10}>
@@ -134,6 +141,18 @@ export default function Person({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
+
+                {item.hasMember && (
+                  <GridItem
+                    colSpan={6}
+                    display={{ base: 'none', md: 'inherit' }}
+                  >
+                    <Heading size={'lg'} mb={5}>Medlemmer</Heading>
+                    {item.hasMember && (
+                      <Participants participants={item.hasMember} />
+                    )}
+                  </GridItem>
+                )}
 
                 {flattenedMilestones.length > 1 && (
                   <GridItem

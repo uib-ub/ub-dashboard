@@ -587,9 +587,14 @@ export const actorQuery = groq`{
     "id": _id,
     "type": _type,
     "label": label,
+    hasType[]-> {
+      "id": _id,
+      label
+    },
     shortDescription,
     quote,
     image,
+    "period": timespan.edtf,
     referredToBy[],
     hasSkill[] {
       "label": competence->.label,
@@ -601,6 +606,17 @@ export const actorQuery = groq`{
       "type": _type,
       "label": label,
     },
+    hasMember[] {
+      assignedActor-> {
+        "id": _id,
+        label,
+      },
+      assignedRole[]-> {
+        "id": _id,
+        label,
+      },
+      "timespan": timespan.edtf,
+    }
   },
   "milestones": [
     ...* [_id == $id] | order(timespan.beginOfTheBegin asc)  {
