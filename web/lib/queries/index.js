@@ -596,6 +596,24 @@ export const actorQuery = groq`{
     image,
     "period": timespan.edtf,
     referredToBy[],
+    subGroupOf[]-> {
+      "id": _id,
+      hasType[]-> {
+        "id": _id,
+        label
+      },
+      label,
+      shortDescription,
+    },
+    "hasSubGroup": *[_type == "Group" && ^._id in subGroupOf[]._ref]{
+      "id": _id,
+      hasType[]-> {
+        "id": _id,
+        label
+      },
+      label,
+      shortDescription,
+    },
     hasSkill[] {
       "label": competence->.label,
       level,
@@ -616,6 +634,9 @@ export const actorQuery = groq`{
         label,
       },
       "timespan": timespan.edtf,
+      defined(timespan.endOfTheEnd) == true => {
+        "retired": true 
+      }
     }
   },
   "milestones": [
@@ -634,5 +655,5 @@ export const actorQuery = groq`{
         },
       ]
     },
-  ]
+  ],
 }`;

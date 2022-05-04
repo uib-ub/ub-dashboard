@@ -9,6 +9,7 @@ import { urlFor } from "../../lib/sanity"
 import { GrFormEdit } from 'react-icons/gr'
 
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
+
 const allSoftwareQuery = groq`[
   ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(currentOrFormerMaintainerTeam[0].assignedActor->.label asc)  {
     "id": _id,

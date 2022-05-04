@@ -1,9 +1,9 @@
-import * as React from "react"
+import React, { useState } from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -98,9 +98,15 @@ const columns = [
 ];
 
 export default function Person({ data }) {
+  const [activeFilter, setActiveFilter] = useState(true)
+
   const { width, height } = useWindowSize()
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
+
+  const handleActiveFilter = () => {
+    setActiveFilter(!activeFilter)
+  }
 
   return (
     <Layout>
@@ -116,15 +122,16 @@ export default function Person({ data }) {
 
       <Container variant="wrapper">
         <ItemHeader
+          id={item.id}
           label={item.label}
           blurb={item.shortDescription}
-          image={item.logo}
+          image={item.logo ?? item.image}
           continued={item.continued}
           continuedBy={item.continuedBy}
         >
           <Flex columnGap={'30px'} mt={4}>
             <Period size={'md'} period={item.period} />
-            <ItemHeaderStatsWidget types={item.hasType} />
+            <ItemHeaderStatsWidget heading="Type" data={item.hasType} />
           </Flex>
         </ItemHeader>
 
@@ -142,14 +149,70 @@ export default function Person({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {item.hasMember && (
+
+                {(item.subGroupOf?.length > 0 || item.hasSubGroup?.length > 0 || item.hasMember) && (
                   <GridItem
                     colSpan={6}
                     display={{ base: 'none', md: 'inherit' }}
                   >
-                    <Heading size={'lg'} mb={5}>Medlemmer</Heading>
+                    {item.subGroupOf && (
+                      <>
+                        <Heading size={'lg'} mb={5}>Del av</Heading>
+                        <Wrap maxW={'full'}>
+                          {item.subGroupOf.map(group => (
+                            <WrapItem key={group.id} pr={4} pb={4}>
+                              <Flex>
+                                <Avatar size='sm' name={group.label} />
+
+                                <Box ml="3">
+                                  <Text fontWeight='bold' my={"0"}>
+                                    <Link href={`/actor/${group.id}`}>
+                                      {group.label}
+                                    </Link>
+                                  </Text>
+                                </Box>
+                              </Flex>
+                            </WrapItem>
+                          ))}
+                        </Wrap>
+                      </>
+                    )}
+
                     {item.hasMember && (
-                      <Participants participants={item.hasMember} />
+                      <>
+                        <Flex>
+                          <Heading size={'lg'} mb={5}>Medlemmer</Heading>
+                          {item.hasMember.filter(m => m.retired == "true").length > 0 && (<Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis tidligere medlemmer' : 'Vis aktive'}</Button>)}
+                        </Flex>
+                        {item.hasMember && (
+                          <Participants participants={item.hasMember.filter(m => {
+                            return activeFilter ? m.retired != true : m
+                          })} />
+                        )}
+                      </>
+                    )}
+
+                    {item.hasSubGroup && (
+                      <>
+                        <Heading size={'lg'} mb={5}>Har undergrupper</Heading>
+                        <Wrap maxW={'full'}>
+                          {item.hasSubGroup.map(group => (
+                            <WrapItem key={group.id} pr={4} pb={4}>
+                              <Flex>
+                                <Avatar size='sm' name={group.label} />
+
+                                <Box ml="3">
+                                  <Text fontWeight='bold' my={"0"}>
+                                    <Link href={`/actor/${group.id}`}>
+                                      {group.label}
+                                    </Link>
+                                  </Text>
+                                </Box>
+                              </Flex>
+                            </WrapItem>
+                          ))}
+                        </Wrap>
+                      </>
                     )}
                   </GridItem>
                 )}
@@ -244,7 +307,7 @@ export default function Person({ data }) {
           </TabPanels>
         </Tabs>
 
-
+        {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
       </Container>
     </Layout>
   )

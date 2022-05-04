@@ -2,13 +2,15 @@ import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { arrayToTree } from "performant-array-to-tree";
-import { Box, Container, Flex, Heading, Icon, Image, Tabs, Tab, TabPanels, TabPanel, TabList, List, ListItem, UnorderedList } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Icon, Image, Tabs, Tab, TabPanels, TabPanel, TabList, List, ListItem, UnorderedList, Button } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from '../../components/DataTable'
 import { urlFor } from '../../lib/sanity'
 import { MdDashboard } from "react-icons/md"
-import { GrHistory } from "react-icons/gr"
+import { GrHistory, GrFormEdit } from "react-icons/gr"
+
+const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const allActor = groq`{
   "list": *[_type in ['Actor', 'Group'] && !(_id in path("drafts.**"))] | order(label asc)  {
@@ -78,11 +80,6 @@ export const getStaticProps = async ({ preview = false }) => {
 
 const columns = [
   {
-    Header: "id",
-    accessor: "id",
-    isVisible: 'false'
-  },
-  {
     Header: "",
     accessor: "image",
     isVisible: 'false'
@@ -122,7 +119,18 @@ const columns = [
   {
     Header: "Type",
     accessor: "type"
-  }
+  },
+  {
+    Header: "",
+    accessor: "id",
+    Cell: ({ row }) => (
+      <a href={`${studio}/desk/intent/edit/id=${row.values.id}`} target={'_blank'} rel={'noreferrer'}>
+        <Button leftIcon={<Icon as={GrFormEdit} />} size={'sm'}>
+          Redigér
+        </Button>
+      </a>
+    )
+  },
 ];
 
 export default function Persons({ data }) {

@@ -28,14 +28,16 @@ export default {
       type: '_type',
       joinedWith: 'joinedWith.label',
       joined: 'joined.0.label',
+      media: 'joinedWith.logo',
       edtf: 'timespan.edtf',
       role: 'as.label'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, edtf, role } = selection
+      const { type, joinedWith, joined, media, edtf, role } = selection
       return {
         title: `${joined ? joined + ' ' : ''}${type ?? ''} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
-        subtitle: `${role} ${edtf}`,
+        subtitle: `${role ?? ''} ${edtf ?? ''}`,
+        media: media
       }
     },
   },

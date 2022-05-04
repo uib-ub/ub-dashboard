@@ -4,7 +4,7 @@ import DocumentsPane from 'sanity-plugin-documents-pane'
 import { createDeskHierarchy } from '@sanity/hierarchical-document-list'
 import { GoDatabase, GoFileCode, GoLightBulb, GoPackage, GoPerson, GoProject } from 'react-icons/go'
 import { GrCloudSoftware } from 'react-icons/gr'
-import { BiCodeAlt, BiUser } from 'react-icons/bi'
+import { BiCodeAlt, BiGroup } from 'react-icons/bi'
 import { MdDesignServices, MdOutlineEvent } from 'react-icons/md'
 import { AiOutlineApi } from 'react-icons/ai'
 import { GiTeamIdea } from 'react-icons/gi'
@@ -19,7 +19,7 @@ const icons = {
   dataset: GoDatabase,
   accesspoint: AiOutlineApi,
   actor: GoPerson,
-  group: BiUser,
+  group: BiGroup,
   team: GiTeamIdea,
   autority: GoLightBulb,
   event: MdOutlineEvent
