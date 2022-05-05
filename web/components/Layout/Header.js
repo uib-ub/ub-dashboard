@@ -56,13 +56,18 @@ export default function Header() {
         fontFamily={"Menlo, monospace"}
       >
         <Box px="2">
-          <ActiveLink href={`/project`} activeClassName="active">
-            <a>Prosjekt</a>
+          <ActiveLink href={`/actor`} activeClassName="active">
+            <a>Personer</a>
           </ActiveLink>
         </Box>
         <Box px="2">
-          <ActiveLink href={`/product`} activeClassName="active">
-            <a>Produkt</a>
+          <ActiveLink href={`/group`} activeClassName="active">
+            <a>Grupper</a>
+          </ActiveLink>
+        </Box>
+        <Box px="2">
+          <ActiveLink href={`/project`} activeClassName="active">
+            <a>Prosjekt</a>
           </ActiveLink>
         </Box>
         <Box px="2">
@@ -73,16 +78,6 @@ export default function Header() {
         <Box px="2">
           <ActiveLink href={`/dataset`} activeClassName="active">
             <a>Datasett</a>
-          </ActiveLink>
-        </Box>
-        {/* <Box px="2">
-          <ActiveLink href={`/service`} activeClassName="active">
-            <a>Tjenester</a>
-          </ActiveLink>
-        </Box> */}
-        <Box px="2">
-          <ActiveLink href={`/actor`} activeClassName="active">
-            <a>Aktører</a>
           </ActiveLink>
         </Box>
         <Box px="2">
@@ -123,13 +118,18 @@ export default function Header() {
           />
           <MenuList>
             <MenuItem>
-              <ActiveLink href={`/project`} activeClassName="active">
-                <a>Prosjekt</a>
+              <ActiveLink href={`/actor`} activeClassName="active">
+                <a>Personer</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>
-              <ActiveLink href={`/product`} activeClassName="active">
-                <a>Produkt</a>
+              <ActiveLink href={`/group`} activeClassName="active">
+                <a>Grupper</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/project`} activeClassName="active">
+                <a>Prosjekt</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>
@@ -140,16 +140,6 @@ export default function Header() {
             <MenuItem>
               <ActiveLink href={`/dataset`} activeClassName="active">
                 <a>Datasett</a>
-              </ActiveLink>
-            </MenuItem>
-            {/* <MenuItem>
-              <ActiveLink href={`/service`} activeClassName="active">
-                <a>Tjenester</a>
-              </ActiveLink>
-            </MenuItem> */}
-            <MenuItem>
-              <ActiveLink href={`/actor`} activeClassName="active">
-                <a>Aktører</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>

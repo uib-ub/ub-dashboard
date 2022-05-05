@@ -614,7 +614,7 @@ export const actorQuery = groq`{
       label,
       shortDescription,
     },
-    hasSkill[] {
+    hasSkill[] | order(level desc) {
       "label": competence->.label,
       level,
       shortDescription,

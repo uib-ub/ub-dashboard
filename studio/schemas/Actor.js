@@ -1,11 +1,24 @@
 import { competence, imageSingleton, labelSingleton, referredToBy, shortDescription } from "./props";
+import sanityClient from 'part:@sanity/base/client'
+
+const client = sanityClient.withConfig({ apiVersion: '2021-03-25' })
 
 export default {
   name: 'Actor',
   title: 'Person',
   type: 'document',
   fields: [
-    labelSingleton,
+    {
+      ...labelSingleton,
+      validation: (Rule) =>
+        Rule.required().custom(async (param) => {
+          const docs = await client.fetch(
+            `*[label == "${param}" && _type == "Actor" && !(_id in path("drafts.**"))] { label }`,
+            { param },
+          )
+          return docs.length > 1 ? 'Value is not unique' : true
+        }),
+    },
     shortDescription,
     {
       name: 'quote',

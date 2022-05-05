@@ -13,16 +13,62 @@ import { GrHistory, GrFormEdit } from "react-icons/gr"
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const allActor = groq`{
-  "list": *[_type in ['Actor'] && !(_id in path("drafts.**"))] | order(label asc)  {
+  "list": *[_type in ['Group', 'Team'] && !(_id in path("drafts.**"))] | order(label asc)  {
     "id": _id,
     "type": _type,
-    "label": label,
+    label,
+    hasType[]-> {
+      "id": _id,
+      label,
+    },
     image,
     shortDescription,
     "description": pt::text(referredToBy[0].body),
-    "memberOf": *[_type == "Group" && references(^._id)].label
+  },
+  ...*[_id == "org-hierarchy"][0]{
+    tree[] {
+      // Make sure you include each item's _key and parent
+      _key,
+      parent,
+      value {
+        reference->{
+          "id": _id,
+          label,
+        }
+      }
+    }
   }
 }`
+
+const TreeList = ({ data }) => {
+  if (!data) return null
+  const tree = arrayToTree(data, { rootParentIds: 'parent', id: "_key", parentId: "parent" })
+
+  return (
+    <UnorderedList>
+      {tree.map(node => (
+        <TreeListItem key={node._key} data={node} />
+      ))}
+    </UnorderedList>
+  )
+}
+
+const TreeListItem = ({ data }) => {
+  return (
+    <ListItem>
+      <Heading size={'sm'}>
+        <Link href={`/actor/${data.data.value.reference.id}`}>
+          {data.data.value.reference.label}
+        </Link>
+      </Heading>
+      <UnorderedList>
+        {data.children.map(child => (
+          <TreeListItem key={child._key} data={child} />
+        ))}
+      </UnorderedList>
+    </ListItem>
+  )
+}
 
 export const getStaticProps = async ({ preview = false }) => {
   const now = new Date()
@@ -71,13 +117,13 @@ const columns = [
     )
   },
   {
-    Header: "Medlem av",
-    accessor: "memberOf",
+    Header: "Type",
+    accessor: "hasType",
     Cell: ({ row }) => (
       <>
-        {row.values.memberOf?.map(t => (
+        {row.values.hasType?.map(t => (
           <Flex columnGap={3} alignItems={'center'}>
-            {t}
+            {t.label}
           </Flex>
         ))}
       </>
@@ -107,11 +153,31 @@ export default function Persons({ data }) {
     <Layout>
       <Container variant="wrapper">
         <Heading size={"3xl"}>
-          Personer
+          Grupper
         </Heading>
-        <Box my={5}>
-          <DataTable columns={columns} data={list} />
-        </Box>
+
+        <Tabs lazy colorScheme='green' my={10}>
+          <TabList>
+            <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
+          </TabList>
+
+          <TabPanels mt={3}>
+            <TabPanel>
+              <Box my={5}>
+                <DataTable columns={columns} data={list} />
+              </Box>
+            </TabPanel>
+
+            <TabPanel>
+              <Box my={5}>
+                <TreeList data={tree} />
+                {/* <pre>{JSON.stringify(tree, null, 2)}</pre> */}
+              </Box>
+            </TabPanel>
+          </TabPanels>
+
+        </Tabs>
       </Container>
     </Layout>
   )
