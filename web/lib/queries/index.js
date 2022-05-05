@@ -622,7 +622,15 @@ export const actorQuery = groq`{
     "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Team', 'Group']] | order(timespan.beginOfTheBegin asc)  {
       "id": _id,
       "type": _type,
-      "label": label,
+      label,
+    },
+    "memberOf": *[_type in ['Group', 'Team'] && references(^._id) && (!defined(timespan.endOfTheEnd) || timespan.endOfTheEnd >= now() )] | order(label) {
+      "id": _id,
+      label,
+      hasType[]-> {
+        "id": _id,
+        label
+      },
     },
     hasMember[] {
       assignedActor-> {

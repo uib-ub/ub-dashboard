@@ -74,13 +74,13 @@ const columns = [
     Header: "Medlem av",
     accessor: "memberOf",
     Cell: ({ row }) => (
-      <>
-        {row.values.memberOf?.map(t => (
-          <Flex columnGap={3} alignItems={'center'}>
+      <Flex rowGap={3} direction="column">
+        {row.values.memberOf?.map((t, i) => (
+          <Box key={i}>
             {t}
-          </Flex>
+          </Box>
         ))}
-      </>
+      </Flex>
     )
   },
   {

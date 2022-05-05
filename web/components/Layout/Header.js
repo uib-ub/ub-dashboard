@@ -102,9 +102,9 @@ export default function Header() {
         ml="5"
         onClick={toggleColorMode}
         icon={colorMode === 'light' ? (
-          <Icon as={MoonIcon} />
+          MoonIcon
         ) : (
-          <Icon as={SunIcon} color="white" />
+          SunIcon
         )}
       />
 

@@ -120,13 +120,13 @@ const columns = [
     Header: "Type",
     accessor: "hasType",
     Cell: ({ row }) => (
-      <>
-        {row.values.hasType?.map(t => (
-          <Flex columnGap={3} alignItems={'center'}>
-            {t.label}
-          </Flex>
+      <Flex rowGap={3} direction="column">
+        {row.values.memberOf?.map((t, i) => (
+          <Box key={i}>
+            {t}
+          </Box>
         ))}
-      </>
+      </Flex>
     )
   },
   {

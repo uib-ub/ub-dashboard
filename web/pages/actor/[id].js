@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Badge } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -148,6 +148,35 @@ export default function Person({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
+
+                {item.memberOf && (
+                  <GridItem
+                    colSpan={6}
+                    display={{ base: 'none', md: 'inherit' }}
+                  >
+                    <Flex>
+                      <Heading size={'lg'} mb={5}>Medlem av</Heading>
+                    </Flex>
+                    <Wrap maxW={'full'}>
+                      {item.memberOf.map(group => (
+                        <WrapItem key={group.id} pr={4} pb={4}>
+                          <Flex>
+                            <Avatar size='sm' name={group.label} />
+
+                            <Box ml="3">
+                              <Text fontWeight='bold' my={"0"}>
+                                <Link href={`/actor/${group.id}`}>
+                                  {group.label}
+                                </Link>
+                              </Text>
+                            </Box>
+                          </Flex>
+                        </WrapItem>
+                      ))
+                      }
+                    </Wrap >
+                  </GridItem>
+                )}
 
 
                 {(item.subGroupOf?.length > 0 || item.hasSubGroup?.length > 0 || item.hasMember) && (
