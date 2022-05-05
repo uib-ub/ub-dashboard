@@ -1,11 +1,9 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Container, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
+import { Container, Flex, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
 import Layout from "../../components/Layout"
-import { groupBy, sortBy } from 'lodash-es'
-
-const EVENT_TYPES = ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution']
+import { groupBy, orderBy, sortBy } from 'lodash-es'
 
 const timelineQuery = groq`[
   ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan) && !(_id in path("drafts.**"))] {
@@ -46,7 +44,6 @@ export const getStaticProps = async ({ preview = false }) => {
     return item.timestamp.substring(0, 4);
   })
 
-
   return {
     props: {
       preview,
@@ -55,43 +52,41 @@ export const getStaticProps = async ({ preview = false }) => {
   }
 }
 
-
 export default function ActivityTimeline({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
-        <Heading size={"3xl"}>
+        <Heading size={"3xl"} mb="5">
           Tidslinje
         </Heading>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
-        {data && Object.entries(data).map(([key, value]) => (
-
+        {data && Object.entries(data).reverse().map(([key, value]) => (
           <section key={key}>
-            <Heading as={'h2'}>{key}</Heading>
-            <Grid templateColumns={'1fr 1fr 1fr 1fr'} gap={5}>
+            <Grid templateColumns={'1fr 8fr'} gap={"5"} mb={"10"}>
+              <Heading as={'h2'}>{key}</Heading>
+              <Grid templateColumns={'1fr 1fr 1fr 1fr'} gap={5} maxW="full">
 
-              {value.map(e => (
-                <GridItem
-                  key={e.timestamp}
-                  p={5}
-                  borderRadius={"8"}
-                  border={"1px solid"}
-                  borderColor={"gray.200"}
-                  boxShadow={"md"}
-                >
-                  <Tag>{e.period}</Tag>
-                  <Heading as={'h3'} size={'sm'}>{e.label}</Heading>
-                </GridItem>
+                {value.map(e => (
+                  <GridItem
+                    key={e.timestamp}
+                    p={5}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                  >
+                    <Tag>{e.period}</Tag>
+                    <Heading as={'h3'} size={'sm'}>{e.label}</Heading>
+                  </GridItem>
 
-              ))}
-
-
+                ))}
+              </Grid>
             </Grid>
           </section>
         ))}
 
       </Container>
-    </Layout>
+    </Layout >
   )
 }
