@@ -7,7 +7,7 @@ import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabLi
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
-import { actorQuery } from "../../lib/queries"
+import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { GrHistory } from 'react-icons/gr'
@@ -47,7 +47,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params, preview = false }) {
   const now = new Date()
-  let timeline = await getClient(preview).fetch(actorQuery, { id: params.id, now: now })
+  let timeline = await getClient(preview).fetch(groupQuery, { id: params.id, now: now })
   timeline = cleanDeep(timeline)
 
   return {
@@ -57,19 +57,6 @@ export async function getStaticProps({ params, preview = false }) {
     },
   }
 }
-
-const colors = [
-  'red.600',
-  'red.500',
-  'yellow.500',
-  'yellow.400',
-  'yellow.300',
-  'green.300',
-  'green.400',
-  'green.500',
-  'green.600',
-  'green.700',
-]
 
 const columns = [
   {
@@ -151,7 +138,7 @@ export default function Person({ data }) {
 
                                 <Box ml="3">
                                   <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/actor/${group.id}`}>
+                                    <Link href={`/group/${group.id}`}>
                                       {group.label}
                                     </Link>
                                   </Text>
@@ -188,7 +175,7 @@ export default function Person({ data }) {
 
                                 <Box ml="3">
                                   <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/actor/${group.id}`}>
+                                    <Link href={`/group/${group.id}`}>
                                       {group.label}
                                     </Link>
                                   </Text>
@@ -221,25 +208,6 @@ export default function Person({ data }) {
                         borderColor={"gray.200"}
                         boxShadow={"md"}
                       />
-                    </Box>
-                  </GridItem>
-                )}
-
-                {item.hasSkill && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                  >
-                    <Heading size={'lg'} mb={5}>Kompetanse</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      p={5}
-                    >
-
-                      <DataTable columns={columns} data={item.hasSkill} size="sm" />
-
                     </Box>
                   </GridItem>
                 )}

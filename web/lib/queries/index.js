@@ -596,7 +596,7 @@ export const actorQuery = groq`{
     image,
     "period": timespan.edtf,
     referredToBy[],
-    subGroupOf[]-> {
+    subGroupOf|order(label)[]-> {
       "id": _id,
       hasType[]-> {
         "id": _id,
@@ -605,7 +605,7 @@ export const actorQuery = groq`{
       label,
       shortDescription,
     },
-    "hasSubGroup": *[_type == "Group" && ^._id in subGroupOf[]._ref]{
+    "hasSubGroup": *[_type == "Group" && ^._id in subGroupOf[]._ref]|order(label){
       "id": _id,
       hasType[]-> {
         "id": _id,
@@ -631,6 +631,77 @@ export const actorQuery = groq`{
         "id": _id,
         label
       },
+    },
+    hasMember[] {
+      assignedActor-> {
+        "id": _id,
+        label,
+      },
+      assignedRole[]-> {
+        "id": _id,
+        label,
+      },
+      "timespan": timespan.edtf,
+      defined(timespan.endOfTheEnd) == true => {
+        "retired": true 
+      }
+    }
+  },
+  "milestones": [
+    ...* [_id == $id] | order(timespan.beginOfTheBegin asc)  {
+      "id": _id,
+      "type": _type,
+      "label": label,
+      "entries": [
+        {
+          "timestamp": $now,
+          "text": "Nå",
+        },
+        ...*[references($id) && _type in ['Leaving', 'TransferOfMember', 'Joining', 'Activity', 'Team']] | order(timespan.beginOfTheBegin asc)  {
+          "timestamp": timespan.beginOfTheBegin,
+          "text": label,
+        },
+      ]
+    },
+  ],
+}`;
+
+export const groupQuery = groq`{
+  "item": * [_id == $id][0] {
+    "id": _id,
+    "type": _type,
+    "label": label,
+    hasType[]-> {
+      "id": _id,
+      label
+    },
+    shortDescription,
+    quote,
+    image,
+    "period": timespan.edtf,
+    referredToBy[],
+    subGroupOf|order(label)[]-> {
+      "id": _id,
+      hasType[]-> {
+        "id": _id,
+        label
+      },
+      label,
+      shortDescription,
+    },
+    "hasSubGroup": *[_type == "Group" && ^._id in subGroupOf[]._ref]|order(label){
+      "id": _id,
+      hasType[]-> {
+        "id": _id,
+        label
+      },
+      label,
+      shortDescription,
+    },
+    "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Team', 'Group']] | order(timespan.beginOfTheBegin asc)  {
+      "id": _id,
+      "type": _type,
+      label,
     },
     hasMember[] {
       assignedActor-> {

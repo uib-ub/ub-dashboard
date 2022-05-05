@@ -33,6 +33,7 @@ const allActor = groq`{
       value {
         reference->{
           "id": _id,
+          "type": _type,
           label,
         }
       }
@@ -54,10 +55,11 @@ const TreeList = ({ data }) => {
 }
 
 const TreeListItem = ({ data }) => {
+  const pageType = data.data.value.reference.type === "Actor" ? "actor" : "group"
   return (
     <ListItem>
       <Heading size={'sm'}>
-        <Link href={`/actor/${data.data.value.reference.id}`}>
+        <Link href={`/${pageType}/${data.data.value.reference.id}`}>
           {data.data.value.reference.label}
         </Link>
       </Heading>
@@ -110,7 +112,7 @@ const columns = [
             />
           </Icon>
         }
-        <Link href={`/actor/${row.values.id}`}>
+        <Link href={`/group/${row.values.id}`}>
           {row.values.label}
         </Link>
       </Flex>

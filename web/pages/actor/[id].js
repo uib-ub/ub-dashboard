@@ -11,6 +11,7 @@ import { actorQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { GrHistory } from 'react-icons/gr'
+import { BsQuestionDiamond } from 'react-icons/bs'
 import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap } from "lodash-es"
 import Link from "../../components/Link"
@@ -149,14 +150,14 @@ export default function Person({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {item.memberOf && (
-                  <GridItem
-                    colSpan={6}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-                    <Flex>
-                      <Heading size={'lg'} mb={5}>Medlem av</Heading>
-                    </Flex>
+                <GridItem
+                  colSpan={6}
+                  display={{ base: 'none', md: 'inherit' }}
+                >
+                  <Flex>
+                    <Heading size={'lg'} mb={5}>Medlem av</Heading>
+                  </Flex>
+                  {item.memberOf && (
                     <Wrap maxW={'full'}>
                       {item.memberOf.map(group => (
                         <WrapItem key={group.id} pr={4} pb={4}>
@@ -165,86 +166,30 @@ export default function Person({ data }) {
 
                             <Box ml="3">
                               <Text fontWeight='bold' my={"0"}>
-                                <Link href={`/actor/${group.id}`}>
+                                <Link href={`/group/${group.id}`}>
                                   {group.label}
                                 </Link>
                               </Text>
                             </Box>
                           </Flex>
                         </WrapItem>
-                      ))
-                      }
+                      ))}
                     </Wrap >
-                  </GridItem>
-                )}
-
-
-                {(item.subGroupOf?.length > 0 || item.hasSubGroup?.length > 0 || item.hasMember) && (
-                  <GridItem
-                    colSpan={6}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-                    {item.subGroupOf && (
-                      <>
-                        <Heading size={'lg'} mb={5}>Del av</Heading>
-                        <Wrap maxW={'full'}>
-                          {item.subGroupOf.map(group => (
-                            <WrapItem key={group.id} pr={4} pb={4}>
-                              <Flex>
-                                <Avatar size='sm' name={group.label} />
-
-                                <Box ml="3">
-                                  <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/actor/${group.id}`}>
-                                      {group.label}
-                                    </Link>
-                                  </Text>
-                                </Box>
-                              </Flex>
-                            </WrapItem>
-                          ))}
-                        </Wrap>
-                      </>
-                    )}
-
-                    {item.hasMember && (
-                      <>
-                        <Flex>
-                          <Heading size={'lg'} mb={5}>Medlemmer</Heading>
-                          {item.hasMember.filter(m => m.retired == "true").length > 0 && (<Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis tidligere medlemmer' : 'Vis aktive'}</Button>)}
-                        </Flex>
-                        {item.hasMember && (
-                          <Participants participants={item.hasMember.filter(m => {
-                            return activeFilter ? m.retired != true : m
-                          })} />
-                        )}
-                      </>
-                    )}
-
-                    {item.hasSubGroup && (
-                      <>
-                        <Heading size={'lg'} mb={5}>Har undergrupper</Heading>
-                        <Wrap maxW={'full'}>
-                          {item.hasSubGroup.map(group => (
-                            <WrapItem key={group.id} pr={4} pb={4}>
-                              <Flex>
-                                <Avatar size='sm' name={group.label} />
-
-                                <Box ml="3">
-                                  <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/actor/${group.id}`}>
-                                      {group.label}
-                                    </Link>
-                                  </Text>
-                                </Box>
-                              </Flex>
-                            </WrapItem>
-                          ))}
-                        </Wrap>
-                      </>
-                    )}
-                  </GridItem>
-                )}
+                  )}
+                  {!item.memberOf && (
+                    <Box
+                      minHeight={'20vh'}
+                      border={'solid #eee 1px'}
+                      borderRadius={3}
+                    >
+                      <MissingBlock
+                        heading="Ingen nåværende eller registrerte medlemskap"
+                        text='Alt kan registreres, alt kan repeteres, alt kan reserveres, alt kan ...'
+                        icon={BsQuestionDiamond}
+                      />
+                    </Box>
+                  )}
+                </GridItem>
 
                 {flattenedMilestones.length > 1 && (
                   <GridItem
