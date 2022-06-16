@@ -198,7 +198,6 @@ export default function Groups({ data }) {
             <TabPanel>
               <Box my={5}>
                 <TreeList value={tree} />
-                {/* <pre>{JSON.stringify(tree, null, 2)}</pre> */}
               </Box>
             </TabPanel>
           </TabPanels>
@@ -208,9 +207,3 @@ export default function Groups({ data }) {
     </Layout>
   )
 }
-{/* <Grid key={item.id} maxW="full" templateColumns={'repeat(12, 1fr)'} my="5" gap={{ base: "3", md: "6" }}>
-            <GridItem colSpan={{ base: '12', md: "12" }}>
-              <Heading size="lg"><Link href={`/actor/${item.id}`}>{item.label}</Link></Heading>
-              <Text noOfLines={4} fontSize={"xl"} m="0">{item.description ?? item.shortDescription}</Text>
-            </GridItem>
-          </Grid> */}
