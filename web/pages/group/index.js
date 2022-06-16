@@ -35,37 +35,54 @@ const allActor = groq`{
           "id": _id,
           "type": _type,
           label,
+          hasMember[] {
+            "id": assignedActor->._id,
+            "label": assignedActor->.label,
+            "timespan": timespan.edtf,
+          }
         }
       }
     }
   }
 }`
 
-const TreeList = ({ data }) => {
-  if (!data) return null
-  const tree = arrayToTree(data, { rootParentIds: 'parent', id: "_key", parentId: "parent" })
+const TreeList = ({ value }) => {
+  if (!value) return null
+  const tree = arrayToTree(value, { rootParentIds: 'parent', id: "_key", parentId: "parent" })
 
   return (
     <UnorderedList>
       {tree.map(node => (
-        <TreeListItem key={node._key} data={node} />
+        <TreeListItem value={node} />
       ))}
     </UnorderedList>
   )
 }
 
-const TreeListItem = ({ data }) => {
-  const pageType = data.data.value.reference.type === "Actor" ? "actor" : "group"
+const TreeListItem = ({ value }) => {
+  const pageType = value.data.value.reference.type === "Actor" ? "actor" : "group"
   return (
-    <ListItem>
+    <ListItem key={value.data.value.reference.id}>
       <Heading size={'sm'}>
-        <Link href={`/${pageType}/${data.data.value.reference.id}`}>
-          {data.data.value.reference.label}
+        <Link href={`/${pageType}/${value.data.value.reference.id}`}>
+          {value.data.value.reference.label}
         </Link>
       </Heading>
       <UnorderedList>
-        {data.children.map(child => (
-          <TreeListItem key={child._key} data={child} />
+        {value.children.map(child => (
+          <TreeListItem key={child._key} value={child} />
+        ))}
+      </UnorderedList>
+
+      <UnorderedList>
+        {value.data.value.reference.hasMember && value.data.value.reference.hasMember.map(member => (
+          <ListItem key={member.id}>
+            <Heading size={'sm'}>
+              <Link href={`/person/${member.id}`}>
+                {member.label}
+              </Link>
+            </Heading>
+          </ListItem>
         ))}
       </UnorderedList>
     </ListItem>
@@ -148,7 +165,7 @@ const columns = [
   },
 ];
 
-export default function Persons({ data }) {
+export default function Groups({ data }) {
   const { list, tree } = data
 
   return (
@@ -173,7 +190,7 @@ export default function Persons({ data }) {
 
             <TabPanel>
               <Box my={5}>
-                <TreeList data={tree} />
+                <TreeList value={tree} />
                 {/* <pre>{JSON.stringify(tree, null, 2)}</pre> */}
               </Box>
             </TabPanel>

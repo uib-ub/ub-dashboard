@@ -86,7 +86,7 @@ export default () =>
               createDeskHierarchy({
                 title: 'Oranisasjonshierarki',
                 documentId: 'org-hierarchy',
-                referenceTo: ['Group', 'Actor'],
+                referenceTo: ['Group', 'Team'],
                 // ❓ Optional: provide filters and/or parameters for narrowing which documents can be added
                 /* referenceOptions: {
                   filter: 'status in $acceptedStatuses',
