@@ -2,7 +2,7 @@ import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { arrayToTree } from "performant-array-to-tree";
-import { Box, Container, Flex, Heading, Icon, Image, Tabs, Tab, TabPanels, TabPanel, TabList, List, ListItem, UnorderedList, Button } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Icon, Image, Tabs, Tab, TabPanels, TabPanel, TabList, List, ListItem, UnorderedList, Button, Tag } from '@chakra-ui/react'
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import { DataTable } from '../../components/DataTable'
@@ -35,6 +35,9 @@ const allActor = groq`{
           "id": _id,
           "type": _type,
           label,
+          hasType[]-> {
+            label
+          },
           hasMember[] {
             "id": assignedActor->._id,
             "label": assignedActor->.label,
@@ -63,10 +66,13 @@ const TreeListItem = ({ value }) => {
   const pageType = value.data.value.reference.type === "Actor" ? "actor" : "group"
   return (
     <ListItem key={value.data.value.reference.id}>
-      <Heading size={'sm'}>
+      <Heading size={'md'} py={1}>
         <Link href={`/${pageType}/${value.data.value.reference.id}`}>
           {value.data.value.reference.label}
         </Link>
+        {value.data.value.reference.hasType && value.data.value.reference.hasType.map((type, index) => (
+          <Tag key={index}>{type.label}</Tag>
+        ))}
       </Heading>
       <UnorderedList>
         {value.children.map(child => (
@@ -74,6 +80,7 @@ const TreeListItem = ({ value }) => {
         ))}
       </UnorderedList>
 
+      {/* Add a list with group members */}
       <UnorderedList>
         {value.data.value.reference.hasMember && value.data.value.reference.hasMember.map(member => (
           <ListItem key={member.id}>
