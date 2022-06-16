@@ -85,7 +85,7 @@ const TreeListItem = ({ value }) => {
         {value.data.value.reference.hasMember && value.data.value.reference.hasMember.map(member => (
           <ListItem key={member.id}>
             <Heading size={'sm'}>
-              <Link href={`/person/${member.id}`}>
+              <Link href={`/actor/${member.id}`}>
                 {member.label}
               </Link>
             </Heading>
