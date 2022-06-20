@@ -10,7 +10,7 @@ import { PortableText } from "../../lib/sanity"
 import { actorQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
-import { GrHistory } from 'react-icons/gr'
+import { GrHistory, GrCode } from 'react-icons/gr'
 import { BsQuestionDiamond } from 'react-icons/bs'
 import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap } from "lodash-es"
@@ -98,8 +98,19 @@ const columns = [
   },
 ];
 
+
+const checkMembership = (arr) => {
+  if (arr.every(m => m.retired === true)) {
+    return false
+  }
+  if (!arr.every(m => m.retired === true) && arr.some(m => m.retired === true)) {
+    return true
+  }
+  return false
+}
+
 export default function Person({ data }) {
-  const [activeFilter, setActiveFilter] = useState(true)
+  const [activeFilter, setActiveFilter] = useState(checkMembership(data.item.memberOf ?? []))
 
   const { width, height } = useWindowSize()
   const { item, milestones } = data
@@ -140,6 +151,7 @@ export default function Person({ data }) {
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab><Icon as={GrCode} mr={2} /> Data</Tab>
           </TabList>
 
           <TabPanels mt={3}>
@@ -154,10 +166,49 @@ export default function Person({ data }) {
                   colSpan={6}
                   display={{ base: 'none', md: 'inherit' }}
                 >
-                  <Flex>
-                    <Heading size={'lg'} mb={5}>Medlem av</Heading>
-                  </Flex>
+
                   {item.memberOf && (
+                    <>
+                      <Flex>
+                        <Heading size={'lg'} mb={5}>Medlem av</Heading>
+                        {item.memberOf.some(m => m.retired === true) && (
+                          <Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>
+                            {activeFilter ? 'Vis inaktive grupper' : 'Vis aktive'}
+                          </Button>
+                        )}
+                      </Flex>
+                      <Wrap maxW={'full'}>
+                        {item.memberOf.filter(m => {
+                          return activeFilter ? m.retired != true : m
+                        }).map(group => (
+                          <WrapItem key={group.id} pr={4} pb={4}>
+                            <Flex>
+                              <Avatar size='sm' name={group.label} />
+
+                              <Box ml="3">
+                                <Text fontWeight='bold' my={"0"}>
+                                  <Link href={`/group/${group.id}`}>
+                                    {group.label}
+                                  </Link>
+                                </Text>
+                                <Text my={"0"}>
+                                  {group.hasType && group.hasType.map(type => (
+                                    <Tag>{type.label}</Tag>
+                                  ))}
+                                </Text>
+                                <Text my={"0"} fontSize={'sm'}>
+                                  {group.timespan}
+                                </Text>
+                              </Box>
+                            </Flex>
+                          </WrapItem>)
+                        )}
+                      </Wrap>
+                    </>
+                  )}
+
+
+                  {/* {item.memberOf && (
                     <Wrap maxW={'full'}>
                       {item.memberOf.map(group => (
                         <WrapItem key={group.id} pr={4} pb={4}>
@@ -175,7 +226,8 @@ export default function Person({ data }) {
                         </WrapItem>
                       ))}
                     </Wrap >
-                  )}
+                  )} */}
+
                   {!item.memberOf && (
                     <Box
                       minHeight={'20vh'}
@@ -278,10 +330,18 @@ export default function Person({ data }) {
               </Grid>
             </TabPanel>
 
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <pre>{JSON.stringify(item, null, 2)}</pre>
+              </Grid>
+            </TabPanel>
           </TabPanels>
         </Tabs>
 
-        {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
       </Container>
     </Layout>
   )

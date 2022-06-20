@@ -10,7 +10,7 @@ import { PortableText } from "../../lib/sanity"
 import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
-import { GrHistory } from 'react-icons/gr'
+import { GrHistory, GrCode } from 'react-icons/gr'
 import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap } from "lodash-es"
 import Link from "../../components/Link"
@@ -79,8 +79,18 @@ const columns = [
   },
 ];
 
+const checkMembers = (arr) => {
+  if (arr.every(m => m.retired === true)) {
+    return false
+  }
+  if (!arr.every(m => m.retired === true) && arr.some(m => m.retired === true)) {
+    return true
+  }
+  return false
+}
+
 export default function Person({ data }) {
-  const [activeFilter, setActiveFilter] = useState(true)
+  const [activeFilter, setActiveFilter] = useState(checkMembers(data.item.hasMember ?? []))
 
   const { width, height } = useWindowSize()
   const { item, milestones } = data
@@ -89,6 +99,7 @@ export default function Person({ data }) {
   const handleActiveFilter = () => {
     setActiveFilter(!activeFilter)
   }
+
 
   return (
     <Layout>
@@ -111,6 +122,7 @@ export default function Person({ data }) {
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Tab><Icon as={GrCode} mr={2} /> Data</Tab>
           </TabList>
 
           <TabPanels mt={3}>
@@ -120,7 +132,6 @@ export default function Person({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
-
 
                 {(item.subGroupOf?.length > 0 || item.hasSubGroup?.length > 0 || item.hasMember) && (
                   <GridItem
@@ -154,7 +165,7 @@ export default function Person({ data }) {
                       <>
                         <Flex>
                           <Heading size={'lg'} mb={5}>Medlemmer</Heading>
-                          {item.hasMember.filter(m => m.retired == "true").length > 0 && (<Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis tidligere medlemmer' : 'Vis aktive'}</Button>)}
+                          {(!item.hasMember.every(m => m.retired === true)) && (<Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis tidligere medlemmer' : 'Vis aktive'}</Button>)}
                         </Flex>
                         {item.hasMember && (
                           <Participants participants={item.hasMember.filter(m => {
@@ -257,10 +268,20 @@ export default function Person({ data }) {
               </Grid>
             </TabPanel>
 
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <pre>{JSON.stringify(item, null, 2)}</pre>
+              </Grid>
+            </TabPanel>
+
           </TabPanels>
         </Tabs>
 
-        {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
+
       </Container>
     </Layout>
   )

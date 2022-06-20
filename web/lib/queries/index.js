@@ -624,14 +624,19 @@ export const actorQuery = groq`{
       "type": _type,
       label,
     },
-    "memberOf": *[_type in ['Group', 'Team'] && references(^._id) && (!defined(timespan.endOfTheEnd) || timespan.endOfTheEnd >= now() )] | order(label) {
+    "memberOf": *[_type in ['Group', 'Team'] && references(^._id)] | order(label) {
       "id": _id,
       label,
       hasType[]-> {
         "id": _id,
         label
       },
-    },
+      "timespan": timespan.edtf,
+      "retired": false,
+      timespan.endOfTheEnd <= now() => {
+        "retired": true 
+      }
+    },  
     hasMember[] {
       assignedActor-> {
         "id": _id,
@@ -642,7 +647,8 @@ export const actorQuery = groq`{
         label,
       },
       "timespan": timespan.edtf,
-      defined(timespan.endOfTheEnd) == true => {
+      "retired": false,
+      timespan.endOfTheEnd <= now() => {
         "retired": true 
       }
     }
