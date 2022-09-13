@@ -2,6 +2,8 @@
 .readme code {
   font-family: Menlo, Monaco, "Courier New", monospace;
   font-size: 0.9rem;
+  overflow-x: scroll;
+  width: 100%;
 }
 
 .readme pre {
@@ -99,6 +101,7 @@
   padding-left: 1rem;
 }
 
-.readme ul, .readme ol {
+.readme ul,
+.readme ol {
   list-style-position: inside;
 }

@@ -95,7 +95,7 @@ export default function Product({ data }) {
           flexDirection='column'
           maxW={'full'}
         >
-          <TabList overflowY='scroll'>
+          <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab isDisabled><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>

@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Image, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { projectQuery } from "../../lib/queries"
@@ -28,6 +28,7 @@ import { VscFileCode } from 'react-icons/vsc'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import HasType from "../../components/Props/HasType"
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
+import { urlFor } from '../../lib/sanity'
 
 
 const MilestonesWithoutSSR = dynamic(
@@ -97,7 +98,7 @@ export default function Project({ data }) {
           flexDirection='column'
           maxW={'full'}
         >
-          <TabList overflowX='scroll'>
+          <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
             <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
@@ -141,6 +142,21 @@ export default function Project({ data }) {
 
                 {item.hasTeam && (
                   <CurrentMembersWidget value={item.hasTeam} />
+                )}
+
+                {item.image && (
+                  <GridItem colSpan={3}>
+                    <Heading size={'lg'} mb={5}>Forhåndsvisning</Heading>
+                    <Image
+                      border={'solid #eee 1px'}
+                      borderRadius={3}
+                      src={urlFor(item.image[0]).width(500).url()}
+                      mb={"5"}
+
+                      objectFit='contain'
+                      alt=''
+                    />
+                  </GridItem>
                 )}
 
                 {flattenedMilestones.length > 1 && (

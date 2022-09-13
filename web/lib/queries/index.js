@@ -447,25 +447,6 @@ export const projectQuery = groq`{
       },
     ]
   },
-  ...* [_id == $id].resultedIn[] -> | order(timespan.beginOfTheBegin asc) {
-    "id": _id,
-    "label": label,
-    "desc": referredToBy[],
-    "entries": [
-      select(defined(timespan.endOfTheEnd) => {
-        "timestamp": timespan.endOfTheEnd,
-        "text": "Prosjektet avvikler " + label,
-      }),
-      ...activityStream[defined(^.timespan)] | order(timespan.beginOfTheBegin desc) -> {
-        "timestamp": timespan.beginOfTheBegin,
-        "text": label,
-      },
-      select(timespan.beginOfTheBegin != "" => {
-        "timestamp": timespan.beginOfTheBegin,
-        "text": "Prosjektet oppretter " + label,
-      })
-    ]
-  },
   ...* [_id == $id].resultedIn[] -> usedService[] | order(timespan.beginOfTheBegin asc) {
     "id": assignedService -> _id,
     "label": assignedService -> label,
