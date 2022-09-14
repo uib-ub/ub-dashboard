@@ -13,7 +13,7 @@ import { GrHistory, GrFormEdit } from "react-icons/gr"
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const allActor = groq`{
-  "list": *[_type in ['Group', 'Team'] && !(_id in path("drafts.**"))] | order(label asc)  {
+  "list": *[_type in ['Group'] && !(_id in path("drafts.**"))] | order(label asc)  {
     "id": _id,
     "type": _type,
     label,
@@ -56,7 +56,7 @@ const TreeList = ({ value }) => {
   return (
     <UnorderedList>
       {tree.map(node => (
-        <TreeListItem value={node} />
+        <TreeListItem value={node} key={node.data.value.reference.id} />
       ))}
     </UnorderedList>
   )
@@ -66,14 +66,16 @@ const TreeListItem = ({ value }) => {
   const pageType = value.data.value.reference.type === "Actor" ? "actor" : "group"
   return (
     <ListItem key={value.data.value.reference.id}>
-      <Heading size={'md'} py={1}>
-        <Link href={`/${pageType}/${value.data.value.reference.id}`}>
-          {value.data.value.reference.label}
-        </Link>
+      <Flex gap={2} my={2}>
+        <Heading size={'md'} py={1}>
+          <Link href={`/${pageType}/${value.data.value.reference.id}`}>
+            {value.data.value.reference.label}
+          </Link>
+        </Heading>
         {value.data.value.reference.hasType && value.data.value.reference.hasType.map((type, index) => (
-          <Tag key={index}>{type.label}</Tag>
+          <Tag key={index} size='sm'>{type.label}</Tag>
         ))}
-      </Heading>
+      </Flex>
       <UnorderedList>
         {value.children.map(child => (
           <TreeListItem key={child._key} value={child} />
@@ -147,9 +149,9 @@ const columns = [
     accessor: "hasType",
     Cell: ({ row }) => (
       <Flex rowGap={3} direction="column">
-        {row.values.memberOf?.map((t, i) => (
+        {row.values.hasType?.map((t, i) => (
           <Box key={i}>
-            {t}
+            {t.label}
           </Box>
         ))}
       </Flex>
@@ -184,20 +186,20 @@ export default function Groups({ data }) {
 
         <Tabs lazy colorScheme='green' my={10}>
           <TabList>
-            <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
+            <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>
           </TabList>
 
           <TabPanels mt={3}>
             <TabPanel>
               <Box my={5}>
-                <DataTable columns={columns} data={list} />
+                <TreeList value={tree} />
               </Box>
             </TabPanel>
 
             <TabPanel>
               <Box my={5}>
-                <TreeList value={tree} />
+                <DataTable columns={columns} data={list} />
               </Box>
             </TabPanel>
           </TabPanels>

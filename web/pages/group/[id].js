@@ -12,7 +12,7 @@ import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { GrHistory, GrCode } from 'react-icons/gr'
 import MissingBlock from "../../components/Widgets/MissingBlock"
-import { flatMap } from "lodash-es"
+import { flatMap, groupBy, sortBy } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
@@ -95,6 +95,10 @@ export default function Person({ data }) {
   const { width, height } = useWindowSize()
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
+  const sortedByYear = sortBy(flattenedMilestones, ['timestamp'])
+  const groupedByYear = groupBy(sortedByYear, function (item) {
+    return item.timestamp.substring(0, 4);
+  })
 
   const handleActiveFilter = () => {
     setActiveFilter(!activeFilter)
@@ -200,29 +204,6 @@ export default function Person({ data }) {
                   </GridItem>
                 )}
 
-                {flattenedMilestones.length > 1 && (
-                  <GridItem
-                    colSpan={6}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
-                    <Box
-                      w="100%"
-                    >
-                      <MilestonesWithoutSSR
-                        data={flattenedMilestones}
-                        pattern
-                        // p="5"
-                        pb="10"
-                        borderRadius={"8"}
-                        border={"1px solid"}
-                        borderColor={"gray.200"}
-                        boxShadow={"md"}
-                      />
-                    </Box>
-                  </GridItem>
-                )}
-
                 {item.mentions && (
                   <GridItem
                     colSpan={[6, null, 3]}
@@ -257,14 +238,31 @@ export default function Person({ data }) {
             <TabPanel>
               <Grid
                 minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
               >
-                <MissingBlock
-                  heading="Historikk-komponenten er ikke ferdig..."
-                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
-                  icon={GrHistory}
-                />
+                {groupedByYear && Object.entries(groupedByYear).reverse().map(([key, value]) => (
+                  <section key={key}>
+                    <Grid templateColumns={'1fr 8fr'} gap={"5"} mb={"10"}>
+                      <Heading as={'h2'}>{key}</Heading>
+                      <Grid templateColumns={'1fr 1fr 1fr 1fr'} gap={5} maxW="full">
+
+                        {value.map(e => (
+                          <GridItem
+                            key={e.timestamp}
+                            p={5}
+                            borderRadius={"8"}
+                            border={"1px solid"}
+                            borderColor={"gray.200"}
+                            boxShadow={"md"}
+                          >
+                            <Tag>{e.period}</Tag>
+                            <Heading as={'h3'} size={'sm'}>{e.text}</Heading>
+                            {/* <pre>{JSON.stringify(e, null, 2)}</pre> */}
+                          </GridItem>
+                        ))}
+                      </Grid>
+                    </Grid>
+                  </section>
+                ))}
               </Grid>
             </TabPanel>
 

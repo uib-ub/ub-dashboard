@@ -640,12 +640,10 @@ export const actorQuery = groq`{
       "type": _type,
       "label": label,
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         ...*[references($id) && _type in ['Leaving', 'TransferOfMember', 'Joining', 'Activity', 'Team']] | order(timespan.beginOfTheBegin asc)  {
+          _id,
           "timestamp": timespan.beginOfTheBegin,
+          "period": timespan.edtf,
           "text": label,
         },
       ]
@@ -711,12 +709,9 @@ export const groupQuery = groq`{
       "type": _type,
       "label": label,
       "entries": [
-        {
-          "timestamp": $now,
-          "text": "Nå",
-        },
         ...*[references($id) && _type in ['Leaving', 'TransferOfMember', 'Joining', 'Activity', 'Team']] | order(timespan.beginOfTheBegin asc)  {
           "timestamp": timespan.beginOfTheBegin,
+          "period": timespan.edtf,
           "text": label,
         },
       ]
