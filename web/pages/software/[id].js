@@ -70,7 +70,7 @@ export default function Software({ data }) {
         >
           <Flex columnGap={'30px'} mt={4}>
             <ItemHeaderStatsWidget data={item.hasType} heading="Type" />
-            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" linkBase={"actor"} />
+            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" linkBase={"group"} />
             <ItemHeaderStatsWidget data={item.currentOrFormerManager?.[0]} heading="Forvalter" linkBase={"actor"} />
             <ItemHeaderStatsAvatarWidget data={item.currentOrFormerMaintainerTeam?.[0]} heading="Team" size="sm" />
           </Flex>
