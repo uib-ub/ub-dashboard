@@ -117,6 +117,7 @@ export default function Person({ data }) {
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
   const sortedByYear = sortBy(flattenedMilestones, ['timestamp'])
   const groupedByYear = groupBy(sortedByYear, function (item) {
+    if (!item.timestamp) return 'Udatert'
     return item.timestamp.substring(0, 4);
   })
 

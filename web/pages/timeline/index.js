@@ -41,6 +41,7 @@ export const getStaticProps = async ({ preview = false }) => {
   let timeline = await getClient(preview).fetch(timelineQuery)
   const sortedByYear = sortBy(timeline, ['timestamp'])
   const groupedByYear = groupBy(sortedByYear, function (item) {
+    if (!item.timestamp) return 'Udatert'
     return item.timestamp.substring(0, 4);
   })
 
