@@ -3,6 +3,10 @@ import Link from '../Link'
 
 const Participants = ({ participants }) => {
   if (!participants) return null
+  const path = {
+    "Actor": "actor",
+    "Group": "group",
+  }
 
   return (
     <Wrap maxW={'full'}>
@@ -13,7 +17,7 @@ const Participants = ({ participants }) => {
 
             <Box ml="3">
               <Text fontWeight='bold' my={"0"}>
-                <Link href={`/actor/${participant.assignedActor.id}`}>
+                <Link href={`/${path[participant.assignedActor.type]}/${participant.assignedActor.id}`}>
                   {participant.assignedActor.label}
                 </Link>
               </Text>

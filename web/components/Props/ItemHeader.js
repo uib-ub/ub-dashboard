@@ -80,7 +80,7 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
             </Heading>
 
             {id &&
-              <a href={`${studio}/desk/intent/edit/id=${id}`} target={'_blank'} rel={'noreferrer'}>
+              <a href={`${studio}desk/intent/edit/id=${id}`} target={'_blank'} rel={'noreferrer'}>
                 <IconButton as={GrFormEdit} size={'xs'} />
               </a>
             }

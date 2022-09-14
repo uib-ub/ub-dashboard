@@ -31,18 +31,21 @@ export const softwareQuery = groq`{
     "period": timespan.edtf,
     currentOrFormerSystemOwner[] {
       "id": assignedActor->._id,
+      "type": assignedActor->._type,
       "label": assignedActor->.label,
       "role": assignedRole->.label,
       "period": timespan.edtf,
     },
     currentOrFormerManager[] {
       "id": assignedActor->._id,
+      "type": assignedActor->._type,
       "label": assignedActor->.label,
       "role": assignedRole->.label,
       "period": timespan.edtf,
     },
     currentOrFormerMaintainerTeam[] {
       "id": assignedActor->._id,
+      "type": assignedActor->._type,
       "label": assignedActor->.label,
       "role": assignedRole->.label,
       "period": timespan.edtf,
@@ -250,6 +253,7 @@ export const productQuery = groq`{
     hadParticipant[] {
       assignedActor -> {
         "id": _id,
+        "type": _type,
         label,
       },
         assignedRole[] -> {
@@ -356,6 +360,7 @@ export const projectQuery = groq`{
       hasMember[] {
         assignedActor-> {
           "id": _id,
+          "type": _type,
           label,
         },
         assignedRole[]-> {
@@ -386,6 +391,7 @@ export const projectQuery = groq`{
     carriedOutBy[] {
       assignedActor -> {
         "id": _id,
+        "type": _type,
         label,
       },
         assignedRole[] -> {
@@ -397,10 +403,12 @@ export const projectQuery = groq`{
     hadParticipant[] {
       assignedActor -> {
         "id": _id,
+        "type": _type,
         label,
       },
         assignedRole[] -> {
           "id": _id,
+          "type": _type,
           label,
         },
         "timespan": timespan.edtf,
@@ -503,10 +511,12 @@ export const serviceQuery = groq`{
     hadParticipant[] {
       assignedActor -> {
         "id": _id,
+        "type": _type,
         label,
       },
         assignedRole[] -> {
           "id": _id,
+        "type": _type,
           label,
         },
         "timespan": timespan.edtf,
@@ -621,10 +631,12 @@ export const actorQuery = groq`{
     hasMember[] {
       assignedActor-> {
         "id": _id,
+        "type": _type,
         label,
       },
       assignedRole[]-> {
         "id": _id,
+        "type": _type,
         label,
       },
       "timespan": timespan.edtf,
@@ -691,6 +703,7 @@ export const groupQuery = groq`{
     hasMember[] {
       assignedActor-> {
         "id": _id,
+        "type": _type,
         label,
       },
       assignedRole[]-> {
