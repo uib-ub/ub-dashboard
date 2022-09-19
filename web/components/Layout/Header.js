@@ -76,6 +76,11 @@ export default function Header() {
           </ActiveLink>
         </Box>
         <Box px="2">
+          <ActiveLink href={`/infrastructure`} activeClassName="active">
+            <a>Infrastruktur</a>
+          </ActiveLink>
+        </Box>
+        <Box px="2">
           <ActiveLink href={`/dataset`} activeClassName="active">
             <a>Datasett</a>
           </ActiveLink>
@@ -135,6 +140,11 @@ export default function Header() {
             <MenuItem>
               <ActiveLink href={`/software`} activeClassName="active">
                 <a>Programvare</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/infrastructure`} activeClassName="active">
+                <a>Infrastruktur</a>
               </ActiveLink>
             </MenuItem>
             <MenuItem>

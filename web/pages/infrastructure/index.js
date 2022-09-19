@@ -5,21 +5,14 @@ import { getClient } from '../../lib/sanity.server'
 import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { infrastructureQuery, softwareQuery } from "../../lib/queries"
-import { MdDashboard } from 'react-icons/md'
-import { GiEvilBook } from 'react-icons/gi'
+import { infrastructureQuery } from "../../lib/queries"
 import { BiNetworkChart } from 'react-icons/bi'
-import { GrHistory } from "react-icons/gr"
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
-import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
-import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
-import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
-import RepositoryInfo from '../../components/Repository/RepositoryInfo.client'
 
 const NodeFlowComponentWithoutSSR = dynamic(
-  () => import('../../components/NodeFlow'),
+  () => import('../../components/NodeFlow/Infrastructure'),
   { ssr: false }
 )
 
@@ -37,7 +30,6 @@ export async function getStaticProps({ params, preview = false }) {
 }
 
 export default function Software({ data }) {
-  const { item, graph } = data
 
   /* 
     TODO: view off all our software packages
@@ -45,156 +37,23 @@ export default function Software({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
+        <Heading size={"3xl"}>
+          Infrastruktur
+        </Heading>
 
-        <ItemHeader
-          id={item.id}
-          label={item.label}
-          blurb={item.shortDescription}
-          image={item.logo}
+        {/* <Text fontSize={"2xl"}>Programvare...</Text> */}
+        <Box
+          borderRadius={"8"}
+          border={"1px solid"}
+          borderColor={"gray.200"}
+          boxShadow={"lg"}
+          minHeight={'90vh'}
+          my={5}
         >
-          <Flex columnGap={'30px'} mt={4}>
-            <ItemHeaderStatsWidget data={item.hasType} heading="Type" />
-            <ItemHeaderStatsWidget data={item.currentOrFormerSystemOwner?.[0]} heading="Systemeier" linkBase={"group"} />
-            <ItemHeaderStatsWidget data={item.currentOrFormerManager?.[0]} heading="Forvalter" linkBase={"actor"} />
-            <ItemHeaderStatsAvatarWidget data={item.currentOrFormerMaintainerTeam?.[0]} heading="Team" size="sm" />
-          </Flex>
-        </ItemHeader>
-
-        <Tabs
-          isLazy
-          colorScheme='green'
-          my={10}
-          display='flex'
-          flexDirection='column'
-          maxW={'full'}
-        >
-          <TabList>
-            <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            {item.referredToBy && (
-              <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
-            )}
-            {/* <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab> */}
-            <Spacer />
-            <Tab><Icon as={VscFileCode} mr={2} /> Data</Tab>
-          </TabList>
-
-          <TabPanels mt={3}>
-            <TabPanel>
-              {item.hasSoftwarePart && (
-                <Tabs
-                  flexGrow={0}
-                  orientation='vertical'
-                  size={'sm'}
-                  variant={'unstyled'}
-                  isLazy
-                >
-                  <TabList>
-                    {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                      <Tab _selected={{ color: 'white', bg: 'blue.500' }} key={part.id}>{part.label}</Tab>
-                    ))}
-                  </TabList>
-
-                  <TabPanels>
-                    {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                      <TabPanel key={part.id} mb={5} ml={5}>
-                        {part.hostedBy && part.hostedBy.map(i => (
-                          <Box key={i.id} mb={10}>
-                            <Heading size={'md'}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>{i.label} - {i.componentOf.label}</a>
-                            </Heading>
-                            {i.mainId && i.componentOf.label && (
-                              <RepositoryInfo id={i.mainId} host={i.componentOf.label} />
-                            )}
-                          </Box>
-                        ))}
-                        {part.runBy && part.runBy.map(i => (
-                          <Box key={i.id} ml={5}>
-                            <Heading size={'sm'}>
-                              {i.label} - {i.providedBy.label}
-                            </Heading>
-                            <Text size={'sm'} ml={5} my={1}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                {i.url}
-                              </a>
-                            </Text>
-                          </Box>
-                        ))}
-                        {part.provisionedBy && part.provisionedBy.map(i => (
-                          <Box key={i.id} ml={5}>
-                            <Heading size={'md'}>
-                              {i.label}
-                            </Heading>
-                            <Text size={'sm'} ml={5} my={1}>
-                              <a href={i.url} target={'_blank'} rel={'noreferrer'}>
-                                {i.url}
-                              </a>
-                            </Text>
-                          </Box>
-                        ))}
-                      </TabPanel>
-                    ))}
-                  </TabPanels>
-                </Tabs>
-              )}
-            </TabPanel>
-
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <Box
-                  borderRadius={"8"}
-                  border={"1px solid"}
-                  borderColor={"gray.200"}
-                  boxShadow={"lg"}
-                  minHeight={'90vh'}
-                >
-                  <NodeFlowComponentWithoutSSR
-                    data={graph}
-                  />
-                </Box>
-              </Grid>
-            </TabPanel>
-
-            {item.referredToBy && (
-              <TabPanel>
-                <Grid
-                  minHeight={'20vh'}
-                  border={'solid #eee 1px'}
-                  borderRadius={3}
-                >
-
-                  {item.referredToBy && (
-                    <AbstractWidget value={item.referredToBy[0].body} />
-                  )}
-
-                </Grid>
-              </TabPanel>
-            )}
-
-            {/* <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <MissingBlock
-                  heading="Historikk-komponenten er ikke ferdig..."
-                  text='Alt tar tid, også visualisering av historien :-(. Det blir nok en enklere liste enn "tidslinjen".'
-                  icon={GrHistory}
-                />
-              </Grid>
-            </TabPanel> */}
-
-            <TabPanel>
-              <ItemDataWidget value={item} />
-            </TabPanel>
-
-          </TabPanels>
-        </Tabs>
+          <NodeFlowComponentWithoutSSR
+            data={data}
+          />
+        </Box>
 
       </Container>
     </Layout>

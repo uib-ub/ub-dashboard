@@ -17,162 +17,118 @@ export const datasetQuery = groq`{
 }`
 
 export const infrastructureQuery = groq`{
-  "item": *[_type == 'Software'][0] {
-    "id": _id,
-    "type": _type,
-    logo,
-    label,
-    hasType[]-> {
-      "id": _id,
-      label
-    },
-    shortDescription,
-    referredToBy[],
-    "period": timespan.edtf,
-    currentOrFormerSystemOwner[] {
-      "id": assignedActor->._id,
-      "type": assignedActor->._type,
-      "label": assignedActor->.label,
-      "role": assignedRole->.label,
-      "period": timespan.edtf,
-    },
-    currentOrFormerManager[] {
-      "id": assignedActor->._id,
-      "type": assignedActor->._type,
-      "label": assignedActor->.label,
-      "role": assignedRole->.label,
-      "period": timespan.edtf,
-    },
-    currentOrFormerMaintainerTeam[] {
-      "id": assignedActor->._id,
-      "type": assignedActor->._type,
-      "label": assignedActor->.label,
-      "role": assignedRole->.label,
-      "period": timespan.edtf,
-    },
-    hasSoftwarePart[]-> {
+  "nodes": *[_type in ['Software', 'Product'] && (defined(runBy) || defined(hasSoftwarePart))] {
+    ...{
       "id": _id,
       label,
-      hasType[]-> {
-        "id": _id,
-        "type": _type,
-        label
-      },
-      hostedBy[]-> {
-        ...,
-        "id": _id,
-        "type": _type,
-        "url": designatedAccessPoint.value,
-        mainId,
-        componentOf-> {
-          "id": _id,
-          "type": _type,
-          label
-        }
-      },
-      runBy[]-> {
-        ...,
-        "id": _id,
-        "type": _type,
-        "url": designatedAccessPoint.value,
-        providedBy-> {
-          "id": _id,
-          "type": _type,
-          label
-        },
-      },
-      provisionedBy[]-> {
-        ...,
-        "id": _id,
-        "type": _type,
-        "url": designatedAccessPoint.value,
+      "subtitle": "Programvare",
+      logo,
+      "info": {
+        "Type:": hasType[]->.label,
+        "Eier:": currentOrFormerSystemOwner[0].assignedActor->.label,
+        "Forvalter:": currentOrFormerManager[0].assignedActor->.label,
+        "Team:": currentOrFormerMaintainerTeam[0].assignedActor->.label,
+        "Språk:": programmedWith[0]->.label,
       }
     },
+    "children": [
+      ...hasSoftwarePart[]-> {
+      "id": _id,
+      label,
+      shortDescription,
+      "subtitle": "Kildekode",
+      "info": {
+        "Type:": hasType[]->.label,
+      }
+    },
+    ...runBy[]-> {
+      "id": _id,
+      label,
+      "subtitle": "Deployment",
+      "logo": providedBy->.logo,
+      "info": {
+        "Leverandør:": providedBy->.label,
+        "Url:": designatedAccessPoint.value
+      }
+    },
+    ...runBy[]->.accessPoint[] {
+      "id": _key,
+      "label": value,
+      "subtitle": "Endpoint",
+    },
+    ...hasSoftwarePart[]->.hostedBy[]-> {
+      "id": _id,
+      label,
+      shortDescription,
+      "subtitle": "Repositorium",
+      "logo": coalesce(componentOf->.logo, componentOf->.providedBy->.logo),
+      "info": {
+        "Host:": componentOf->.label,
+        "Url:": designatedAccessPoint.value
+      },
+    },
+    ...hasSoftwarePart[]->.runBy[]-> {
+      "id": _id,
+      label,
+      "subtitle": "Deployment",
+      "logo": providedBy->.logo,
+      "info": {
+        "Leverandør:": providedBy->.label,
+        "Url:": designatedAccessPoint.value
+      }
+    },
+    ...hasSoftwarePart[]->.runBy[]->.provisionedBy[]-> {
+      "id": _id,
+      label,
+      "subtitle": "Provisioning repository",
+      "logo": providedBy->.logo,
+      "info": {
+        "Leverandør:": providedBy->.label,
+        "Url:": designatedAccessPoint.value
+      }
+    },
+    ...hasSoftwarePart[]->.runBy[]->.accessPoint[] {
+      "id": _key,
+      "label": value,
+      "subtitle": "Endpoint",
+    }, 
+    ],
   },
-  "graph": *[_id == $id][0] {
-    "nodes": [
-      {
-        "id": _id,
-        label,
-        "subtitle": "Programvare",
-        logo,
-        "info": {
-          "Type:": hasType[]->.label,
-          "Eier:": currentOrFormerSystemOwner[0].assignedActor->.label,
-          "Forvalter:": currentOrFormerManager[0].assignedActor->.label,
-          "Team:": currentOrFormerMaintainerTeam[0].assignedActor->.label,
-          "Språk:": programmedWith[0]->.label,
-        }
+  "edges": *[_type in ['Software', 'Product'] && (defined(runBy) || defined(hasSoftwarePart))] {
+    "source": ^._id,
+    "target": _id,
+    "label": "parts",
+    "children": [
+      ...runBy[]-> {
+        "source": coalesce(runsOnRequest._ref, ^._id),
+        "target": _id,
+        "label": "Run by",
+        "children": [
+          ...accessPoint[] {
+            "source": ^._id,
+            "target": _key,
+            "label": "Offers service",
+          },
+          ...provisionedBy[]-> {
+            "source": _id,
+            "target": ^._id,
+            'targetHandle': 'p',
+            "label": "Provisions",
+          },
+        ]
       },
       ...hasSoftwarePart[]-> {
-        "id": _id,
-        label,
-        shortDescription,
-        "subtitle": "Kildekode",
-        "info": {
-          "Type:": hasType[]->.label,
-        }
-      },
-      ...runBy[]-> {
-        "id": _id,
-        label,
-        "subtitle": "Deployment",
-        "logo": providedBy->.logo,
-        "info": {
-          "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint.value
-        }
-      },
-      ...runBy[]->.accessPoint[] {
-        "id": _key,
-        "label": value,
-        "subtitle": "Endpoint",
-      },
-      ...hasSoftwarePart[]->.hostedBy[]-> {
-        "id": _id,
-        label,
-        shortDescription,
-        "subtitle": "Repositorium",
-        "logo": coalesce(componentOf->.logo, componentOf->.providedBy->.logo),
-        "info": {
-          "Host:": componentOf->.label,
-          "Url:": designatedAccessPoint.value
-        },
-      },
-      ...hasSoftwarePart[]->.runBy[]-> {
-        "id": _id,
-        label,
-        "subtitle": "Deployment",
-        "logo": providedBy->.logo,
-        "info": {
-          "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint.value
-        }
-      },
-      ...hasSoftwarePart[]->.runBy[]->.provisionedBy[]-> {
-        "id": _id,
-        label,
-        "subtitle": "Provisioning repository",
-        "logo": providedBy->.logo,
-        "info": {
-          "Leverandør:": providedBy->.label,
-          "Url:": designatedAccessPoint.value
-        }
-      },
-      ...hasSoftwarePart[]->.runBy[]->.accessPoint[] {
-        "id": _key,
-        "label": value,
-        "subtitle": "Endpoint",
-      },
-    ],
-    "edges": [
-      {
         "source": ^._id,
         "target": _id,
-        "label": "parts",
+        "label": "source code parts",
         "children": [
+          ...hostedBy[]-> {
+            "source": ^._id,
+            "target": _id,
+            "label": "Hosted by",
+          },
           ...runBy[]-> {
-            "source": coalesce(runsOnRequest._ref, ^._id),
+            "source": coalesce( runsOnRequest._ref, ^._id),
             "target": _id,
             "label": "Run by",
             "children": [
@@ -191,44 +147,7 @@ export const infrastructureQuery = groq`{
           },
         ]
       },
-      {
-        "source": ^._id,
-        "target": _id,
-        "label": "parts",
-        "children": [
-          ...hasSoftwarePart[]-> {
-            "source": ^._id,
-            "target": _id,
-            "label": "source code parts",
-            "children": [
-              ...hostedBy[]-> {
-                "source": ^._id,
-                "target": _id,
-                "label": "Hosted by",
-              },
-              ...runBy[]-> {
-                "source": coalesce( runsOnRequest._ref, ^._id),
-                "target": _id,
-                "label": "Run by",
-                "children": [
-                  ...accessPoint[] {
-                    "source": ^._id,
-                    "target": _key,
-                    "label": "Offers service",
-                  },
-                  ...provisionedBy[]-> {
-                    "source": _id,
-                    "target": ^._id,
-                    'targetHandle': 'p',
-                    "label": "Provisions",
-                  },
-                ],
-              },
-            ]
-          },
-        ],
-      }
-    ]
+    ],
   }
 }`
 
