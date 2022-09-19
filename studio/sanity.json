@@ -13,6 +13,7 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
+    "@sanity/vision",
     "@seidhr/sanity-plugin-timespan-input",
     "table",
     "@sanity/code-input",
@@ -26,8 +27,7 @@
   "env": {
     "development": {
       "plugins": [
-        "graph-view",
-        "@sanity/vision"
+        "graph-view"
       ]
     }
   },
