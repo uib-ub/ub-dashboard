@@ -722,28 +722,16 @@ export const actorQuery = groq`{
     image,
     "period": timespan.edtf,
     referredToBy[],
-    subGroupOf|order(label)[]-> {
-      "id": _id,
-      hasType[]-> {
-        "id": _id,
-        label
-      },
-      label,
-      shortDescription,
-    },
-    "hasSubGroup": *[_type == "Group" && ^._id in subGroupOf[]._ref]|order(label){
-      "id": _id,
-      hasType[]-> {
-        "id": _id,
-        label
-      },
-      label,
-      shortDescription,
-    },
     hasSkill[] | order(level desc) {
       "label": competence->.label,
       level,
       shortDescription,
+    },
+    "currentOrFormerManagerOf": *[$id in currentOrFormerManager[].assignedActor._ref]{
+      "id": _id,
+      "type": _type,
+      label,
+      "timespan": timespan.edtf,
     },
     "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Team', 'Group']] | order(timespan.beginOfTheBegin asc)  {
       "id": _id,

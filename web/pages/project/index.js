@@ -93,8 +93,6 @@ export default function Projects({ data }) {
                 ['rejected', 'completed'].includes(item.status) ? bg : ''
               }
             >
-
-
               <Heading
                 fontSize={['xl', '2xl', '2xl', '2xl', '3xl']}
               >
