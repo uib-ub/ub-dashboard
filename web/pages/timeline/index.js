@@ -3,12 +3,18 @@ import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import { Container, Flex, Grid, GridItem, Heading, Tag, Text } from '@chakra-ui/react'
 import Layout from "../../components/Layout"
-import { groupBy, orderBy, sortBy } from 'lodash-es'
+import { groupBy, lowerCase, orderBy, sortBy } from 'lodash-es'
+import Link from '../../components/Link'
 
 const timelineQuery = groq`[
   ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan) && !(_id in path("drafts.**"))] {
     "label": coalesce(label, 'Uten label'),
     "period": timespan.edtf,
+    "connectedTo": {...*[references(^._id)][0]{
+        "id": _id,
+        "type": _type,
+        label,
+    }},
     "timestamp": coalesce(
       select(
         timespan.date != "" => timespan.date
@@ -20,6 +26,8 @@ const timelineQuery = groq`[
   },
   ...*[_type in ['Project'] && defined(timespan.endOfTheEnd)] {
       ...select(defined(timespan.endOfTheEnd) => {
+        "id": _id,
+        "type": _type,
         "label": label + " avsluttes",
         "period": timespan.edtf,
         "timestamp": timespan.endOfTheEnd,
@@ -28,6 +36,8 @@ const timelineQuery = groq`[
   },
   ...*[_type in ['Project'] && defined(timespan.beginOfTheBegin)] {
       ...select(defined(timespan.beginOfTheBegin) => {
+        "id": _id,
+        "type": _type,
         "label": label + " starter",
         "period": timespan.edtf,
         "timestamp": timespan.beginOfTheBegin,
@@ -76,9 +86,17 @@ export default function ActivityTimeline({ data }) {
                     border={"1px solid"}
                     borderColor={"gray.200"}
                     boxShadow={"md"}
+                    alignSelf={'start'}
                   >
                     <Tag>{e.period}</Tag>
-                    <Heading as={'h3'} size={'sm'}>{e.label}</Heading>
+                    <Heading as={'h3'} size={'sm'} my={1}>{e.label}</Heading>
+                    {e.type === 'Project' && (
+                      <Tag><Link href={`${lowerCase(e.type)}/${e.id}`}>Les om prosjektet</Link></Tag>
+                    )}
+                    {e.type !== 'Project' && (
+                      <Tag><Link href={`${lowerCase(e.connectedTo.type)}/${e.connectedTo.id}`}>{e.connectedTo.label}</Link></Tag>
+                    )}
+                    {/* <pre>{JSON.stringify(e, null, 2)}</pre> */}
                   </GridItem>
 
                 ))}
