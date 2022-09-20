@@ -1,4 +1,4 @@
-import { Flex, Box, Container, Image } from '@chakra-ui/react'
+import { Flex, Box, Container, Image, Text } from '@chakra-ui/react'
 import { urlFor } from "../../../lib/sanity"
 
 export default function IllustrationWithCaption(props) {
@@ -8,22 +8,29 @@ export default function IllustrationWithCaption(props) {
   const { title, content, illustration, source } = props
 
   return (
-    <Container>
+    <>
       {illustration ? (
-        <Box w="100%">
+        <Box as='figure' w="100%">
           {illustration && (
             <Image
               alt=""
-              src={urlFor(illustration.image).width(200).url()}
+              src={urlFor(illustration.image).width(1000).url()}
               layout="fill"
+              objectFit={'contain'}
             />
           )}
+          <Text>
+            {title && (
+              <strong>{title}. </strong>
+            )}
+            {/* {content} */}
+          </Text>
         </Box>
       ) : (
         <Flex>Mangler illustrasjon</Flex>
       )}
 
 
-    </Container>
+    </>
   )
 }

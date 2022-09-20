@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Image, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Badge } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, SimpleGrid, Image, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Badge, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
@@ -251,7 +251,6 @@ export default function Person({ data }) {
 
   return (
     <Layout>
-
       {item.label === "Tarje Sælen Lavik" && (
         <ConfettiWithoutSSR
           recycle={false}
@@ -262,6 +261,17 @@ export default function Person({ data }) {
       )}
 
       <Container variant="wrapper">
+        <Breadcrumb color={'GrayText'} mb={3}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/actor'>personer</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#' textTransform={'lowercase'}>
+              {item.label}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+
         <ItemHeader
           id={item.id}
           label={item.label}

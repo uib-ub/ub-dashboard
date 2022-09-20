@@ -20,6 +20,7 @@ export default async function handler(req, res) {
         const readme = await api.RepositoryFiles.showRaw(id, 'README.md');
         if (data && readme && languages) {
           res.status(200).json({
+            created_at: data.created_at,
             last_activity_at: data.last_activity_at,
             description: data.description,
             readme: readme,
@@ -27,8 +28,9 @@ export default async function handler(req, res) {
             visibility: data.visibility,
             archived: data.archived,
             open_issues_count: data.open_issues_count,
-            /* ...data,
-            ...members */
+            source: {
+              ...data,
+            }
           })
         }
       } catch (e) {

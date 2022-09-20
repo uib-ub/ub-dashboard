@@ -55,6 +55,7 @@ export default async function handler(req, res) {
       )
 
       res.status(200).json({
+        created_at: project.repository.createdAt,
         last_activity_at: project.repository.updatedAt,
         description: project.repository.description,
         visibility: project.repository.visibility,

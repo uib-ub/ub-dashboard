@@ -36,7 +36,7 @@ const InfoNode = ({ data }) => {
           <Icon as={GiEyeTarget} h={'40px'} w={'40px'} />
         }
         <Box>
-          <Heading size={'md'}>{data.label}</Heading>
+          <Heading size={'md'} wordBreak='break-word'>{data.label}</Heading>
           {data.shortDescription &&
             <Text size={'md'} m={0}>{data.shortDescription}</Text>
           }

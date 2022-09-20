@@ -22,10 +22,26 @@ export default function RepositoryInfo({ id, host }) {
   return (
     <Suspense fallback={<Skeleton height='60px' />}>
       <Flex alignItems={'center'} gap={3} my={3} wrap="wrap">
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+        {data?.archived && (
+          <Tag variant={'solid'} colorScheme={'red'} size={'lg'}>ARKIVERT</Tag>
+        )}
+
+        {data?.visibility && (
+          <Tag variant={'solid'} colorScheme={'red'} size={'lg'}>{data.visibility}</Tag>
+        )}
+
         {data?.open_issues_count > 0 && (
           <Tag size={'lg'} variant={'outline'}>
             <TagLeftIcon boxSize='12px' as={VscIssues} />
             <TagLabel>Saker <Badge colorScheme={'red'}>{data.open_issues_count}</Badge></TagLabel>
+          </Tag>
+        )}
+
+        {data?.created_at && (
+          <Tag size={'lg'} variant={'outline'}>
+            <TagLeftIcon boxSize='12px' as={VscCalendar} />
+            <TagLabel>Opprettet {formatRelative(new Date(data.created_at), new Date(), { locale: nb })}</TagLabel>
           </Tag>
         )}
 

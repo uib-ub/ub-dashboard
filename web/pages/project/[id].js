@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Image, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Heading, Icon, Image, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer, Breadcrumb, BreadcrumbLink, BreadcrumbItem } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { projectQuery } from "../../lib/queries"
@@ -75,6 +75,16 @@ export default function Project({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
+        <Breadcrumb color={'GrayText'} mb={3}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/project'>prosjekt</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#' textTransform={'lowercase'}>
+              {item.label}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
 
         <ItemHeader
           id={item.id}

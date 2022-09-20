@@ -7,14 +7,14 @@ import Layout from "../../components/Layout"
 import { DataTable } from "../../components/DataTable"
 import { urlFor } from "../../lib/sanity"
 import { GrFormEdit } from 'react-icons/gr'
+import { useState } from 'react'
 
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const allSoftwareQuery = groq`[
   ...*[_type in ['Software'] && !(_id in path("drafts.**"))] | order(currentOrFormerMaintainerTeam[0].assignedActor->.label asc)  {
+    ...,
     "id": _id,
-    logo,
-    "name": label,
     "description": coalesce(shortDescription, pt::text(referredToBy[0].body), '–'),
     "manager": coalesce(currentOrFormerManager[0].assignedActor->.label, '–'),
     "team": coalesce(
@@ -45,7 +45,7 @@ const columns = [
   },
   {
     Header: "Navn",
-    accessor: "name",
+    accessor: "label",
     Cell: ({ row }) => (
       <Flex columnGap={3} alignItems={'center'}>
         {row.values.logo ? (
@@ -60,7 +60,7 @@ const columns = [
           <Box boxSize='30px' borderRadius={'50%'} bg={'gray.100'}></Box>
         }
         <Link href={`/software/${row.values.id}`}>
-          {row.values.name}
+          {row.values.label}
         </Link>
       </Flex>
     )
@@ -95,19 +95,39 @@ const columns = [
 
 
 export default function Softwares({ data }) {
+  const [activeFilter, setActiveFilter] = useState(true)
   const now = new Date()
+
+  const handleActiveFilter = () => {
+    setActiveFilter(!activeFilter)
+  }
 
   return (
     <Layout>
       <Container variant="wrapper">
-        <Heading size={"3xl"}>
+        <Flex align={'baseline'} mb={5}>
+          <Heading size={"3xl"}>
+            Programvare {data.length ? `(${data.length})` : ''}
+          </Heading>
+
+          <Button size={'sm'} ml={3} onClick={() => handleActiveFilter()}>
+            {activeFilter ? 'Vis ekstern software' : 'Vis bare UBB software'}
+          </Button>
+
+        </Flex>
+
+        <DataTable size='sm' columns={columns} data={data.filter(m => {
+          return activeFilter ? m.externalSoftware != true : m
+        })} />
+
+
+        {/*         <Heading size={"3xl"}>
           Programvare {data.length ? `(${data.length})` : ''}
         </Heading>
 
-        {/* <Text fontSize={"2xl"}>Programvare...</Text> */}
         <Box my={5}>
           <DataTable columns={columns} data={data} />
-        </Box>
+        </Box> */}
       </Container>
     </Layout>
   )

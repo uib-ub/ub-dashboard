@@ -28,6 +28,20 @@ export default {
   ],
   fields: [
     {
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Aktiv', value: 'active' },
+          { title: 'Arkivert', value: 'archive' },
+          { title: 'Forlatt', value: 'abandoned' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    },
+    {
       ...labelSingleton,
       fieldset: 'core',
       group: 'core',

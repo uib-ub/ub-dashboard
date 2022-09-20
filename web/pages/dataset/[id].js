@@ -1,7 +1,7 @@
 import * as React from "react"
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { datasetQuery } from "../../lib/queries"
@@ -51,6 +51,16 @@ export default function Dataset({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
+        <Breadcrumb color={'GrayText'} mb={3}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/dataset'>software</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#' textTransform={'lowercase'}>
+              {item.label}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
 
         <ItemHeader
           label={item.label}

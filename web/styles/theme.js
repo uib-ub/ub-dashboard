@@ -23,8 +23,7 @@ const theme = extendTheme({
       variants: {
         'wrapper': {
           maxW: "full",
-          mt: { base: '3' },
-          p: { sm: '3', md: "10" },
+          p: { sm: '3', md: "5" },
         },
       },
     },

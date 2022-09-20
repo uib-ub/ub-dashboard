@@ -2,7 +2,7 @@ import * as React from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, GridItem, Text, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, Spacer, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { softwareQuery } from "../../lib/queries"
@@ -61,6 +61,16 @@ export default function Software({ data }) {
   return (
     <Layout>
       <Container variant="wrapper">
+        <Breadcrumb color={'GrayText'} mb={3}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/software'>software</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#' textTransform={'lowercase'}>
+              {item.label}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
 
         <ItemHeader
           id={item.id}
@@ -124,7 +134,8 @@ export default function Software({ data }) {
                             )}
                           </Box>
                         ))}
-                        {part.runBy && part.runBy.map(i => (
+
+                        {/* {part.runBy && part.runBy.map(i => (
                           <Box key={i.id} ml={5}>
                             <Heading size={'sm'}>
                               {i.label} - {i.providedBy.label}
@@ -136,6 +147,7 @@ export default function Software({ data }) {
                             </Text>
                           </Box>
                         ))}
+
                         {part.provisionedBy && part.provisionedBy.map(i => (
                           <Box key={i.id} ml={5}>
                             <Heading size={'md'}>
@@ -147,7 +159,7 @@ export default function Software({ data }) {
                               </a>
                             </Text>
                           </Box>
-                        ))}
+                        ))} */}
                       </TabPanel>
                     ))}
                   </TabPanels>

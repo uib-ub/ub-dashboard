@@ -1,6 +1,5 @@
 import { referredToBy, timespanSingleton, labelSingleton, competence, availability, condidionOfUse, logo } from '../props'
 
-
 export default {
   name: 'SoftwareDeliveryEService',
   type: 'document',
