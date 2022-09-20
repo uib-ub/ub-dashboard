@@ -18,17 +18,6 @@ const myPortableTextComponents = {
 
 export default function AbstractWidget({ value }) {
   return (
-    <GridItem
-      colSpan={[6, null, 3]}
-    >
-      <Box
-        borderRight={"1px solid"}
-        borderColor={"gray.200"}
-        px={5}
-        pb={5}
-      >
-        <PortableText value={value} components={myPortableTextComponents} />
-      </Box>
-    </GridItem>
+    <PortableText value={value} components={myPortableTextComponents} />
   )
 }

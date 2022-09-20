@@ -277,8 +277,7 @@ export default function Person({ data }) {
           label={item.label}
           blurb={item.shortDescription}
           image={item.logo ?? item.image}
-          continued={item.continued}
-          continuedBy={item.continuedBy}
+          quote={item.quote}
         >
           <Flex columnGap={'30px'} mt={4}>
             <Period size={'md'} period={item.period} />
@@ -306,7 +305,9 @@ export default function Person({ data }) {
                   <GridItem
                     colSpan={[6]}
                   >
-                    <AbstractWidget value={item.referredToBy[0].body} />
+                    <Container>
+                      <AbstractWidget value={item.referredToBy[0].body} />
+                    </Container>
                   </GridItem>
                 )}
 
