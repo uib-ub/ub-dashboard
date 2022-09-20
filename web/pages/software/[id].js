@@ -182,11 +182,9 @@ export default function Software({ data }) {
                   border={'solid #eee 1px'}
                   borderRadius={3}
                 >
-
                   {item.referredToBy && (
                     <AbstractWidget value={item.referredToBy[0].body} />
                   )}
-
                 </Grid>
               </TabPanel>
             )}

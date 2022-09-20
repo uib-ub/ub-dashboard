@@ -15,8 +15,9 @@ import {
   MenuList,
   IconButton,
   useColorModeValue,
+  Button,
 } from '@chakra-ui/react'
-import { SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { SunIcon, MoonIcon, HamburgerIcon, ChevronDownIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPencilAlt } from 'react-icons/fa'
 import ActiveLink from '../Link/ActiveLink'
 
@@ -54,64 +55,74 @@ export default function Header() {
         placement="auto-end"
         alignItems={"center"}
         fontFamily={"Menlo, monospace"}
+        gap={4}
       >
-        <Box px="2">
+        <Box>
           <ActiveLink href={`/actor`} activeClassName="active">
             <a>Personer</a>
           </ActiveLink>
         </Box>
-        <Box px="2">
+        <Box>
           <ActiveLink href={`/group`} activeClassName="active">
             <a>Grupper</a>
           </ActiveLink>
         </Box>
-        <Box px="2">
+        <Box>
           <ActiveLink href={`/project`} activeClassName="active">
             <a>Prosjekt</a>
           </ActiveLink>
         </Box>
-        <Box px="2">
-          <ActiveLink href={`/software`} activeClassName="active">
-            <a>Programvare</a>
-          </ActiveLink>
-        </Box>
-        <Box px="2">
-          <ActiveLink href={`/infrastructure`} activeClassName="active">
-            <a>Infrastruktur</a>
-          </ActiveLink>
-        </Box>
-        <Box px="2">
-          <ActiveLink href={`/dataset`} activeClassName="active">
-            <a>Datasett</a>
-          </ActiveLink>
-        </Box>
-        <Box px="2">
+        <Box>
           <ActiveLink href={`/timeline`} activeClassName="active">
             <a>Tidslinje</a>
           </ActiveLink>
         </Box>
-        <Box px="2">
-          <ActiveLink href={`/technology`} activeClassName="active">
-            <a>Teknologi</a>
-          </ActiveLink>
+        <Menu activeClassName="active">
+          <MenuButton>
+            DU <ChevronDownIcon />
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <ActiveLink href={`/infrastructure`} activeClassName="active">
+                <a>Infrastruktur</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/software`} activeClassName="active">
+                <a>Programvare</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/endpoint`} activeClassName="active">
+                <a>Endpoints</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/dataset`} activeClassName="active">
+                <a>Datasett</a>
+              </ActiveLink>
+            </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/technology`} activeClassName="active">
+                <a>Teknologi</a>
+              </ActiveLink>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        <Box>
         </Box>
         <Link href='https://ub-dashboard.sanity.studio/' isExternal>
-          <Icon as={FaPencilAlt} mt={"1"} ml={"3"} />
+          Studio <ExternalLinkIcon />
         </Link>
+        <Button
+          size={'xs'}
+          onClick={toggleColorMode}
+          aria-label="Skift mellom dagmodus eller nattmodus"
+        >
+          {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+        </Button>
       </Flex>
 
-      <IconButton
-        aria-label="Skift mellom dagmodus eller nattmodus"
-        display={{ base: 'none', md: 'inherit' }}
-        px="0"
-        ml="5"
-        onClick={toggleColorMode}
-        icon={colorMode === 'light' ? (
-          MoonIcon
-        ) : (
-          SunIcon
-        )}
-      />
 
       <Box display={{ sm: 'inherit', md: 'none' }}>
         <Menu >

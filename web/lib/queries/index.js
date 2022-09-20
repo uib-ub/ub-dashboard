@@ -854,3 +854,13 @@ export const groupQuery = groq`{
     },
   ],
 }`;
+
+export const endpointsQuery = groq`
+*[_type == 'SoftwareComputingEService' && defined(accessPoint)]{
+  ...,
+  providedBy-> {
+    _id,
+    label
+  }
+}
+`
