@@ -110,7 +110,7 @@ export default function Persons({ data }) {
           Personer
         </Heading>
         <Box my={5}>
-          <DataTable columns={columns} data={list} />
+          <DataTable size='sm' columns={columns} data={list} />
         </Box>
       </Container>
     </Layout>
