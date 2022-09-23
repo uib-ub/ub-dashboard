@@ -20,6 +20,7 @@ import {
 import { SunIcon, MoonIcon, HamburgerIcon, ChevronDownIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPencilAlt } from 'react-icons/fa'
 import ActiveLink from '../Link/ActiveLink'
+import LoginButton from '../LoginButton'
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -77,6 +78,7 @@ export default function Header() {
             <a>Tidslinje</a>
           </ActiveLink>
         </Box>
+
         <Menu activeClassName="active">
           <MenuButton>
             DU <ChevronDownIcon />
@@ -109,11 +111,13 @@ export default function Header() {
             </MenuItem>
           </MenuList>
         </Menu>
-        <Box>
-        </Box>
+
         <Link href='https://ub-dashboard.sanity.studio/' isExternal>
           Studio <ExternalLinkIcon />
         </Link>
+
+        <LoginButton />
+
         <Button
           size={'xs'}
           onClick={toggleColorMode}
