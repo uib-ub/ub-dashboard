@@ -109,6 +109,11 @@ export default function Header() {
                 <a>Teknologi</a>
               </ActiveLink>
             </MenuItem>
+            <MenuItem>
+              <ActiveLink href={`/marcus-next`} activeClassName="active" isExternal>
+                <a>Utredning Marcus</a>
+              </ActiveLink>
+            </MenuItem>
           </MenuList>
         </Menu>
 
