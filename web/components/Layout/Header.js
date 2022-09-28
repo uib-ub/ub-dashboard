@@ -110,7 +110,7 @@ export default function Header() {
               </ActiveLink>
             </MenuItem>
             <MenuItem>
-              <ActiveLink href={`/marcus-next`} activeClassName="active" isExternal>
+              <ActiveLink href={`${process.env.NEXT_PUBLIC_MARCUS_NEXT_URL}`} activeClassName="active" isExternal>
                 <a>Utredning Marcus</a>
               </ActiveLink>
             </MenuItem>
