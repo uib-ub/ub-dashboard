@@ -17,7 +17,7 @@ export const datasetQuery = groq`{
 }`
 
 export const infrastructureQuery = groq`{
-  "nodes": *[_type in ['Software', 'Product'] && (defined(runBy) || defined(hasSoftwarePart))] {
+  "nodes": *[_type in ['Software', 'Product'] && !(_id in path('drafts.**')) && (defined(runBy) || defined(hasSoftwarePart))] {
     ...{
       "id": _id,
       label,
@@ -152,7 +152,7 @@ export const infrastructureQuery = groq`{
 }`
 
 export const softwareQuery = groq`{
-  "item": *[_id == $id][0] {
+  "item": *[_id == $id && !(_id in path('drafts.**'))][0] {
     "id": _id,
     "type": _type,
     logo,
