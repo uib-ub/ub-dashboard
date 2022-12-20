@@ -17,11 +17,11 @@ import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
 import RepositoryInfo from '../../components/Repository/RepositoryInfo.client'
-
-const NodeFlowComponentWithoutSSR = dynamic(
+import NodeFlow from '../../components/NodeFlow'
+/* const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
   { ssr: false }
-)
+) */
 
 const allSoftwareQuery = groq`
   *[_type in ['Software']] {
@@ -180,7 +180,7 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <NodeFlowComponentWithoutSSR
+                  <NodeFlow
                     data={graph}
                   />
                 </Box>

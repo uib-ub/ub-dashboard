@@ -10,12 +10,13 @@ import { BiNetworkChart } from 'react-icons/bi'
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
+import NodeFlow from '../../components/NodeFlow'
 
-const NodeFlowComponentWithoutSSR = dynamic(
+/* const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow/Infrastructure'),
   { ssr: false }
 )
-
+ */
 export async function getStaticProps({ params, preview = false }) {
   const now = new Date()
   let timeline = await getClient(preview).fetch(infrastructureQuery, { now: now })
@@ -50,7 +51,7 @@ export default function Software({ data }) {
           minHeight={'90vh'}
           my={5}
         >
-          <NodeFlowComponentWithoutSSR
+          <NodeFlow
             data={data}
           />
         </Box>

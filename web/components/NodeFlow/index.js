@@ -47,46 +47,47 @@ const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 
 
 const NodeFlow = ({ data }) => {
-  const [nodes, setNodes] = useNodesState([]);
-  const [edges, setEdges] = useEdgesState([]);
+  const [nodes, setNodes] = useNodesState();
+  const [edges, setEdges] = useEdgesState();
   const [ref, { height, width }] = useMeasure();
   const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
 
-  useEffect(() => {
-    const flatEdges = flat(data.edges)
-    const initialNodes = [
-      ...data.nodes.map((node) => {
-        return {
-          id: node.id,
-          type: 'special',
-          data: {
-            ...node
-          },
-          position: { x: 0, y: 0 },
-        }
-      })
-    ]
-    const initialEdges = [
-      ...flatEdges.map((edge, i) => {
-        return {
-          ...edge,
-          id: `e${i}`,
-          animated: true,
-          type: 'smoothstep',
-          arrowHeadType: 'arrow',
-          style: { strokeWidth: 2 },
-          labelStyle: { textTransform: 'uppercase' },
-        }
-      })
-    ];
+  console.log(JSON.stringify(data, null, 2))
+
+  const initialNodes = useMemo(() => ([
+    ...flat(data.nodes).map((node) => {
+      return {
+        id: node.id,
+        type: 'special',
+        data: {
+          ...node
+        },
+        position: { x: 0, y: 0 },
+      }
+    })
+  ]), [data.nodes])
+
+  const initialEdges = useMemo(() => ([
+    ...flat(data.edges).map((edge, i) => {
+      return {
+        ...edge,
+        id: `e${i}`,
+        animated: true,
+        type: 'smoothstep',
+        arrowHeadType: 'arrow',
+        style: { strokeWidth: 2 },
+        labelStyle: { textTransform: 'uppercase' },
+      }
+    })
+  ]), [data.edges])
+
+  useIsomorphicLayoutEffect(() => {
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
       initialNodes,
       initialEdges
     );
-
-    setNodes(layoutedNodes)
-    setEdges(layoutedEdges)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setNodes([...layoutedNodes]);
+    setEdges([...layoutedEdges]);
   }, [])
 
   const onLayout = useCallback(
@@ -105,28 +106,28 @@ const NodeFlow = ({ data }) => {
 
   return (
     <Box ref={ref} w={'full'} h={'90vh'} overflow={'hidden'} flexGrow={1} position="relative">
-      <ReactFlowProvider>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          connectionLineType={ConnectionLineType.SmoothStep}
-          fitView
-        />
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        connectionLineType={ConnectionLineType.SmoothStep}
+        fitView
+      >
+
         <Controls
           style={{ boxShadow: 'none' }}
         />
-        <div style={{
-          position: 'absolute',
-          right: '10px',
-          top: '10px',
-          zIndex: '10',
-          fontSize: '12px',
-        }}>
-          <Button size='xs' mr={2} onClick={() => onLayout('TB')}>vertical layout</Button>
-          <Button size='xs' onClick={() => onLayout('LR')}>horizontal layout</Button>
-        </div>
-      </ReactFlowProvider>
+      </ReactFlow>
+      <div style={{
+        position: 'absolute',
+        right: '10px',
+        top: '10px',
+        zIndex: '10',
+        fontSize: '12px',
+      }}>
+        <Button size='xs' mr={2} onClick={() => onLayout('TB')}>vertical layout</Button>
+        <Button size='xs' onClick={() => onLayout('LR')}>horizontal layout</Button>
+      </div>
     </Box>
   );
 };
