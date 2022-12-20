@@ -6,7 +6,7 @@ import { VscCode } from 'react-icons/vsc';
 import { urlFor } from '../../lib/sanity';
 
 const InfoNode = ({ data }) => {
-  console.log(data)
+  /* console.log(data) */
   return (
     <Box
       border="2px solid black"
