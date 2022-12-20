@@ -82,12 +82,15 @@ const NodeFlow = ({ data }) => {
 
 
   useIsomorphicLayoutEffect(() => {
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-      initialNodes,
-      initialEdges
-    );
-    setNodes([...layoutedNodes]);
-    setEdges([...layoutedEdges]);
+    if (initialNodes && initialEdges) {
+
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        initialNodes,
+        initialEdges
+      );
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    }
   }, [])
 
   const onLayout = useCallback(

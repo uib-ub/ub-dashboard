@@ -87,7 +87,6 @@ export default function Software({ data }) {
         </ItemHeader>
 
         <Tabs
-          isLazy
           colorScheme='green'
           my={10}
           display='flex'
@@ -124,9 +123,6 @@ export default function Software({ data }) {
                   <TabPanels overflowX='scroll'>
                     {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
                       <TabPanel key={part.id} mb={5} ml={5} overflowX='scroll'>
-                        <NodeFlow
-                          data={graph}
-                        />
                         {part.hostedBy && part.hostedBy.map(i => (
                           <Box key={i.id} mb={10}>
                             <Heading size={'md'}>
@@ -180,7 +176,9 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <p>hei</p>
+                  <NodeFlow
+                    data={graph}
+                  />
                 </Box>
               </Grid>
             </TabPanel>
