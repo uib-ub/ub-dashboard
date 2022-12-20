@@ -5,22 +5,7 @@ import InfoNode from './InfoNode';
 import { Box, Button } from '@chakra-ui/react'
 import dagre from 'dagre';
 import 'reactflow/dist/style.css';
-
-/**
- * Our edges are nested, so we need to deeply flatten the array
- * @param {*} array 
- * @returns array
- */
-function flat(array) {
-  var result = [];
-  array.forEach(function (a) {
-    result.push(a);
-    if (Array.isArray(a.children)) {
-      result = result.concat(flat(a.children));
-    }
-  });
-  return result;
-}
+import { flat } from '../../lib/functions/flat'
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -67,8 +52,7 @@ const NodeFlow = ({ data }) => {
   const [ref, { height, width }] = useMeasure();
   const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
 
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     const flatEdges = flat(data.edges)
     const initialNodes = [
       ...data.nodes.map((node) => {
@@ -102,7 +86,8 @@ const NodeFlow = ({ data }) => {
 
     setNodes(layoutedNodes)
     setEdges(layoutedEdges)
-  }, [data.edges, data.nodes, setEdges, setNodes])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onLayout = useCallback(
     (direction) => {
@@ -129,7 +114,7 @@ const NodeFlow = ({ data }) => {
           fitView
         />
         <Controls
-          style={{ top: 10, left: 10, boxShadow: 'none' }}
+          style={{ boxShadow: 'none' }}
         />
         <div style={{
           position: 'absolute',
