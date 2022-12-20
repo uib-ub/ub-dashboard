@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Icon, Image, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Icon, Image, Tag, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import { Handle, Position } from 'reactflow';
 import { GiEyeTarget } from 'react-icons/gi';
@@ -6,13 +6,14 @@ import { VscCode } from 'react-icons/vsc';
 import { urlFor } from '../../lib/sanity';
 
 const InfoNode = ({ data }) => {
+  const bgColor = useColorModeValue('white', 'gray.900')
   /* console.log(data) */
   return (
     <Box
       border="2px solid black"
       borderRadius={'sm'}
       p={3}
-      bg={'white'}
+      bg={bgColor}
       w={'sm'}
     >
       <Handle type="target" position={Position.Top} style={{ left: '40%', borderRadius: 0 }} />

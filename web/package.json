@@ -16,6 +16,7 @@
     "@portabletext/react": "^1.0.3",
     "@sanity/image-url": "^1.0.1",
     "@sayari/trellis": "^0.3.1",
+    "@tisoap/react-flow-smart-edge": "^3.0.0",
     "clean-deep": "^3.4.0",
     "d3": "^7.2.1",
     "dagre": "^0.8.5",

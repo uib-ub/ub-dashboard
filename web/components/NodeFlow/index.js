@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useIsomorphicLayoutEffect, useMeasure } from "react-use";
 import ReactFlow, { addEdge, ConnectionLineType, useNodesState, useEdgesState, ReactFlowProvider, Controls } from 'reactflow';
+import { SmartBezierEdge } from '@tisoap/react-flow-smart-edge'
 import InfoNode from './InfoNode';
 import { Box, Button } from '@chakra-ui/react'
 import dagre from 'dagre';
@@ -45,14 +46,12 @@ const getLayoutedElements = (nodes, edges, direction = 'TB') => {
   return { nodes, edges };
 };
 
-
 const NodeFlow = ({ data }) => {
-  const [nodes, setNodes] = useNodesState();
-  const [edges, setEdges] = useEdgesState();
+  const [nodes, setNodes, onNodesChange] = useNodesState();
+  const [edges, setEdges, onEdgesChange] = useEdgesState();
   const [ref, { height, width }] = useMeasure();
   const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
-
-  console.log(JSON.stringify(data, null, 2))
+  const edgeTypes = useMemo(() => ({ smart: SmartBezierEdge }), []);
 
   const initialNodes = useMemo(() => ([
     ...flat(data.nodes).map((node) => {
@@ -80,6 +79,7 @@ const NodeFlow = ({ data }) => {
       }
     })
   ]), [data.edges])
+
 
   useIsomorphicLayoutEffect(() => {
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
@@ -109,8 +109,11 @@ const NodeFlow = ({ data }) => {
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
-        connectionLineType={ConnectionLineType.SmoothStep}
+        edgeTypes={edgeTypes}
+        //connectionLineType={ConnectionLineType.SmoothStep}
         fitView
       >
 
