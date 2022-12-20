@@ -112,7 +112,7 @@ export default function NodeFlow({ data }) {
 
   const layoutedElements = getLayoutedElements(initialElements);
 
-  const [elements, setElements] = useState(layoutedElements);
+  //const [elements, setElements] = useState(layoutedElements);
 
   return (
     <Box ref={ref} w={'full'} h={'90vh'} overflow={'hidden'} flexGrow={1} position="relative">
@@ -123,7 +123,7 @@ export default function NodeFlow({ data }) {
         />
         <ReactFlow
           onLoad={onLoad}
-          elements={elements}
+          elements={layoutedElements}
           nodeTypes={nodeTypes}
           connectionLineType="smoothstep"
           nodesConnectable={false}
