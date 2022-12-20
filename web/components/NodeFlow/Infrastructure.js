@@ -6,7 +6,7 @@ import ReactFlow, {
   isNode,
   Background,
   Controls,
-} from 'react-flow-renderer';
+} from 'reactflow';
 import InfoNode from './InfoNode';
 import dagre from 'dagre';
 import { flatten, groupBy } from 'lodash-es';

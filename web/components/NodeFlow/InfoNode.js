@@ -1,12 +1,12 @@
 import { Box, Flex, Grid, Heading, Icon, Image, Tag, Text } from '@chakra-ui/react';
 import React from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, Position } from 'reactflow';
 import { GiEyeTarget } from 'react-icons/gi';
 import { VscCode } from 'react-icons/vsc';
 import { urlFor } from '../../lib/sanity';
 
 const InfoNode = ({ data }) => {
-  /* console.log(data) */
+  console.log(data)
   return (
     <Box
       border="2px solid black"
