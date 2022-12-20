@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image, Grid, Text, VStack, IconButton, Spacer, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { urlFor } from "../../lib/sanity"
 import Link from '../Link'
 import { BsChatQuote } from 'react-icons/bs'
@@ -8,13 +8,16 @@ import { GrFormEdit } from 'react-icons/gr'
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, children }) => {
+  const bgColor = useColorModeValue('gray.100', 'gray.900')
+  const borderColor = useColorModeValue('gray.200', 'gray.700')
+
   return (
     <Grid>
       <Flex columnGap={'30px'}>
         <Box>
           {image ? (
             <Image
-              border={'solid #eee 1px'}
+              border={'solid 1px'}
               borderRadius={3}
               src={urlFor(image).width(200).url()}
               mb={"5"}
@@ -24,8 +27,9 @@ const ItemHeader = ({ id, label, blurb, quote, image, continued, continuedBy, ch
             />
           ) :
             <Box
-              border={'solid #eee 1px'}
-              bg={'gray.100'}
+              border={'solid 1px'}
+              borderColor={borderColor}
+              bg={bgColor}
               boxSize='100px'
             >
             </Box>

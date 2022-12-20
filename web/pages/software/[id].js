@@ -121,9 +121,9 @@ export default function Software({ data }) {
                     ))}
                   </TabList>
 
-                  <TabPanels>
+                  <TabPanels overflowX='scroll'>
                     {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
-                      <TabPanel key={part.id} mb={5} ml={5}>
+                      <TabPanel key={part.id} mb={5} ml={5} overflowX='scroll'>
                         {part.hostedBy && part.hostedBy.map(i => (
                           <Box key={i.id} mb={10}>
                             <Heading size={'md'}>
@@ -174,9 +174,6 @@ export default function Software({ data }) {
                 borderRadius={3}
               >
                 <Box
-                  borderRadius={"8"}
-                  border={"1px solid"}
-                  borderColor={"gray.200"}
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
