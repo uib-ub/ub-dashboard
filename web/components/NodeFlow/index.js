@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useIsomorphicLayoutEffect, useMeasure } from "react-use";
 import ReactFlow, { addEdge, ConnectionLineType, useNodesState, useEdgesState, ReactFlowProvider, Controls } from 'reactflow';
-import { SmartBezierEdge } from '@tisoap/react-flow-smart-edge'
+import { SmartStepEdge } from '@tisoap/react-flow-smart-edge'
 import InfoNode from './InfoNode';
 import { Box, Button } from '@chakra-ui/react'
 import dagre from 'dagre';
@@ -51,7 +51,7 @@ const NodeFlow = ({ data }) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState();
   const [ref, { height, width }] = useMeasure();
   const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
-  const edgeTypes = useMemo(() => ({ smart: SmartBezierEdge }), []);
+  const edgeTypes = useMemo(() => ({ smart: SmartStepEdge }), []);
 
   const initialNodes = useMemo(() => ([
     ...flat(data.nodes).map((node) => {

@@ -124,6 +124,9 @@ export default function Software({ data }) {
                   <TabPanels overflowX='scroll'>
                     {item.hasSoftwarePart && item.hasSoftwarePart.map(part => (
                       <TabPanel key={part.id} mb={5} ml={5} overflowX='scroll'>
+                        <NodeFlow
+                          data={graph}
+                        />
                         {part.hostedBy && part.hostedBy.map(i => (
                           <Box key={i.id} mb={10}>
                             <Heading size={'md'}>
@@ -177,9 +180,7 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <NodeFlow
-                    data={graph}
-                  />
+                  <p>hei</p>
                 </Box>
               </Grid>
             </TabPanel>
