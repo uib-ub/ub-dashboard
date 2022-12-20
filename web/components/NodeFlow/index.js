@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useIsomorphicLayoutEffect, useMeasure } from "react-use";
 import ReactFlow, { addEdge, ConnectionLineType, useNodesState, useEdgesState, ReactFlowProvider, Controls } from 'reactflow';
 import InfoNode from './InfoNode';
