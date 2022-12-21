@@ -53,6 +53,7 @@ export default function Software({ data }) {
         >
           <NodeFlowGraph
             data={data}
+            h={'90vh'}
           />
         </Box>
       </Container>

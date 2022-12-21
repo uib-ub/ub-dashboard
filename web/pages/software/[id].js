@@ -85,14 +85,6 @@ export default function Software({ data }) {
           </Flex>
         </ItemHeader>
 
-        <Container my={5} maxH={'2xl'} maxW={'2xl'} centerContent>
-          {graph && (<NodeFlowGraph
-            data={graph}
-            w={'6xl'}
-            h={'2xl'}
-          />)}
-        </Container>
-
         <Tabs
           isLazy
           colorScheme='green'
@@ -175,7 +167,7 @@ export default function Software({ data }) {
             </TabPanel>
 
 
-            {/* <TabPanel>
+            <TabPanel>
               <Grid
                 minHeight={'20vh'}
                 border={'solid #eee 1px'}
@@ -187,12 +179,11 @@ export default function Software({ data }) {
                 >
                   {graph && (<NodeFlowGraph
                     data={graph}
-                    w={'6xl'}
-                    h={'2xl'}
+                    h={'90vh'}
                   />)}
                 </Box>
               </Grid>
-            </TabPanel> */}
+            </TabPanel>
 
             {item.referredToBy && (
               <TabPanel>
