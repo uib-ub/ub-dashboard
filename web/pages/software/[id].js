@@ -85,7 +85,13 @@ export default function Software({ data }) {
           </Flex>
         </ItemHeader>
 
-
+        <Container my={5} maxH={'2xl'} maxW={'2xl'} centerContent>
+          {graph && (<NodeFlowGraph
+            data={graph}
+            w={'6xl'}
+            h={'2xl'}
+          />)}
+        </Container>
 
         <Tabs
           isLazy
@@ -96,8 +102,8 @@ export default function Software({ data }) {
           maxW={'full'}
         >
           <TabList>
-            <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
-            <Tab><Icon as={MdDashboard} mr={2} /> Readme(s)</Tab>
+            <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
+            {/* <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab> */}
             {item.referredToBy && (
               <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
             )}
@@ -107,23 +113,6 @@ export default function Software({ data }) {
           </TabList>
 
           <TabPanels mt={3}>
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <Box
-                  boxShadow={"lg"}
-                  minHeight={'75vh'}
-                >
-                  {graph && (<NodeFlowGraph
-                    data={graph}
-                  />)}
-                </Box>
-              </Grid>
-            </TabPanel>
-
             <TabPanel>
               {item.hasSoftwarePart && (
                 <Tabs
@@ -184,6 +173,26 @@ export default function Software({ data }) {
                 </Tabs>
               )}
             </TabPanel>
+
+
+            {/* <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <Box
+                  boxShadow={"lg"}
+                  minHeight={'90vh'}
+                >
+                  {graph && (<NodeFlowGraph
+                    data={graph}
+                    w={'6xl'}
+                    h={'2xl'}
+                  />)}
+                </Box>
+              </Grid>
+            </TabPanel> */}
 
             {item.referredToBy && (
               <TabPanel>
