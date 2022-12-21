@@ -85,6 +85,8 @@ export default function Software({ data }) {
           </Flex>
         </ItemHeader>
 
+
+
         <Tabs
           isLazy
           colorScheme='green'
@@ -94,8 +96,8 @@ export default function Software({ data }) {
           maxW={'full'}
         >
           <TabList>
-            <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
+            <Tab><Icon as={MdDashboard} mr={2} /> Readme(s)</Tab>
             {item.referredToBy && (
               <Tab><Icon as={GiEvilBook} mr={2} /> Dokumentasjon</Tab>
             )}
@@ -105,6 +107,23 @@ export default function Software({ data }) {
           </TabList>
 
           <TabPanels mt={3}>
+            <TabPanel>
+              <Grid
+                minHeight={'20vh'}
+                border={'solid #eee 1px'}
+                borderRadius={3}
+              >
+                <Box
+                  boxShadow={"lg"}
+                  minHeight={'75vh'}
+                >
+                  {graph && (<NodeFlowGraph
+                    data={graph}
+                  />)}
+                </Box>
+              </Grid>
+            </TabPanel>
+
             <TabPanel>
               {item.hasSoftwarePart && (
                 <Tabs
@@ -164,23 +183,6 @@ export default function Software({ data }) {
                   </TabPanels>
                 </Tabs>
               )}
-            </TabPanel>
-
-            <TabPanel>
-              <Grid
-                minHeight={'20vh'}
-                border={'solid #eee 1px'}
-                borderRadius={3}
-              >
-                <Box
-                  boxShadow={"lg"}
-                  minHeight={'90vh'}
-                >
-                  {graph && (<NodeFlowGraph
-                    data={graph}
-                  />)}
-                </Box>
-              </Grid>
             </TabPanel>
 
             {item.referredToBy && (

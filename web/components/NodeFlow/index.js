@@ -46,7 +46,7 @@ const getLayoutedElements = (nodes, edges, direction = 'TB') => {
   return { nodes, edges };
 };
 
-const NodeFlowGraph = ({ data }) => {
+const NodeFlowGraph = ({ data, w = 'full', h = '75vh' }) => {
   if (!data) return null
 
   const initialNodes = [
@@ -82,12 +82,11 @@ const NodeFlowGraph = ({ data }) => {
   );
 
   return (
-    <NodeFlow layoutedNodes={layoutedNodes} layoutedEdges={layoutedEdges} />
+    <NodeFlow layoutedNodes={layoutedNodes} layoutedEdges={layoutedEdges} w={w} h={h} />
   )
-
 }
 
-const NodeFlow = ({ layoutedNodes, layoutedEdges }) => {
+const NodeFlow = ({ layoutedNodes, layoutedEdges, w, h }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [ref, { height, width }] = useMeasure();
@@ -109,7 +108,7 @@ const NodeFlow = ({ layoutedNodes, layoutedEdges }) => {
   );
 
   return (
-    <Box ref={ref} w={'full'} h={'90vh'} overflow={'hidden'} flexGrow={1} position="relative">
+    <Box ref={ref} w={w} h={h} overflow={'hidden'} flexGrow={1} position="relative">
       <ReactFlow
         nodes={nodes}
         edges={edges}
