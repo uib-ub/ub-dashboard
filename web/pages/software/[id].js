@@ -176,7 +176,7 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <NodeFlowComponentWithoutSSR
+                  <NodeFlow
                     data={graph}
                   />
                 </Box>
