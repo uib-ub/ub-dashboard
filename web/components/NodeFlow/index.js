@@ -47,7 +47,9 @@ const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 };
 
 const NodeFlowGraph = ({ data }) => {
-  const initialNodes = useMemo(() => ([
+  if (!data) return null
+
+  const initialNodes = [
     ...flat(data.nodes).map((node) => {
       return {
         id: node.id,
@@ -58,9 +60,9 @@ const NodeFlowGraph = ({ data }) => {
         position: { x: 0, y: 0 },
       }
     })
-  ]), [data.nodes])
+  ]
 
-  const initialEdges = useMemo(() => ([
+  const initialEdges = [
     ...flat(data.edges).map((edge, i) => {
       return {
         ...edge,
@@ -72,7 +74,8 @@ const NodeFlowGraph = ({ data }) => {
         labelStyle: { textTransform: 'uppercase' },
       }
     })
-  ]), [data.edges])
+  ]
+
   const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
     initialNodes,
     initialEdges
