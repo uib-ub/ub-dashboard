@@ -19,8 +19,7 @@ import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsA
 import RepositoryInfo from '../../components/Repository/RepositoryInfo.client'
 import NodeFlowGraph from '../../components/NodeFlow'
 const NodeFlowComponentWithoutSSR = dynamic(
-  () => import('../../components/NodeFlow'),
-  { ssr: false }
+  () => import('../../components/NodeFlow')
 )
 
 const allSoftwareQuery = groq`
