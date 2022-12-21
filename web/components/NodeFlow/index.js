@@ -14,7 +14,7 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 372
 const nodeHeight = 176
 
-const getLayoutedElements = async (nodes, edges, direction = 'TB') => {
+const getLayoutedElements = (nodes, edges, direction = 'TB') => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
 
@@ -46,7 +46,7 @@ const getLayoutedElements = async (nodes, edges, direction = 'TB') => {
   return { nodes, edges };
 };
 
-const NodeFlowGraph = async ({ data }) => {
+const NodeFlowGraph = ({ data }) => {
   if (!data) return null
 
   const initialNodes = [
@@ -76,7 +76,7 @@ const NodeFlowGraph = async ({ data }) => {
     })
   ]
 
-  const { nodes: layoutedNodes, edges: layoutedEdges } = await getLayoutedElements(
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
     initialNodes,
     initialEdges
   );

@@ -10,7 +10,7 @@ import { BiNetworkChart } from 'react-icons/bi'
 import { VscFileCode } from "react-icons/vsc"
 import ItemHeader from "../../components/Props/ItemHeader"
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
-import NodeFlow from '../../components/NodeFlow'
+import NodeFlowGraph from '../../components/NodeFlow'
 
 /* const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow/Infrastructure'),
@@ -51,11 +51,10 @@ export default function Software({ data }) {
           minHeight={'90vh'}
           my={5}
         >
-          <NodeFlow
+          <NodeFlowGraph
             data={data}
           />
         </Box>
-
       </Container>
     </Layout>
   )

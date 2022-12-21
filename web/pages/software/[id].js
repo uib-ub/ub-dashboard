@@ -176,9 +176,9 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <NodeFlowComponentWithoutSSR
+                  {graph && (<NodeFlowGraph
                     data={graph}
-                  />
+                  />)}
                 </Box>
               </Grid>
             </TabPanel>
