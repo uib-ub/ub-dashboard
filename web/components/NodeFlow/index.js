@@ -46,13 +46,7 @@ const getLayoutedElements = (nodes, edges, direction = 'TB') => {
   return { nodes, edges };
 };
 
-const NodeFlow = ({ data }) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState();
-  const [edges, setEdges, onEdgesChange] = useEdgesState();
-  const [ref, { height, width }] = useMeasure();
-  const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
-  const edgeTypes = useMemo(() => ({ smart: SmartStepEdge }), []);
-
+const NodeFlowGraph = ({ data }) => {
   const initialNodes = useMemo(() => ([
     ...flat(data.nodes).map((node) => {
       return {
@@ -79,19 +73,23 @@ const NodeFlow = ({ data }) => {
       }
     })
   ]), [data.edges])
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    initialNodes,
+    initialEdges
+  );
 
+  return (
+    <NodeFlow layoutedNodes={layoutedNodes} layoutedEdges={layoutedEdges} />
+  )
 
-  useIsomorphicLayoutEffect(() => {
-    if (initialNodes && initialEdges) {
+}
 
-      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-        initialNodes,
-        initialEdges
-      );
-      setNodes([...layoutedNodes]);
-      setEdges([...layoutedEdges]);
-    }
-  }, [])
+const NodeFlow = ({ layoutedNodes, layoutedEdges }) => {
+  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+  const [ref, { height, width }] = useMeasure();
+  const nodeTypes = useMemo(() => ({ special: InfoNode }), []);
+  const edgeTypes = useMemo(() => ({ smart: SmartStepEdge }), []);
 
   const onLayout = useCallback(
     (direction) => {
@@ -119,7 +117,6 @@ const NodeFlow = ({ data }) => {
         //connectionLineType={ConnectionLineType.SmoothStep}
         fitView
       >
-
         <Controls
           style={{ boxShadow: 'none' }}
         />
@@ -138,4 +135,4 @@ const NodeFlow = ({ data }) => {
   );
 };
 
-export default NodeFlow;
+export default NodeFlowGraph

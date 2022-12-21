@@ -17,7 +17,7 @@ import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import ItemHeaderStatsWidget from "../../components/Props/ItemHeaderStatsWidget"
 import ItemHeaderStatsAvatarWidget from "../../components/Props/ItemHeaderStatsAvatarWidget"
 import RepositoryInfo from '../../components/Repository/RepositoryInfo.client'
-import NodeFlow from '../../components/NodeFlow'
+import NodeFlowGraph from '../../components/NodeFlow'
 const NodeFlowComponentWithoutSSR = dynamic(
   () => import('../../components/NodeFlow'),
   { ssr: false }
@@ -176,7 +176,7 @@ export default function Software({ data }) {
                   boxShadow={"lg"}
                   minHeight={'90vh'}
                 >
-                  <NodeFlow
+                  <NodeFlowComponentWithoutSSR
                     data={graph}
                   />
                 </Box>

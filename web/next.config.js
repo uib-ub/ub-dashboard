@@ -3,7 +3,7 @@ const MARCUS_NEXT_URL = process.env.NEXT_PUBLIC_MARCUS_NEXT_URL
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
   async rewrites() {
     return [
