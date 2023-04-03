@@ -4,7 +4,7 @@
 * @returns array
 */
 export function flat(array) {
-  var result = [];
+  let result = [];
   array.forEach(function (a) {
     result.push(a);
     if (Array.isArray(a.children)) {

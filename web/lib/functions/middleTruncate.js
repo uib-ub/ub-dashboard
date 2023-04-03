@@ -3,7 +3,7 @@ const middleTruncate = (fullStr, strLen, separator) => {
 
   separator = separator || '...';
 
-  var sepLen = separator.length,
+  let sepLen = separator.length,
     charsToShow = strLen - sepLen,
     frontChars = Math.ceil(charsToShow / 2),
     backChars = Math.floor(charsToShow / 2);
