@@ -67,7 +67,10 @@ export default {
         }
       },
     },
-    logo
+    logo,
+    {
+      ...hasFile,
+    }
   ],
   preview: {
     select: {
