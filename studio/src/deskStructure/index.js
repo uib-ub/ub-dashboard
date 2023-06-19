@@ -84,7 +84,7 @@ export default () =>
                     ),
                 ),
               createDeskHierarchy({
-                title: 'Oranisasjonshierarki',
+                title: 'Organisasjonshierarki',
                 documentId: 'org-hierarchy',
                 referenceTo: ['Group'],
                 // ❓ Optional: provide filters and/or parameters for narrowing which documents can be added
