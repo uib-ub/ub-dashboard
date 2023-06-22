@@ -130,7 +130,7 @@ const MemberOfTable = ({ data }) => {
               />
             </Icon>
           }
-          <Link href={`/actor/${row.values.id}`}>
+          <Link href={`/group/${row.values.id}`}>
             {row.values.label}
           </Link>
         </Flex>
