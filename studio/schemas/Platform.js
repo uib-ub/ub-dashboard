@@ -4,6 +4,7 @@ export default {
   name: 'Platform',
   title: 'Plattform',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

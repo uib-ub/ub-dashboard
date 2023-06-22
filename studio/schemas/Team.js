@@ -4,6 +4,7 @@ export default {
   name: 'Team',
   title: 'Team',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     /* hasType, */

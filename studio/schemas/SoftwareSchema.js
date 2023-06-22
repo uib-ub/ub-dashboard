@@ -4,6 +4,7 @@ export default {
   name: 'Schema',
   title: 'Software',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

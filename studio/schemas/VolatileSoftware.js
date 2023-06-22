@@ -4,6 +4,7 @@ export default {
   name: 'VolatileSoftware',
   title: 'Source code',
   type: 'document',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'core',

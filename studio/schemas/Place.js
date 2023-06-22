@@ -12,6 +12,7 @@ export default {
   name: 'Place',
   type: 'document',
   title: 'Sted',
+  liveEdit: true,
   initialValue: {
     editorialState: 'published',
     accessState: 'open',

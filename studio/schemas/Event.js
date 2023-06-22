@@ -13,6 +13,7 @@ export default {
   name: 'Event',
   type: 'document',
   title: 'Event',
+  liveEdit: true,
   initialValue: {
     editorialState: 'review',
     accessState: 'secret',

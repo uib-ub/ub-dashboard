@@ -4,6 +4,7 @@ export default {
   name: 'AccessPoint',
   title: 'Endpoint',
   type: 'document',
+  liveEdit: true,
   /*   initialValue: {
       hasType: {
         _type: 'reference',

@@ -4,6 +4,7 @@ export default {
   name: 'Dataset',
   title: 'Dataset',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

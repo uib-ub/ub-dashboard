@@ -4,6 +4,7 @@ export default {
   name: 'Endpoint',
   title: 'Endpoint',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

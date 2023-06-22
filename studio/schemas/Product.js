@@ -4,6 +4,7 @@ export default {
   name: 'Product',
   title: 'Produkt',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

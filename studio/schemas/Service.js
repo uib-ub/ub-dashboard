@@ -4,6 +4,7 @@ export default {
   name: 'Service',
   title: 'Service',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

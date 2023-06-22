@@ -4,6 +4,7 @@ export default {
   name: 'Project',
   title: 'Prosjekt',
   type: 'document',
+  liveEdit: true,
   groups: [
     {
       name: 'core',

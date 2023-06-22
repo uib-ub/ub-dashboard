@@ -1,6 +1,7 @@
 export default {
   name: 'MonetaryAmount',
   type: 'object',
+  liveEdit: true,
   title: 'Beløp',
   titleEN: 'Monetary amount',
   fields: [

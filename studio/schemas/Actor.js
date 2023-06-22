@@ -7,6 +7,7 @@ export default {
   name: 'Actor',
   title: 'Person',
   type: 'document',
+  liveEdit: true,
   fields: [
     {
       ...labelSingleton,

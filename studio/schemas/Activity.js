@@ -15,6 +15,7 @@ export default {
   name: 'Activity',
   title: 'Activity',
   type: 'document',
+  liveEdit: true,
   icon: MdLocalActivity,
   fieldsets: [
     {

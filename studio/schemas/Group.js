@@ -7,6 +7,7 @@ export default {
   name: 'Group',
   title: 'Group',
   type: 'document',
+  liveEdit: true,
   fields: [
     {
       ...labelSingleton,

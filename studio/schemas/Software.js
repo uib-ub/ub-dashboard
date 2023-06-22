@@ -4,6 +4,7 @@ export default {
   name: 'Software',
   title: 'Software',
   type: 'document',
+  liveEdit: true,
   validation: Rule => Rule.custom(fields => {
     // Count ContrubutionAssignment timespans without a timespan.endOfTheEnd
     const activeSystemOwner = fields.currentOrFormerSystemOwner?.reduce((a, v) => (!v.timespan?.endOfTheEnd ? a + 1 : a), 0)
