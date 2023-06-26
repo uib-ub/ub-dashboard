@@ -4,6 +4,7 @@ export default {
   name: 'TransferOfMember',
   type: 'document',
   title: 'Overføring',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'minimum',

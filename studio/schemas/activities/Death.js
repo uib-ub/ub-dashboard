@@ -8,6 +8,7 @@ export default {
   type: 'document',
   title: 'Død',
   titleEN: 'Death',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [labelSingleton, deathOf, carriedOutBy, timespan, tookPlaceAt, referredToBy],
   preview: {

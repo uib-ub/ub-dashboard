@@ -5,6 +5,7 @@ export default {
   name: 'EndOfExistence',
   type: 'document',
   title: 'Slutten på eksistens',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [
     labelSingleton,

@@ -6,6 +6,7 @@ export default {
   type: 'document',
   title: 'Innlemmelse',
   titleEN: 'Joining',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'minimum',

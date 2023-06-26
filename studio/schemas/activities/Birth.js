@@ -8,6 +8,7 @@ export default {
   type: 'document',
   title: 'Fødsel',
   titleEN: 'Birth',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [labelSingleton, birthOf, carriedOutBy, timespanSingleton, tookPlaceAt, referredToBy],
   preview: {

@@ -11,6 +11,7 @@ export default {
   type: 'document',
   title: 'Oppløsing',
   titleEN: 'Dissolution',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [
     labelSingleton,

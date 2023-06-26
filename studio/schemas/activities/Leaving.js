@@ -7,6 +7,7 @@ export default {
   type: 'document',
   title: 'Utmeldelse',
   titleEN: 'Leaving',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [
     labelSingleton,

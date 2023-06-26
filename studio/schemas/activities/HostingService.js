@@ -4,6 +4,7 @@ export default {
   name: 'HostingService',
   type: 'document',
   title: 'Hosting service',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'minimum',

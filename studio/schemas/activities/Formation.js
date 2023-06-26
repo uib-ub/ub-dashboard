@@ -11,6 +11,7 @@ export default {
   type: 'document',
   title: 'Opprettelse',
   titleEN: 'Formation',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   fields: [
     labelSingleton,

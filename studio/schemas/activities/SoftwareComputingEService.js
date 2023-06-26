@@ -4,6 +4,7 @@ export default {
   name: 'SoftwareComputingEService',
   type: 'document',
   title: 'Software computing service',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'core',

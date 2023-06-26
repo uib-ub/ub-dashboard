@@ -4,6 +4,7 @@ export default {
   name: 'SoftwareDeliveryEService',
   type: 'document',
   title: 'Software delivery service',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'minimum',

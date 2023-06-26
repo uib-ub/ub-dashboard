@@ -5,6 +5,7 @@ export default {
   name: 'SoftwareCuratingService',
   type: 'document',
   title: 'Software curating service',
+  liveEdit: true,
   fieldsets: [
     {
       name: 'minimum',

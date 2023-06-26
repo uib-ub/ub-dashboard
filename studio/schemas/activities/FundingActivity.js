@@ -10,6 +10,7 @@ export default {
   type: 'document',
   title: 'Finansiering',
   titleEN: 'FundingActivity',
+  liveEdit: true,
   icon: FaMoneyCheck,
   fieldsets: defaultFieldsets,
   fields: [

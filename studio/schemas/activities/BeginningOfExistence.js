@@ -5,6 +5,7 @@ export default {
   name: 'BeginningOfExistence',
   type: 'document',
   title: 'Starten på eksistens',
+  liveEdit: true,
   fieldsets: defaultFieldsets,
   initalValue: {
     label: 'Prosjektstart'

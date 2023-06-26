@@ -16,6 +16,7 @@ export default {
   name: 'Move',
   title: 'Move',
   type: 'document',
+  liveEdit: true,
   icon: FaTruckLoading,
   fields: [
     labelSingleton,
