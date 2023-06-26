@@ -503,6 +503,9 @@ export const projectQuery = groq`{
           label,
         },
         "timespan": timespan.edtf,
+        defined(timespan.endOfTheEnd) == true => {
+          "retired": true 
+        }
       }
     },
   "identifier": identifiedBy[] {

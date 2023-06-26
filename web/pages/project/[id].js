@@ -111,7 +111,6 @@ export default function Project({ data }) {
         >
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
-            <Tab><Icon as={AiOutlineTeam} mr={2} /> Medlemmer</Tab>
             <Tab isDisabled><Icon as={GrHistory} mr={2} /> Historikk</Tab>
             <Tab isDisabled><Icon as={BiNetworkChart} mr={2} /> Graph</Tab>
             <Spacer />
@@ -133,6 +132,21 @@ export default function Project({ data }) {
                     colSpan={[6, null, 3]}
                   >
                     <Heading size={'lg'} mb={5}>Institusjoner</Heading>
+                    {item.carriedOutBy && (
+                      <Participants participants={item.carriedOutBy} />
+                    )}
+
+                    {item.hadParticipant && (
+                      <Participants participants={item.hadParticipant} />
+                    )}
+                  </GridItem>
+                )}
+
+                {(item.resultedIn || item.hasFile || item.link) && (
+                  <GridItem
+                    colSpan={[6, null, 3]}
+                  >
+
                     <Box
                       borderRadius={"8"}
                       border={"1px solid"}
@@ -140,20 +154,36 @@ export default function Project({ data }) {
                       boxShadow={"md"}
                       p={5}
                     >
-                      {item.carriedOutBy && (
-                        <Participants participants={item.carriedOutBy} />
+                      {item.funding && <Funding stream={item.funding} />}
+
+
+                      {item.resultedIn && (
+                        <ResultedIn results={item.resultedIn} />
                       )}
 
-                      {item.hadParticipant && (
-                        <Participants participants={item.hadParticipant} />
+                      {(item.hasFile || item.link) && (
+                        <>
+                          <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
+                          {item.link && (
+                            <Links links={item.link} />
+                          )}
+
+                          {item.hasFile && (
+                            <Files files={item.hasFile} />
+                          )}
+                        </>
                       )}
                     </Box>
                   </GridItem>
                 )}
 
-                {item.hasTeam && (
-                  <CurrentMembersWidget value={item.hasTeam} />
-                )}
+                {item.hasTeam && item.hasTeam.map(team => (
+                  <GridItem
+                    colSpan={[6]}
+                  >
+                    <Team key={team.id} data={team} />
+                  </GridItem>
+                ))}
 
                 {item.image && (
                   <GridItem colSpan={3}>
@@ -194,43 +224,11 @@ export default function Project({ data }) {
                 )}
 
                 {item.referredToBy && (
-                  <AbstractWidget value={item.referredToBy[0].body} />
-                )}
-
-                {(item.resultedIn || item.hasFile || item.link) && (
-                  <GridItem
-                    colSpan={[6, null, 3]}
-                  >
-                    <Heading size={'lg'} mb={5}>Diverse</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      p={5}
-                    >
-                      {item.funding && <Funding stream={item.funding} />}
-
-
-                      {item.resultedIn && (
-                        <ResultedIn results={item.resultedIn} />
-                      )}
-
-                      {(item.hasFile || item.link) && (
-                        <>
-                          <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
-                          {item.link && (
-                            <Links links={item.link} />
-                          )}
-
-                          {item.hasFile && (
-                            <Files files={item.hasFile} />
-                          )}
-                        </>
-                      )}
-                    </Box>
+                  <GridItem colSpan={[6, null, 3]}>
+                    <AbstractWidget value={item.referredToBy[0].body} />
                   </GridItem>
                 )}
+
               </Grid>
             </TabPanel>
 
@@ -247,9 +245,7 @@ export default function Project({ data }) {
                   boxShadow={"md"}
                   p={5}
                 >
-                  {item.hasTeam && item.hasTeam.map(team => (
-                    <Team key={team.id} team={team} size="md" />
-                  ))}
+
                 </Box>
               </Grid>
             </TabPanel>
