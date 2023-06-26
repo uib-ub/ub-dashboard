@@ -7,6 +7,7 @@ export default {
   name: 'CompetenceType',
   title: 'Competence type',
   type: 'document',
+  liveEdit: true,
   fields: [
     {
       ...labelSingleton,

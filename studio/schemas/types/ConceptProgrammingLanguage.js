@@ -4,6 +4,7 @@ export default {
   name: 'ProgrammingLanguage',
   title: 'Programming language',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

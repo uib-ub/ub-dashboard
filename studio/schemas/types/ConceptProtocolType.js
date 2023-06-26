@@ -4,6 +4,7 @@ export default {
   name: 'ProtocolType',
   title: 'Protocol type',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

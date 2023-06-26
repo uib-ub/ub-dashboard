@@ -4,6 +4,7 @@ export default {
   name: 'IdentifierType',
   title: 'Identifier type',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

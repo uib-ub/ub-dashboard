@@ -4,6 +4,7 @@ export default {
   name: 'AvailabilityType',
   title: 'Availability type',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,

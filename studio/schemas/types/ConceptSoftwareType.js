@@ -4,6 +4,7 @@ export default {
   name: 'SoftwareType',
   title: 'Software type',
   type: 'document',
+  liveEdit: true,
   fields: [
     labelSingleton,
     shortDescription,
