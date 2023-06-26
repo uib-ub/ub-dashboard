@@ -198,12 +198,14 @@ export default function Person({ data }) {
                 {(item.subGroupOf?.length > 0 || item.hasSubGroup) && (
                   <GridItem
                     colSpan={3}
-                    display={{ base: 'none', md: 'inherit' }}
+                    display={{ base: 'none', md: 'flex' }}
+                    flexDirection={'column'}
                     borderRadius={"8"}
                     border={"1px solid"}
                     borderColor={"gray.200"}
                     boxShadow={"md"}
                     p={5}
+                    align={'start'}
                   >
                     <Heading size={'lg'} mb={5}>Organisering</Heading>
 
