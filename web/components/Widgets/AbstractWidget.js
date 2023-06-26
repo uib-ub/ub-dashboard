@@ -18,6 +18,8 @@ const myPortableTextComponents = {
 
 export default function AbstractWidget({ value }) {
   return (
-    <PortableText value={value} components={myPortableTextComponents} />
+    <div>
+      <PortableText value={value} components={myPortableTextComponents} />
+    </div>
   )
 }

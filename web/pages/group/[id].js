@@ -2,29 +2,19 @@ import React, { useState } from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
-import { PortableText } from "../../lib/sanity"
 import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { GrHistory, GrCode, GrFormEdit } from 'react-icons/gr'
-import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap, groupBy, sortBy } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
-import { FaHatWizard } from 'react-icons/fa'
 import Period from '../../components/Props/Period'
 import ItemHeaderStatsWidget from '../../components/Props/ItemHeaderStatsWidget'
-import Participants from '../../components/Props/Participants'
-
-const MilestonesWithoutSSR = dynamic(
-  () => import('../../components/Timeline/MilestonesComponent'),
-  { ssr: false }
-)
 
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
@@ -156,8 +146,6 @@ const checkMembership = (arr) => {
 
 export default function Person({ data }) {
   const [activeFilter, setActiveFilter] = useState(checkMembership(data.item.hasMember ?? []))
-
-  const { width, height } = useWindowSize()
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
   const sortedByYear = sortBy(flattenedMilestones, ['timestamp'])
