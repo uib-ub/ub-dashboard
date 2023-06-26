@@ -2,12 +2,13 @@ import React, { useState } from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image, UnorderedList, ListIcon } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
+import { BiSubdirectoryRight } from 'react-icons/bi'
 import { GrHistory, GrCode, GrFormEdit } from 'react-icons/gr'
 import { flatMap, groupBy, sortBy } from "lodash-es"
 import Link from "../../components/Link"
@@ -15,6 +16,8 @@ import { DataTable } from "../../components/DataTable"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
 import Period from '../../components/Props/Period'
 import ItemHeaderStatsWidget from '../../components/Props/ItemHeaderStatsWidget'
+import Links from "../../components/Props/Links"
+import Files from "../../components/Props/Files"
 
 const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
@@ -99,17 +102,6 @@ const MembersTable = ({ data }) => {
       Header: "Periode",
       accessor: "timespan"
     },
-    {
-      Header: "",
-      accessor: "id",
-      Cell: ({ row }) => (
-        <a href={`${studio}/desk/intent/edit/id=${row.values.id}`} target={'_blank'} rel={'noreferrer'}>
-          <Button leftIcon={<Icon as={GrFormEdit} />} size={'sm'}>
-            Redigér
-          </Button>
-        </a>
-      )
-    },
   ];
 
   const handleActiveFilter = () => {
@@ -191,6 +183,7 @@ export default function Person({ data }) {
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Spacer />
             <Tab><Icon as={GrCode} mr={2} /> Data</Tab>
           </TabList>
 
@@ -202,70 +195,71 @@ export default function Person({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {(item.subGroupOf?.length > 0) && (
+                {(item.subGroupOf?.length > 0 || item.hasSubGroup) && (
                   <GridItem
                     colSpan={3}
                     display={{ base: 'none', md: 'inherit' }}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
                   >
-                    <Heading size={'lg'} mb={5}>Del av</Heading>
-                    <Wrap maxW={'full'}>
-                      {item.subGroupOf.map(group => (
-                        <WrapItem key={group.id} pr={4} pb={4}>
-                          <Flex>
-                            <Avatar size='sm' name={group.label} />
+                    <Heading size={'lg'} mb={5}>Organisering</Heading>
 
-                            <Box ml="3">
-                              <Text fontWeight='bold' my={"0"}>
-                                <Link href={`/group/${group.id}`}>
-                                  {group.label}
-                                </Link>
-                              </Text>
-                            </Box>
-                          </Flex>
-                        </WrapItem>
-                      ))}
-                    </Wrap>
+                    {item.subGroupOf?.length > 0 && (
+                      <UnorderedList styleType={'none'}>
+                        {item.subGroupOf.map(group => (
+                          <ListItem key={group.id}>
+                            <Link href={`/group/${group.id}`}>
+                              {group.label}
+                            </Link>
+                          </ListItem>
+                        ))}
+                        <UnorderedList styleType={'none'}>
+                          <ListItem fontStyle={'italic'}>
+                            <ListIcon as={BiSubdirectoryRight} color='green.500' />
+                            {item.label}
+                          </ListItem>
+                          {item.hasSubGroup && (
+                            <UnorderedList styleType={'none'}>
+                              {item.hasSubGroup.map(group => (
+                                <ListItem key={group.id}>
+                                  <ListIcon as={BiSubdirectoryRight} color='green.500' />
+                                  <Link href={`/group/${group.id}`}>
+                                    {group.label}
+                                  </Link>
+                                </ListItem>
+                              ))}
+                            </UnorderedList>
+                          )}
+                        </UnorderedList>
+                      </UnorderedList>
+                    )}
                   </GridItem>
                 )}
 
-                {item.hasSubGroup && (
-                  <GridItem
-                    colSpan={3}
-                    display={{ base: 'none', md: 'inherit' }}
-                  >
-
-                    <Heading size={'lg'} mb={5}>Har undergrupper</Heading>
-                    <Wrap maxW={'full'}>
-                      {item.hasSubGroup.map(group => (
-                        <WrapItem key={group.id} pr={4} pb={4}>
-                          <Flex>
-                            <Avatar size='sm' name={group.label} />
-
-                            <Box ml="3">
-                              <Text fontWeight='bold' my={"0"}>
-                                <Link href={`/group/${group.id}`}>
-                                  {group.label}
-                                </Link>
-                              </Text>
-                            </Box>
-                          </Flex>
-                        </WrapItem>
-                      ))}
-                    </Wrap>
-                  </GridItem>
-                )}
-
-                <GridItem colSpan={[6]}>
+                <GridItem
+                  colSpan={[6, null, 3]}
+                  borderRadius={"8"}
+                  border={"1px solid"}
+                  borderColor={"gray.200"}
+                  boxShadow={"md"}
+                  p={5}
+                >
                   {item.hasMember && (
-                    <MembersTable data={item.hasMember} />
+                    <MembersTable
+                      data={item.hasMember}
+                    />
                   )}
                 </GridItem>
 
-                {item.mentions && (
+
+                {(item.hasFile || item.link) && (
                   <GridItem
                     colSpan={[6, null, 3]}
                   >
-                    <Heading size={'lg'} mb={5}>Forbundet med</Heading>
+
                     <Box
                       borderRadius={"8"}
                       border={"1px solid"}
@@ -273,14 +267,40 @@ export default function Person({ data }) {
                       boxShadow={"md"}
                       p={5}
                     >
-                      <List>
-                        {item.mentions.map(item => (
-                          <ListItem key={item.id}>
-                            {item.label}
-                          </ListItem>
-                        ))}
-                      </List>
+                      {(item.hasFile || item.link) && (
+                        <>
+                          <Heading as="h2" size={"md"} my={4} borderBottom={"1px solid"} fontWeight={"light"}>Ressurser</Heading>
+                          {item.link && (
+                            <Links links={item.link} />
+                          )}
+
+                          {item.hasFile && (
+                            <Files files={item.hasFile} />
+                          )}
+                        </>
+                      )}
                     </Box>
+                  </GridItem>
+                )}
+
+
+                {item.mentions && (
+                  <GridItem
+                    colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
+                  >
+                    <Heading size={'lg'} mb={5}>Forbundet med</Heading>
+                    <List>
+                      {item.mentions.map(item => (
+                        <ListItem key={item.id}>
+                          {item.label}
+                        </ListItem>
+                      ))}
+                    </List>
                   </GridItem>
                 )}
 

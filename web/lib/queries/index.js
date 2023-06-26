@@ -796,6 +796,13 @@ export const groupQuery = groq`{
     image,
     "period": timespan.edtf,
     referredToBy[],
+    link,
+    hasFile[] {
+      _key,
+      label,
+      "url": accessPoint.asset -> url,
+      "extension": accessPoint.asset -> extension
+    },
     subGroupOf|order(label)[]-> {
       "id": _id,
       hasType[]-> {

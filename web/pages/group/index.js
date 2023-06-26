@@ -191,20 +191,20 @@ export default function Groups({ data }) {
 
         <Tabs isLazy colorScheme='green' my={10}>
           <TabList>
-            <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
             <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>
+            <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
           </TabList>
 
           <TabPanels mt={3}>
             <TabPanel>
               <Box my={5}>
-                <TreeList value={tree} />
+                <DataTable size='sm' columns={columns} data={list} />
               </Box>
             </TabPanel>
 
             <TabPanel>
               <Box my={5}>
-                <DataTable size='sm' columns={columns} data={list} />
+                <TreeList value={tree} />
               </Box>
             </TabPanel>
           </TabPanels>

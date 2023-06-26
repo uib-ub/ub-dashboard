@@ -206,7 +206,7 @@ const CurrentOrFormerManagerOfTable = ({ data }) => {
       Header: "Navn",
       accessor: "label",
       Cell: ({ row }) => (
-        <Link href={`/actor/${row.values.id}`}>
+        <Link href={`/software/${row.values.id}`}>
           {row.values.label}
         </Link>
       )
@@ -234,7 +234,7 @@ const CurrentOrFormerManagerOfTable = ({ data }) => {
 
   return (
     <>
-      <Heading size={'lg'} mb={5}>Forvaltningsansvar for:</Heading>
+      <Heading size={'lg'} mb={5}>Forvaltningsansvar</Heading>
       <DataTable size='sm' columns={columns} data={data} />
     </>
   )
@@ -301,6 +301,7 @@ export default function Person({ data }) {
           <TabList>
             <Tab><Icon as={MdDashboard} mr={2} /> Oversikt</Tab>
             <Tab><Icon as={GrHistory} mr={2} /> Historikk</Tab>
+            <Spacer />
             <Tab><Icon as={GrCode} mr={2} /> Data</Tab>
           </TabList>
 
@@ -311,21 +312,14 @@ export default function Person({ data }) {
                 gap={5}
                 templateColumns='repeat(6, 1fr)'
               >
-
-
-                {item.referredToBy && (
-                  <GridItem
-                    colSpan={[6]}
-                  >
-                    <Container>
-                      <AbstractWidget value={item.referredToBy[0].body} />
-                    </Container>
-                  </GridItem>
-                )}
-
                 {item.currentOrFormerManagerOf && (
                   <GridItem
                     colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
                   >
                     <CurrentOrFormerManagerOfTable data={item.currentOrFormerManagerOf} />
                   </GridItem>
@@ -334,50 +328,62 @@ export default function Person({ data }) {
                 {item.hasSkill && (
                   <GridItem
                     colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
                   >
                     <Heading size={'lg'} mb={5}>Kompetanse</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      p={5}
-                    >
-                      <DataTable columns={columns} data={item.hasSkill} size="sm" />
-                    </Box>
+                    <DataTable columns={columns} data={item.hasSkill} size="sm" />
                   </GridItem>
                 )}
 
                 {item.memberOf && (
                   <GridItem
                     colSpan={[6]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
                   >
                     <MemberOfTable data={item.memberOf} />
                   </GridItem>
                 )}
 
-                {/*  {item.mentions && (
+                {item.referredToBy && (
+                  <GridItem
+                    colSpan={[3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
+                  >
+                    <AbstractWidget value={item.referredToBy[0].body} />
+                  </GridItem>
+                )}
+
+                {item.mentions && (
                   <GridItem
                     colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p={5}
                   >
                     <Heading size={'lg'} mb={5}>Forbundet med</Heading>
-                    <Box
-                      borderRadius={"8"}
-                      border={"1px solid"}
-                      borderColor={"gray.200"}
-                      boxShadow={"md"}
-                      p={5}
-                    >
-                      <List>
-                        {item.mentions.map(item => (
-                          <ListItem key={item.id}>
-                            {item.label}
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Box>
+                    <List>
+                      {item.mentions.map(item => (
+                        <ListItem key={item.id}>
+                          {item.label}
+                        </ListItem>
+                      ))}
+                    </List>
                   </GridItem>
-                )} */}
+                )}
               </Grid>
             </TabPanel>
 
