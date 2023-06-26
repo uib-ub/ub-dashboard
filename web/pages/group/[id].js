@@ -129,7 +129,7 @@ const MembersTable = ({ data }) => {
   return (
     <>
       <Flex align={'baseline'} mb={5}>
-        <Heading size={'lg'}>Medlem av</Heading>
+        <Heading size={'lg'}>Medlemmer</Heading>
         {data.some(m => m.retired === true) && (
           <Button size={'sm'} ml={3} onClick={() => handleActiveFilter()}>
             {activeFilter ? 'Vis inaktive medlemmer' : 'Vis aktive medlemmer'}
