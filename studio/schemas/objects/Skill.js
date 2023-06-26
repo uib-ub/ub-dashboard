@@ -16,6 +16,7 @@ export default {
         { type: 'CompetenceType' },
         { type: 'ProgrammingLanguage' },
         { type: 'Software' },
+        { type: 'VolatileSoftware' },
       ],
       validation: Rule => Rule.required()
     },
