@@ -4,8 +4,8 @@ import { defaultFieldsets } from '../fieldsets'
 export default {
   name: 'Skill',
   type: 'object',
-  title: 'Identifikator',
-  titleEN: 'Identifier',
+  title: 'Ferdighet',
+  titleEN: 'Skill',
   fieldsets: defaultFieldsets,
   fields: [
     {
@@ -34,7 +34,10 @@ export default {
       },
       validation: Rule => Rule.required()
     },
-    shortDescription,
+    {
+      ...shortDescription,
+      description: "Hva er din erfaring med denne kompetansen?"
+    },
   ],
   preview: {
     select: {
