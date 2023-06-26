@@ -158,7 +158,7 @@ export default function Projects({ data }) {
         </Heading>
         <Text fontSize={"2xl"}>Prosjekt-oversikten inkluderer også prosjekt UB-dev ikke har vært involvert i, men som vi har en kobling til på en eller annen måte.</Text>
 
-        <Tabs lazy colorScheme='green' my={10}>
+        <Tabs isLazy colorScheme='green' my={10}>
           <TabList>
             <Tab><Icon as={BsCardHeading} mr={2} /> Kort</Tab>
             <Tab><Icon as={BsListUl} mr={2} /> Liste</Tab>

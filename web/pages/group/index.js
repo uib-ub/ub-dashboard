@@ -42,6 +42,7 @@ const allActor = groq`{
             "id": assignedActor->._id,
             "label": assignedActor->.label,
             "timespan": timespan.edtf,
+            "role": assignedRole[]->label,
           }
         }
       }
@@ -76,24 +77,28 @@ const TreeListItem = ({ value }) => {
           <Tag key={index} size='sm'>{type.label}</Tag>
         ))}
       </Flex>
-      <UnorderedList>
-        {value.children.map(child => (
-          <TreeListItem key={child._key} value={child} />
-        ))}
-      </UnorderedList>
-
       {/* Add a list with group members */}
-      <UnorderedList>
-        {value.data.value.reference.hasMember && value.data.value.reference.hasMember.map(member => (
-          <ListItem key={member.id}>
-            <Heading size={'sm'}>
+      <UnorderedList ml={12}>
+        {value.data.value.reference.hasMember && value.data.value.reference.hasMember.map((member, index) => (
+          <ListItem key={value.data.value.reference.id + member.id + index}>
+            <Heading size={'sm'} fontWeight={'light'}>
               <Link href={`/actor/${member.id}`}>
                 {member.label}
               </Link>
+              {(member.timespan !== null && (member.role !== null && member.role?.length > 0)) ? ` (${member.role.join(', ')}, ${member.timespan})` : null}
+              {(member.timespan !== null && (member.role !== null && member.role?.length === 0)) ? ` (${member.timespan})` : null}
+              {(member.timespan === null && (member.role !== null && member.role?.length > 0)) ? ` (${member.role.join(', ')})` : null}
             </Heading>
           </ListItem>
         ))}
       </UnorderedList>
+
+      <UnorderedList>
+        {value.children.map(child => (
+          <TreeListItem key={child.data._key} value={child} />
+        ))}
+      </UnorderedList>
+
     </ListItem>
   )
 }
@@ -184,7 +189,7 @@ export default function Groups({ data }) {
           Grupper
         </Heading>
 
-        <Tabs lazy colorScheme='green' my={10}>
+        <Tabs isLazy colorScheme='green' my={10}>
           <TabList>
             <Tab><Icon as={GrHistory} mr={2} /> Hierarki</Tab>
             <Tab><Icon as={MdDashboard} mr={2} /> Liste</Tab>

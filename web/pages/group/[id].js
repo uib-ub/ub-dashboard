@@ -3,14 +3,14 @@ import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, SimpleGrid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { PortableText } from "../../lib/sanity"
 import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
-import { GrHistory, GrCode } from 'react-icons/gr'
+import { GrHistory, GrCode, GrFormEdit } from 'react-icons/gr'
 import MissingBlock from "../../components/Widgets/MissingBlock"
 import { flatMap, groupBy, sortBy } from "lodash-es"
 import Link from "../../components/Link"
@@ -25,6 +25,8 @@ const MilestonesWithoutSSR = dynamic(
   () => import('../../components/Timeline/MilestonesComponent'),
   { ssr: false }
 )
+
+const studio = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL
 
 const allActorsQuery = groq`
   *[_type in ['Group', 'Team']] {
@@ -58,28 +60,91 @@ export async function getStaticProps({ params, preview = false }) {
   }
 }
 
-const columns = [
-  {
-    Header: "Felt",
-    accessor: "label",
-  },
-  {
-    Header: "Nivå (1-10)",
-    accessor: "level",
-    Cell: ({ row }) => (
-      <Flex columnGap={1} alignItems="center">
-        {[...Array(10)].map((x, i) =>
-          <Box w={5} h={2} key={i} borderRadius={'25%'} bg={row.values.level > i ? colors[i] : 'gray.200'} />
-        )}
-        {row.values.level === 10 &&
-          <Icon as={FaHatWizard} ml={2} color={'green.900'} />
-        }
-      </Flex>
-    )
-  },
-];
+const MembersTable = ({ data }) => {
+  const [activeFilter, setActiveFilter] = useState(checkMembership(data ?? []))
+  const columns = [
+    {
+      Header: "",
+      accessor: "image",
+      isVisible: 'false'
+    },
+    {
+      Header: "Navn",
+      accessor: "assignedActor",
+      Cell: ({ row }) => (
+        <Flex columnGap={3} alignItems={'center'}>
+          {row.values.image ? (
+            <Image
+              border={'solid #eee 1px'}
+              borderRadius='full'
+              src={urlFor(row.values.assignedActor.image).url()}
+              boxSize='30px'
+              objectFit='cover'
+              alt=''
+            />
+          ) :
+            <Icon viewBox='0 0 200 200' w={'30px'} h={'30px'} color='gray.200'>
+              <path
+                fill='currentColor'
+                d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+              />
+            </Icon>
+          }
+          <Link href={`/actor/${row.values.assignedActor.id}`}>
+            {row.values.assignedActor.label}
+          </Link>
+        </Flex>
+      )
+    },
+    {
+      Header: "Rolle",
+      accessor: "assignedRole",
+      Cell: ({ row }) => (
+        <>{row.values.assignedRole?.map(role =>
+          role.label
+        )}</>
+      )
+    },
+    {
+      Header: "Periode",
+      accessor: "timespan"
+    },
+    {
+      Header: "",
+      accessor: "id",
+      Cell: ({ row }) => (
+        <a href={`${studio}/desk/intent/edit/id=${row.values.id}`} target={'_blank'} rel={'noreferrer'}>
+          <Button leftIcon={<Icon as={GrFormEdit} />} size={'sm'}>
+            Redigér
+          </Button>
+        </a>
+      )
+    },
+  ];
 
-const checkMembers = (arr) => {
+  const handleActiveFilter = () => {
+    setActiveFilter(!activeFilter)
+  }
+
+  return (
+    <>
+      <Flex align={'baseline'} mb={5}>
+        <Heading size={'lg'}>Medlem av</Heading>
+        {data.some(m => m.retired === true) && (
+          <Button size={'sm'} ml={3} onClick={() => handleActiveFilter()}>
+            {activeFilter ? 'Vis inaktive medlemmer' : 'Vis aktive medlemmer'}
+          </Button>
+        )}
+      </Flex>
+
+      <DataTable size='sm' columns={columns} data={data.filter(m => {
+        return activeFilter ? m.retired != true : m
+      })} />
+    </>
+  )
+}
+
+const checkMembership = (arr) => {
   if (arr.every(m => m.retired === true)) {
     return false
   }
@@ -90,7 +155,7 @@ const checkMembers = (arr) => {
 }
 
 export default function Person({ data }) {
-  const [activeFilter, setActiveFilter] = useState(checkMembers(data.item.hasMember ?? []))
+  const [activeFilter, setActiveFilter] = useState(checkMembership(data.item.hasMember ?? []))
 
   const { width, height } = useWindowSize()
   const { item, milestones } = data
@@ -149,72 +214,64 @@ export default function Person({ data }) {
                 templateColumns='repeat(6, 1fr)'
               >
 
-                {(item.subGroupOf?.length > 0 || item.hasSubGroup?.length > 0 || item.hasMember) && (
+                {(item.subGroupOf?.length > 0) && (
                   <GridItem
-                    colSpan={6}
+                    colSpan={3}
                     display={{ base: 'none', md: 'inherit' }}
                   >
-                    {item.subGroupOf && (
-                      <>
-                        <Heading size={'lg'} mb={5}>Del av</Heading>
-                        <Wrap maxW={'full'}>
-                          {item.subGroupOf.map(group => (
-                            <WrapItem key={group.id} pr={4} pb={4}>
-                              <Flex>
-                                <Avatar size='sm' name={group.label} />
+                    <Heading size={'lg'} mb={5}>Del av</Heading>
+                    <Wrap maxW={'full'}>
+                      {item.subGroupOf.map(group => (
+                        <WrapItem key={group.id} pr={4} pb={4}>
+                          <Flex>
+                            <Avatar size='sm' name={group.label} />
 
-                                <Box ml="3">
-                                  <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/group/${group.id}`}>
-                                      {group.label}
-                                    </Link>
-                                  </Text>
-                                </Box>
-                              </Flex>
-                            </WrapItem>
-                          ))}
-                        </Wrap>
-                      </>
-                    )}
-
-                    {item.hasMember && (
-                      <>
-                        <Flex>
-                          <Heading size={'lg'} mb={5}>Medlemmer</Heading>
-                          {(!item.hasMember.every(m => m.retired === true)) && (<Button size={'xs'} ml={3} onClick={() => handleActiveFilter()}>{activeFilter ? 'Vis tidligere medlemmer' : 'Vis aktive'}</Button>)}
-                        </Flex>
-                        {item.hasMember && (
-                          <Participants participants={item.hasMember.filter(m => {
-                            return activeFilter ? m.retired != true : m
-                          })} />
-                        )}
-                      </>
-                    )}
-
-                    {item.hasSubGroup && (
-                      <>
-                        <Heading size={'lg'} mb={5}>Har undergrupper</Heading>
-                        <Wrap maxW={'full'}>
-                          {item.hasSubGroup.map(group => (
-                            <WrapItem key={group.id} pr={4} pb={4}>
-                              <Flex>
-                                <Avatar size='sm' name={group.label} />
-
-                                <Box ml="3">
-                                  <Text fontWeight='bold' my={"0"}>
-                                    <Link href={`/group/${group.id}`}>
-                                      {group.label}
-                                    </Link>
-                                  </Text>
-                                </Box>
-                              </Flex>
-                            </WrapItem>
-                          ))}
-                        </Wrap>
-                      </>
-                    )}
+                            <Box ml="3">
+                              <Text fontWeight='bold' my={"0"}>
+                                <Link href={`/group/${group.id}`}>
+                                  {group.label}
+                                </Link>
+                              </Text>
+                            </Box>
+                          </Flex>
+                        </WrapItem>
+                      ))}
+                    </Wrap>
                   </GridItem>
                 )}
+
+                {item.hasSubGroup && (
+                  <GridItem
+                    colSpan={3}
+                    display={{ base: 'none', md: 'inherit' }}
+                  >
+
+                    <Heading size={'lg'} mb={5}>Har undergrupper</Heading>
+                    <Wrap maxW={'full'}>
+                      {item.hasSubGroup.map(group => (
+                        <WrapItem key={group.id} pr={4} pb={4}>
+                          <Flex>
+                            <Avatar size='sm' name={group.label} />
+
+                            <Box ml="3">
+                              <Text fontWeight='bold' my={"0"}>
+                                <Link href={`/group/${group.id}`}>
+                                  {group.label}
+                                </Link>
+                              </Text>
+                            </Box>
+                          </Flex>
+                        </WrapItem>
+                      ))}
+                    </Wrap>
+                  </GridItem>
+                )}
+
+                <GridItem colSpan={[6]}>
+                  {item.hasMember && (
+                    <MembersTable data={item.hasMember} />
+                  )}
+                </GridItem>
 
                 {item.mentions && (
                   <GridItem
