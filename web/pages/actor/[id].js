@@ -137,6 +137,23 @@ const MemberOfTable = ({ data }) => {
       )
     },
     {
+      Header: "Rolle",
+      accessor: "hasMember",
+      Cell: ({ row }) => (
+        <Flex rowGap={3} direction="column">
+          {row.values.hasMember?.map((t, i) => (
+            <Box key={i}>
+              {t.assignedRole?.map((r, i) => (
+                <Tag key={i} size={'sm'} variant='solid' colorScheme='gray'>
+                  {r.label} {t.timespan ? `(${t.timespan})` : null}
+                </Tag>
+              ))}
+            </Box>
+          ))}
+        </Flex>
+      )
+    },
+    {
       Header: "Type",
       accessor: "hasType",
       Cell: ({ row }) => (
@@ -174,15 +191,14 @@ const MemberOfTable = ({ data }) => {
     <>
       <Flex align={'baseline'} mb={5}>
         <Heading size={'lg'}>Medlem av</Heading>
-        {data.some(m => m.retired === true) && (
+        {data.some(m => m.active === true) && (
           <Button size={'sm'} ml={3} onClick={() => handleActiveFilter()}>
             {activeFilter ? 'Vis inaktive grupper' : 'Vis aktive'}
           </Button>
         )}
       </Flex>
-
       <DataTable size='sm' columns={columns} data={data.filter(m => {
-        return activeFilter ? m.retired != true : m
+        return activeFilter ? m.active != true : m
       })} />
     </>
   )
@@ -230,10 +246,10 @@ const CurrentOrFormerManagerOfTable = ({ data }) => {
 
 
 const checkMembership = (arr) => {
-  if (arr.every(m => m.retired === true)) {
+  if (arr.every(m => m.active === true)) {
     return false
   }
-  if (!arr.every(m => m.retired === true) && arr.some(m => m.retired === true)) {
+  if (!arr.every(m => m.active === true) && arr.some(m => m.active === true)) {
     return true
   }
   return false

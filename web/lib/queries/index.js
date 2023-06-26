@@ -745,29 +745,22 @@ export const actorQuery = groq`{
         "id": _id,
         label
       },
+      hasMember[assignedActor._ref == $id] {
+        assignedRole[]-> {
+          "id": _id,
+          label,
+        },
+        "timespan": timespan.edtf,
+        defined(timespan.endOfTheEnd) == true => {
+          "retired": true 
+        }
+      },
       "timespan": timespan.edtf,
-      "retired": false,
+      "active": false,
       timespan.endOfTheEnd <= now() => {
-        "retired": true 
+        "active": true 
       }
     },  
-    hasMember[] {
-      assignedActor-> {
-        "id": _id,
-        "type": _type,
-        label,
-      },
-      assignedRole[]-> {
-        "id": _id,
-        "type": _type,
-        label,
-      },
-      "timespan": timespan.edtf,
-      "retired": false,
-      timespan.endOfTheEnd <= now() => {
-        "retired": true 
-      }
-    }
   },
   "milestones": [
     ...* [_id == $id] | order(timespan.beginOfTheBegin asc)  {
