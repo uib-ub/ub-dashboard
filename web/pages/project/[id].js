@@ -23,7 +23,6 @@ import MissingBlock from "../../components/Widgets/MissingBlock"
 import { GrHistory } from "react-icons/gr"
 import { AiOutlineTeam } from "react-icons/ai"
 import AbstractWidget from '../../components/Widgets/AbstractWidget'
-import CurrentMembersWidget from '../../components/Widgets/CurrentMembersWidget'
 import { VscFileCode } from 'react-icons/vsc'
 import ItemDataWidget from '../../components/Widgets/ItemDataWidget'
 import HasType from "../../components/Props/HasType"
@@ -130,6 +129,11 @@ export default function Project({ data }) {
                 {(item.carriedOutBy || item.hadParticipant) && (
                   <GridItem
                     colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p="5"
                   >
                     <Heading size={'lg'} mb={5}>Institusjoner</Heading>
                     {item.carriedOutBy && (
@@ -180,6 +184,11 @@ export default function Project({ data }) {
                 {item.hasTeam && item.hasTeam.map(team => (
                   <GridItem
                     colSpan={[6]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p="5"
                   >
                     <Team key={team.id} data={team} />
                   </GridItem>
@@ -205,26 +214,31 @@ export default function Project({ data }) {
                     colSpan={6}
                     display={{ base: 'none', md: 'inherit' }}
                   >
-                    <Heading size={'lg'} mb={5}>Tidslinje</Heading>
                     <Box
                       w="100%"
+                      borderRadius={"8"}
+                      border={"1px solid"}
+                      borderColor={"gray.200"}
+                      boxShadow={"md"}
+                      p="5"
                     >
+                      <Heading size={'lg'} mb={5}>Tidslinje</Heading>
                       <MilestonesWithoutSSR
                         data={flattenedMilestones}
-                        pattern
-                        // p="5"
-                        pb="10"
-                        borderRadius={"8"}
-                        border={"1px solid"}
-                        borderColor={"gray.200"}
-                        boxShadow={"md"}
                       />
                     </Box>
                   </GridItem>
                 )}
 
                 {item.referredToBy && (
-                  <GridItem colSpan={[6, null, 3]}>
+                  <GridItem
+                    colSpan={[6, null, 3]}
+                    borderRadius={"8"}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    boxShadow={"md"}
+                    p="5"
+                  >
                     <AbstractWidget value={item.referredToBy[0].body} />
                   </GridItem>
                 )}

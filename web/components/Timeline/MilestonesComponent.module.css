@@ -1,7 +1,0 @@
-.background {
-  background-color: #f9f9fd;
-  opacity: 1;
-  background-image:  linear-gradient(#ccdfe0 1.4000000000000001px, transparent 1.4000000000000001px), linear-gradient(90deg, #a3ebf0 1.4000000000000001px, transparent 1.4000000000000001px), linear-gradient(#87dee5 0.7000000000000001px, transparent 0.7000000000000001px), linear-gradient(90deg, #87dee5 0.7000000000000001px, #f9f9fd 0.7000000000000001px);
-  background-size: 35px 35px, 35px 35px, 7px 7px, 7px 7px;
-  background-position: -1.4000000000000001px -1.4000000000000001px, -1.4000000000000001px -1.4000000000000001px, -0.7000000000000001px -0.7000000000000001px, -0.7000000000000001px -0.7000000000000001px;
-}

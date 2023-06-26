@@ -37,7 +37,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.0",
-    "react-milestones-vis": "^0.3.4-node14",
+    "react-milestones-vis": "^0.6.5",
     "react-resize-detector": "^7.0.0",
     "react-table": "^7.7.0",
     "react-use": "^17.3.2",

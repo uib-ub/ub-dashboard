@@ -1,16 +1,13 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 import { Milestones } from 'react-milestones-vis/'
-import styles from './MilestonesComponent.module.css'
 
-const MilestonesComponent = ({ data, mapping, width, pattern, ...rest }) => {
+const MilestonesComponent = ({ data, mapping, width, ...rest }) => {
   return (
     <Box
       w={"full"}
       overflowX={width ? "scroll" : ''}
       position={"relative"}
-      className={pattern ? styles.background : ''}
-      shadow={"md"}
       {...rest}
     >
       <Box w={width} className='timelines' p={"5"}>
