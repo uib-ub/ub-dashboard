@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
@@ -419,7 +418,7 @@ export default function Person({ data }) {
                       >
                         {key}
                       </ListItem>
-                      {value.reverce().map(e => (
+                      {value.reverse().map(e => (
                         <ListItem
                           key={e.key}
                           display={'flex'}
@@ -453,7 +452,7 @@ export default function Person({ data }) {
                             px={4}
                             borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}
                           >
-                            <Text>I've sent him the assignment we discussed recently, he is coming back to us this week. Regarding to our last call, I really enjoyed talking to him and so far he has the profile we are looking for. Can't wait to see his technical test, I'll keep you posted and we'll debrief it all together!😊</Text>
+                            <Text>{e.description}</Text>
                           </Box>)}
                         </ListItem>
                       ))}
