@@ -2,14 +2,14 @@ import React, { useState } from "react"
 import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
-import { Box, Container, Flex, Heading, Grid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image, UnorderedList, ListIcon } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Image, UnorderedList, ListIcon, OrderedList, useColorMode } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { groupQuery } from "../../lib/queries"
 import ItemHeader from "../../components/Props/ItemHeader"
 import { MdDashboard } from 'react-icons/md'
 import { BiSubdirectoryRight } from 'react-icons/bi'
-import { GrHistory, GrCode, GrFormEdit } from 'react-icons/gr'
+import { GrHistory, GrCode, GrCalendar } from 'react-icons/gr'
 import { flatMap, groupBy, sortBy } from "lodash-es"
 import Link from "../../components/Link"
 import { DataTable } from "../../components/DataTable"
@@ -137,6 +137,7 @@ const checkMembership = (arr) => {
 }
 
 export default function Person({ data }) {
+  const { colorMode } = useColorMode()
   const [activeFilter, setActiveFilter] = useState(checkMembership(data.item.hasMember ?? []))
   const { item, milestones } = data
   const flattenedMilestones = cleanDeep(flatMap(milestones.map(e => e.entries)))
@@ -320,26 +321,70 @@ export default function Person({ data }) {
               >
                 {groupedByYear && Object.entries(groupedByYear).reverse().map(([key, value]) => (
                   <section key={key}>
-                    <Grid templateColumns={'1fr 8fr'} gap={"5"} mb={"10"}>
-                      <Heading as={'h2'}>{key}</Heading>
-                      <Grid templateColumns={'1fr 1fr 1fr 1fr'} gap={5} maxW="full">
+                    <OrderedList
+                      borderLeft={'solid #ccc 1px'}
+                      listStyleType={'none'}
+                      display={'flex'}
+                      flexDirection={'column'}
+                      gap={4}
+                    >
+                      <ListItem
+                        display={'flex'}
+                        alignItems={'center'}
+                        flexWrap={'wrap'}
+                        bgColor={colorMode === 'light' ? '#fff' : 'rgb(26, 32, 44)'}
+                        borderRadius={'sm'}
+                        px={1}
+                        pt={1}
+                        w={'fit-content'}
+                        fontWeight={'bold'}
+                        color={'gray.500'}
+                        ml={'-22px'}
+                        transform={'translateY(8px)'}
+                        justifyContent={'center'}
+                        boxShadow={colorMode === 'light' ? '0 0 0 8px #fff' : '0 0 0 8px rgb(26, 32, 44)'}
+                      >
+                        {key}
+                      </ListItem>
+                      {value.reverse().map(e => (
+                        <ListItem
+                          key={e.key}
+                          display={'flex'}
+                          gap={2}
+                          alignItems={'start'}
+                        >
+                          <ListIcon
+                            as={GrCalendar}
+                            bgColor={'red.400'}
+                            borderRadius={'full'}
+                            p={'2px'}
+                            w={7}
+                            h={7}
+                            ml={'-14px'}
+                            boxShadow={colorMode === 'light' ? '0 0 0 10px #fff' : '0 0 0 10px rgb(26, 32, 44)'}
+                          />
 
-                        {value.map(e => (
-                          <GridItem
-                            key={e.timestamp}
-                            p={5}
-                            borderRadius={"8"}
-                            border={"1px solid"}
-                            borderColor={"gray.200"}
-                            boxShadow={"md"}
+                          <Flex direction={'column'}>
+                            <Text fontWeight={'semibold'} m={0}>
+                              {e.text}
+                            </Text>
+                            <Box color={'gray.500'}>
+                              <time>{e.timestamp}</time>
+                            </Box>
+                          </Flex>
+                          {e.description && (<Box
+                            w={'full'}
+                            ml={10}
+                            border={'1px solid'}
+                            borderRadius={'lg'}
+                            px={4}
+                            borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}
                           >
-                            <Tag>{e.period}</Tag>
-                            <Heading as={'h3'} size={'sm'}>{e.text}</Heading>
-                            {/* <pre>{JSON.stringify(e, null, 2)}</pre> */}
-                          </GridItem>
-                        ))}
-                      </Grid>
-                    </Grid>
+                            <Text>I've sent him the assignment we discussed recently, he is coming back to us this week. Regarding to our last call, I really enjoyed talking to him and so far he has the profile we are looking for. Can't wait to see his technical test, I'll keep you posted and we'll debrief it all together!😊</Text>
+                          </Box>)}
+                        </ListItem>
+                      ))}
+                    </OrderedList>
                   </section>
                 ))}
               </Grid>
