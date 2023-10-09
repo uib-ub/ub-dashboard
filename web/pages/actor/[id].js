@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { groq } from 'next-sanity'
 import { getClient } from '../../lib/sanity.server'
 import useWindowSize from 'react-use/lib/useWindowSize'
-import { Box, Container, Flex, Heading, Grid, SimpleGrid, Image, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, VStack, Spacer, Wrap, WrapItem, Avatar, Text, Button, Badge, Breadcrumb, BreadcrumbItem, BreadcrumbLink, OrderedList, ListIcon, useColorMode } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Grid, Image, Tag, Icon, Tabs, TabList, TabPanels, Tab, TabPanel, GridItem, List, ListItem, Spacer, Text, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink, OrderedList, ListIcon, useColorMode } from '@chakra-ui/react'
 import cleanDeep from 'clean-deep'
 import Layout from "../../components/Layout"
 import { actorQuery } from "../../lib/queries"
@@ -194,7 +194,7 @@ const MemberOfTable = ({ data }) => {
         )}
       </Flex>
       <DataTable size='sm' columns={columns} data={data.filter(m => {
-        return activeFilter ? m.active != true : m
+        return activeFilter ? m.active !== true : m
       })} />
     </>
   )
