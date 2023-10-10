@@ -1,3 +1,0 @@
-{
-  "query": "*[!(_type in [\"Role\", \"Concept\", \"system.group\", \"system.listener\"]) ] { ..., \"title\": coalesce(label, label.no) }"
-}
