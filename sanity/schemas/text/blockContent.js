@@ -33,10 +33,8 @@ export const blockContent = {
           {
             title: 'Highlight',
             value: 'highlight',
-            blockEditor: {
-              icon: highlightIcon,
-              render: highlightRender,
-            },
+            icon: highlightIcon,
+            component: highlightRender,
           },
           { title: 'Code', value: 'code' },
         ],
@@ -45,9 +43,7 @@ export const blockContent = {
             name: 'link',
             type: 'object',
             title: 'External link',
-            blockEditor: {
-              render: ExternalLinkRenderer
-            },
+            component: ExternalLinkRenderer,
             fields: [
               {
                 name: 'href',
@@ -67,9 +63,7 @@ export const blockContent = {
             name: 'internalLink',
             type: 'object',
             title: 'Internal link',
-            blockEditor: {
-              icon: FaPaperclip
-            },
+            icon: FaPaperclip,
             fields: [
               {
                 name: 'reference',
@@ -91,10 +85,8 @@ export const blockContent = {
             name: 'footnote',
             type: 'object',
             title: 'Footnote',
-            blockEditor: {
-              icon: footnoteIcon,
-              render: FootnoteRenderer
-            },
+            icon: footnoteIcon,
+            component: FootnoteRenderer,
             fields: [
               {
                 name: 'text',
