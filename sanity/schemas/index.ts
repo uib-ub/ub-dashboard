@@ -143,3 +143,13 @@ export const schemaTypes = [
   Table,
   Video,
 ]
+
+export const PREVIEWABLE_DOCUMENT_TYPES = [
+  Actor.name,
+  Group.name
+] satisfies string[]
+
+export const PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS = [
+  Actor.name,
+  Group.name
+] satisfies string[]
