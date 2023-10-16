@@ -3,14 +3,13 @@
  */
 
 import { visionTool } from '@sanity/vision'
-import { defineConfig, SanityDocument } from 'sanity'
+import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { dashboardTool } from "@sanity/dashboard";
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import { apiVersion, dataset, projectId, previewSecretId } from './sanity/env'
+import { apiVersion, dataset, projectId, previewSecretId } from '@/sanity/env'
 
 import Iframe, {
-  defineUrlResolver,
   IframeOptions,
 } from 'sanity-plugin-iframe-pane'
 import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
@@ -18,27 +17,19 @@ import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
 import { timespanInput } from '@seidhr/sanity-plugin-timespan-input'
 import { codeInput } from '@sanity/code-input'
 import { table } from '@sanity/table';
-import { schema } from './sanity/schema'
-import { deskStructure } from './sanity/deskStructure'
-import { dashboardConfig } from './sanity/dashboard'
+import { schema } from '@/sanity/schema'
+import { deskStructure } from '@/sanity/deskStructure'
+import { dashboardConfig } from '@/sanity/dashboard'
 import { PREVIEWABLE_DOCUMENT_TYPES, PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS } from '@/schemas';
+import { defineUrlResolver, PREVIEW_BASE_URL } from '@/sanity/lib/utils';
 
-// Used to generate URLs for drafts and live previews
-export const PREVIEW_BASE_URL = '/api/draft'
-
-/* export const urlResolver = defineUrlResolver({
+export const urlResolver = defineUrlResolver({
   base: PREVIEW_BASE_URL,
   requiresSlug: PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS,
-}) */
-
-function getPreviewUrl(doc: SanityDocument) {
-  return doc?._id
-    ? `http://localhost:3002${PREVIEW_BASE_URL}?slug=${doc._id}`
-    : `http://localhost:3002`
-}
+})
 
 export const iframeOptions = {
-  url: getPreviewUrl,
+  url: urlResolver,
   urlSecretId: previewSecretId,
 } satisfies IframeOptions
 

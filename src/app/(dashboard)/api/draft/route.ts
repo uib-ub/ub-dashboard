@@ -1,21 +1,19 @@
 import { previewSecretId } from '@/sanity/env'
 import { client } from '@/sanity/lib/client'
 import { token } from '@/sanity/lib/fetch'
-console.log("🚀 ~ file: route.ts:4 ~ token:", token)
 import { resolveHref } from '@/sanity/lib/links'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { isValidSecret } from 'sanity-plugin-iframe-pane/is-valid-secret'
 
-export const runtime = 'edge'
+// @TODO: Remove this once the `runtime` property is supported in the `next` adapter
+// export const runtime = 'edge'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug')
-  console.log("🚀 ~ file: route.ts:16 ~ GET ~ slug:", slug)
   const documentType = searchParams.get('type')
-  console.log("🚀 ~ file: route.ts:18 ~ GET ~ documentType:", documentType)
 
   if (!token) {
     throw new Error(
@@ -44,7 +42,6 @@ export async function GET(request: Request) {
     )
   }
 
-  draftMode().enable()
-
+  await draftMode().enable()
   redirect(href)
 }

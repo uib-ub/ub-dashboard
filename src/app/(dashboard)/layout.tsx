@@ -1,12 +1,12 @@
 import { ThemeProvider } from '@/components/providers/theme-provider'
-import '../globals.css'
+import '@/app/globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SessionProvider from '@/components/providers/session-provider'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import dynamic from 'next/dynamic'
 import { draftMode } from 'next/headers'
-import { token } from '../../../sanity/lib/fetch'
+import { token } from '@/sanity/lib/fetch'
 import { Header } from '@/components/header'
 import { PreviewIndicator } from '@/components/preview-indicator'
 import { Suspense } from 'react'
@@ -25,6 +25,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const isDraft = draftMode().isEnabled
+  console.log("🚀 ~ file: layout.tsx:29 ~ isDraft:", isDraft)
   return (
     <html lang="no" suppressHydrationWarning>
       <body className={inter.className}>
