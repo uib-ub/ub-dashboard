@@ -1,13 +1,13 @@
 "use client"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
-import { PersonProps } from '../persons'
+import { PersonListProps } from '../persons'
 import Link from "next/link"
 import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { Badge } from '@/components/ui/badge'
 
-export const columns: ColumnDef<PersonProps>[] = [
+export const columns: ColumnDef<PersonListProps>[] = [
   {
     accessorKey: "label",
     header: ({ column }) => {

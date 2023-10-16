@@ -5,7 +5,6 @@ export const Actor = {
   name: 'Actor',
   title: 'Person',
   type: 'document',
-  liveEdit: true,
   fields: [
     {
       ...labelSingleton,

@@ -62,7 +62,7 @@ const Timeline = ({ data }: { data: TimelineProps[] }) => {
   return (
     <ol className="relative border-l border-gray-200 dark:border-gray-700 my-4">
       {sortedByYear && Object.entries(sortedByYear).reverse().map(([key, value]) => (
-        <li key={value.id} className="mb-10 ml-4">
+        <li key={`${value.id}.${key}`} className="mb-10 ml-4">
           <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
           <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{value.timestamp}</time>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{value.label}</h3>

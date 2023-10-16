@@ -1,17 +1,16 @@
 import { MainShell } from '@/components/main-shell'
 import { LiveQuery } from 'next-sanity/preview/live-query'
 import { draftMode } from 'next/headers'
-import Person, { query } from './_components/person'
-import PreviewPerson from './_components/preview-person'
+import Group, { query, GroupProps } from './_components/group'
+import PreviewGroup from './_components/preview-group'
 import { sanityFetch } from '@/lib/fetch'
-import { PersonProps } from './_components/person'
 
-export default async function PersonPage({
+export default async function GroupPage({
   params,
 }: {
   params: any
 }) {
-  const data = await sanityFetch<PersonProps>({ query, params: { id: params.id }, tags: ['person', params.id] })
+  const data = await sanityFetch<GroupProps>({ query, params: { id: params.id }, tags: ['group', params.id] })
 
   return (
     <MainShell>
@@ -20,9 +19,9 @@ export default async function PersonPage({
         query={query}
         params={params}
         initialData={data}
-        as={PreviewPerson}
+        as={PreviewGroup}
       >
-        <Person data={data} />
+        <Group data={data} />
       </LiveQuery>
     </MainShell>
   )

@@ -22,19 +22,19 @@ export async function GET(request: Request) {
       'The `SANITY_API_READ_TOKEN` environment variable is required.',
     )
   }
-  /*  if (!secret) {
-     return new Response('Invalid secret', { status: 401 })
-   }
- 
-   const authenticatedClient = client.withConfig({ token })
-   const validSecret = await isValidSecret(
-     authenticatedClient,
-     previewSecretId,
-     secret,
-   )
-   if (!validSecret) {
-     return new Response('Invalid secret', { status: 401 })
-   } */
+  if (!secret) {
+    return new Response('Invalid secret', { status: 401 })
+  }
+
+  const authenticatedClient = client.withConfig({ token })
+  const validSecret = await isValidSecret(
+    authenticatedClient,
+    previewSecretId,
+    secret,
+  )
+  if (!validSecret) {
+    return new Response('Invalid secret', { status: 401 })
+  }
 
   const href = resolveHref(documentType!, slug!)
   if (!href) {
