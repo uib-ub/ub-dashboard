@@ -24,7 +24,7 @@
     "@sanity/table": "^1.0.1",
     "@sanity/ui": "^1.8.2",
     "@sanity/vision": "^3.17.0",
-    "@seidhr/sanity-plugin-timespan-input": "^3.0.0",
+    "@seidhr/sanity-plugin-timespan-input": "^3.0.1",
     "@tanstack/react-table": "^8.10.6",
     "capitalize": "^2.0.4",
     "class-variance-authority": "^0.7.0",
