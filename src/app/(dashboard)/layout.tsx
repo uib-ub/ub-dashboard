@@ -25,8 +25,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const isDraft = draftMode().isEnabled
-  console.log("🚀 ~ file: layout.tsx:29 ~ isDraft:", isDraft)
   return (
     <html lang="no" suppressHydrationWarning>
       <body className={inter.className}>
