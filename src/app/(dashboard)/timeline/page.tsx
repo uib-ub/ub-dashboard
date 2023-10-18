@@ -1,7 +1,7 @@
 import { draftMode } from 'next/headers'
 import { LiveQuery } from 'next-sanity/preview/live-query'
-import Timeline, { query } from './components/timeline'
-import PreviewPersons from './components/preview-timeline'
+import Timeline, { query } from './_components/timeline'
+import PreviewPersons from './_components/preview-timeline'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 

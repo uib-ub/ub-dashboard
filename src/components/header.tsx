@@ -17,11 +17,12 @@ export const Header = async () => {
 
   return (<header className="flex items-center px-4 py-2 border-b">
     <div className='flex items-center space-x-2'>
-      <div className='font-semibold lowercase mr-5'><Link href={`/`}>UB DASHBOARD</Link></div>
+      <div className='font-bold mr-5 dark:text-zinc-400'><Link href={`/`}>UB dashboard</Link></div>
       <MainNav />
     </div>
     <div className="ml-auto flex items-center space-x-2">
       <ThemeToggle />
+
       {Object.keys(session).length === 0 ? (
         <LoginButton />
       ) : (
