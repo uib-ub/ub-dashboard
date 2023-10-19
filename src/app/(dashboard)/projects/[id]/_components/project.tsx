@@ -127,13 +127,41 @@ export interface ProjectProps extends SanityDocument {
     label: string
   }[]
   quote: string
-  image: SanityImageAssetDocument
+  logo: SanityImageAssetDocument
   shortDescription: string
   period: string
   referredToBy: PortableTextBlock[]
-  hasMember: {
+  link: {
+    _key: string
+    label: string
+    url: string
+  }[]
+  continued: {
+    id: string
+    label: string
+  }[]
+  continuedBy: {
+    id: string
+    label: string
+  }[]
+  identifier: {
+    id: string
+    content: string
+    type: string
+  }[]
+  funding: {
+    id: string
+    type: string
+    label: string
+    awarder: string
+    amount: number
+    currency: string
+    period: string
+  }[]
+  carriedOutBy: {
     assignedActor: {
       id: string
+      type: string
       label: string
     }
     assignedRole: {
@@ -142,16 +170,51 @@ export interface ProjectProps extends SanityDocument {
     }[]
     timespan: string
   }[]
+  hadParticipant: {
+    assignedActor: {
+      id: string
+      type: string
+      label: string
+    }
+    assignedRole: {
+      id: string
+      label: string
+    }[]
+    timespan: string
+  }[]
+  hasTeam: {
+    id: string
+    label: string
+    hasMember: {
+      assignedActor: {
+        id: string
+        type: string
+        label: string
+      }
+      assignedRole: {
+        id: string
+        label: string
+      }[]
+      timespan: string
+    }[]
+  }[]
   hasFile: {
     _key: string
     label: string
     url: string
     extension: string
   }[]
-  mentions: {
+  resultedIn: {
     id: string
     type: string
+    period: string
     label: string
+    usedService: {
+      id: string
+      type: string
+      label: string
+      period: string
+    }[]
   }[]
 }
 
