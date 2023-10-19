@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { DataTable } from '@/components/data-table'
-import { EditIntentButton } from '@/components/edit-intent-button';
 import { Button } from '@/components/ui/button'
 import { checkMembership } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
