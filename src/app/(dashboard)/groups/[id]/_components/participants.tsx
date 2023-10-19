@@ -24,7 +24,7 @@ const columns = [
     },
     cell: ({ row }: { row: any }) => (
       <div className='w-[200px]'>
-        <Link href={`/actors/${row.getValue('assignedActor').id}`} className='font-bold'>
+        <Link href={`/persons/${row.getValue('assignedActor').id}`} className='font-bold'>
           {row.getValue('assignedActor').label}
         </Link>
       </div>
