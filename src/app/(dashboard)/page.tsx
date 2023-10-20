@@ -1,12 +1,9 @@
-import { Button } from '@/components/ui/button';
-
-
 export default async function Home() {
   return (
     <div className='py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12 flex flex-col gap-10'>
       <h1>UB dashboard</h1>
       <p className='text-3xl font-bold leading-tight'>
-        Hei hei, dette er den nye versjonen av UB dashboard. Det er en nedstrippet utgave, som fokuserer på det som er viktigst; det ToS registrerer 😊.
+        Hei hei, dette er den nye versjonen av UB dashboard. Det er en nedstrippet utgave, som fokuserer på det som er viktigst; mennesker og relasjoner og sånt 😊.
       </p>
       <p className='text-3xl font-bold leading-tight'>
         Er du her, vet du hva du kan forente deg. Skal du registrere noe finner du en lenke til <i>
