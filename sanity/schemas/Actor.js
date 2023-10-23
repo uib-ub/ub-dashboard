@@ -5,6 +5,7 @@ export const Actor = {
   name: 'Actor',
   title: 'Person',
   type: 'document',
+  liveEdit: true,
   fields: [
     {
       ...labelSingleton,
@@ -71,13 +72,14 @@ export const Actor = {
     select: {
       title: 'label',
       subtitle: 'shortDescription',
+      timespan: 'timespan.edtf',
       media: 'image',
     },
     prepare(selection) {
-      const { title, subtitle, media } = selection
+      const { title, subtitle, timespan, media } = selection
       return {
         title: `${title ?? ''}`,
-        subtitle: subtitle,
+        subtitle: `${subtitle ? subtitle : ''} ${timespan ? `(${timespan})` : ''}`,
         media: media,
       }
     },

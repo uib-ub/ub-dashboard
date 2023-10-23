@@ -41,7 +41,6 @@ export const ContributionAssignment = {
       },
     },
     timespanSingleton,
-    totalHours
   ],
   preview: {
     select: {
