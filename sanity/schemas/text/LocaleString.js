@@ -13,7 +13,7 @@ export const LocaleString = {
     {
       title: 'Translations',
       name: 'translations',
-      options: { collapsible: true },
+      options: { collapsible: true, collapsed: true },
     },
   ],
   fields: supportedLanguages.map((lang) => ({
