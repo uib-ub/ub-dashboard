@@ -212,13 +212,14 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
 
         <TabsContent value="general" className='flex-1 border rounded-sm p-4'>
           {/* @ts-ignore */}
-          {data.referredToBy?.[0]?.body ? (<h2>Beskrivelse</h2>) : null}
-          {/* @ts-ignore */}
           {data.referredToBy?.[0]?.body ? (
-            <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 my-5">
-              {/* @ts-ignore */}
-              <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-            </ScrollArea>
+            <>
+              <h2>Beskrivelse</h2>
+              <ScrollArea className="max-h-[250px] max-w-prose rounded-md border p-4 mb-5">
+                {/* @ts-ignore */}
+                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+              </ScrollArea>
+            </>
           ) : null}
           <h2>Medlemmer</h2>
           <Participants data={data.hasMember} />

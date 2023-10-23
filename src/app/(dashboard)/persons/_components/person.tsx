@@ -193,10 +193,13 @@ const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
           <div className='flex flex-col gap-3'>
             {/* @ts-ignore */}
             {data.referredToBy?.[0]?.body ? (
-              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 my-5">
-                {/* @ts-ignore */}
-                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-              </ScrollArea>
+              <>
+                <h2>Beskrivelse</h2>
+                <ScrollArea className="max-h-[250px] max-w-prose rounded-md border p-4 mb-5">
+                  {/* @ts-ignore */}
+                  <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+                </ScrollArea>
+              </>
             ) : (
               null
             )}

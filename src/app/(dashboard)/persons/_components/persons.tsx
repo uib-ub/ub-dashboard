@@ -25,7 +25,7 @@ export const query = groq`*[_type in ["Actor"]] | order(label asc) {
     timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Pensjonist eller jobber ikke lenger på UB" 
     },
-    "memberOf": *[_type == "Group" && references(^._id) && timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now()].label
+    "memberOf": *[_type == "Group" && references(^._id)].label
   }`
 
 const Persons = ({ data }: { data: PersonListProps[] }) => {
