@@ -1,4 +1,4 @@
-import { hasFile, hasMember, hasType, identifiedBy, labelSingleton, logo, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
+import { continued, continuedBy, hasFile, hasMember, hasType, identifiedBy, labelSingleton, logo, referredToBy, shortDescription, subGroupOf, timespanSingleton } from "./props";
 import { client } from '../lib/client'
 
 export const Group = {
@@ -65,6 +65,12 @@ export const Group = {
           '@type': '@id'
         }
       },
+    },
+    {
+      ...continued,
+    },
+    {
+      ...continuedBy,
     },
     logo,
     {

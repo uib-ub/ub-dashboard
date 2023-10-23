@@ -6,8 +6,13 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
+    fontFamily: {
+      mono: 'var(--font-mono)',
+      sans: 'var(--font-sans)',
+      serif: 'var(--font-serif)',
+    },
     container: {
       center: true,
       padding: "2rem",

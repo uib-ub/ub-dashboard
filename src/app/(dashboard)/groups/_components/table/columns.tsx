@@ -1,11 +1,11 @@
 "use client"
+
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
 import { GroupProps } from '../groups'
 import Link from "next/link"
 import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
-import { Badge } from '@/components/ui/badge'
 
 export const columns: ColumnDef<GroupProps>[] = [
   {
@@ -14,6 +14,7 @@ export const columns: ColumnDef<GroupProps>[] = [
       return (
         <Button
           variant="ghost"
+          className='p-1'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Navn
@@ -22,7 +23,7 @@ export const columns: ColumnDef<GroupProps>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className='w-[200px]'>
+      <div className='flex gap-3 w-[200px]'>
         <Link href={`/groups/${row.getValue('id')}`} className='font-bold'>
           {row.getValue('label')}
         </Link>
@@ -30,14 +31,35 @@ export const columns: ColumnDef<GroupProps>[] = [
     )
   },
   {
-    header: "Kort beskrivelse",
+    header: "Type",
+    accessorKey: "hasType",
+    cell: ({ row }: { row: any }) => (
+      <div className='flex flex-col gap-2'>
+        {row.getValue('hasType')?.map((t: any, i: number) => (
+          <div key={i}>
+            {t.label}
+          </div>
+        ))}
+      </div>
+    )
+  },
+  {
+    header: "Periode",
+    accessorKey: "period",
+  },
+  {
+    header: "Status",
+    accessorKey: "active",
+  },
+  {
+    header: "Beskrivelse",
     accessorKey: "shortDescription",
   },
   {
     header: "",
     accessorKey: "id",
     cell: ({ row }) => (
-      <EditIntentButton size="sm" id={(row.getValue('id') as string)} />
+      <EditIntentButton size="sm" variant={'secondary'} id={(row.getValue('id') as string)} />
     )
   },
 ]

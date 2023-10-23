@@ -1,8 +1,8 @@
 import { MainShell } from '@/components/main-shell'
 import { LiveQuery } from 'next-sanity/preview/live-query'
 import { draftMode } from 'next/headers'
-import Project, { query, ProjectProps } from './_components/project'
-import PreviewGroup from './_components/preview-project'
+import Project, { query, ProjectProps } from '../_components/project'
+import PreviewGroup from '../_components/preview-project'
 import { sanityFetch } from '@/lib/fetch'
 
 export default async function ProjectPage({

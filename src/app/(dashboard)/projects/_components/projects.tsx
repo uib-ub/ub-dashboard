@@ -9,6 +9,7 @@ export interface ProjectProps {
   image: string
   shortDescription: string
   memberOf: string[]
+  active: string
 }
 
 export const query = groq`*[_type in ['Project'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
@@ -36,12 +37,25 @@ export const query = groq`*[_type in ['Project'] && !(_id in path("drafts.**"))]
       "period": timespan.edtf,
     }
   },
+  "active": "Aktiv",
+    !defined(timespan) => {
+      "active": "Ukjent" 
+    },
+    timespan.endOfTheEnd <= now() => {
+      "active": "Avsluttet" 
+    },
 }`
 
 const Projects = ({ data }: { data: ProjectProps[] }) => {
-  if (!data) return null
   return (
-    <DataTable data={data} columns={columns} />
+    <DataTable
+      data={data}
+      columns={columns}
+      config={{
+        labelSearch: true,
+        activeFilter: true,
+      }}
+    />
   )
 }
 

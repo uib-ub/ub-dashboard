@@ -24,7 +24,7 @@ const icons = {
   event: MdOutlineEvent
 }
 
-/* export const getDefaultDocumentNode = () => {
+export const getDefaultDocumentNode = () => {
   // Give all documents the JSON preview, 
   // as well as the default form view
   return S.document().views([
@@ -38,7 +38,7 @@ const icons = {
       })
       .title('Incoming References')
   ])
-} */
+}
 
 
 export const deskStructure = (S) =>
@@ -49,8 +49,6 @@ export const deskStructure = (S) =>
         .icon(icons.project),
       S.documentTypeListItem('Actor')
         .icon(icons.actor),
-      S.documentTypeListItem('Team')
-        .icon(icons.team),
       S.listItem()
         .title('Grupper')
         .icon(icons.group)
@@ -82,18 +80,6 @@ export const deskStructure = (S) =>
                         .params({ groupTypeId })
                     ),
                 ),
-              // createDeskHierarchy({
-              //   title: 'Organisasjonshierarki',
-              //   documentId: 'org-hierarchy',
-              //   referenceTo: ['Group'],
-              //   // ❓ Optional: provide filters and/or parameters for narrowing which documents can be added
-              //   /* referenceOptions: {
-              //     filter: 'status in $acceptedStatuses',
-              //     filterParams: {
-              //       acceptedStatuses: ['published', 'approved']
-              //     }
-              //   } */
-              // })
             ])
         ),
       S.divider(),
@@ -188,6 +174,8 @@ export const deskStructure = (S) =>
       S.documentTypeListItem('Dataset')
         .icon(icons.dataset),
       S.documentTypeListItem('AccessPoint')
+        .icon(icons.accesspoint),
+      S.documentTypeListItem('Endpoint')
         .icon(icons.accesspoint),
       S.divider(),
       S.listItem()

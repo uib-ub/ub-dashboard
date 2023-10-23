@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: 'Oversikt over UBs personer, grupper, tjenester og systemer',
 }
 
-
 const serif = PT_Serif({
   variable: '--font-serif',
   style: ['normal', 'italic'],

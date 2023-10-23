@@ -8,6 +8,9 @@ import { MemberOf } from './member-of'
 import { Separator } from '@/components/ui/separator'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { ResponsibleFor } from './responsibleFor'
+import { CustomPortableText } from '@/components/custom-protable-text'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import Timeline from '@/components/timeline'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -21,6 +24,13 @@ export const query = groq`*[_id == $id][0] {
   quote,
   image,
   "period": timespan.edtf,
+  "active": "Aktiv",
+  !defined(timespan) => {
+    "active": "Ukjent" 
+  },
+  timespan.endOfTheEnd <= now() => {
+    "active": "Avsluttet" 
+  },
   referredToBy[],
   "hasSkill": hasSkill[] | order(level desc) {
     "label": competence->.label,
@@ -33,12 +43,12 @@ export const query = groq`*[_id == $id][0] {
     label,
     "timespan": timespan.edtf,
   },
-  "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Team', 'Group']] | order(timespan.beginOfTheBegin asc)  {
+  "mentions": *[references($id) && _type in ['Software', 'VolatileSoftware', 'Product', 'Project', 'Group']] | order(timespan.beginOfTheBegin asc)  {
     "id": _id,
     "type": _type,
     label,
   },
-  "memberOf": *[_type in ['Group', 'Team'] && references(^._id)] | order(label) {
+  "memberOf": *[_type in ['Group'] && references(^._id)] | order(label) {
     "id": _id,
     label,
     hasType[]-> {
@@ -56,11 +66,49 @@ export const query = groq`*[_id == $id][0] {
       }
     },
     "timespan": timespan.edtf,
-    "active": false,
+    "active": "Aktiv",
+    !defined(timespan) => {
+      "active": "Ukjent" 
+    },
     timespan.endOfTheEnd <= now() => {
-      "active": true 
+      "active": "Avsluttet" 
+    },
+  },
+  "timeline": [
+    ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'TransferOfMember', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && references($id) && defined(timespan)] {
+      "id": _id,
+      "label": coalesce(label, 'Uten label'),
+      "period": timespan.edtf,
+      "timestamp": coalesce(
+        select(
+          timespan.date != "" => timespan.date
+        ), 
+        select(
+          timespan.beginOfTheBegin != "" => timespan.beginOfTheBegin
+        )
+      )
+    },
+    ...*[_type in ['Project', 'Group'] && references($id) && defined(timespan.endOfTheEnd)] {
+        ...select(defined(timespan.endOfTheEnd) => {
+          "id": _id,
+          "type": _type,
+          "label": label + " avsluttes",
+          "period": timespan.edtf,
+          "timestamp": timespan.endOfTheEnd,
+        }
+      )
+    },
+    ...*[_type in ['Project', 'Group'] && references($id) && defined(timespan.beginOfTheBegin)] {
+        ...select(defined(timespan.beginOfTheBegin) => {
+          "id": _id,
+          "type": _type,
+          "label": label + " starter",
+          "period": timespan.edtf,
+          "timestamp": timespan.beginOfTheBegin,
+        }
+      )
     }
-  },  
+  ]
 }`
 
 export interface PersonProps extends SanityDocument {
@@ -130,32 +178,45 @@ const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
 
       <Separator className='my-3' />
 
-      <Tabs orientation='vertical' defaultValue="memberOf" className="flex gap-4 flex-grow">
+      <Tabs orientation='vertical' defaultValue="general" className="flex gap-4 flex-grow">
         <div>
           <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="memberOf">Medlem av</TabsTrigger>
+            <TabsTrigger value="general">Generelt</TabsTrigger>
             <TabsTrigger value="skills">Kompetanse</TabsTrigger>
             <TabsTrigger value="responsibleFor">Ansvar</TabsTrigger>
+            <TabsTrigger value="timeline">Tidslinje</TabsTrigger>
           </TabsList>
           <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
         </div>
 
-        <TabsContent value="memberOf" className='flex-1'>
-          {data?.memberOf ? (
+        <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
+          <div className='flex flex-col gap-3'>
+            {/* @ts-ignore */}
+            {data.referredToBy?.[0]?.body ? (
+              <ScrollArea>
+                {/* @ts-ignore */}
+                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+              </ScrollArea>
+            ) : (
+              null
+            )}
             <MemberOf data={data.memberOf} />
-          ) : null}
+          </div>
         </TabsContent>
 
-        <TabsContent value="skills" className='flex-1'>
-          {data?.hasSkill ? (
-            <Skills data={data.hasSkill} />
-          ) : null}
+        <TabsContent value="skills" className='flex-1 p-4 border rounded-sm'>
+          <Skills data={data.hasSkill} />
         </TabsContent>
 
-        <TabsContent value="responsibleFor" className='flex-1'>
-          {data?.currentOrFormerManagerOf ? (
-            <ResponsibleFor data={data.currentOrFormerManagerOf} />
-          ) : null}
+        <TabsContent value="responsibleFor" className='flex-1 p-4 border rounded-sm'>
+          <ResponsibleFor data={data.currentOrFormerManagerOf} />
+        </TabsContent>
+
+        <TabsContent value="timeline" className='flex-1 p-4 border rounded-sm'>
+          <div className='flex flex-col gap-2'>
+            <h2>Tidslinje</h2>
+            <Timeline data={data.timeline} />
+          </div>
         </TabsContent>
       </Tabs>
     </div>

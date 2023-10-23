@@ -1,9 +1,9 @@
 import { draftMode } from 'next/headers'
 import { LiveQuery } from 'next-sanity/preview/live-query'
-import Groups, { query } from './_components/groups'
+import GroupsOverview, { query } from '../_components/groups-overview'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
-import PreviewGroups from './_components/preview-groups'
+import PreviewGroups from '../_components/preview-groups-overview'
 import Link from 'next/link'
 
 export default async function GroupsPage() {
@@ -11,15 +11,15 @@ export default async function GroupsPage() {
 
   return (
     <MainShell>
-      <div className='flex text-2xl items-baseline gap-4'>
+      <div className='flex text-2xl items-baseline gap-4 mb-5'>
         <h1>Grupper</h1> /
-        <span className='underline'>
+        <Link href='/groups'>
           Liste
-        </span>
-        /
-        <Link href='/groups/overview'>
-          Oversikt
         </Link>
+        /
+        <span className='underline'>
+          Oversikt
+        </span>
       </div>
       <LiveQuery
         enabled={draftMode().isEnabled}
@@ -27,7 +27,7 @@ export default async function GroupsPage() {
         initialData={data}
         as={PreviewGroups}
       >
-        <Groups data={data} />
+        <GroupsOverview data={data} />
       </LiveQuery>
     </MainShell>
   )

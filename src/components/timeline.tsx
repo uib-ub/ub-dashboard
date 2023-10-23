@@ -1,7 +1,8 @@
-import { sortBy } from 'lodash'
+import { groupBy, sortBy } from 'lodash'
 import { groq } from 'next-sanity'
+import { InfoboxMissingData } from './infobox-missing-data'
 
-export interface TimelineProps {
+export type TimelineProps = {
   id: string
   type: string
   label: string
@@ -19,11 +20,6 @@ export const query = groq`[
     "id": _id,
     "label": coalesce(label, 'Uten label'),
     "period": timespan.edtf,
-    "connectedTo": {...*[references(^._id)][0]{
-        "id": _id,
-        "type": _type,
-        label,
-    }},
     "timestamp": coalesce(
       select(
         timespan.date != "" => timespan.date
@@ -56,17 +52,26 @@ export const query = groq`[
 ]`
 
 const Timeline = ({ data }: { data: TimelineProps[] }) => {
-  if (!data) return null
+  if (data.length === 0) return <InfoboxMissingData>Ikke nok informasjon...</InfoboxMissingData>
+
   const sortedByYear = sortBy(data, ['timestamp'])
+  const groupedByYear = groupBy(sortedByYear, function (item) {
+    if (!item.timestamp) return 'Udatert'
+    return item.timestamp.substring(0, 4);
+  })
 
   return (
     <ol className="relative border-l border-gray-200 dark:border-gray-700 my-4">
-      {sortedByYear && Object.entries(sortedByYear).reverse().map(([key, value]) => (
-        <li key={`${value.id}.${key}`} className="mb-10 ml-4">
-          <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-          <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{value.timestamp}</time>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{value.label}</h3>
-          <p className="text-base font-normal text-gray-500 dark:text-gray-400">{value.period}</p>
+      {groupedByYear && Object.entries(groupedByYear).reverse().map(([key, value]: [string, any]) => (
+        <li key={key} className="mb-10 ml-4">
+          <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-3.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+          <time className="mb-3 text-4xl font-extrabold leading-none text-gray-500 dark:text-gray-400">{key}</time>
+          {value.map((item: TimelineProps) => (
+            <div key={item.id} className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{item.label}</h3>
+              <p className="text-base font-normal text-gray-500 dark:text-gray-400">{item.period}</p>
+            </div>
+          ))}
         </li>
       ))}
     </ol>

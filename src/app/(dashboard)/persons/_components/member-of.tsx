@@ -2,12 +2,11 @@
 
 import { DataTable } from '@/components/data-table';
 import { EditIntentButton } from '@/components/edit-intent-button';
+import { InfoboxMissingData } from '@/components/infobox-missing-data';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { checkMembership } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { useState } from 'react';
 
 const columns = [
   {
@@ -66,34 +65,33 @@ const columns = [
     accessorKey: "timespan"
   },
   {
+    header: "Status",
+    accessorKey: "active"
+  },
+  {
     header: "",
     accessorKey: "id",
     cell: ({ row }: { row: any }) => (
-      <EditIntentButton size="sm" id={(row.getValue('id') as string)} />
+      <EditIntentButton size="sm" variant={'secondary'} id={(row.getValue('id') as string)} />
     )
   },
 ];
 
 export const MemberOf = ({ data }: { data: any }) => {
-  const [activeFilter, setActiveFilter] = useState(checkMembership(data ?? []))
-
-  const handleActiveFilter = () => {
-    setActiveFilter(!activeFilter)
-  }
-
   return (
-    <div className='p-4 border rounded-sm'>
-      <div className='flex align-baseline gap-2'>
-        <h2>Medlem av</h2>
-        {data.some((m: any) => m.active === true) && (
-          <Button size={'sm'} variant={'secondary'} className='relative -bottom-1' onClick={() => handleActiveFilter()}>
-            {activeFilter ? 'Vis inaktive grupper' : 'Vis aktive'}
-          </Button>
-        )}
-      </div>
-      <DataTable columns={columns} data={data.filter((m: any) => {
-        return activeFilter ? m.active !== true : m
-      })} />
+    <div className='flex flex-col gap-2'>
+      <h2>Medlem av</h2>
+      {data.length === 0 ? (
+        <InfoboxMissingData>Ingen medlemskap registrert</InfoboxMissingData>
+      ) :
+        <DataTable
+          columns={columns}
+          data={data}
+          config={{
+            activeFilter: true,
+          }}
+        />
+      }
     </div>
   )
 }

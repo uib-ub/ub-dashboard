@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import {
   ColumnDef,
@@ -23,20 +23,29 @@ import {
 } from "@/components/ui/table"
 
 import { Input } from "@/components/ui/input"
-
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  config?: {
+    labelSearch?: boolean,
+    activeFilter?: boolean,
+  }
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  config = {},
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
+    config.activeFilter ? [{
+      id: "active",
+      value: "Aktiv",
+    }] : []
   )
 
   const table = useReactTable({
@@ -53,18 +62,43 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  // Get flat array of all accessorKeys
+  const flatColumns = columns.flatMap((column: any) => {
+    return column.accessorKey
+  })
+
   return (
-    <>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filtrér på navn..."
-          value={(table.getColumn("label")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("label")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+    <div>
+      <div className="flex items-center gap-5 py-4">
+        {flatColumns.includes('label') && config?.labelSearch ? (
+          <Input
+            placeholder="Filtrér på navn..."
+            value={(table.getColumn("label")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("label")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        ) : null}
+
+        {flatColumns.includes('active') && config?.activeFilter ? (
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="active-switch"
+              checked={(table.getColumn("active")?.getFilterValue() as string) ? true : false}
+              onCheckedChange={(event) => {
+                if (event === true) {
+                  table.getColumn("active")?.setFilterValue("Aktiv")
+                  return
+                }
+                table.getColumn("active")?.setFilterValue('')
+              }}
+            />
+            <Label htmlFor="active-switch">Aktive</Label>
+          </div>
+        ) : null}
       </div>
+
       <div className="rounded-sm border">
         <Table>
           <TableHeader>
@@ -109,6 +143,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   )
 }

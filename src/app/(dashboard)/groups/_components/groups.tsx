@@ -10,12 +10,14 @@ export interface GroupProps {
     id: string
     label: string
   }[]
+  period: string
   image: string
   shortDescription: string
   memberOf: string[]
+  active: string
 }
 
-export const query = groq`*[_type in ['Group']] | order(label asc)  {
+export const query = groq`*[_type in ['Group']] | order(active) | order(label asc)  {
   "id": _id,
   "type": _type,
   label,
@@ -25,12 +27,27 @@ export const query = groq`*[_type in ['Group']] | order(label asc)  {
   },
   image,
   shortDescription,
+  "period": timespan.edtf,
+  "active": "Aktiv",
+  !defined(timespan) => {
+    "active": "Ukjent" 
+  },
+  timespan.endOfTheEnd <= now() => {
+    "active": "Avsluttet" 
+  },
 }`
 
 const Groups = ({ data }: { data: GroupProps[] }) => {
-  if (!data) return null
+
   return (
-    <DataTable data={data} columns={columns} />
+    <DataTable
+      data={data}
+      columns={columns}
+      config={{
+        labelSearch: true,
+        activeFilter: true,
+      }}
+    />
   )
 }
 

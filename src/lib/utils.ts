@@ -14,3 +14,9 @@ export const checkMembership = (arr: any) => {
   }
   return false
 }
+
+export const path: Record<string, string> = {
+  "Actor": "persons",
+  "Group": "groups",
+  "Project": "projects",
+}

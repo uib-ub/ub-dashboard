@@ -15,7 +15,6 @@ export const ContributionAssignment = {
       to: [
         { type: 'Actor' },
         { type: 'Group' },
-        { type: 'Team' },
       ],
       options: {
         semanticSanity: {

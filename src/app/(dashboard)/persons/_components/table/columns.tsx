@@ -43,6 +43,14 @@ export const columns: ColumnDef<PersonListProps>[] = [
     )
   },
   {
+    header: "Periode",
+    accessorKey: "period",
+  },
+  {
+    header: "Status",
+    accessorKey: "active",
+  },
+  {
     header: "Kort beskrivelse",
     accessorKey: "shortDescription",
   },
@@ -50,7 +58,7 @@ export const columns: ColumnDef<PersonListProps>[] = [
     header: "",
     accessorKey: "id",
     cell: ({ row }) => (
-      <EditIntentButton size="sm" id={(row.getValue('id') as string)} />
+      <EditIntentButton size="sm" variant={'secondary'} id={(row.getValue('id') as string)} />
     )
   },
 ]

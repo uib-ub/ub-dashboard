@@ -1,4 +1,4 @@
-import { hasType, labelSingleton, link, referredToBy, servesDataset, shortDescription, timespanSingleton, url } from "./props";
+import { hasType, labelSingleton, referredToBy, servesDataset, shortDescription, timespanSingleton, url } from "./props";
 
 export const Endpoint = {
   name: 'Endpoint',

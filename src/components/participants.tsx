@@ -1,12 +1,10 @@
 "use client"
 
-import { useState } from 'react';
 import { DataTable } from '@/components/data-table'
-import { EditIntentButton } from '@/components/edit-intent-button';
 import { Button } from '@/components/ui/button'
-import { checkMembership } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { InfoboxMissingData } from './infobox-missing-data';
 
 const columns = [
   {
@@ -28,7 +26,7 @@ const columns = [
           {row.getValue('assignedActor').label}
         </Link>
       </div>
-    )
+    ),
   },
   {
     header: "Rolle",
@@ -49,39 +47,17 @@ const columns = [
     accessorKey: "period"
   },
   {
-    header: "",
-    accessorKey: "id",
-    cell: ({ row }: { row: any }) => (
-      <EditIntentButton size="sm" id={(row.getValue('id') as string)} />
-    )
+    header: "Status",
+    accessorKey: "active",
   },
 ];
 
 
 export const Participants = ({ data }: { data: any }) => {
-  const [activeFilter, setActiveFilter] = useState(checkMembership(data ?? []))
-  const handleActiveFilter = () => {
-    setActiveFilter(!activeFilter)
-  }
-
-  const path = {
-    "Actor": "actor",
-    "Group": "group",
-  }
-
   return (
-    <div className='p-4 border rounded-sm'>
-      <div className='flex align-baseline gap-2'>
-        <h2>Medlem av</h2>
-        {data.some((m: any) => m.active === true) && (
-          <Button size={'sm'} variant={'secondary'} className='relative -bottom-1' onClick={() => handleActiveFilter()}>
-            {activeFilter ? 'Vis inaktive grupper' : 'Vis aktive'}
-          </Button>
-        )}
-      </div>
-      <DataTable columns={columns} data={data.filter((m: any) => {
-        return activeFilter ? m.active !== true : m
-      })} />
+    <div className='flex flex-col align-baseline gap-2'>
+      <h2>Medlemmer</h2>
+      {data ? (<DataTable columns={columns} data={data} config={{ activeFilter: true }} />) : <InfoboxMissingData>Ingen medlemmer registrert</InfoboxMissingData>}
     </div>
   )
 }

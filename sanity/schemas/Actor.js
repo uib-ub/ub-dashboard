@@ -1,4 +1,4 @@
-import { imageSingleton, labelSingleton, referredToBy, shortDescription } from "./props";
+import { imageSingleton, labelSingleton, referredToBy, shortDescription, timespan } from "./props";
 import { client } from '../lib/client'
 
 export const Actor = {
@@ -23,6 +23,10 @@ export const Actor = {
       title: 'Sitat',
       description: 'Kort, kort sitat med hermetegn!',
       type: 'string'
+    },
+    {
+      ...timespan,
+      title: 'Tid på Universitetsbiblioteket i Bergen'
     },
     referredToBy,
     {

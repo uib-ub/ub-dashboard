@@ -1,8 +1,8 @@
 import { MainShell } from '@/components/main-shell'
 import { LiveQuery } from 'next-sanity/preview/live-query'
 import { draftMode } from 'next/headers'
-import Group, { query, GroupProps } from './_components/group'
-import PreviewGroup from './_components/preview-group'
+import Group, { query, GroupProps } from '../_components/group'
+import PreviewGroup from '../_components/preview-group'
 import { sanityFetch } from '@/lib/fetch'
 
 export default async function GroupPage({

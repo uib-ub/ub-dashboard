@@ -650,7 +650,6 @@ export const joinedWith = {
   type: 'reference',
   to: [
     { type: 'Group' },
-    { type: 'Team' },
     { type: 'Project' },
     { type: 'Product' },
   ],
@@ -673,7 +672,6 @@ export const joined = {
       to: [
         { type: 'Actor' },
         { type: 'Group' },
-        { type: 'Team' },
       ]
     }
   ],
@@ -693,7 +691,6 @@ export const transferred = {
   to: [
     { type: 'Actor' },
     { type: 'Group' },
-    { type: 'Team' },
     { type: 'Project' },
     { type: 'Product' },
   ],
@@ -712,7 +709,6 @@ export const transferredTo = {
   type: 'reference',
   to: [
     { type: 'Group' },
-    { type: 'Team' },
     { type: 'Project' },
     { type: 'Product' },
   ],
@@ -731,7 +727,6 @@ export const transferredFrom = {
   type: 'reference',
   to: [
     { type: 'Group' },
-    { type: 'Team' },
     { type: 'Project' },
     { type: 'Product' },
   ],
@@ -1513,12 +1508,11 @@ export const hasMember = {
   },
 }
 
-
 export const hasTeam = {
   name: 'hasTeam',
   title: 'Har team',
   type: 'array',
-  of: [{ type: 'reference', to: [{ type: 'Team' }] }],
+  of: [{ type: 'reference', to: [{ type: 'Group' }] }],
   options: {
     semanticSanity: {
       '@container': '@set',

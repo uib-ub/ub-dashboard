@@ -13,6 +13,7 @@ import Iframe, {
   IframeOptions,
 } from 'sanity-plugin-iframe-pane'
 import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
+import { ReferencedBy } from 'sanity-plugin-document-reference-by'
 
 import { timespanInput } from '@seidhr/sanity-plugin-timespan-input'
 import { codeInput } from '@sanity/code-input'
@@ -56,8 +57,14 @@ export default defineConfig({
             S.view.form(),
             // Preview
             S.view.component(Iframe).options(iframeOptions).title('Preview'),
+            S.view.component(ReferencedBy).title('Lenker til dokumentet')
           ])
         }
+        return S.document().views([
+          // Default form view
+          S.view.form(),
+          S.view.component(ReferencedBy).title('Lenker til dokumentet')
+        ])
 
         return null
       },

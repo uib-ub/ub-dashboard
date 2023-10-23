@@ -48,6 +48,10 @@ export const columns: ColumnDef<ProjectProps>[] = [
     accessorKey: "timespan.edtf"
   },
   {
+    header: "Status",
+    accessorKey: "active"
+  },
+  {
     header: "Finansiering",
     accessorKey: "funding",
     cell: ({ row }) => (
@@ -75,7 +79,7 @@ export const columns: ColumnDef<ProjectProps>[] = [
     header: "",
     accessorKey: "id",
     cell: ({ row }) => (
-      <EditIntentButton size="sm" id={(row.getValue('id') as string)} />
+      <EditIntentButton size="sm" variant={'secondary'} id={(row.getValue('id') as string)} />
     )
   },
 ]

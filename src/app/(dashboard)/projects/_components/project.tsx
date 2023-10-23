@@ -4,15 +4,16 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, QuoteIcon } from '@radix-ui/react-icons'
+import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { SanityDocument, SanityImageAssetDocument, groq } from 'next-sanity'
 import { PortableTextBlock } from 'sanity'
-import { Participants } from './participants'
+import { Participants } from '@/components/participants'
 import Link from 'next/link'
-import { BiSubdirectoryRight } from 'react-icons/bi'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import millify from 'millify'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { CustomPortableText } from '@/components/custom-protable-text'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -56,9 +57,13 @@ export const query = groq`*[_id == $id][0] {
         label,
       },
       "timespan": timespan.edtf,
-      defined(timespan.endOfTheEnd) == true => {
-        "retired": true 
-      }
+      "active": "Aktiv",
+      !defined(timespan) => {
+        "active": "Ukjent" 
+      },
+      timespan.endOfTheEnd <= now() => {
+        "active": "Avsluttet" 
+      },
     }
   },
   "identifier": identifiedBy[] {
@@ -85,25 +90,39 @@ export const query = groq`*[_id == $id][0] {
       "type": _type,
       label,
     },
-      assignedRole[] -> {
-        "id": _id,
-        label,
-      },
-      "timespan": timespan.edtf,
-      },
+    assignedRole[] -> {
+      "id": _id,
+      label,
+    },
+    "period": timespan.edtf,
+    "active": "Aktiv",
+    !defined(timespan) => {
+      "active": "Ukjent" 
+    },
+    timespan.endOfTheEnd <= now() => {
+      "active": "Avsluttet" 
+    },
+  },
   hadParticipant[] {
     assignedActor -> {
       "id": _id,
       "type": _type,
       label,
     },
-      assignedRole[] -> {
-        "id": _id,
-        "type": _type,
-        label,
-      },
-      "timespan": timespan.edtf,
-      },
+    assignedRole[] -> {
+      "id": _id,
+      "type": _type,
+      label,
+    },
+    "period": timespan.edtf,
+    "active": "Aktiv",
+    !defined(timespan) => {
+      "active": "Ukjent" 
+    },
+    timespan.endOfTheEnd <= now() => {
+      "active": "Avsluttet" 
+    }
+  },
   resultedIn[] -> {
     "id": _id,
     "type": _type,
@@ -130,7 +149,13 @@ export interface ProjectProps extends SanityDocument {
   logo: SanityImageAssetDocument
   shortDescription: string
   period: string
-  referredToBy: PortableTextBlock[]
+  referredToBy: {
+    _key: string
+    _type: string
+    accessState: string
+    editorialState: string
+    body: PortableTextBlock[]
+  }[]
   link: {
     _key: string
     label: string
@@ -252,25 +277,27 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
           </Popover>
         ) : null}
 
-        {data?.hasType ? (
-          <Card className='border-0 p-0'>
-            <CardHeader className='p-0'>
-              <CardTitle className='text-sm'>Type</CardTitle>
-            </CardHeader>
-            <CardContent className='p-0'>{data.hasType.map(tag => (
-              <Badge key={tag.id} variant={'outline'}>{tag.label}</Badge>
-            ))}
-            </CardContent>
-          </Card>
-        ) : null}
-        {data?.period ? (
-          <Card className='border-0 p-0'>
-            <CardHeader className='p-0'>
-              <CardTitle className='text-sm'>Periode</CardTitle>
-            </CardHeader>
-            <CardContent className='p-0'>{data.period}</CardContent>
-          </Card>
-        ) : null}
+        <div className='flex gap-4 w-full'>
+          {data?.hasType ? (
+            <Card className='border-0 p-0 shadow-none'>
+              <CardHeader className='p-0 mb-1'>
+                <CardTitle className='text-sm'>Type</CardTitle>
+              </CardHeader>
+              <CardContent className='p-0'>{data.hasType.map(tag => (
+                <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
+              ))}
+              </CardContent>
+            </Card>
+          ) : null}
+          {data?.period ? (
+            <Card className='border-0 p-0 shadow-none'>
+              <CardHeader className='p-0 mb-1'>
+                <CardTitle className='text-sm'>Periode</CardTitle>
+              </CardHeader>
+              <CardContent className='p-0'>{data.period}</CardContent>
+            </Card>
+          ) : null}
+        </div>
 
         {data?.continuedBy ? (
           <Popover>
@@ -293,18 +320,26 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
 
       <Separator className='my-3' />
 
-      <Tabs orientation='vertical' defaultValue="members" className="flex gap-4 flex-grow">
+      <Tabs orientation='vertical' defaultValue="general" className="flex gap-10 flex-grow">
         <div>
           <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="members">Medlemmer</TabsTrigger>
+            <TabsTrigger value="general">Generelt</TabsTrigger>
             <TabsTrigger value="funding">Finansiering</TabsTrigger>
             <TabsTrigger value="resources">Ressurser</TabsTrigger>
           </TabsList>
           <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
         </div>
 
-        <TabsContent value="members" className='flex-1'>
-          <div className='flex flex-col gap-10 p-4 border rounded-sm'>
+        <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
+          {/* @ts-ignore */}
+          {data.referredToBy?.[0]?.body ? (
+            <ScrollArea>
+              {/* @ts-ignore */}
+              <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+            </ScrollArea>
+          ) : null}
+
+          <div className='flex flex-col gap-10'>
             {data?.carriedOutBy ? (
               <div>
                 <h2>Prosjekteiere</h2>
@@ -331,8 +366,8 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
           </div>
         </TabsContent>
 
-        <TabsContent value="funding" className='flex-1'>
-          <div className='flex flex-col gap-3 p-4 border rounded-sm'>
+        <TabsContent value="funding" className='flex-1 p-4 border rounded-sm'>
+          <div className='flex flex-col gap-3'>
             <h2>Finansiering</h2>
             {data?.funding ? (
               <>
@@ -356,8 +391,8 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
           </div>
         </TabsContent>
 
-        <TabsContent value="resources" className='flex-1'>
-          <div className='flex flex-col gap-4 border rounded-sm p-4'>
+        <TabsContent value="resources" className='flex-1 p-4 border rounded-sm'>
+          <div className='flex flex-col gap-4'>
             <h2>Ressurser</h2>
             <div className='flex flex-col gap-10'>
               {data?.link ? (

@@ -2,7 +2,7 @@ import { SanityImageAssetDocument, groq } from 'next-sanity'
 import { DataTable } from '@/components/data-table'
 import { columns } from './table/columns'
 
-export interface PersonListProps {
+export type PersonListProps = {
   id: string
   type?: string
   label?: string
@@ -17,13 +17,27 @@ export const query = groq`*[_type in ["Actor"]] | order(label asc) {
     label,
     image,
     shortDescription,
+    "period": timespan.edtf,
+    "active": "Aktiv",
+    !defined(timespan) => {
+      "active": "Ukjent" 
+    },
+    timespan.endOfTheEnd <= now() => {
+      "active": "Pensjonist eller jobber ikke lenger på UB" 
+    },
     "memberOf": *[_type == "Group" && references(^._id)].label
   }`
 
 const Persons = ({ data }: { data: PersonListProps[] }) => {
-  if (!data) return null
   return (
-    <DataTable data={data} columns={columns} />
+    <DataTable
+      data={data}
+      columns={columns}
+      config={{
+        labelSearch: true,
+        activeFilter: true,
+      }}
+    />
   )
 }
 

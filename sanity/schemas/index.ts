@@ -15,7 +15,6 @@ import { Project } from './Project'
 import { Service } from './Service'
 import { Software } from './Software'
 import { Schema } from './SoftwareSchema'
-import { Team } from './Team'
 import { VolatileSoftware } from './VolatileSoftware'
 import { Concept } from './types/Concept'
 import { ActivityType } from './types/ConceptActivityType'
@@ -88,7 +87,6 @@ export const schemaTypes = [
   Service,
   Software,
   Schema,
-  Team,
   VolatileSoftware,
   Concept,
   ActivityType,
