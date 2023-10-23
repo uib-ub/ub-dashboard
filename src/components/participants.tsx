@@ -53,11 +53,10 @@ const columns = [
 ];
 
 
-export const Participants = ({ data }: { data: any }) => {
+export const Participants = ({ data, config = { activeFilter: true } }: { data: any, config?: any }) => {
   return (
-    <div className='flex flex-col align-baseline gap-2'>
-      <h2>Medlemmer</h2>
-      {data ? (<DataTable columns={columns} data={data} config={{ activeFilter: true }} />) : <InfoboxMissingData>Ingen medlemmer registrert</InfoboxMissingData>}
-    </div>
+    <>
+      {data ? (<DataTable columns={columns} data={data} config={config} />) : <InfoboxMissingData>Ingen medlemmer registrert</InfoboxMissingData>}
+    </>
   )
 }

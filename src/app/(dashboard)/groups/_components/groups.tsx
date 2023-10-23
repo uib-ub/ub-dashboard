@@ -32,7 +32,7 @@ export const query = groq`*[_type in ['Group']] | order(active) | order(label as
   !defined(timespan) => {
     "active": "Ukjent" 
   },
-  timespan.endOfTheEnd <= now() => {
+  timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
     "active": "Avsluttet" 
   },
 }`

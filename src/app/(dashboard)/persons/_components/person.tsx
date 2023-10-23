@@ -28,7 +28,7 @@ export const query = groq`*[_id == $id][0] {
   !defined(timespan) => {
     "active": "Ukjent" 
   },
-  timespan.endOfTheEnd <= now() => {
+  timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
     "active": "Avsluttet" 
   },
   referredToBy[],
@@ -70,7 +70,7 @@ export const query = groq`*[_id == $id][0] {
     !defined(timespan) => {
       "active": "Ukjent" 
     },
-    timespan.endOfTheEnd <= now() => {
+    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Avsluttet" 
     },
   },
@@ -193,7 +193,7 @@ const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
           <div className='flex flex-col gap-3'>
             {/* @ts-ignore */}
             {data.referredToBy?.[0]?.body ? (
-              <ScrollArea>
+              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 my-5">
                 {/* @ts-ignore */}
                 <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
               </ScrollArea>

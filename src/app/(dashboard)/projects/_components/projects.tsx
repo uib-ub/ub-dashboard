@@ -38,12 +38,12 @@ export const query = groq`*[_type in ['Project'] && !(_id in path("drafts.**"))]
     }
   },
   "active": "Aktiv",
-    !defined(timespan) => {
-      "active": "Ukjent" 
-    },
-    timespan.endOfTheEnd <= now() => {
-      "active": "Avsluttet" 
-    },
+  !defined(timespan) => {
+    "active": "Ukjent" 
+  },
+  timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
+    "active": "Avsluttet" 
+  },
 }`
 
 const Projects = ({ data }: { data: ProjectProps[] }) => {

@@ -38,7 +38,7 @@ export const query = groq`*[_type in ['Group'] && !references('dd4c1492-5e15-4d1
   !defined(timespan) => {
     "active": "Ukjent" 
   },
-  timespan.endOfTheEnd <= now() => {
+  timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
     "active": "Avsluttet" 
   },
   "subGroupOf": [...subGroupOf[]->._id][0],

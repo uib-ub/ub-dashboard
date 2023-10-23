@@ -13,6 +13,7 @@ import { BiSubdirectoryRight } from 'react-icons/bi'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { InfoboxMissingData } from '@/components/infobox-missing-data'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -72,7 +73,7 @@ export const query = groq`*[_id == $id][0] {
     !defined(timespan) => {
       "active": "Aktiv" 
     },
-    timespan.endOfTheEnd <= now() => {
+    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Avsluttet" 
     },
   },
@@ -89,7 +90,7 @@ export const query = groq`*[_id == $id][0] {
     !defined(timespan) => {
       "active": "Ukjent" 
     },
-    timespan.endOfTheEnd <= now() => {
+    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Avsluttet" 
     },
     "subGroupOf": [...subGroupOf[]->._id][0],
@@ -211,7 +212,15 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
 
         <TabsContent value="general" className='flex-1 border rounded-sm p-4'>
           {/* @ts-ignore */}
-          {data.referredToBy?.[0]?.body ? (<CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />) : null}
+          {data.referredToBy?.[0]?.body ? (<h2>Beskrivelse</h2>) : null}
+          {/* @ts-ignore */}
+          {data.referredToBy?.[0]?.body ? (
+            <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 my-5">
+              {/* @ts-ignore */}
+              <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+            </ScrollArea>
+          ) : null}
+          <h2>Medlemmer</h2>
           <Participants data={data.hasMember} />
         </TabsContent>
 

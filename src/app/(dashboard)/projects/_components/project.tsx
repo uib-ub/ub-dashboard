@@ -56,12 +56,12 @@ export const query = groq`*[_id == $id][0] {
         "id": _id,
         label,
       },
-      "timespan": timespan.edtf,
+      "period": timespan.edtf,
       "active": "Aktiv",
       !defined(timespan) => {
         "active": "Ukjent" 
       },
-      timespan.endOfTheEnd <= now() => {
+      timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
         "active": "Avsluttet" 
       },
     }
@@ -99,7 +99,7 @@ export const query = groq`*[_id == $id][0] {
     !defined(timespan) => {
       "active": "Ukjent" 
     },
-    timespan.endOfTheEnd <= now() => {
+    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Avsluttet" 
     },
   },
@@ -119,7 +119,7 @@ export const query = groq`*[_id == $id][0] {
     !defined(timespan) => {
       "active": "Ukjent" 
     },
-    timespan.endOfTheEnd <= now() => {
+    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
       "active": "Avsluttet" 
     }
   },
@@ -210,6 +210,8 @@ export interface ProjectProps extends SanityDocument {
   hasTeam: {
     id: string
     label: string
+    period: string
+    active: string
     hasMember: {
       assignedActor: {
         id: string
@@ -332,8 +334,10 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
 
         <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
           {/* @ts-ignore */}
+          {data.referredToBy?.[0]?.body ? (<h2>Beskrivelse</h2>) : null}
+          {/* @ts-ignore */}
           {data.referredToBy?.[0]?.body ? (
-            <ScrollArea>
+            <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 my-5">
               {/* @ts-ignore */}
               <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
             </ScrollArea>
@@ -343,13 +347,13 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
             {data?.carriedOutBy ? (
               <div>
                 <h2>Prosjekteiere</h2>
-                <Participants data={data.carriedOutBy} />
+                <Participants data={data.carriedOutBy} config={{ activeFitler: false }} />
               </div>
             ) : null}
             {data?.hadParticipant ? (
               <div>
                 <h2>Andre Institusjoner</h2>
-                <Participants data={data.hadParticipant} />
+                <Participants data={data.hadParticipant} config={{ activeFitler: false }} />
               </div>
             ) : null}
             {data?.hasTeam ? (
