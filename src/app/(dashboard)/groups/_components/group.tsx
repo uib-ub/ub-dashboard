@@ -35,7 +35,7 @@ export const query = groq`*[_id == $id][0] {
     "url": accessPoint.asset -> url,
     "extension": accessPoint.asset -> extension
   },
-  subGroupOf|order(label)[]-> {
+  "subGroupOf": subGroupOf|order(label)[]-> {
     "id": _id,
     hasType[]-> {
       "id": _id,
@@ -58,7 +58,7 @@ export const query = groq`*[_id == $id][0] {
     "type": _type,
     label,
   },
-  hasMember[] {
+  "hasMember": hasMember[] {
     assignedActor-> {
       "id": _id,
       "type": _type,
@@ -215,7 +215,7 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
           {data.referredToBy?.[0]?.body ? (
             <>
               <h2>Beskrivelse</h2>
-              <ScrollArea className="max-h-[250px] max-w-prose rounded-md border p-4 mb-5">
+              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
                 {/* @ts-ignore */}
                 <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
               </ScrollArea>

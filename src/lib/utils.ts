@@ -19,4 +19,5 @@ export const path: Record<string, string> = {
   "Actor": "persons",
   "Group": "groups",
   "Project": "projects",
+  "Software": "software",
 }

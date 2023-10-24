@@ -8,7 +8,7 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
   return (
     <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+      className={cn("flex items-center space-x-4 lg:space-x-6 overflow-x-scroll", className)}
       {...props}
     >
       <Link
@@ -34,6 +34,12 @@ export function MainNav({
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Tidslinje
+      </Link>
+      <Link
+        href="/software"
+        className="text-sm font-medium transition-colors hover:text-primary"
+      >
+        Programvare
       </Link>
     </nav>
   )

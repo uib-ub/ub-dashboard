@@ -58,17 +58,17 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   h1 {
-    @apply text-6xl;
+    @apply text-4xl;
     @apply tracking-tight;
     @apply font-extrabold;
   }
   h2 {
-    @apply text-4xl;
+    @apply text-3xl;
     @apply tracking-tight;
     @apply font-bold;
   }
   h3 {
-    @apply text-3xl;
+    @apply text-2xl;
     @apply tracking-tight;
     @apply font-bold;
   }

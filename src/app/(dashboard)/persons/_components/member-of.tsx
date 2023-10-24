@@ -48,7 +48,7 @@ const columns = [
     )
   },
   {
-    Header: "Type",
+    header: "Type",
     accessorKey: "hasType",
     cell: ({ row }: { row: any }) => (
       <div className='flex flex-col gap-2'>

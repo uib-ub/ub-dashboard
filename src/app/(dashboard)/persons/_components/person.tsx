@@ -195,7 +195,7 @@ const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
             {data.referredToBy?.[0]?.body ? (
               <>
                 <h2>Beskrivelse</h2>
-                <ScrollArea className="max-h-[250px] max-w-prose rounded-md border p-4 mb-5">
+                <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
                   {/* @ts-ignore */}
                   <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
                 </ScrollArea>

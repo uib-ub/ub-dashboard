@@ -12,7 +12,7 @@ export interface ProjectProps {
   active: string
 }
 
-export const query = groq`*[_type in ['Project'] && !(_id in path("drafts.**"))] | order(timespan.beginOfTheBegin desc)  {
+export const query = groq`*[_type in ['Project']] | order(timespan.beginOfTheBegin desc)  {
   "id": _id,
   "label": label,
   hasType[]-> {

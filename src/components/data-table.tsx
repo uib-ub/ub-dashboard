@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
   config?: {
     labelSearch?: boolean,
     activeFilter?: boolean,
+    externalSoftwareFilter?: boolean,
   }
 }
 
@@ -42,10 +43,11 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    config.activeFilter ? [{
-      id: "active",
-      value: "Aktiv",
-    }] : []
+    /* @ts-ignore */
+    [
+      config.activeFilter ? { id: "active", value: "Aktiv" } : null,
+      config.externalSoftwareFilter ? { id: "madeByUB", value: true } : null,
+    ].filter(Boolean)
   )
 
   const table = useReactTable({
@@ -95,6 +97,20 @@ export function DataTable<TData, TValue>({
               }}
             />
             <Label htmlFor="active-switch">Aktive</Label>
+          </div>
+        ) : null}
+
+        {flatColumns.includes('madeByUB') && config?.externalSoftwareFilter ? (
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="external-software-switch"
+              checked={(table.getColumn("madeByUB")?.getFilterValue() as boolean) ? true : false}
+              onCheckedChange={(event) => {
+                table.getColumn("madeByUB")?.setFilterValue(event === true ? true : '')
+                return
+              }}
+            />
+            <Label htmlFor="external-software-switch">Utviklet av UB</Label>
           </div>
         ) : null}
       </div>

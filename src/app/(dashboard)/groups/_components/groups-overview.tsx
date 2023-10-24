@@ -60,8 +60,8 @@ const Groups = ({ data }: { data: GroupsOverviewProps[] }) => {
   })
 
   return (
-    <div className='flex gap-10'>
-      <div>
+    <div className='flex gap-0 md:gap-10'>
+      <div className='hidden md:block'>
         <div className='sticky top-2'>
           <div className='font-bold'>Kategorier</div>
           <div className='flex flex-col gap-2 mt-0 '>

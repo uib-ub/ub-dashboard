@@ -25,120 +25,9 @@ export const query = groq`*[_id == $id][0] {
     "id": _id,
     label
   },
-  shortDescription,
-  "period": timespan.edtf,
-  referredToBy[],
-  logo,
-  link,
-  hasFile[] {
-    _key,
-    label,
-    "url": accessPoint.asset -> url,
-    "extension": accessPoint.asset -> extension
-  },
-  continued[] -> {
-    "id": _id,
-    label
-  },
-  continuedBy[] -> {
-    "id": _id,
-    label
-  },
-  hasTeam[] -> {
-    "id": _id,
-    label,
-    hasMember[] {
-      assignedActor-> {
-        "id": _id,
-        "type": _type,
-        label,
-      },
-      assignedRole[]-> {
-        "id": _id,
-        label,
-      },
-      "period": timespan.edtf,
-      "active": "Aktiv",
-      !defined(timespan) => {
-        "active": "Ukjent" 
-      },
-      timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
-        "active": "Avsluttet" 
-      },
-    }
-  },
-  "identifier": identifiedBy[] {
-    _type == 'Identifier' => {
-      "id": _key,
-      content,
-      "type": hasType -> label
-    }
-  },
-  "funding": activityStream[] -> {
-    _type == 'FundingActivity' => {
-    "id": _id,
-    "type": _type,
-      label,
-      "awarder": awarder -> label,
-      "amount": fundingAmount.value,
-      "currency": fundingAmount.hasCurrency -> label,
-      "period": timespan.edtf,
-    }
-  },
-  carriedOutBy[] {
-    assignedActor -> {
-      "id": _id,
-      "type": _type,
-      label,
-    },
-    assignedRole[] -> {
-      "id": _id,
-      label,
-    },
-    "period": timespan.edtf,
-    "active": "Aktiv",
-    !defined(timespan) => {
-      "active": "Ukjent" 
-    },
-    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
-      "active": "Avsluttet" 
-    },
-  },
-  hadParticipant[] {
-    assignedActor -> {
-      "id": _id,
-      "type": _type,
-      label,
-    },
-    assignedRole[] -> {
-      "id": _id,
-      "type": _type,
-      label,
-    },
-    "period": timespan.edtf,
-    "active": "Aktiv",
-    !defined(timespan) => {
-      "active": "Ukjent" 
-    },
-    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
-      "active": "Avsluttet" 
-    }
-  },
-  resultedIn[] -> {
-    "id": _id,
-    "type": _type,
-    "period": timespan.edtf,
-    label,
-    usedService[] {
-      "id": assignedService -> _id,
-      "type": assignedService -> _type,
-      "label": assignedService -> label,
-      "period": timespan.edtf,
-    }
-  }
 }`
 
-export interface ProjectProps extends SanityDocument {
+export interface SingleSoftwareProps extends SanityDocument {
   id: string
   type: string
   label: string
@@ -246,7 +135,7 @@ export interface ProjectProps extends SanityDocument {
   }[]
 }
 
-const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
+const SingleSoftware = ({ data = {} }: { data: Partial<SingleSoftwareProps> }) => {
   return (
     <div>
       <div className="flex flex-row gap-3 pb-2 w-full">
@@ -471,4 +360,4 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
   )
 }
 
-export default Project
+export default SingleSoftware

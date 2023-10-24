@@ -145,14 +145,13 @@ export const Software = {
   preview: {
     select: {
       title: 'label',
-      owner: 'currentOrFormerMaintainerTeam.0.assignedActor.label',
       external: 'externalSoftware',
       media: 'logo',
     },
-    prepare({ title, owner, external, media }) {
+    prepare({ title, external, media }) {
       return {
         title: `🖥️ ${title}`,
-        subtitle: `${external === true ? 'Ekstern programvare. ' : ''}${owner ?? ''}`,
+        subtitle: `${external === true ? 'Ekstern programvare. ' : ''}`,
         media: media
       };
     },

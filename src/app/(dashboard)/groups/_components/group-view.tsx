@@ -106,7 +106,7 @@ const GroupViewItem = ({ data, showActive, className }: { data: any, showActive:
           {data.hasMember ? (
             <>
               <div className='font-bold text-xl'>Medlemmer:</div>
-              <ul className='columns-1 lg:columns-2 2xl:columns-3'>
+              <ul className='columns-1 lg:columns-2 xl:columns-3'>
                 {data.hasMember.map((member: any, index: number) => (
                   <li key={data.id + member.id + index}>
                     <h4>
