@@ -280,7 +280,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
             {data?.hasSoftwarePart ? (
               <div className='flex flex-col gap-3'>
                 <h2>Deler</h2>
-                <div className='grid grid-flow-row-dense grid-cols-3 gap-3'>
+                <div className='grid grid-cols-2 gap-4'>
                   {data?.hasSoftwarePart.map((s, i) => (
                     <SoftwareCard data={s} key={i} />
                   ))}

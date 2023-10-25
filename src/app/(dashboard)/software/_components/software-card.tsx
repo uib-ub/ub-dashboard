@@ -4,70 +4,92 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ExternalLinkIcon } from '@radix-ui/react-icons'
 
+const ServiceBox = ({ data }: { data: any }) => {
+  const { type, label, designatedAccessPoint, runBy, componentOf } = data
+  return (
+    <Card className='flex flex-col rounded-sm bg-zinc-100 dark:bg-zinc-800 shadow-md justify-between'>
+      <CardHeader className='p-2'>
+        <CardTitle className='text-sm'>
+          {label}
+        </CardTitle>
+        <CardDescription>
+          {type}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className='p-2 flex flex-col flex-grow gap-2'>
+        {runBy?.length > 0 ? (
+          <>
+            {runBy.map((r: { id: any; label: any; designatedAccessPoint: { value: any; }; providedBy: { label: any; }; type: any; }, i: number) => (
+              <Card key={r.id} className='rounded-sm bg-zinc-200 dark:bg-zinc-700'>
+                <CardHeader className='p-2'>
+                  <CardTitle className='text-sm' >
+                    {r.label}
+                  </CardTitle>
+                  <CardDescription>
+                    {r.type}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardFooter className='flex justify-between border-t p-2'>
+                  {r?.designatedAccessPoint?.value ? (
+                    <Link href={r.designatedAccessPoint?.value}>
+                      {r.providedBy?.label}
+                      <ExternalLinkIcon className='inline-block w-4 h-4 ml-1' />
+                    </Link>
+                  ) : r.providedBy?.label}
+                </CardFooter>
+              </Card>
+            ))
+            }
+          </>
+        ) : <div className='flex border rounded-sm align-middle justify-center text-xs py-6 px-2 bg-zinc-200 dark:bg-zinc-700'>Ikke deploy-a<br /> noe sted :-(.</div>}
+      </CardContent >
+
+      <CardFooter className='flex justify-self-end justify-between border-t border-zinc-700 p-2'>
+        {designatedAccessPoint?.value ? (
+          <Link href={designatedAccessPoint?.value}>
+            {componentOf.label}
+            <ExternalLinkIcon className='inline-block w-4 h-4 ml-1' />
+          </Link>
+        ) : componentOf.label}
+      </CardFooter>
+    </Card >
+  )
+}
+
+
 export const SoftwareCard = ({ data }: { data: HasSoftwarePart }) => {
   return (
     <Card className='rounded-sm bg-zinc-50 dark:bg-zinc-900'>
       <CardHeader className='p-3'>
-        <CardTitle>
-          {data.label}</CardTitle>
-        <CardDescription>
-        </CardDescription>
-        <Badge variant={'secondary'} className='grow-0 text-md'>
-          {data.type}
-        </Badge>
+        <CardTitle className='text-md'>
+          {data.label}
+        </CardTitle>
       </CardHeader>
+
       <CardContent className='p-3'>
         {data.hostedBy ? (
-          <div className='grid grid-flow-col auto-cols-max md:auto-cols-min gap-2 w-full'>
+          <div className='flex gap-2'>
             {data.hostedBy?.map((t, i) => (
-              <div key={t.id} className='flex flex-col flex-grow-0 gap-2 border p-3 bg-zinc-100 dark:bg-zinc-800 w-fit'>
-                <div className='flex items-baseline gap-2'>
-                  <span className='font-mono'>
-                    <Link href={t.designatedAccessPoint.value}>{t.remoteName ? (
-                      <span>{t.remoteName}: </span>
-                    ) : null}
-                      {t.componentOf.label} </Link>
-                  </span>
-                  <ExternalLinkIcon className='w-4 h-4' />
-                </div>
-                <Badge className='grow-0 text-sm' key={i}>
-                  {t.type}
-                </Badge>
-                {t.runBy?.length > 0 ? (
-                  <>
-                    <span className='font-bold'>Kjører på:</span>
-                    <div className='w-full bg-zinc-200 dark:bg-zinc-700 p-3'>
-                      {t.runBy.map((r, i) => (
-                        <div key={r.id} className='flex flex-col items-baseline gap-2'>
-                          <span className='font-mono'>
-                            <Link href={r.designatedAccessPoint.value}>
-                              {r.label}: {r.providedBy.label} </Link>
-                          </span>
-                          <ExternalLinkIcon className='w-4 h-4' />
-                          <Badge className='grow-0 text-sm' key={i}>
-                            {r.type}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : null}
-              </div>
+              <ServiceBox key={i} data={t} />
             ))}
           </div>
         ) : null}
-
       </CardContent>
-      <CardFooter className='border-t p-3'>
+
+      <CardFooter className='flex justify-between border-t p-3'>
         {data.hasType && (
           <div className='flex flex-wrap items-center gap-2'>
             {data.hasType.map((t, i) => (
-              <Badge variant="secondary" className='grow-0' key={i}>
+              <Badge variant="secondary" className='grow-0 text-xs' key={i}>
                 {t.label}
               </Badge>
             ))}
           </div>
         )}
+        <Badge variant={'secondary'} className='grow-0 text-xs'>
+          {data.type}
+        </Badge>
       </CardFooter>
     </Card>
   )
