@@ -3,6 +3,7 @@ import { HasSoftwarePart } from './software'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ExternalLinkIcon } from '@radix-ui/react-icons'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const ServiceBox = ({ data }: { data: any }) => {
   const { type, label, designatedAccessPoint, runBy, componentOf } = data
@@ -42,7 +43,14 @@ const ServiceBox = ({ data }: { data: any }) => {
             ))
             }
           </>
-        ) : <div className='flex border rounded-sm align-middle justify-center text-xs py-6 px-2 bg-zinc-200 dark:bg-zinc-700'>Ikke deploy-a<br /> noe sted :-(.</div>}
+        ) : (
+          <Alert variant={'destructive'}>
+            <AlertTitle>Ingen tjenester</AlertTitle>
+            <AlertDescription>
+              {label} har ingen tjenester.
+            </AlertDescription>
+          </Alert>
+        )}
       </CardContent >
 
       <CardFooter className='flex justify-self-end justify-between border-t border-zinc-700 p-2'>
@@ -69,7 +77,7 @@ export const SoftwareCard = ({ data }: { data: HasSoftwarePart }) => {
 
       <CardContent className='p-3'>
         {data.hostedBy ? (
-          <div className='flex gap-2'>
+          <div className='grid grid-cols-1 xl:grid-cols-2  gap-3'>
             {data.hostedBy?.map((t, i) => (
               <ServiceBox key={i} data={t} />
             ))}

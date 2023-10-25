@@ -227,6 +227,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
   return (
     <div>
       <div className="flex flex-row gap-3 pb-2 w-full">
+
         {data?.logo ? (
           <div className='w-[100px] h-[100px]'>
             <ImageBox image={data.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
@@ -238,88 +239,99 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
         </div>
       </div>
 
-      <Separator className='my-3' />
+      <Tabs orientation='horizontal' defaultValue="general">
+        <TabsList className='flex justify-start items-start h-fit mt-2 p-0 bg-transparent border-b w-full'>
+          <TabsTrigger value="general" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">Generelt</TabsTrigger>
+          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 pb-1 px-3 ml-auto text-muted-foreground text-sm font-medium' />
+        </TabsList>
 
-      <div className='flex gap-4 w-full'>
-        <div className='flex gap-4 w-full'>
-          {data?.hasType ? (
-            <Card className='border-0 p-0 shadow-none'>
-              <CardHeader className='p-0 mb-1'>
-                <CardTitle className='text-sm'>Type</CardTitle>
-              </CardHeader>
-              <CardContent className='p-0'>{data.hasType.map(tag => (
-                <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
-              ))}
-              </CardContent>
-            </Card>
-          ) : null}
-
-          {data?.resultOf ? (
-            <Card className='flex gap-2 border-0 p-0 shadow-none'>
-              {data.resultOf?.logo ? (
-                <div className='w-[45px] h-[45px]'>
-                  <ImageBox image={data.resultOf?.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
-                </div>
-              ) : null}
-              <div>
-                <CardHeader className='p-0 mb-1'>
-                  <CardTitle className='text-sm'>Resultat av: <i>{data.resultOf?.type}</i></CardTitle>
+        <TabsContent value="general" className='pt-4'>
+          <div className='grid grid-cols-3 gap-4'>
+            {data?.hasType ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Type</CardTitle>
                 </CardHeader>
-                <CardContent className='p-0'>
-                  <Link href={`/${path[data.resultOf?.type]}/${data.resultOf?.id}`} className='underline underline-offset-2'>
-                    {data.resultOf?.label}
-                  </Link>
+                <CardContent>
+                  <div className='flex gap-2'>
+                    {data.hasType.map(tag => (
+                      <Badge key={tag.id} variant={'secondary'} className='text-lg'>{tag.label}</Badge>
+                    ))}
+                  </div>
                 </CardContent>
-              </div>
-            </Card>
-          ) : null}
-        </div>
-      </div>
+              </Card>
+            ) : null}
 
-      <Separator className='my-3' />
+            {data?.resultOf ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Resultat av</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='flex gap-2'>
+                    {data.resultOf?.logo ? (
+                      <div className='w-[50px] h-[50px]'>
+                        <ImageBox image={data.resultOf?.logo} width={50} height={50} alt="" classesWrapper='relative aspect-[1/1]' />
+                      </div>
+                    ) : null}
+                    <Link href={`/${path[data.resultOf?.type]}/${data.resultOf?.id}`} className='underline underline-offset-2'>
+                      {data.resultOf?.label}
+                      <br />
+                      <Badge>{data.resultOf?.type}</Badge>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
 
-      <Tabs orientation='vertical' defaultValue="general" className="flex gap-10 flex-grow">
-        <div>
-          <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="general">Generelt</TabsTrigger>
-          </TabsList>
-          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
-        </div>
+            {/* @ts-ignore */}
+            {data.referredToBy?.[0]?.body ? (
+              <Card className=''>
+                <CardHeader>
+                  <CardTitle>Beskrivelse</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
+                    {/* @ts-ignore */}
+                    <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            ) : null}
 
-        <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
-          {/* @ts-ignore */}
-          {data.referredToBy?.[0]?.body ? (
-            <>
-              <h2>Beskrivelse</h2>
-              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
-                {/* @ts-ignore */}
-                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-              </ScrollArea>
-            </>
-          ) : null}
-
-          <div className='flex flex-col gap-10'>
             {data?.currentOrFormerManager ? (
-              <div>
-                <h2>Ansvarlig</h2>
-                <Participants data={data.currentOrFormerManager} config={{ activeFilter: false }} />
-              </div>
+              <Card className='col-span-3'>
+                <CardHeader>
+                  <CardTitle>Ansvarlig</CardTitle>
+                </CardHeader>
+                <CardContent>
+
+                  <Participants data={data.currentOrFormerManager} config={{ activeFilter: false }} />
+                </CardContent>
+              </Card>
             ) : null}
 
             {data?.hasSoftwarePart ? (
-              <div className='flex flex-col gap-3'>
-                <h2>Deler</h2>
-                <div className='grid grid-cols-2 gap-4'>
-                  {data?.hasSoftwarePart.map((s, i) => (
-                    <SoftwareCard data={s} key={i} />
-                  ))}
-                </div>
+              <div className='col-span-3 flex flex-col gap-3'>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Deler</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='grid grid-cols-2 gap-4'>
+                      {data?.hasSoftwarePart.map((s, i) => (
+                        <SoftwareCard data={s} key={i} />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             ) : null}
           </div>
+
         </TabsContent>
       </Tabs>
-    </div>
+    </div >
   )
 }
 
