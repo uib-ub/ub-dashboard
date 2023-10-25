@@ -1,7 +1,7 @@
 import { MainShell } from '@/components/main-shell'
 import { LiveQuery } from 'next-sanity/preview/live-query'
 import { draftMode } from 'next/headers'
-import SingleSoftware, { query, SingleSoftwareProps } from '../_components/single-software'
+import Software, { query, SoftwareProps } from '../_components/software'
 import PreviewSingleSoftware from '../_components/preview-single-software'
 import { sanityFetch } from '@/lib/fetch'
 
@@ -10,7 +10,7 @@ export default async function ProjectPage({
 }: {
   params: any
 }) {
-  const data = await sanityFetch<SingleSoftwareProps>({ query, params: { id: params.id }, tags: ['group', params.id] })
+  const data = await sanityFetch<SoftwareProps>({ query, params: { id: params.id }, tags: ['software', params.id] })
 
   return (
     <MainShell>
@@ -21,7 +21,7 @@ export default async function ProjectPage({
         initialData={data}
         as={PreviewSingleSoftware}
       >
-        <SingleSoftware data={data} />
+        <Software data={data} />
       </LiveQuery>
     </MainShell>
   )

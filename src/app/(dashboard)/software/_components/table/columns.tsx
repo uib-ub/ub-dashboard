@@ -1,14 +1,14 @@
 "use client"
-import { CaretSortIcon } from "@radix-ui/react-icons"
+import { CaretSortIcon, CheckCircledIcon, CheckboxIcon, CrossCircledIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
-import { SoftwareProps } from './software'
+import { SoftwareListProps } from './software-list'
 import Link from "next/link"
 import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { Badge } from '@/components/ui/badge'
 import { path } from '@/lib/utils'
 
-export const columns: ColumnDef<SoftwareProps>[] = [
+export const columns: ColumnDef<SoftwareListProps>[] = [
   {
     accessorKey: "label",
     header: ({ column }) => {
@@ -45,11 +45,12 @@ export const columns: ColumnDef<SoftwareProps>[] = [
   },
   {
     header: "Utviklet av UB",
-    accessorKey: "madeByUB"
-  },
-  {
-    header: "Periode",
-    accessorKey: "period"
+    accessorKey: "madeByUB",
+    cell: ({ row }) => (
+      <div className='flex flex-wrap gap-2'>
+        {(row.getValue('madeByUB') as boolean) ? <CheckCircledIcon className='text-green-500 w-5 h-5' /> : <CrossCircledIcon className='text-red-500 w-5 h-5' />}
+      </div>
+    )
   },
   {
     header: "",

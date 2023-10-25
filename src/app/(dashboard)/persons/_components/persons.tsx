@@ -23,7 +23,7 @@ export const query = groq`*[_type in ["Actor"]] | order(label asc) {
       "active": "Ukjent" 
     },
     timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
-      "active": "Pensjonist eller jobber ikke lenger på UB" 
+      "active": "Slutta" 
     },
     "memberOf": *[_type == "Group" && references(^._id)].label
   }`

@@ -2,7 +2,7 @@ import { groq } from 'next-sanity'
 import { DataTable } from '@/components/data-table'
 import { columns } from './columns'
 
-export interface SoftwareProps {
+export interface SoftwareListProps {
   id: string
   type: string
   label: string
@@ -45,7 +45,7 @@ export const query = groq`*[_type in ['Software']] | order(label asc)  {
   },
 }`
 
-const Software = ({ data }: { data: SoftwareProps[] }) => {
+const SoftwareList = ({ data }: { data: SoftwareListProps[] }) => {
   return (
     <DataTable
       data={data}
@@ -59,4 +59,4 @@ const Software = ({ data }: { data: SoftwareProps[] }) => {
   )
 }
 
-export default Software
+export default SoftwareList
