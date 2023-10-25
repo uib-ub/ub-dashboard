@@ -14,6 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { InfoboxMissingData } from '@/components/infobox-missing-data'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { path } from '@/lib/utils'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -103,6 +104,12 @@ export const query = groq`*[_id == $id][0] {
     image,
     shortDescription,
   },
+  "connectedToProject": *[$id in hasTeam[]._ref][0] {
+    "id": _id,
+    "type": _type,
+    label,
+    logo,
+  }
 }`
 
 export interface GroupProps extends SanityDocument {
@@ -196,6 +203,27 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
             </CardContent>
           </Card>
         ) : null}
+
+        {data?.connectedToProject ? (
+          <Card className='flex gap-2 border-0 p-0 shadow-none'>
+            {data.connectedToProject.logo ? (
+              <div className='w-[45px] h-[45px]'>
+                <ImageBox image={data.connectedToProject.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+              </div>
+            ) : null}
+            <div>
+              <CardHeader className='p-0 mb-1'>
+                <CardTitle className='text-sm'>Knyttet til: <i>{data.connectedToProject.type}</i></CardTitle>
+              </CardHeader>
+              <CardContent className='p-0'>
+                <Link href={`/${path[data.connectedToProject.type]}/${data.connectedToProject.id}`} className='underline underline-offset-2'>
+                  {data.connectedToProject.label}
+                </Link>
+              </CardContent>
+            </div>
+          </Card>
+        ) : null}
+
       </div>
 
       <Separator className='my-3' />

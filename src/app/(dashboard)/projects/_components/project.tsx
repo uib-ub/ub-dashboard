@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ResultedIn } from '@/components/resulted-in'
+import { path } from '@/lib/utils'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -129,6 +130,7 @@ export const query = groq`*[_id == $id][0] {
     "type": _type,
     "period": timespan.edtf,
     label,
+    logo,
     usedService[] {
       "id": assignedService -> _id,
       "type": assignedService -> _type,
@@ -237,6 +239,7 @@ export interface ProjectProps extends SanityDocument {
     type: string
     period: string
     label: string
+    logo: SanityImageAssetDocument
     usedService: {
       id: string
       type: string
@@ -298,6 +301,26 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
                 <CardTitle className='text-sm'>Periode</CardTitle>
               </CardHeader>
               <CardContent className='p-0'>{data.period}</CardContent>
+            </Card>
+          ) : null}
+
+          {data?.resultedIn && data.resultedIn.length > 0 ? (
+            <Card className='flex gap-2 border-0 p-0 shadow-none'>
+              {data.resultedIn?.[0].logo ? (
+                <div className='w-[45px] h-[45px]'>
+                  <ImageBox image={data.resultedIn?.[0].logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+                </div>
+              ) : null}
+              <div>
+                <CardHeader className='p-0 mb-1'>
+                  <CardTitle className='text-sm'>Hovedresultat: <i>{data.resultedIn?.[0].type}</i></CardTitle>
+                </CardHeader>
+                <CardContent className='p-0'>
+                  <Link href={`/${path[data.resultedIn?.[0].type]}/${data.resultedIn?.[0].id}`} className='underline underline-offset-2'>
+                    {data.resultedIn?.[0].label}
+                  </Link>
+                </CardContent>
+              </div>
             </Card>
           ) : null}
         </div>

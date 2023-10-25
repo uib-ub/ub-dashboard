@@ -10,6 +10,8 @@ import { Participants } from '@/components/participants'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SoftwareCard } from './software-card'
+import { path } from '@/lib/utils'
+import Link from 'next/link'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -123,6 +125,13 @@ export const query = groq`*[_id == $id][0] {
         },
       }
     },
+  },
+  "resultOf": *[resultedIn[][0]._ref == $id][0] {
+    "id": _id,
+    "type": _type,
+    "period": timespan.edtf,
+    label,
+    logo,
   }
 }`
 
@@ -242,6 +251,26 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
                 <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
               ))}
               </CardContent>
+            </Card>
+          ) : null}
+
+          {data?.resultOf ? (
+            <Card className='flex gap-2 border-0 p-0 shadow-none'>
+              {data.resultOf?.logo ? (
+                <div className='w-[45px] h-[45px]'>
+                  <ImageBox image={data.resultOf?.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+                </div>
+              ) : null}
+              <div>
+                <CardHeader className='p-0 mb-1'>
+                  <CardTitle className='text-sm'>Resultat av: <i>{data.resultOf?.type}</i></CardTitle>
+                </CardHeader>
+                <CardContent className='p-0'>
+                  <Link href={`/${path[data.resultOf?.type]}/${data.resultOf?.id}`} className='underline underline-offset-2'>
+                    {data.resultOf?.label}
+                  </Link>
+                </CardContent>
+              </div>
             </Card>
           ) : null}
         </div>
