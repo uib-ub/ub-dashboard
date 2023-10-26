@@ -34,6 +34,10 @@ export const columns: ColumnDef<LinksProps>[] = [
   },
   {
     header: "Type",
+    accessorKey: "type",
+  },
+  {
+    header: "Kategori",
     accessorKey: "hasType",
     cell: ({ row }: { row: any }) => (
       <div className='flex flex-col gap-2'>

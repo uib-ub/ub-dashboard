@@ -51,3 +51,16 @@ describe('cn', () => {
   })
 })
 
+describe('uniqueStringArray', () => {
+  it('should return an empty array when given an empty array', () => {
+    expect(uniqueStringArray([])).toEqual([])
+  })
+
+  it('should return an array with the same elements when given an array with no duplicates', () => {
+    expect(uniqueStringArray(['a', 'b', 'c'])).toEqual(['a', 'b', 'c'])
+  })
+
+  it('should return an array with duplicates removed when given an array with duplicates', () => {
+    expect(uniqueStringArray(['a', 'b', 'a', 'c', 'b'])).toEqual(['a', 'b', 'c'])
+  })
+})

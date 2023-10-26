@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { Badge } from '@/components/ui/badge'
 import { GiFinishLine } from 'react-icons/gi'
+import ImageBox from '@/components/image-box'
 
 export const columns: ColumnDef<PersonListProps>[] = [
   {
@@ -23,7 +24,12 @@ export const columns: ColumnDef<PersonListProps>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className='w-[200px]'>
+      <div className='w-[200px] flex gap-2 items-center'>
+        {row.original.image ? (
+          <div className='w-[25px] h-[25px]'>
+            <ImageBox image={row.original.image} width={45} height={45} alt="" classesWrapper='relative aspect-[1/1] rounded-full' />
+          </div>
+        ) : null}
         <Link href={`/persons/${row.getValue('id')}`} className='font-bold'>
           {row.getValue('label')}
         </Link>

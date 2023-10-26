@@ -1,12 +1,27 @@
 import { draftMode } from 'next/headers'
 import { LiveQuery } from 'next-sanity/preview/live-query'
-import Links, { query } from './_components/links'
+import Links, { query, accessPointQuery } from './_components/links'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 import PreviewLinks from './_components/preview-links'
 
 export default async function GroupsPage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['groups'] })
+  const links = await sanityFetch<any[]>({ query, tags: ['links'] })
+  const accessPoints = await sanityFetch<any[]>({ query: accessPointQuery, tags: ['links'] })
+
+  const [urls, accessPointLinks] = await Promise.all([links, accessPoints])
+
+  const extractAccessPoints = (accessPointLinks: any[]) => {
+    return accessPointLinks.reduce((acc, curr) => {
+      return [...acc, ...curr.accessPoint]
+    }, [])
+  }
+
+  const data = [
+    ...urls,
+    ...extractAccessPoints(accessPointLinks),
+  ]
+
 
   return (
     <MainShell>

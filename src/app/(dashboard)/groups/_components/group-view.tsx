@@ -21,6 +21,19 @@ const bgColors: Record<string, string> = {
   "Arbeidsgruppe": "bg-zinc-400",
 }
 
+const borderColors: Record<string, string> = {
+  "Universitet": "bg-zinc-400",
+  "Universitetsbibliotek": "bg-zinc-500",
+  "Fakultet": "bg-zinc-500",
+  "Avdeling": "bg-zinc-500",
+  "Seksjon": "bg-zink-600",
+  "Institutt": "bg-zinc-600",
+  "Faggruppe": "bg-zinc-700",
+  "Bibliotek": "bg-zinc-700",
+  "Fokusgruppe": "bg-zinc-800",
+  "Arbeidsgruppe": "bg-zinc-800",
+}
+
 const bgDarkColors: Record<string, string> = {
   "Universitet": "dark:bg-zinc-900",
   "Universitetsbibliotek": "dark:bg-zinc-800",
@@ -72,9 +85,9 @@ const GroupViewItem = ({ data, showActive, className }: { data: any, showActive:
             {data.label}
           </Link>
         </CardTitle>
-        <CardDescription>{data.shortDescription}</CardDescription>
+        <CardDescription className='mix-blend-difference'>{data.shortDescription}</CardDescription>
 
-        <Separator className='my-3' />
+        <Separator className={cn('my-3', borderColors[data.hasType[0].label])} />
 
         <div className='flex gap-3'>
           {data?.hasType ? (
@@ -82,8 +95,8 @@ const GroupViewItem = ({ data, showActive, className }: { data: any, showActive:
               <CardHeader className='p-0'>
                 <CardTitle className='text-sm'>Type</CardTitle>
               </CardHeader>
-              <CardContent className='p-0'>{data.hasType.map((tag: any) => (
-                <Badge key={tag.id} variant={'outline'}>{tag.label}</Badge>
+              <CardContent className='p-0 flex flex-wrap gap-1'>{data.hasType.map((tag: any) => (
+                <Badge key={tag.id} variant={'outline'} className='border-none py-1 px-0'>{tag.label}</Badge>
               ))}
               </CardContent>
             </Card>
@@ -97,7 +110,7 @@ const GroupViewItem = ({ data, showActive, className }: { data: any, showActive:
             </Card>
           ) : null}
         </div>
-        <Separator className='my-3' />
+        <Separator className={cn('my-3', borderColors[data.hasType[0].label])} />
       </CardHeader>
 
       {data?.hasMember?.length > 0 || data?.children?.length > 0 ? (

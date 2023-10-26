@@ -190,7 +190,7 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
             {data?.hasType ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Type</CardTitle>
+                  <CardTitle>Kategorier</CardTitle>
                 </CardHeader>
                 <CardContent>{data.hasType.map(tag => (
                   <Badge key={tag.id} variant={'secondary'}>{tag.label}</Badge>

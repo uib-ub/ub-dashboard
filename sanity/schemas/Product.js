@@ -2,7 +2,7 @@ import { hasFile, hadParticipant, image, labelSingleton, link, referredToBy, use
 
 export const Product = {
   name: 'Product',
-  title: 'Produkt',
+  title: 'Produkt  (IKKE BRUK)',
   type: 'document',
   liveEdit: true,
   fields: [

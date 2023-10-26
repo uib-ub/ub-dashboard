@@ -318,7 +318,7 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
             {data?.hasType ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Type</CardTitle>
+                  <CardTitle>Kategorier</CardTitle>
                 </CardHeader>
                 <CardContent className='p-0'>{data.hasType.map(tag => (
                   <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>

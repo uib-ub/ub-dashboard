@@ -1,7 +1,7 @@
 import { EditIntentButton } from '@/components/edit-intent-button'
 import ImageBox from '@/components/image-box'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SanityDocument, SanityImageAssetDocument, groq } from 'next-sanity'
@@ -89,6 +89,7 @@ export const query = groq`*[_id == $id][0] {
       "id": _id,
       "type": _type,
       label,
+      logo,
       "period": timespan.edtf,
       hasPlatformCapability,
       hasComputingCapability,
@@ -97,6 +98,7 @@ export const query = groq`*[_id == $id][0] {
         "id": _id,
         "type": _type,
         label,
+        "logo": providedBy->.logo,
       },
       designatedAccessPoint {
         "type": _type,
@@ -179,6 +181,7 @@ export type HasSoftwarePart = {
       id: string
       type: string
       label: string
+      logo: SanityImageAssetDocument
     }
     designatedAccessPoint: {
       type: string
@@ -250,7 +253,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
             {data?.hasType ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Type</CardTitle>
+                  <CardTitle>Kategorier</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className='flex gap-2'>
@@ -302,7 +305,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
             {data?.currentOrFormerManager ? (
               <Card className='col-span-3'>
                 <CardHeader>
-                  <CardTitle>Ansvarlig</CardTitle>
+                  <CardTitle>Ansvarlige</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Participants data={data.currentOrFormerManager} config={{ activeFilter: false }} />
@@ -314,7 +317,8 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               <div className='col-span-3 flex flex-col gap-3'>
                 <Card>
                   <CardHeader>
-                    <CardTitle>Deler</CardTitle>
+                    <CardTitle>Programvaren-deler</CardTitle>
+                    <CardDescription>Et stykke programvare kan ha mange deler som har avhengigheter til hverandre</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className='grid grid-cols-2 gap-4'>

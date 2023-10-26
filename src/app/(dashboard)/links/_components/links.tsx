@@ -15,29 +15,46 @@ export interface LinksProps {
   active: string
 }
 
-export const query = groq`[
-  ...*[_type in ['Endpoint', 'AccessPoint', 'HostingService']] | order(active) | order(label asc)  {
+export const query = groq`*[_type in ['Endpoint', 'AccessPoint', 'HostingService', 'SoftwareComputingEService'] && (defined(designatedAccessPoint) || defined(url))] | order(active) | order(label asc)  {
+  "id": _id,
+  "type": _type,
+  label,
+  hasType[]-> {
     "id": _id,
-    "type": _type,
     label,
-    hasType[]-> {
-      "id": _id,
-      label,
-    },
-    "url": coalesce(    
-      url,
-      designatedAccessPoint.value
-    ),
-    "period": timespan.edtf,
-    "active": "Aktiv",
-    !defined(timespan) => {
-      "active": "Ukjent" 
-    },
-    timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
-      "active": "Avsluttet" 
-    },
+  },
+  "url": coalesce(    
+    url,
+    designatedAccessPoint.value
+  ),
+  "period": timespan.edtf,
+  "active": "Aktiv",
+  !defined(timespan) => {
+    "active": "Ukjent" 
+  },
+  timespan.endOfTheEnd != '' && timespan.endOfTheEnd <= now() => {
+    "active": "Avsluttet" 
+  },
+}`
+
+export const accessPointQuery = groq`*[_type in ['SoftwareComputingEService']] {
+  defined(accessPoint) => {
+    accessPoint[] {
+      "id": ^._id,
+      "type": ^._type,
+      "label": ^.label,
+      "url": value,   
+      "period": ^.timespan.edtf,
+      "active": "Aktiv", 
+      !defined(^.timespan) => {
+        "active": "Ukjent" 
+      },
+      ^.timespan.endOfTheEnd != '' && ^.timespan.endOfTheEnd <= now() => {
+        "active": "Avsluttet" 
+      },
+    }
   }
-]`
+}`
 
 const Links = ({ data }: { data: LinksProps[] }) => {
 

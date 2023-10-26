@@ -9,6 +9,7 @@ import { token } from '@/sanity/lib/fetch'
 import { Header } from '@/components/header'
 import { PreviewIndicator } from '@/components/preview-indicator'
 import { Suspense } from 'react'
+import { Footer } from '@/components/footer'
 
 export const metadata: Metadata = {
   title: 'UB dashboard',
@@ -41,6 +42,7 @@ export default async function RootLayout({
           <>
             <Header />
             {children}
+            <Footer />
           </>
         )}
 
