@@ -1,6 +1,6 @@
 import { groupBy, sortBy } from 'lodash'
 import { groq } from 'next-sanity'
-import { InfoboxMissingData } from './infobox-missing-data'
+import { Alert, AlertTitle } from './ui/alert'
 
 export type TimelineProps = {
   id: string
@@ -52,7 +52,13 @@ export const query = groq`[
 ]`
 
 const Timeline = ({ data }: { data: TimelineProps[] }) => {
-  if (data.length === 0) return <InfoboxMissingData>Ikke nok informasjon...</InfoboxMissingData>
+  if (data.length === 0) return (
+    <Alert>
+      <AlertTitle>
+        Ikke nok informasjon...
+      </AlertTitle>
+    </Alert>
+  )
 
   const sortedByYear = sortBy(data, ['timestamp'])
   const groupedByYear = groupBy(sortedByYear, function (item) {

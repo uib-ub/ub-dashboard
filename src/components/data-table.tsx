@@ -70,8 +70,8 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div>
-      <div className="flex items-center gap-5 py-4">
+    <div className='flex flex-col gap-4'>
+      {config.labelSearch === true || config.activeFilter === true || config.externalSoftwareFilter === true ? (<div className="flex items-center gap-5">
         {flatColumns.includes('label') && config?.labelSearch ? (
           <Input
             placeholder="Filtrér på navn..."
@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
             <Label htmlFor="external-software-switch">Utviklet av UB</Label>
           </div>
         ) : null}
-      </div>
+      </div>) : null}
 
       <div className="rounded-sm border">
         <Table>

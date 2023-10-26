@@ -1,4 +1,4 @@
-import { InfoboxMissingData } from '@/components/infobox-missing-data'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 import { Slider } from '@/components/ui/slider'
 
 export interface SkillListProps {
@@ -9,11 +9,13 @@ export interface SkillListProps {
 
 export const Skills = ({ data = [] }: { data?: SkillListProps[] }) => {
   return (
-    <div className='flex flex-col gap-2'>
-      <h2>Kompetanse</h2>
-
+    <>
       {!data ? (
-        <InfoboxMissingData>Kompentanse ikke registrert</InfoboxMissingData>
+        <Alert>
+          <AlertTitle>
+            Kompentanse ikke registrert
+          </AlertTitle>
+        </Alert>
       ) : (
         <div className='flex flex-col mt-2'>
           {data?.map((skill, index) => (
@@ -33,6 +35,6 @@ export const Skills = ({ data = [] }: { data?: SkillListProps[] }) => {
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 }

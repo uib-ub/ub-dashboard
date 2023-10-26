@@ -1,4 +1,4 @@
-import { checkMembership, cn } from './utils'
+import { checkMembership, cn, uniqueStringArray } from './utils'
 
 describe('checkMembership', () => {
   it('should return false if all members are active', () => {
@@ -50,3 +50,4 @@ describe('cn', () => {
     expect(cn(['foo', ['bar', 'baz']], 'qux')).toBe('foo bar baz qux')
   })
 })
+

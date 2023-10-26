@@ -2,7 +2,7 @@
 
 import { DataTable } from '@/components/data-table';
 import { EditIntentButton } from '@/components/edit-intent-button';
-import { InfoboxMissingData } from '@/components/infobox-missing-data';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CaretSortIcon } from '@radix-ui/react-icons';
@@ -79,10 +79,13 @@ const columns = [
 
 export const MemberOf = ({ data }: { data: any }) => {
   return (
-    <div className='flex flex-col gap-2'>
-      <h2>Medlem av</h2>
+    <>
       {data.length === 0 ? (
-        <InfoboxMissingData>Ingen medlemskap registrert</InfoboxMissingData>
+        <Alert>
+          <AlertTitle>
+            Ingen medlemskap registrert
+          </AlertTitle>
+        </Alert>
       ) :
         <DataTable
           columns={columns}
@@ -92,6 +95,6 @@ export const MemberOf = ({ data }: { data: any }) => {
           }}
         />
       }
-    </div>
+    </>
   )
 }

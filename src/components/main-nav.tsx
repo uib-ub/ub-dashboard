@@ -41,6 +41,12 @@ export function MainNav({
       >
         Programvare
       </Link>
+      <Link
+        href="/links"
+        className="text-sm font-medium transition-colors hover:text-primary"
+      >
+        Lenker
+      </Link>
     </nav>
   )
 }

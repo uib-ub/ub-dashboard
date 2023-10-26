@@ -11,7 +11,7 @@ export default async function PersonsPage() {
   return (
     <MainShell>
       <h1>Personer</h1>
-      <p className='max-w-prose'>Personer som jobber på UB, basert på data registrert i <i>dashboard-et</i>. De som ikke har nok data er filtrert bort, men de vises om man slår av &quot;Aktive&quot; filteret. Da vises også personer som ikke jobber på UB, men har en kobling til oss.</p>
+      <p className='max-w-prose mb-5'>Personer som jobber på UB, basert på data registrert i <i>dashboard-et</i>. De som ikke har nok data er filtrert bort, men de vises om man slår av &quot;Aktive&quot; filteret. Da vises også personer som ikke jobber på UB, men har en kobling til oss. Er ikke det utrolig tipp-toppers, da?</p>
       <LiveQuery
         enabled={draftMode().isEnabled}
         query={query}

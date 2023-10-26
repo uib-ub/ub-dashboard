@@ -226,7 +226,7 @@ export type SoftwareProps = SanityDocument & {
 const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
   return (
     <div>
-      <div className="flex flex-row gap-3 pb-2 w-full">
+      <div className="flex flex-row gap-3 pb-2">
 
         {data?.logo ? (
           <div className='w-[100px] h-[100px]'>
@@ -305,7 +305,6 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
                   <CardTitle>Ansvarlig</CardTitle>
                 </CardHeader>
                 <CardContent>
-
                   <Participants data={data.currentOrFormerManager} config={{ activeFilter: false }} />
                 </CardContent>
               </Card>

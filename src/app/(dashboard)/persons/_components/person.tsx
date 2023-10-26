@@ -5,12 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PortableTextBlock } from 'sanity'
 import { Skills } from './skills'
 import { MemberOf } from './member-of'
-import { Separator } from '@/components/ui/separator'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { ResponsibleFor } from './responsibleFor'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Timeline from '@/components/timeline'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -163,7 +163,7 @@ export interface PersonProps extends SanityDocument {
 const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
   return (
     <div>
-      <div className="flex flex-row gap-3">
+      <div className="flex flex-row gap-3 pb-2">
         {data?.image ? (
           <div className='w-[100px] h-[100px]'>
             <ImageBox image={data.image} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
@@ -176,50 +176,82 @@ const Person = ({ data = {} }: { data: Partial<PersonProps> }) => {
         </div>
       </div>
 
-      <Separator className='my-3' />
+      <Tabs orientation='horizontal' defaultValue="general">
+        <TabsList className='flex justify-start items-start h-fit mt-2 p-0 bg-transparent border-b w-full'>
+          <TabsTrigger value="general" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+            Generelt
+          </TabsTrigger>
+          <TabsTrigger value="skills" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+            Kompetanse
+          </TabsTrigger>
+          <TabsTrigger value="timeline" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+            Tidslinje
+          </TabsTrigger>
+          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 pb-1 px-3 ml-auto text-muted-foreground text-sm font-medium' />
+        </TabsList>
 
-      <Tabs orientation='vertical' defaultValue="general" className="flex gap-4 flex-grow">
-        <div>
-          <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="general">Generelt</TabsTrigger>
-            <TabsTrigger value="skills">Kompetanse</TabsTrigger>
-            <TabsTrigger value="responsibleFor">Ansvar</TabsTrigger>
-            <TabsTrigger value="timeline">Tidslinje</TabsTrigger>
-          </TabsList>
-          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
-        </div>
 
-        <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
-          <div className='flex flex-col gap-3'>
+        <TabsContent value="general" className='pt-4'>
+          <div className='grid grid-cols-3 gap-4'>
+
             {/* @ts-ignore */}
             {data.referredToBy?.[0]?.body ? (
-              <>
-                <h2>Beskrivelse</h2>
-                <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
-                  {/* @ts-ignore */}
-                  <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-                </ScrollArea>
-              </>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Beskrivelse</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
+                    {/* @ts-ignore */}
+                    <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+                  </ScrollArea>
+                </CardContent>
+              </Card>
             ) : (
               null
             )}
-            <MemberOf data={data.memberOf} />
+
+            <Card className='col-span-2'>
+              <CardHeader>
+                <CardTitle>Ansvar for</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsibleFor data={data.currentOrFormerManagerOf} />
+              </CardContent>
+            </Card>
+
+            <Card className='col-span-3'>
+              <CardHeader>
+                <CardTitle>Medlem av</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <MemberOf data={data.memberOf} />
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="skills" className='flex-1 p-4 border rounded-sm'>
-          <Skills data={data.hasSkill} />
+        <TabsContent value="skills" className='pt-4 grid grid-cols-3'>
+          <Card className='col-span-2'>
+            <CardHeader>
+              <CardTitle>Kompetanse</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Skills data={data.hasSkill} />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        <TabsContent value="responsibleFor" className='flex-1 p-4 border rounded-sm'>
-          <ResponsibleFor data={data.currentOrFormerManagerOf} />
-        </TabsContent>
+        <TabsContent value="timeline" className='pt-4'>
+          <Card>
+            <CardHeader>
+              <CardTitle>Tidslinje</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Timeline data={data.timeline} />
 
-        <TabsContent value="timeline" className='flex-1 p-4 border rounded-sm'>
-          <div className='flex flex-col gap-2'>
-            <h2>Tidslinje</h2>
-            <Timeline data={data.timeline} />
-          </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

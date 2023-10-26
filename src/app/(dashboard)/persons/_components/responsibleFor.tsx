@@ -2,7 +2,7 @@
 
 import { DataTable } from '@/components/data-table';
 import { EditIntentButton } from '@/components/edit-intent-button';
-import { InfoboxMissingData } from '@/components/infobox-missing-data';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
@@ -57,15 +57,16 @@ const columns = [
 
 export const ResponsibleFor = ({ data }: { data: any }) => {
   return (
-    <div className='flex flex-col gap-2'>
-      <h2>Ansvar for</h2>
+    <>
       {data.length === 0 ? (
-        <InfoboxMissingData>
-          Ikke ansvar for noen tjenester eller systemer, eller det er ikke registrert.
-        </InfoboxMissingData>
+        <Alert>
+          <AlertTitle>
+            Ikke ansvar for noen tjenester eller systemer, eller det er ikke registrert.
+          </AlertTitle>
+        </Alert>
       ) :
         <DataTable columns={columns} data={data} />
       }
-    </div>
+    </>
   )
 }

@@ -252,187 +252,164 @@ export interface ProjectProps extends SanityDocument {
 const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
   return (
     <div>
-      <div className="flex flex-row gap-3 pb-2 w-full">
-        {data?.logo ? (
-          <div className='w-[100px] h-[100px]'>
-            <ImageBox image={data.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+      <div className='flex items-center gap-3'>
+        {data?.continued ? (
+          <div>
+            <Popover>
+              <PopoverTrigger><ChevronLeftIcon className='w-10 h-10' /></PopoverTrigger>
+              <PopoverContent>
+                <p className='font-semibold italic'>
+                  Fortsatte
+                </p>
+                {data.continued.map((e: any) => (
+                  <Link key={e.id} href={`/projects/${e.id}`}>
+                    {e.label}
+                  </Link>
+                ))}
+              </PopoverContent>
+            </Popover>
           </div>
         ) : null}
-        <div className='flex flex-col'>
-          <h1 className='text-5xl mb-2'>{data?.label}</h1>
-          {data?.shortDescription ? (<p>{data.shortDescription}</p>) : null}
+        <div className="flex flex-row gap-3 pb-2 w-full">
+          {data?.logo ? (
+            <div className='w-[100px] h-[100px]'>
+              <ImageBox image={data.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+            </div>
+          ) : null}
+          <div className='flex flex-col'>
+            <h1 className='text-5xl mb-2'>{data?.label}</h1>
+            {data?.shortDescription ? (<p>{data.shortDescription}</p>) : null}
+          </div>
+
         </div>
+        {data?.continuedBy ? (
+          <div className="ml-auto">
+            <Popover>
+              <PopoverTrigger className='aspect-square border'>
+                <ChevronRightIcon className='w-10 h-10' />
+              </PopoverTrigger>
+              <PopoverContent>
+                <p className='font-semibold italic'>
+                  Fortsatt av
+                </p>
+                {data.continuedBy.map((e: any) => (
+                  <Link key={e.id} href={`/projects/${e.id}`}>
+                    {e.label}
+                  </Link>
+                ))}
+              </PopoverContent>
+            </Popover>
+          </div>
+        ) : null}
       </div>
 
-      <Separator className='my-3' />
+      <Tabs orientation='vertical' defaultValue="general">
+        <TabsList className='flex justify-start items-start h-fit mt-2 p-0 bg-transparent border-b w-full'>
+          <TabsTrigger value="general" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+            Generelt
+          </TabsTrigger>
+          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 pb-1 px-3 ml-auto text-muted-foreground text-sm font-medium' />
+        </TabsList>
 
-      <div className='flex gap-4 w-full'>
-        {data?.continued ? (
-          <Popover>
-            <PopoverTrigger><ChevronLeftIcon className='w-10 h-10' /></PopoverTrigger>
-            <PopoverContent>
-              <p className='font-semibold italic'>
-                Fortsatte
-              </p>
-              {data.continued.map((e: any) => (
-                <Link key={e.id} href={`/projects/${e.id}`}>
-                  {e.label}
-                </Link>
-              ))}
-            </PopoverContent>
-          </Popover>
-        ) : null}
+        <TabsContent value="general" className='pt-4'>
+          <div className='grid grid-cols-3 gap-4'>
 
-        <div className='flex gap-4 w-full'>
-          {data?.hasType ? (
-            <Card className='border-0 p-0 shadow-none'>
-              <CardHeader className='p-0 mb-1'>
-                <CardTitle className='text-sm'>Type</CardTitle>
-              </CardHeader>
-              <CardContent className='p-0'>{data.hasType.map(tag => (
-                <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
-              ))}
-              </CardContent>
-            </Card>
-          ) : null}
-          {data?.period ? (
-            <Card className='border-0 p-0 shadow-none'>
-              <CardHeader className='p-0 mb-1'>
-                <CardTitle className='text-sm'>Periode</CardTitle>
-              </CardHeader>
-              <CardContent className='p-0'>{data.period}</CardContent>
-            </Card>
-          ) : null}
 
-          {data?.resultedIn && data.resultedIn.length > 0 ? (
-            <Card className='flex gap-2 border-0 p-0 shadow-none'>
-              {data.resultedIn?.[0].logo ? (
-                <div className='w-[45px] h-[45px]'>
-                  <ImageBox image={data.resultedIn?.[0].logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
-                </div>
-              ) : null}
-              <div>
-                <CardHeader className='p-0 mb-1'>
-                  <CardTitle className='text-sm'>Hovedresultat: <i>{data.resultedIn?.[0].type}</i></CardTitle>
+            {data?.hasType ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Type</CardTitle>
                 </CardHeader>
-                <CardContent className='p-0'>
+                <CardContent className='p-0'>{data.hasType.map(tag => (
+                  <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
+                ))}
+                </CardContent>
+              </Card>
+            ) : null}
+            {data?.period ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Periode</CardTitle>
+                </CardHeader>
+                <CardContent>{data.period}</CardContent>
+              </Card>
+            ) : null}
+
+            {data?.resultedIn && data.resultedIn.length > 0 ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Resultat</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data.resultedIn?.[0].logo ? (
+                    <div className='w-[45px] h-[45px]'>
+                      <ImageBox image={data.resultedIn?.[0].logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+                    </div>
+                  ) : null}
                   <Link href={`/${path[data.resultedIn?.[0].type]}/${data.resultedIn?.[0].id}`} className='underline underline-offset-2'>
                     {data.resultedIn?.[0].label}
                   </Link>
                 </CardContent>
-              </div>
-            </Card>
-          ) : null}
-        </div>
-
-        {data?.continuedBy ? (
-          <Popover>
-            <PopoverTrigger className='aspect-square border'>
-              <ChevronRightIcon className='w-10 h-10' />
-            </PopoverTrigger>
-            <PopoverContent>
-              <p className='font-semibold italic'>
-                Fortsatt av
-              </p>
-              {data.continuedBy.map((e: any) => (
-                <Link key={e.id} href={`/projects/${e.id}`}>
-                  {e.label}
-                </Link>
-              ))}
-            </PopoverContent>
-          </Popover>
-        ) : null}
-      </div>
-
-      <Separator className='my-3' />
-
-      <Tabs orientation='vertical' defaultValue="general" className="flex gap-10 flex-grow">
-        <div>
-          <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="general">Generelt</TabsTrigger>
-            <TabsTrigger value="funding">Finansiering</TabsTrigger>
-            <TabsTrigger value="resources">Ressurser</TabsTrigger>
-          </TabsList>
-          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
-        </div>
-
-        <TabsContent value="general" className='flex-1 p-4 border rounded-sm'>
-          {/* @ts-ignore */}
-          {data.referredToBy?.[0]?.body ? (
-            <>
-              <h2>Beskrivelse</h2>
-              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
-                {/* @ts-ignore */}
-                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-              </ScrollArea>
-            </>
-          ) : null}
-
-          <div className='flex flex-col gap-10'>
-            {data?.carriedOutBy ? (
-              <div>
-                <h2>Prosjekteiere</h2>
-                <Participants data={data.carriedOutBy} config={{ activeFilter: false }} />
-              </div>
+              </Card>
             ) : null}
-            {data?.hadParticipant ? (
-              <div>
-                <h2>Andre Institusjoner</h2>
-                <Participants data={data.hadParticipant} config={{ activeFilter: false }} />
-              </div>
+
+            {/* @ts-ignore */}
+            {data.referredToBy?.[0]?.body ? (
+              <Card className='row-span-2'>
+                <CardHeader>
+                  <CardTitle>Beskrivelse</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
+                    {/* @ts-ignore */}
+                    <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+                  </ScrollArea>
+                </CardContent>
+              </Card>
             ) : null}
-            {data?.hasTeam ? (
-              <div>
-                <h2 className='mb-2'>Prosjektgrupper</h2>
-                {data.hasTeam.map((team: any) => (
-                  <div key={team.id}>
-                    <h3 className='text-lg font-semibold'>{team.label}</h3>
-                    <Participants data={team.hasMember} config={{ activeFilter: false }} />
-                  </div>
-                ))}
-              </div>
-            ) : null}
+
             {data?.resultedIn ? (
-              <div>
-                <h2 className='mb-2'>Resulterte i</h2>
-                <ResultedIn data={data.resultedIn} config={{ activeFilter: false }} />
-              </div>
+              <Card className='col-span-2'>
+                <CardHeader>
+                  <CardTitle>Resulterte i</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResultedIn data={data.resultedIn} config={{ activeFilter: false }} />
+                </CardContent>
+              </Card>
             ) : null}
-          </div>
-        </TabsContent>
 
-        <TabsContent value="funding" className='flex-1 p-4 border rounded-sm'>
-          <div className='flex flex-col gap-3'>
-            <h2>Finansiering</h2>
             {data?.funding ? (
-              <>
-                {data.funding.filter((obj: any) => !(obj && Object.keys(obj).length === 0)).map((f: any) => (
-                  <Card key={f.id} className='p-1'>
-                    <CardHeader className='px-3 pt-2 pb-0'>
-                      <CardTitle className='text-sm'>{f.awarder}</CardTitle>
-                    </CardHeader>
-                    <CardContent className='px-3 py-1 font-extrabold text-2xl'>
-                      {f.amount > 999999.99 ? millify(f.amount, { precision: 2, locales: ['no'], space: true, units: ['', '', 'MILL', 'MRD'] }) : f.amount}  {f.currency}
-                    </CardContent>
-                    <CardFooter className='px-3 py-0'>
-                      <p>
-                        {f.period}
-                      </p>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Finansiering</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data.funding.filter((obj: any) => !(obj && Object.keys(obj).length === 0)).map((f: any) => (
+                    <Card key={f.id} className='p-1'>
+                      <CardHeader className='px-3 pt-2 pb-0'>
+                        <CardTitle className='text-sm'>{f.awarder}</CardTitle>
+                      </CardHeader>
+                      <CardContent className='px-3 py-1 font-extrabold text-2xl'>
+                        {f.amount > 999999.99 ? millify(f.amount, { precision: 2, locales: ['no'], space: true, units: ['', '', 'MILL', 'MRD'] }) : f.amount}  {f.currency}
+                      </CardContent>
+                      <CardFooter className='px-3 py-0'>
+                        <p>
+                          {f.period}
+                        </p>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </CardContent>
+              </Card>
             ) : null}
-          </div>
-        </TabsContent>
 
-        <TabsContent value="resources" className='flex-1 p-4 border rounded-sm'>
-          <div className='flex flex-col gap-4'>
-            <h2>Ressurser</h2>
-            <div className='flex flex-col gap-10'>
-              {data?.link ? (
-                <div>
-                  <h3>Lenker</h3>
+            {data?.link ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Lenker</CardTitle>
+                </CardHeader>
+                <CardContent>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -452,11 +429,20 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
                       ))}
                     </TableBody>
                   </Table>
-                </div>
-              ) : null}
-              {data?.hasFile ? (
-                <div>
-                  <h3>Filer</h3>
+
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {data?.hasFile ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Filer
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -482,15 +468,53 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
                       ))}
                     </TableBody>
                   </Table>
-                </div>
-              ) : null}
-            </div>
+                </CardContent>
+              </Card>
+            ) : null}
+
+
+
+            {data?.carriedOutBy ? (
+              <Card className='col-span-3'>
+                <CardHeader>
+                  <CardTitle>Prosjekteiere</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Participants data={data.carriedOutBy} config={{ activeFilter: false }} />
+                </CardContent>
+              </Card>
+            ) : null}
+            {data?.hadParticipant ? (
+              <Card className='col-span-3'>
+                <CardHeader>
+                  <CardTitle>Andre Institusjoner</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Participants data={data.hadParticipant} config={{ activeFilter: false }} />
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {data?.hasTeam ? (
+              <Card className='col-span-3'>
+                <CardHeader>
+                  <CardTitle>Prosjektgrupper</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data.hasTeam.map((team: any) => (
+                    <div key={team.id}>
+                      <h3 className='text-lg font-semibold mb-1'>{team.label}</h3>
+                      <Participants data={team.hasMember} config={{ activeFilter: false }} />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            ) : null}
+
           </div>
-
-
         </TabsContent>
-      </Tabs>
-    </div>
+      </Tabs >
+    </div >
   )
 }
 

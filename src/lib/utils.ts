@@ -15,6 +15,10 @@ export const checkMembership = (arr: any) => {
   return false
 }
 
+export const uniqueStringArray = (a: string[]) => {
+  return [...new Set(a)];
+}
+
 export const path: Record<string, string> = {
   "Actor": "persons",
   "Group": "groups",

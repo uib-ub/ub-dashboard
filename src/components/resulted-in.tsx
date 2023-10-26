@@ -2,10 +2,10 @@
 
 import { DataTable } from '@/components/data-table'
 import Link from 'next/link';
-import { InfoboxMissingData } from './infobox-missing-data';
 import { path } from '@/lib/utils';
 import { ClockIcon, QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { GiFinishLine } from 'react-icons/gi';
+import { Alert, AlertTitle } from './ui/alert';
 
 const columns = [
   {
@@ -49,7 +49,7 @@ const columns = [
 export const ResultedIn = ({ data, config = { activeFilter: true } }: { data: any, config?: any }) => {
   return (
     <>
-      {data ? (<DataTable columns={columns} data={data} config={config} />) : <InfoboxMissingData>Ingen resultat registrert</InfoboxMissingData>}
+      {data ? (<DataTable columns={columns} data={data} config={config} />) : <Alert><AlertTitle>Ingen resultat registrert</AlertTitle></Alert>}
     </>
   )
 }

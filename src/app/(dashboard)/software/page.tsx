@@ -10,7 +10,7 @@ export default async function SoftwarePage() {
 
   return (
     <MainShell>
-      <h1>Programvare</h1>
+      <h1 className='mb-2'>Programvare</h1>
       <LiveQuery
         enabled={draftMode().isEnabled}
         query={query}

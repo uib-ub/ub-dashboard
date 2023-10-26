@@ -1,19 +1,21 @@
 "use client"
 
-import { DataTable } from '@/components/data-table'
+import { CaretSortIcon, CheckCircledIcon, ClockIcon, CrossCircledIcon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
+import { ColumnDef } from "@tanstack/react-table"
+import { LinksProps } from '../links'
+import Link from "next/link"
 import { Button } from '@/components/ui/button'
-import { CaretSortIcon, ClockIcon, QuestionMarkCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { GiFinishLine } from 'react-icons/gi';
-import { Alert, AlertTitle } from './ui/alert';
+import { EditIntentButton } from '@/components/edit-intent-button'
+import { GiFinishLine } from 'react-icons/gi'
 
-const columns = [
+export const columns: ColumnDef<LinksProps>[] = [
   {
-    accessorKey: "assignedActor",
-    header: ({ column }: { column: any }) => {
+    accessorKey: "label",
+    header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className='p-1'
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Navn
@@ -21,25 +23,25 @@ const columns = [
         </Button>
       )
     },
-    cell: ({ row }: { row: any }) => (
-      <div className='w-[200px]'>
-        <Link href={`/persons/${row.getValue('assignedActor').id}`} className='font-bold'>
-          {row.getValue('assignedActor').label}
+    cell: ({ row }) => (
+      <div className='flex flex-col gap-1'>
+        <Link href={row.original.url} className='font-bold'>
+          {row.original.url}
         </Link>
+        {row.getValue('label')}
       </div>
-    ),
+    )
   },
   {
-    header: "Rolle",
-    accessorKey: "assignedRole",
+    header: "Type",
+    accessorKey: "hasType",
     cell: ({ row }: { row: any }) => (
       <div className='flex flex-col gap-2'>
-        {row.getValue('assignedRole')?.map((t: any, i: number) => (
+        {row.getValue('hasType')?.map((t: any, i: number) => (
           <div key={i}>
             {t.label}
           </div>
         ))}
-
       </div>
     )
   },
@@ -63,13 +65,4 @@ const columns = [
       </div>
     )
   },
-];
-
-
-export const Participants = ({ data, config = { activeFilter: true } }: { data: any, config?: any }) => {
-  return (
-    <>
-      {data ? (<DataTable columns={columns} data={data} config={config} />) : <Alert><AlertTitle>Ingen medlemmer registrert</AlertTitle></Alert>}
-    </>
-  )
-}
+]

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { Badge } from '@/components/ui/badge'
-import { path } from '@/lib/utils'
+import { path, uniqueStringArray } from '@/lib/utils'
 
 export const columns: ColumnDef<SoftwareListProps>[] = [
   {
@@ -36,7 +36,7 @@ export const columns: ColumnDef<SoftwareListProps>[] = [
     cell: ({ row }) => (
       <div className='flex flex-wrap gap-2'>
         {(row.getValue('hasType') as any[])?.map((t: any, i: number) => (
-          <Badge variant="secondary" className='grow-0' key={i}>
+          <Badge variant="secondary" className='grow-0' key={t.id}>
             {t.label}
           </Badge>
         ))}
@@ -51,6 +51,38 @@ export const columns: ColumnDef<SoftwareListProps>[] = [
         {(row.getValue('madeByUB') as boolean) ? <CheckCircledIcon className='text-green-500 w-5 h-5' /> : <CrossCircledIcon className='text-red-500 w-5 h-5' />}
       </div>
     )
+  },
+  {
+    header: "Vert",
+    accessorKey: "hostedBy",
+    cell: ({ row }) => {
+      const hostedBy = uniqueStringArray(row.original.hostedBy)
+      return (
+        <div className='flex flex-wrap gap-2'>
+          {hostedBy.map((t: any) => (
+            <Badge variant="secondary" className='grow-0' key={t}>
+              {t}
+            </Badge>
+          ))}
+        </div>
+      )
+    }
+  },
+  {
+    header: "Kjører på",
+    accessorKey: "runBy",
+    cell: ({ row }) => {
+      const runBy = uniqueStringArray(row.original.runBy)
+      return (
+        <div className='flex flex-wrap gap-2'>
+          {runBy.map((t: any) => (
+            <Badge variant="secondary" className='grow-0' key={t}>
+              {t}
+            </Badge>
+          ))}
+        </div>
+      )
+    }
   },
   {
     header: "",

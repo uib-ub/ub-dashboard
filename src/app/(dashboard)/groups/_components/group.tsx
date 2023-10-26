@@ -2,7 +2,6 @@ import { EditIntentButton } from '@/components/edit-intent-button'
 import ImageBox from '@/components/image-box'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ExternalLinkIcon, QuoteIcon } from '@radix-ui/react-icons'
 import { SanityDocument, SanityImageAssetDocument, groq } from 'next-sanity'
@@ -12,9 +11,9 @@ import Link from 'next/link'
 import { BiSubdirectoryRight } from 'react-icons/bi'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { CustomPortableText } from '@/components/custom-protable-text'
-import { InfoboxMissingData } from '@/components/infobox-missing-data'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { path } from '@/lib/utils'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -166,168 +165,186 @@ const Group = ({ data = {} }: { data: Partial<GroupProps> }) => {
         </div>
       </div>
 
-      <Separator className='my-3' />
-
-      <div className='flex gap-4 w-full'>
-        {data?.hasType ? (
-          <Card className='border-0 p-0 shadow-none'>
-            <CardHeader className='p-0 mb-1'>
-              <CardTitle className='text-sm'>Type</CardTitle>
-            </CardHeader>
-            <CardContent className='p-0'>{data.hasType.map(tag => (
-              <Badge key={tag.id} variant={'secondary'} className='text-sm'>{tag.label}</Badge>
-            ))}
-            </CardContent>
-          </Card>
-        ) : null}
-        {data?.period ? (
-          <Card className='border-0 p-0 shadow-none'>
-            <CardHeader className='p-0 mb-1'>
-              <CardTitle className='text-sm'>Periode</CardTitle>
-            </CardHeader>
-            <CardContent className='p-0'>{data.period}</CardContent>
-          </Card>
-        ) : null}
-        {data?.subGroupOf ? (
-          <Card className='border-0 p-0 shadow-none'>
-            <CardHeader className='p-0 mb-1'>
-              <CardTitle className='text-sm'>Del av</CardTitle>
-            </CardHeader>
-            <CardContent className='p-0'>{data.subGroupOf.map((group: any) => (
-              <Badge key={group.id} variant={'secondary'} className='text-sm'>
-                <Link href={`/groups/${group.id}`}>
-                  {group.label}
-                </Link>
-              </Badge>
-            ))}
-            </CardContent>
-          </Card>
-        ) : null}
-
-        {data?.connectedToProject ? (
-          <Card className='flex gap-2 border-0 p-0 shadow-none'>
-            {data.connectedToProject.logo ? (
-              <div className='w-[45px] h-[45px]'>
-                <ImageBox image={data.connectedToProject.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
-              </div>
-            ) : null}
-            <div>
-              <CardHeader className='p-0 mb-1'>
-                <CardTitle className='text-sm'>Knyttet til: <i>{data.connectedToProject.type}</i></CardTitle>
-              </CardHeader>
-              <CardContent className='p-0'>
-                <Link href={`/${path[data.connectedToProject.type]}/${data.connectedToProject.id}`} className='underline underline-offset-2'>
-                  {data.connectedToProject.label}
-                </Link>
-              </CardContent>
-            </div>
-          </Card>
-        ) : null}
-
-      </div>
-
-      <Separator className='my-3' />
-
-      <Tabs orientation='vertical' defaultValue="general" className="flex gap-4 flex-grow">
+      <Tabs orientation='vertical' defaultValue="general">
         <div>
-          <TabsList className='flex flex-col justify-start items-start h-fit mt-2 p-2'>
-            <TabsTrigger value="general">Generelt</TabsTrigger>
-            <TabsTrigger value="organization">Organisering</TabsTrigger>
-            <TabsTrigger value="files">Filer</TabsTrigger>
+          <TabsList className='flex justify-start items-start h-fit mt-2 p-0 bg-transparent border-b w-full'>
+            <TabsTrigger value="general" className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              Generelt
+            </TabsTrigger>
+            <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 pb-1 px-3 ml-auto text-muted-foreground text-sm font-medium' />
           </TabsList>
-          <EditIntentButton variant={'link'} id={data.id} className='p-0 m-0 px-3 text-sm font-medium' />
         </div>
 
-        <TabsContent value="general" className='flex-1 border rounded-sm p-4'>
-          {/* @ts-ignore */}
-          {data.referredToBy?.[0]?.body ? (
-            <>
-              <h2>Beskrivelse</h2>
-              <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
-                {/* @ts-ignore */}
-                <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
-              </ScrollArea>
-            </>
-          ) : null}
-          <h2>Medlemmer</h2>
-          <Participants data={data.hasMember} />
-        </TabsContent>
+        <TabsContent value="general" className='pt-4'>
+          <div className='grid grid-cols-3 gap-4'>
 
-        <TabsContent value="organization" className='flex-1 border rounded-sm p-4'>
-          {(data.subGroupOf?.length > 0 || data.hasSubGroup) && (
-            <div className='flex flex-col gap-2'>
-              <h2>Organisering</h2>
-              {data.subGroupOf?.length > 0 ? (
-                <ul className='mt-2'>
-                  {data.subGroupOf.map((group: any) => (
-                    <li key={group.id}>
-                      <Link className='underline underline-offset-2' href={`/group/${group.id}`}>
-                        {group.label}
-                      </Link>
-                    </li>
-                  ))}
-                  <ul>
-                    <li className='font-light'>
-                      <BiSubdirectoryRight className="inline-block" />
-                      {data.label}
-                    </li>
-                    {data.hasSubGroup && (
+            <Card className='col-span-2 row-span-5'>
+              <CardHeader>
+                <CardTitle>Medlemmer</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Participants data={data.hasMember} />
+              </CardContent>
+            </Card>
+
+            {data?.hasType ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Type</CardTitle>
+                </CardHeader>
+                <CardContent>{data.hasType.map(tag => (
+                  <Badge key={tag.id} variant={'secondary'}>{tag.label}</Badge>
+                ))}
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {data?.period ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Periode</CardTitle>
+                </CardHeader>
+                <CardContent>{data.period}</CardContent>
+              </Card>
+            ) : null}
+
+
+            {data?.connectedToProject ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Knyttet til: <i>{data.connectedToProject.type}</i></CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data.connectedToProject.logo ? (
+                    <div className='w-[45px] h-[45px]'>
+                      <ImageBox image={data.connectedToProject.logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
+                    </div>
+                  ) : null}
+                  <Link href={`/${path[data.connectedToProject.type]}/${data.connectedToProject.id}`} className='underline underline-offset-2'>
+                    {data.connectedToProject.label}
+                  </Link>
+                </CardContent>
+              </Card>
+            ) : null}
+
+
+            {/* @ts-ignore */}
+            {data.referredToBy?.[0]?.body ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Beskrivelse</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[250px] max-w-prose rounded-md border p-4 mt-2 mb-5">
+                    {/* @ts-ignore */}
+                    <CustomPortableText value={data.referredToBy[0].body} paragraphClasses='py-2 max-w-xl' />
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            ) : null}
+
+
+
+            {(data.subGroupOf?.length > 0 || data.hasSubGroup) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Organisering
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data.subGroupOf?.length > 0 ? (
+                    <ul className='mt-2'>
+                      {data.subGroupOf.map((group: any) => (
+                        <li key={group.id}>
+                          <Link className='underline underline-offset-2' href={`/group/${group.id}`}>
+                            {group.label}
+                          </Link>
+                        </li>
+                      ))}
                       <ul>
-                        {data.hasSubGroup.map((group: any) => (
-                          <li key={group.id} className='ml-3'>
-                            <Link className='underline underline-offset-2' href={`/groups/${group.id}`}>
-                              <BiSubdirectoryRight className="inline-block" />
-                              {group.label}
-                            </Link>
-                          </li>
-                        ))}
+                        <li className='font-light'>
+                          <BiSubdirectoryRight className="inline-block" />
+                          {data.label}
+                        </li>
+                        {data.hasSubGroup && (
+                          <ul>
+                            {data.hasSubGroup.map((group: any) => (
+                              <li key={group.id} className='ml-3'>
+                                <Link className='underline underline-offset-2' href={`/groups/${group.id}`}>
+                                  <BiSubdirectoryRight className="inline-block" />
+                                  {group.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </ul>
-                    )}
-                  </ul>
-                </ul>
-              ) : (
-                <InfoboxMissingData>
-                  Ingen eier enhet registrert
-                </InfoboxMissingData>
-              )}
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="files" className='flex-1 border rounded-sm p-4'>
-          <div className='flex flex-col gap-2'>
-            <h2>Filer</h2>
-            {data?.hasFile ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Filer</TableHead>
-                    <TableHead>Format</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.hasFile.map((file: any) => (
-                    <TableRow key={file._key}>
-                      <TableCell>
-                        <Link href={file.url}>
-                          {file.label}
-                          <ExternalLinkIcon className='inline-block' />
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant='outline'>
-                          {file.extension}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            ) : (
-              <InfoboxMissingData>
-                Ingen filer
-              </InfoboxMissingData>
+                    </ul>
+                  ) : (
+                    <Alert>
+                      <AlertTitle>
+                        Ingen eier enhet registrert
+                      </AlertTitle>
+                    </Alert>
+                  )}
+                </CardContent>
+              </Card>
             )}
+
+
+            {data?.hasFile ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Filer
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Filer</TableHead>
+                        <TableHead>Format</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {data?.hasFile.map((file: any) => (
+                        <TableRow key={file._key}>
+                          <TableCell>
+                            <Link href={file.url}>
+                              {file.label}
+                              <ExternalLinkIcon className='inline-block' />
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant='outline'>
+                              {file.extension}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Filer
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Alert>
+                    <AlertTitle>
+                      Ingen filer
+                    </AlertTitle>
+                  </Alert>
+                </CardContent>
+              </Card>
+            )}
+
           </div>
         </TabsContent>
       </Tabs>
