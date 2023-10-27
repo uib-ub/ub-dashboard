@@ -48,6 +48,10 @@ export const Software = {
       hidden: ({ document }) => document?.externalSoftware === true,
     },
     {
+      name: 'compute',
+      title: 'Kjører på',
+    },
+    {
       name: 'extra',
       title: 'Ekstra',
       options: {
@@ -125,7 +129,7 @@ export const Software = {
     {
       name: 'runBy',
       title: 'Deployed by',
-      fieldset: 'parts',
+      fieldset: 'compute',
       group: 'parts',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'SoftwareComputingEService' }] }]

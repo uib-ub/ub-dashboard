@@ -2,7 +2,6 @@ import { EditIntentButton } from '@/components/edit-intent-button'
 import ImageBox from '@/components/image-box'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { SanityDocument, SanityImageAssetDocument, groq } from 'next-sanity'
@@ -15,7 +14,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ResultedIn } from '@/components/resulted-in'
-import { path } from '@/lib/utils'
 
 export const query = groq`*[_id == $id][0] {
   "id": _id,
@@ -125,18 +123,21 @@ export const query = groq`*[_id == $id][0] {
       "active": "Avsluttet" 
     }
   },
-  resultedIn[] -> {
-    "id": _id,
-    "type": _type,
-    "period": timespan.edtf,
-    label,
-    logo,
-    usedService[] {
-      "id": assignedService -> _id,
-      "type": assignedService -> _type,
-      "label": assignedService -> label,
+  resultedIn[]-> {
+    _type != 'SoftwareComputingEService' => {
+      "id": _id,
+      "type": _type,
       "period": timespan.edtf,
-    }
+      label,
+      logo,
+    },
+    _type == 'SoftwareComputingEService' => {
+      "id": *[_type == 'Software' && references(^._id)][0]._id,
+      "type": *[_type == 'Software' && references(^._id)][0]._type,
+      "period": timespan.edtf,
+      "label": (*[_type == 'Software' && references(^._id)][0].label) + ' (' + label + ')',
+      logo,
+    },
   }
 }`
 
@@ -335,23 +336,31 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
               </Card>
             ) : null}
 
-            {data?.resultedIn && data.resultedIn.length > 0 ? (
+            {data?.funding ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Resultat</CardTitle>
+                  <CardTitle>Finansiering</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {data.resultedIn?.[0].logo ? (
-                    <div className='w-[45px] h-[45px]'>
-                      <ImageBox image={data.resultedIn?.[0].logo} width={200} height={200} alt="" classesWrapper='relative aspect-[1/1]' />
-                    </div>
-                  ) : null}
-                  <Link href={`/${path[data.resultedIn?.[0].type]}/${data.resultedIn?.[0].id}`} className='underline underline-offset-2'>
-                    {data.resultedIn?.[0].label}
-                  </Link>
+                  {data.funding.filter((obj: any) => !(obj && Object.keys(obj).length === 0)).map((f: any) => (
+                    <Card key={f.id} className='p-1'>
+                      <CardHeader className='px-3 pt-2 pb-0'>
+                        <CardTitle className='text-sm'>{f.awarder}</CardTitle>
+                      </CardHeader>
+                      <CardContent className='px-3 py-1 font-extrabold text-2xl'>
+                        {f.amount > 999999.99 ? millify(f.amount, { precision: 2, locales: ['no'], space: true, units: ['', '', 'MILL', 'MRD'] }) : f.amount}  {f.currency}
+                      </CardContent>
+                      <CardFooter className='px-3 py-0'>
+                        <p>
+                          {f.period}
+                        </p>
+                      </CardFooter>
+                    </Card>
+                  ))}
                 </CardContent>
               </Card>
             ) : null}
+
 
             {/* @ts-ignore */}
             {data.referredToBy?.[0]?.body ? (
@@ -379,33 +388,8 @@ const Project = ({ data = {} }: { data: Partial<ProjectProps> }) => {
               </Card>
             ) : null}
 
-            {data?.funding ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Finansiering</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {data.funding.filter((obj: any) => !(obj && Object.keys(obj).length === 0)).map((f: any) => (
-                    <Card key={f.id} className='p-1'>
-                      <CardHeader className='px-3 pt-2 pb-0'>
-                        <CardTitle className='text-sm'>{f.awarder}</CardTitle>
-                      </CardHeader>
-                      <CardContent className='px-3 py-1 font-extrabold text-2xl'>
-                        {f.amount > 999999.99 ? millify(f.amount, { precision: 2, locales: ['no'], space: true, units: ['', '', 'MILL', 'MRD'] }) : f.amount}  {f.currency}
-                      </CardContent>
-                      <CardFooter className='px-3 py-0'>
-                        <p>
-                          {f.period}
-                        </p>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </CardContent>
-              </Card>
-            ) : null}
-
             {data?.link ? (
-              <Card>
+              <Card className='col-span-2'>
                 <CardHeader>
                   <CardTitle>Lenker</CardTitle>
                 </CardHeader>

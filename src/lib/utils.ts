@@ -19,6 +19,17 @@ export const uniqueStringArray = (a: string[]) => {
   return [...new Set(a)];
 }
 
+/**
+ * Truncate for string
+ * @param {string} str
+ * @param {number} n  
+ * @param {string} [replacement='...']
+ * @returns {string}
+ */
+export const truncate = (str: string, n: number, replacement = '...') => {
+  return (str.length > n) ? str.substr(0, n - 1) + replacement : str;
+}
+
 export const path: Record<string, string> = {
   "Actor": "persons",
   "Group": "groups",

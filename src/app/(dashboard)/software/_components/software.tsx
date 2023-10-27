@@ -9,7 +9,7 @@ import { PortableTextBlock } from 'sanity'
 import { Participants } from '@/components/participants'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { SoftwareCard } from './software-card'
+import { ComputingBox, ServiceBox, SoftwareCard } from './software-card'
 import { path } from '@/lib/utils'
 import Link from 'next/link'
 
@@ -50,6 +50,33 @@ export const query = groq`*[_id == $id][0] {
       "active": "Avsluttet" 
     },
   },
+  runBy[]-> {
+    "id": _id,
+    "type": _type,
+    label,
+    "period": timespan.edtf,
+    providedBy-> {
+      "id": _id,
+      "type": _type,
+      label,
+      logo,
+    },
+    accessPoint[] {
+      "id": _id,
+      "type": _type,
+      label,
+      value,
+    },
+    designatedAccessPoint {
+      "type": _type,
+      value,
+    },
+    runsOnRequest-> {
+      "id": _id,
+      "type": _type,
+      label,
+    },
+  },
   hasSoftwarePart[]-> {
     "id": _id,
     "type": _type,
@@ -69,7 +96,7 @@ export const query = groq`*[_id == $id][0] {
         label,
         logo,
       },
-      accessPoints[] {
+      accessPoint[] {
         "id": _id,
         "type": _type,
         label,
@@ -115,7 +142,7 @@ export const query = groq`*[_id == $id][0] {
           label,
           logo,
         },
-        accessPoints[] {
+        accessPoint[] {
           "id": _id,
           "type": _type,
           label,
@@ -148,7 +175,7 @@ export type SoftwareComputingEService = {
     label: string
     logo: SanityImageAssetDocument
   }
-  accessPoints: {
+  accessPoint: {
     id: string
     type: string
     label: string
@@ -160,7 +187,7 @@ export type SoftwareComputingEService = {
   }
 }
 
-export type HasSoftwarePart = {
+export type VolatileSoftware = {
   id: string
   type: string
   label: string
@@ -223,7 +250,7 @@ export type SoftwareProps = SanityDocument & {
     period: string
     active: string
   }[]
-  hasSoftwarePart: HasSoftwarePart[]
+  hasSoftwarePart: VolatileSoftware[]
 }
 
 const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
@@ -324,6 +351,24 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
                     <div className='grid grid-cols-2 gap-4'>
                       {data?.hasSoftwarePart.map((s, i) => (
                         <SoftwareCard data={s} key={i} />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : null}
+
+            {data?.runBy ? (
+              <div className='col-span-3 flex flex-col gap-3'>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Kjører på</CardTitle>
+                    <CardDescription>Programvare som ikke er utviklet av UB eller er basert på <i>libraries</i>, men som driftes og <i>deploy</i>-es av UB.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='grid grid-cols-2 gap-4'>
+                      {data.runBy.map((s: SoftwareComputingEService, i: number) => (
+                        <ComputingBox data={s} key={i} />
                       ))}
                     </div>
                   </CardContent>

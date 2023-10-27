@@ -1,4 +1,4 @@
-import { checkMembership, cn, uniqueStringArray } from './utils'
+import { checkMembership, cn, truncate, uniqueStringArray } from './utils'
 
 describe('checkMembership', () => {
   it('should return false if all members are active', () => {
@@ -62,5 +62,26 @@ describe('uniqueStringArray', () => {
 
   it('should return an array with duplicates removed when given an array with duplicates', () => {
     expect(uniqueStringArray(['a', 'b', 'a', 'c', 'b'])).toEqual(['a', 'b', 'c'])
+  })
+})
+
+describe('truncate', () => {
+  it('should return the original string if it is shorter than the limit', () => {
+    const str = 'hello world'
+    expect(truncate(str, 20)).toBe(str)
+  })
+
+  it('should truncate the string and add the default replacement if it is longer than the limit', () => {
+    const str = 'hello world'
+    expect(truncate(str, 5)).toBe('he...')
+  })
+
+  it('should truncate the string and add the specified replacement if it is longer than the limit', () => {
+    const str = 'hello world'
+    expect(truncate(str, 5, '***')).toBe('he***')
+  })
+
+  it('should return an empty string if the input string is empty', () => {
+    expect(truncate('', 5)).toBe('')
   })
 })

@@ -114,9 +114,11 @@ export const resultedIn = {
     type: 'reference',
     to: [
       { type: 'Software' },
-      { type: 'Product' },
-      { type: 'Service' },
+      { type: 'VolatileSoftware' },
+      { type: 'SoftwareComputingEService' },
       { type: 'Group' },
+      { type: 'Product', title: 'Produkt (ikke bruk)' },
+      { type: 'Service', title: 'Tjeneste (ikke bruk)' },
     ]
   }],
   options: {
