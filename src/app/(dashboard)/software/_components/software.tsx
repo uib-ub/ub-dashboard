@@ -343,7 +343,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
             ) : null}
 
             <div className='grid grid-flow-row gap-4'>
-              {data?.programmedWith ? (
+              {data?.programmedWith && data?.programmedWith.length > 0 ? (
                 <div className='col-span-3 flex flex-col gap-3'>
                   <Card>
                     <CardHeader>
@@ -364,7 +364,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               ) : null}
 
 
-              {data?.uses ? (
+              {data?.uses && data?.uses.length > 0 ? (
                 <div className='col-span-3 flex flex-col gap-3'>
                   <Card>
                     <CardHeader>
