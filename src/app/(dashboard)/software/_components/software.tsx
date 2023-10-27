@@ -2,14 +2,13 @@ import { EditIntentButton } from '@/components/edit-intent-button'
 import ImageBox from '@/components/image-box'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SanityDocument, SanityImageAssetDocument, groq } from 'next-sanity'
 import { PortableTextBlock } from 'sanity'
 import { Participants } from '@/components/participants'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { ComputingBox, ServiceBox, SoftwareCard } from './software-card'
+import { ComputingBox, SoftwareCard } from './software-card'
 import { path } from '@/lib/utils'
 import Link from 'next/link'
 
@@ -29,6 +28,17 @@ export const query = groq`*[_id == $id][0] {
   },
   externalSoftware == true => {
     "madeByUB": false,
+  },
+  programmedWith[]-> {
+    "id": _id,
+    "type": _type,
+    label
+  },
+  uses[]-> {
+    "id": _id,
+    "type": _type,
+    label,
+    logo,
   },
   currentOrFormerManager[] {
     assignedActor -> {
@@ -238,6 +248,14 @@ export type SoftwareProps = SanityDocument & {
     editorialState: string
     body: PortableTextBlock[]
   }[]
+  uses: {
+    id: string
+    label: string
+  }[]
+  programmedWith: {
+    id: string
+    label: string
+  }[]
   currentOrFormerManager: {
     assignedActor: {
       id: string
@@ -324,6 +342,56 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               </Card>
             ) : null}
 
+            <div className='grid grid-flow-row gap-4'>
+              {data?.programmedWith ? (
+                <div className='col-span-3 flex flex-col gap-3'>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Programmert med</CardTitle>
+                      <CardDescription></CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className='flex flex-col gap-3'>
+                        {data.programmedWith.map((s: any, i: number) => (
+                          <Link key={s.id} href={`/${path[s.type]}/${s.id}`} className='underline underline-offset-2'>
+                            {s.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ) : null}
+
+
+              {data?.uses ? (
+                <div className='col-span-3 flex flex-col gap-3'>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Bruker programvare</CardTitle>
+                      <CardDescription></CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className='flex flex-col gap-3'>
+                        {data.uses.map((s: any, i: number) => (
+                          <div key={s.id} className='flex gap-2'>
+                            {s.logo ? (
+                              <div className='w-[25px] h-[25px]'>
+                                <ImageBox image={s.logo} width={25} height={25} alt="" classesWrapper='relative aspect-[1/1]' />
+                              </div>
+                            ) : null}
+                            <Link href={`/${path[s.type]}/${s.id}`} className='underline underline-offset-2'>
+                              {s.label}
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ) : null}
+            </div>
+
             {/* @ts-ignore */}
             {data.referredToBy?.[0]?.body ? (
               <Card className=''>
@@ -386,7 +454,6 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               </div>
             ) : null}
           </div>
-
         </TabsContent>
       </Tabs>
     </div >
