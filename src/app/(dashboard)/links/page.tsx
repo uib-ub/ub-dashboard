@@ -5,7 +5,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 import PreviewLinks from './_components/preview-links'
 
-export default async function GroupsPage() {
+export default async function LinksPage() {
   const links = await sanityFetch<any[]>({ query, tags: ['links'] })
   const accessPoints = await sanityFetch<any[]>({ query: accessPointQuery, tags: ['links'] })
 
