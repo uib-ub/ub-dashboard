@@ -229,6 +229,7 @@ export type SoftwareProps = SanityDocument & {
   quote: string
   logo: SanityImageAssetDocument
   shortDescription: string
+  madeByUB: boolean
   period: string
   referredToBy: {
     _key: string
@@ -265,6 +266,15 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
         ) : null}
         <div className='flex flex-col'>
           <h1 className='text-5xl mb-2'>{data?.label}</h1>
+          {data.madeByUB ? (
+            <div>
+              <Badge className='text-sm'>Laget av UB</Badge>
+            </div>
+          ) : (
+            <div>
+              <Badge variant={'destructive'} className='text-sm'>Ekstern programvare</Badge>
+            </div>
+          )}
           {data?.shortDescription ? (<p>{data.shortDescription}</p>) : null}
         </div>
       </div>
@@ -277,7 +287,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
 
         <TabsContent value="general" className='pt-4'>
           <div className='grid grid-cols-3 gap-4'>
-            {data?.hasType ? (
+            {data?.hasType && data.hasType.length > 0 ? (
               <Card>
                 <CardHeader>
                   <CardTitle>Kategorier</CardTitle>
