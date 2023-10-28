@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   try {
     const { body, isValidSignature } = await parseBody<{
       _type: string
-      slug?: string | undefined
+      _id?: string | undefined
     }>(req, revalidateSecret)
     if (!isValidSignature) {
       const message = 'Invalid signature'
@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
     }
 
     revalidateTag(body._type)
-    if (body.slug) {
-      revalidateTag(`${body._type}:${body.slug}`)
+    if (body._id) {
+      revalidateTag(`${body._id}`)
     }
     return NextResponse.json({
       status: 200,
