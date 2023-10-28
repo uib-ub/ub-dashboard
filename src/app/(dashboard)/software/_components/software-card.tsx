@@ -6,9 +6,8 @@ import { ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import ImageBox from '@/components/image-box'
 import { SanityImageAssetDocument } from 'next-sanity'
-import { truncate } from '@/lib/utils'
 
-export const ComputingBox = ({ data }: { data: any }) => {
+export const ComputingCard = ({ data }: { data: any }) => {
   const { id, type, label, designatedAccessPoint, accessPoint, providedBy } = data
   return (
     <Card key={id} className='rounded-sm bg-zinc-200 dark:bg-zinc-700'>
@@ -26,7 +25,7 @@ export const ComputingBox = ({ data }: { data: any }) => {
           {accessPoint?.map((t: { value: any; label: string; }, i: number) => (
             <div className='text-muted-foreground text-sm flex items-center gap-1' key={i}>
               <ExternalLinkIcon className='inline-block w-3 h-3' />
-              <a href={t.value} target='_blank'>{t.label ?? truncate(t.value, 30)}</a>
+              <a href={t.value} target='_blank' className='whitespace-nowrap overflow-x-scroll'>{t.value}</a>
             </div>
           ))}
         </CardContent>
@@ -39,7 +38,7 @@ export const ComputingBox = ({ data }: { data: any }) => {
           </div>
         ) : null}
         {designatedAccessPoint?.value ? (
-          <Link href={designatedAccessPoint?.value}>
+          <Link href={designatedAccessPoint?.value} target='_blank'>
             {providedBy?.label}
             <ExternalLinkIcon className='inline-block w-4 h-4 ml-1' />
           </Link>
@@ -49,7 +48,7 @@ export const ComputingBox = ({ data }: { data: any }) => {
   )
 }
 
-export const ServiceBox = ({ data }: { data: any }) => {
+export const VolatileSoftwareCard = ({ data }: { data: any }) => {
   const { type, label, designatedAccessPoint, runBy, componentOf } = data
   return (
     <Card className='flex flex-col rounded-sm bg-zinc-100 dark:bg-zinc-800 shadow-md justify-between'>
@@ -65,12 +64,12 @@ export const ServiceBox = ({ data }: { data: any }) => {
         {runBy?.length > 0 ? (
           <>
             {runBy.map((r: { id: any; label: any; designatedAccessPoint: { value: any; }; providedBy: { label: any; logo: SanityImageAssetDocument; }; type: any; }, i: number) => (
-              <ComputingBox key={i} data={r} />
+              <ComputingCard key={i} data={r} />
             ))
             }
           </>
         ) : (
-          <Alert variant={'destructive'}>
+          <Alert variant={'destructive'} className='dark:border-red-700 dark:text-red-700'>
             <AlertTitle>Ingen tjenester</AlertTitle>
             <AlertDescription>
               {label} har ingen tjenester.
@@ -86,7 +85,7 @@ export const ServiceBox = ({ data }: { data: any }) => {
           </div>
         ) : null}
         {designatedAccessPoint?.value ? (
-          <Link href={designatedAccessPoint?.value}>
+          <Link href={designatedAccessPoint?.value} target='_blank'>
             {componentOf.label}
             <ExternalLinkIcon className='inline-block w-4 h-4 ml-1' />
           </Link>
@@ -110,7 +109,7 @@ export const SoftwareCard = ({ data }: { data: Partial<VolatileSoftware & Softwa
         {data.hostedBy ? (
           <div className='grid grid-cols-1 xl:grid-cols-2 gap-3'>
             {data.hostedBy?.map((t, i) => (
-              <ServiceBox key={i} data={t} />
+              <VolatileSoftwareCard key={i} data={t} />
             ))}
           </div>
         ) : null}

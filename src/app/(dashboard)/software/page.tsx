@@ -6,7 +6,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 
 export default async function SoftwarePage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['software'] })
+  const data = await sanityFetch<any[]>({ query, tags: ['Software'] })
 
   return (
     <MainShell>

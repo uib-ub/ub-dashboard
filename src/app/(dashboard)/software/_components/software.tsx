@@ -8,7 +8,7 @@ import { PortableTextBlock } from 'sanity'
 import { Participants } from '@/components/participants'
 import { CustomPortableText } from '@/components/custom-protable-text'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { ComputingBox, SoftwareCard } from './software-card'
+import { ComputingCard, SoftwareCard } from './software-card'
 import { path } from '@/lib/utils'
 import Link from 'next/link'
 
@@ -436,7 +436,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               </div>
             ) : null}
 
-            {data?.runBy ? (
+            {data?.runBy && data?.runBy.length > 0 ? (
               <div className='col-span-3 flex flex-col gap-3'>
                 <Card>
                   <CardHeader>
@@ -446,7 +446,7 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
                   <CardContent>
                     <div className='grid grid-cols-2 gap-4'>
                       {data.runBy.map((s: SoftwareComputingEService, i: number) => (
-                        <ComputingBox data={s} key={i} />
+                        <ComputingCard data={s} key={i} />
                       ))}
                     </div>
                   </CardContent>

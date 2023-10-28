@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
                 table.getColumn("active")?.setFilterValue('')
               }}
             />
-            <Label htmlFor="active-switch">Aktive</Label>
+            <Label htmlFor="active-switch">Aktive (som vi vet om). Forvirra? Mere data løser det 😊.</Label>
           </div>
         ) : null}
 

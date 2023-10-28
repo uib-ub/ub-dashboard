@@ -6,7 +6,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 
 export default async function PersonsPage() {
-  const data = await sanityFetch<PersonListProps[]>({ query, tags: ['persons'] })
+  const data = await sanityFetch<PersonListProps[]>({ query, tags: ['Actor'] })
 
   return (
     <MainShell>

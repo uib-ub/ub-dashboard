@@ -1,14 +1,33 @@
 "use client"
 
-import { CaretSortIcon, CheckCircledIcon, ClockIcon, CrossCircledIcon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
+import { CaretSortIcon, ClockIcon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
 import { LinksProps } from '../links'
 import Link from "next/link"
 import { Button } from '@/components/ui/button'
-import { EditIntentButton } from '@/components/edit-intent-button'
 import { GiFinishLine } from 'react-icons/gi'
 
 export const columns: ColumnDef<LinksProps>[] = [
+  {
+    accessorKey: "url",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className='p-1'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Lenke
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => (
+      <Link href={row.getValue('url')} className='font-bold'>
+        {row.getValue('url')}
+      </Link>
+    )
+  },
   {
     accessorKey: "label",
     header: ({ column }) => {
@@ -23,14 +42,6 @@ export const columns: ColumnDef<LinksProps>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <div className='flex flex-col gap-1'>
-        <Link href={row.original.url} className='font-bold'>
-          {row.original.url}
-        </Link>
-        {row.getValue('label')}
-      </div>
-    )
   },
   {
     header: "Type",

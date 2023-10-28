@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { EditIntentButton } from '@/components/edit-intent-button'
 import { Badge } from '@/components/ui/badge'
 import { path, uniqueStringArray } from '@/lib/utils'
+import ImageBox from '@/components/image-box'
 
 export const columns: ColumnDef<SoftwareListProps>[] = [
   {
@@ -23,7 +24,12 @@ export const columns: ColumnDef<SoftwareListProps>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className='w-[200px]'>
+      <div className='w-[200px] flex gap-1'>
+        {row.original.logo ? (
+          <div className='w-[20px] h-[20px]'>
+            <ImageBox image={row.original.logo} width={20} height={20} alt="" classesWrapper='relative aspect-[1/1] rounded-full' />
+          </div>
+        ) : null}
         <Link href={`/${path[row.original.type]}/${row.getValue('id')}`} className='font-bold'>
           {row.getValue('label')}
         </Link>

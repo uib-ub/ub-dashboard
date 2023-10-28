@@ -72,6 +72,9 @@
     @apply tracking-tight;
     @apply font-bold;
   }
+  .active {
+    @apply !bg-zinc-300 dark:!bg-zinc-700 rounded-md;
+  }
 }
 
 @layer utilities {
@@ -91,3 +94,4 @@
     @apply px-4;
   }
 }
+
