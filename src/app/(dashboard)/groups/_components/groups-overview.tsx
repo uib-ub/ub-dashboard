@@ -42,7 +42,7 @@ export const query = groq`*[_type in ['Group'] && !references('dd4c1492-5e15-4d1
     "active": "Avsluttet" 
   },
   "subGroupOf": [...subGroupOf[]->._id][0],
-  hasMember[] {
+  "hasMember": hasMember[] {
     "id": assignedActor->._id,
     "label": assignedActor->.label,
     "timespan": timespan.edtf,
