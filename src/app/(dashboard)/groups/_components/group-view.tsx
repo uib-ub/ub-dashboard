@@ -81,7 +81,7 @@ const GroupViewItem = ({ data, showActive, className }: { data: any, showActive:
     <Card className={cn(`flex flex-col gap-1 border rounded-sm p-0`, className, bgColors[data.hasType[0].label], bgDarkColors[data.hasType[0].label])} key={data.id}>
       <CardHeader className='flex gap-1 p-4'>
         <CardTitle>
-          <Link href={`/${path[data.type]}/${data.id}`}>
+          <Link href={`/${path[data.type]}/${data.id}`} className='underline underline-offset-2'>
             {data.label}
           </Link>
         </CardTitle>
