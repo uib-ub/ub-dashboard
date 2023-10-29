@@ -34,7 +34,7 @@ export const Group = {
     subGroupOf,
     {
       ...hasMember,
-      description: 'Brukes ikke for medlemskap i en organisasjons offisielle enheter. Benyttes for "adhoc" grupper.',
+      description: 'Hovedmedlemskap. Dvs. direktøren på UBB-nivå, seksjonsledere og medlemmer i seksjonene.',
       type: 'array',
       of: [{ type: 'ContributionAssignment' }],
     },
