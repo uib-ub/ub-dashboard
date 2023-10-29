@@ -6,7 +6,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 
 export default async function TimelinePage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['timeline'] })
+  const data = await sanityFetch<any[]>({ query, revalidate: 7200 })
 
   return (
     <MainShell>

@@ -6,7 +6,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { MainShell } from '@/components/main-shell'
 
 export default async function ProjectsPage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['Project'] })
+  const data = await sanityFetch<any[]>({ query, revalidate: 7200 })
 
   return (
     <MainShell>

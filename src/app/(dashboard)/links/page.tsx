@@ -6,8 +6,8 @@ import { MainShell } from '@/components/main-shell'
 import PreviewLinks from './_components/preview-links'
 
 export default async function LinksPage() {
-  const links = await sanityFetch<any[]>({ query, tags: ['links'] })
-  const accessPoints = await sanityFetch<any[]>({ query: accessPointQuery, tags: ['links'] })
+  const links = await sanityFetch<any[]>({ query, revalidate: 7200 })
+  const accessPoints = await sanityFetch<any[]>({ query: accessPointQuery, revalidate: 7200 })
 
   const [urls, accessPointLinks] = await Promise.all([links, accessPoints])
 

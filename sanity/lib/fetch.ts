@@ -14,10 +14,12 @@ export async function sanityFetch<QueryResponse>({
   query,
   params = DEFAULT_PARAMS,
   tags = DEFAULT_TAGS,
+  revalidate,
 }: {
   query: string
   params?: QueryParams
-  tags: string[]
+  tags?: string[]
+  revalidate?: number
 }): Promise<QueryResponse> {
   const isDraftMode = draftMode().isEnabled
 
@@ -35,9 +37,10 @@ export async function sanityFetch<QueryResponse>({
       token: token,
       perspective: 'previewDrafts',
     }),
+    ...(revalidate && { cache: undefined }),
     next: {
       ...(isDraftMode && { revalidate: 30 }),
-      tags,
+      ...(!revalidate ? tags : { revalidate }),
     },
   })
 }

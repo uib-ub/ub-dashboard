@@ -6,7 +6,7 @@ import { MainShell } from '@/components/main-shell'
 import PreviewDeprecated from './_components/preview-deprecated'
 
 export default async function DeprecatedPage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['links'] })
+  const data = await sanityFetch<any[]>({ query, revalidate: 7200 })
 
   return (
     <MainShell>

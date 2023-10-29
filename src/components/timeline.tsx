@@ -16,7 +16,7 @@ export type TimelineProps = {
 }
 
 export const query = groq`[
-  ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution'] && defined(timespan)] {
+  ...*[_type in ['Event', 'Activity', 'Move', 'Joining', 'Leaving', 'BeginningOfExistence', 'EndOfExistence', 'Formation', 'Dissolution', 'TransferOfMember'] && defined(timespan)] {
     "id": _id,
     "label": coalesce(label, 'Uten label'),
     "period": timespan.edtf,

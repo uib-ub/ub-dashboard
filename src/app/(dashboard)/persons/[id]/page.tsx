@@ -11,7 +11,7 @@ export default async function PersonPage({
 }: {
   params: any
 }) {
-  const data = await sanityFetch<PersonProps>({ query, params: { id: params.id }, tags: ['Actor', params.id] })
+  const data = await sanityFetch<PersonProps>({ query, params: { id: params.id }, tags: [`Actor:${params.id}`] })
 
   return (
     <MainShell>

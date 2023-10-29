@@ -7,7 +7,7 @@ import PreviewGroups from './_components/preview-groups'
 import Link from 'next/link'
 
 export default async function GroupsPage() {
-  const data = await sanityFetch<any[]>({ query, tags: ['Group'] })
+  const data = await sanityFetch<any[]>({ query, revalidate: 7200 })
 
   return (
     <MainShell>
