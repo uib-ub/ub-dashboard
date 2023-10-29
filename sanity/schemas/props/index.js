@@ -604,7 +604,8 @@ export const dissolved = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const formed = {
@@ -621,7 +622,8 @@ export const formed = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const formedFrom = {
@@ -660,7 +662,8 @@ export const joinedWith = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const joined = {
@@ -683,6 +686,7 @@ export const joined = {
       '@type': '@id'
     }
   },
+  validation: (Rule) => Rule.required(),
 }
 
 export const transferred = {
@@ -702,6 +706,7 @@ export const transferred = {
       '@type': '@id'
     }
   },
+  validation: (Rule) => Rule.required(),
 }
 
 export const transferredTo = {
@@ -719,7 +724,8 @@ export const transferredTo = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const transferredFrom = {
@@ -738,6 +744,7 @@ export const transferredFrom = {
       '@type': '@id'
     }
   },
+  validation: (Rule) => Rule.required(),
 }
 
 export const separatedFrom = {
@@ -749,7 +756,8 @@ export const separatedFrom = {
     { type: 'Group' },
     { type: 'Project' },
     { type: 'Product' },
-  ]
+  ],
+  validation: (Rule) => Rule.required(),
 }
 
 export const separated = {
@@ -770,7 +778,8 @@ export const separated = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const birthOf = {
@@ -790,7 +799,8 @@ export const birthOf = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const deathOf = {
@@ -810,7 +820,8 @@ export const deathOf = {
       '@container': '@set',
       '@type': '@id'
     }
-  }
+  },
+  validation: (Rule) => Rule.required(),
 }
 
 export const broughtIntoExistence = {
