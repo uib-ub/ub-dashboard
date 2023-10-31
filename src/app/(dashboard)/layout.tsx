@@ -39,11 +39,11 @@ export default async function RootLayout({
             </Suspense>
           </PreviewProvider>
         ) : (
-          <>
+          <div className='flex flex-col min-h-screen'>
             <Header />
             {children}
             <Footer />
-          </>
+          </div>
         )}
 
         {draftMode().isEnabled ? (<PreviewIndicator />) : null}

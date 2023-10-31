@@ -15,7 +15,7 @@ export interface LinksProps {
   active: string
 }
 
-export const query = groq`*[_type in ['Endpoint', 'AccessPoint', 'HostingService', 'SoftwareComputingEService'] && (defined(designatedAccessPoint) || defined(url))] | order(active) | order(label asc)  {
+export const query = groq`*[_type in ['Endpoint', 'AccessPoint', 'HostingService', 'SoftwareComputingEService'] && (defined(designatedAccessPoint) || defined(url) || defined(value))] | order(active) | order(label asc)  {
   "id": _id,
   "type": _type,
   label,
@@ -25,7 +25,9 @@ export const query = groq`*[_type in ['Endpoint', 'AccessPoint', 'HostingService
   },
   "url": coalesce(    
     url,
-    designatedAccessPoint.value
+    value,
+    designatedAccessPoint.value,
+    "http://no-url.no"
   ),
   "period": timespan.edtf,
   "active": "Aktiv",
@@ -43,7 +45,11 @@ export const accessPointQuery = groq`*[_type in ['SoftwareComputingEService']] {
       "id": ^._id,
       "type": ^._type,
       "label": ^.label,
-      "url": value,   
+      "url": coalesce(
+        url,
+        value,
+        "http://no-url.no"
+      ),
       "period": ^.timespan.edtf,
       "active": "Aktiv", 
       !defined(^.timespan) => {

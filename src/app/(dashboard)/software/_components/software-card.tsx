@@ -3,14 +3,13 @@ import { VolatileSoftware, SoftwareComputingEService } from './software'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ExternalLinkIcon } from '@radix-ui/react-icons'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import ImageBox from '@/components/image-box'
 import { SanityImageAssetDocument } from 'next-sanity'
 
 export const ComputingCard = ({ data }: { data: any }) => {
   const { id, type, label, designatedAccessPoint, accessPoint, providedBy } = data
   return (
-    <Card key={id} className='rounded-sm bg-zinc-200 dark:bg-zinc-700'>
+    <Card key={id} className='rounded-sm flex flex-col bg-zinc-200 dark:bg-zinc-700'>
       <CardHeader className='p-2'>
         <CardTitle className='text-sm' >
           {label}
@@ -21,7 +20,7 @@ export const ComputingCard = ({ data }: { data: any }) => {
       </CardHeader>
 
       {accessPoint ? (
-        <CardContent className='flex flex-col gap-1 px-2'>
+        <CardContent className='flex flex-col flex-grow gap-1 px-2'>
           {accessPoint?.map((t: { value: any; label: string; }, i: number) => (
             <div className='text-muted-foreground text-sm flex items-center gap-1' key={i}>
               <ExternalLinkIcon className='inline-block w-3 h-3' />
@@ -88,7 +87,7 @@ export const VolatileSoftwareCard = ({ data }: { data: any }) => {
 
 export const SoftwareCard = ({ data }: { data: Partial<VolatileSoftware & SoftwareComputingEService> }) => {
   return (
-    <Card className='rounded-sm bg-zinc-50 dark:bg-zinc-900'>
+    <Card className='rounded-sm flex flex-col bg-zinc-50 dark:bg-zinc-900'>
       <CardHeader className='p-3'>
         <CardTitle className='text-md'>
           {data.label}
@@ -97,7 +96,7 @@ export const SoftwareCard = ({ data }: { data: Partial<VolatileSoftware & Softwa
       </CardHeader>
 
       {data.hostedBy ? (
-        <CardContent className='px-2 pt-2 grid grid-flow-col gap-2'>
+        <CardContent className='px-2 pt-2 flex-grow grid grid-flow-col gap-2'>
           {data.hostedBy?.map((t, i) => (
             <VolatileSoftwareCard key={i} data={t} />
           ))}
