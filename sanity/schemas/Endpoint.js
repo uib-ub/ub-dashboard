@@ -2,7 +2,7 @@ import { hasType, labelSingleton, referredToBy, servesDataset, shortDescription,
 
 export const Endpoint = {
   name: 'Endpoint',
-  title: 'Endpoint',
+  title: 'Endpoint (IKKE bruk)',
   type: 'document',
   liveEdit: true,
   fields: [

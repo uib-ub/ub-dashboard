@@ -2,7 +2,7 @@ import { labelSingleton, shortDescription } from "./props";
 
 export const AccessPoint = {
   name: 'AccessPoint',
-  title: 'Endpoint',
+  title: 'Access point',
   type: 'document',
   liveEdit: true,
   /*   initialValue: {
