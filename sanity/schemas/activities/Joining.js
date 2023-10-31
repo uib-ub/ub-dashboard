@@ -1,4 +1,3 @@
-import { coalesceLabel } from '../helpers'
 import { referredToBy, tookPlaceAt, featured, timespanSingleton, labelSingleton, joinedWith, joined, as } from '../props'
 
 export const Joining = {
@@ -26,17 +25,15 @@ export const Joining = {
   ],
   preview: {
     select: {
-      type: '_type',
-      joinedWith: 'joinedWith.label',
-      joined: 'joined.0.label',
-      media: 'joinedWith.logo',
+      label: 'label',
+      media: 'joined.0.image',
       edtf: 'timespan.edtf',
       role: 'as.label'
     },
     prepare(selection) {
-      const { type, joinedWith, joined, media, edtf, role } = selection
+      const { label, media, edtf, role } = selection
       return {
-        title: `${joined ? joined + ' ' : ''}${type ?? ''} ${joinedWith ? coalesceLabel(joinedWith) : ''}`,
+        title: label,
         subtitle: `${role ?? ''} ${edtf ?? ''}`,
         media: media
       }

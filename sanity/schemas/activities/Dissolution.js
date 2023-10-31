@@ -25,14 +25,13 @@ export const Dissolution = {
   preview: {
     select: {
       label: 'label',
-      type: '_type',
       edtf: 'timespan.edtf',
       dissolved: 'dissolved.label',
     },
     prepare(selection) {
-      const { label, type, edtf, dissolved } = selection
+      const { label, edtf, dissolved } = selection
       return {
-        title: `${label ?? capitalize(type)}`,
+        title: label,
         title: label ?? `Oppløsningen av ${dissolved ? coalesceLabel(dissolved) : ''}`,
         subtitle: edtf,
       }

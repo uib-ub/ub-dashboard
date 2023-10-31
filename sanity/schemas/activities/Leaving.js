@@ -1,6 +1,5 @@
 import { tookPlaceAt, referredToBy, featured, timespanSingleton, labelSingleton, separatedFrom, separated } from '../props'
 import { defaultFieldsets } from '../fieldsets'
-import { coalesceLabel } from '../helpers'
 
 export const Leaving = {
   name: 'Leaving',
@@ -20,16 +19,14 @@ export const Leaving = {
   ],
   preview: {
     select: {
-      type: '_type',
-      separated: 'separated.0.label',
-      separatedFrom: 'separatedFrom.label',
-      media: 'separatedFrom.logo',
+      label: 'label',
+      media: 'separated.0.logo',
       edtf: 'timespan.edtf'
     },
     prepare(selection) {
-      const { type, separated, separatedFrom, media, edtf } = selection
+      const { label, media, edtf } = selection
       return {
-        title: `${separated ? separated + ' ' : ''}${type} ${separatedFrom ? coalesceLabel(separatedFrom) : ''}`,
+        title: label,
         subtitle: edtf,
         media: media
       }

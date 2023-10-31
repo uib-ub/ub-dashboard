@@ -31,9 +31,9 @@ export const Formation = {
       formed: 'formed.label',
     },
     prepare(selection) {
-      const { label, type, edtf, formed } = selection
+      const { label, edtf } = selection
       return {
-        title: `${label ?? capitalize(type)}`,
+        title: label,
         subtitle: edtf,
       }
     },

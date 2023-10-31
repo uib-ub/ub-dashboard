@@ -85,7 +85,6 @@ export const SoftwareComputingEService = {
       title: 'Kjører software',
       type: 'reference',
       to: [
-        { type: 'HostingService' },
         { type: 'VolatileSoftware' },
         { type: 'Software' },
       ]
@@ -95,7 +94,12 @@ export const SoftwareComputingEService = {
       title: 'Tilgangspunkt',
       description: 'Hvilke adresser har tjenesten?',
       type: 'array',
-      of: [{ type: 'AccessPoint' }],
+      of: [{ type: 'AccessPoint' }, {
+        type: 'reference',
+        to: [
+          { type: 'AccessPoint' },
+        ]
+      }],
       initialValue: {
         _type: 'AccessPoint',
         hasType: {
