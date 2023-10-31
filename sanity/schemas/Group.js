@@ -26,6 +26,7 @@ export const Group = {
           to: [{ type: 'GroupType' }],
         },
       ],
+      validation: (Rule) => Rule.required(),
     },
     shortDescription,
     identifiedBy,
