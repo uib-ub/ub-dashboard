@@ -3,12 +3,10 @@ const nextConfig = {
   images: {
     domains: ['cdn.sanity.io'],
   },
-  experimental: {
-    logging: {
-      level: 'verbose',
-      fullUrl: true,
-    },
-  }
+  logging: {
+    level: 'verbose',
+    fullUrl: true,
+  },
 }
 
 module.exports = nextConfig
