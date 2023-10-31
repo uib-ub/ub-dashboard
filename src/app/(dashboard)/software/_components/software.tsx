@@ -71,11 +71,19 @@ export const query = groq`*[_id == $id][0] {
       label,
       logo,
     },
-    accessPoint[] {
-      "id": _id,
-      "type": _type,
-      label,
-      value,
+    "accessPoint": accessPoint[]{
+      _type == 'reference' => @->{
+        "id": _id,
+        "type": _type,
+        label,
+        value,
+      },
+      _type != 'reference' => @{
+        "id": _id,
+        "type": _type,
+        label,
+        value,
+      },
     },
     designatedAccessPoint {
       "type": _type,
@@ -162,7 +170,7 @@ export const query = groq`*[_id == $id][0] {
           "type": _type,
           value,
         },
-      }
+      },
     },
   },
   "resultOf": *[resultedIn[][0]._ref == $id][0] {
@@ -418,24 +426,6 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
               </Card>
             ) : null}
 
-            {data?.hasSoftwarePart ? (
-              <div className='col-span-3 flex flex-col gap-3'>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Programvaren-deler</CardTitle>
-                    <CardDescription>Et stykke programvare kan ha mange deler som har avhengigheter til hverandre</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className='grid grid-cols-2 gap-4'>
-                      {data?.hasSoftwarePart.map((s, i) => (
-                        <SoftwareCard data={s} key={i} />
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ) : null}
-
             {data?.runBy && data?.runBy.length > 0 ? (
               <div className='col-span-3 flex flex-col gap-3'>
                 <Card>
@@ -447,6 +437,24 @@ const Software = ({ data = {} }: { data: Partial<SoftwareProps> }) => {
                     <div className='grid grid-cols-2 gap-4'>
                       {data.runBy.map((s: SoftwareComputingEService, i: number) => (
                         <ComputingCard data={s} key={i} />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : null}
+
+            {data?.hasSoftwarePart ? (
+              <div className='col-span-3 flex flex-col gap-3'>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Programvaren-deler</CardTitle>
+                    <CardDescription>Et stykke programvare kan ha mange deler som har avhengigheter til hverandre</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='grid grid-cols-cards gap-4'>
+                      {data?.hasSoftwarePart.map((s, i) => (
+                        <SoftwareCard data={s} key={i} />
                       ))}
                     </div>
                   </CardContent>

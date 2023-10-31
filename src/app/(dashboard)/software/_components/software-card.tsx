@@ -60,23 +60,14 @@ export const VolatileSoftwareCard = ({ data }: { data: any }) => {
           {type}
         </CardDescription>
       </CardHeader>
-      <CardContent className='px-2 pt-2 flex flex-col flex-grow gap-2'>
-        {runBy?.length > 0 ? (
-          <>
-            {runBy.map((r: { id: any; label: any; designatedAccessPoint: { value: any; }; providedBy: { label: any; logo: SanityImageAssetDocument; }; type: any; }, i: number) => (
-              <ComputingCard key={i} data={r} />
-            ))
-            }
-          </>
-        ) : (
-          <Alert variant={'destructive'} className='dark:border-red-700 dark:text-red-700'>
-            <AlertTitle>Ingen tjenester</AlertTitle>
-            <AlertDescription>
-              {label} har ingen tjenester.
-            </AlertDescription>
-          </Alert>
-        )}
-      </CardContent >
+      {runBy?.length > 0 ? (
+        <CardContent className='px-2 pt-2 flex flex-col flex-grow gap-2'>
+          {runBy.map((r: { id: any; label: any; designatedAccessPoint: { value: any; }; providedBy: { label: any; logo: SanityImageAssetDocument; }; type: any; }, i: number) => (
+            <ComputingCard key={i} data={r} />
+          ))
+          }
+        </CardContent>
+      ) : null}
 
       <CardFooter className='flex justify-start gap-2 border-t border-zinc-300 p-2'>
         {componentOf?.logo ? (
@@ -105,15 +96,13 @@ export const SoftwareCard = ({ data }: { data: Partial<VolatileSoftware & Softwa
         <CardDescription>{data.type}</CardDescription>
       </CardHeader>
 
-      <CardContent className='px-2 pt-2 flex flex-col flex-grow gap-2'>
-        {data.hostedBy ? (
-          <div className='grid grid-cols-1 xl:grid-cols-2 gap-3'>
-            {data.hostedBy?.map((t, i) => (
-              <VolatileSoftwareCard key={i} data={t} />
-            ))}
-          </div>
-        ) : null}
-      </CardContent>
+      {data.hostedBy ? (
+        <CardContent className='px-2 pt-2 grid grid-flow-col gap-2'>
+          {data.hostedBy?.map((t, i) => (
+            <VolatileSoftwareCard key={i} data={t} />
+          ))}
+        </CardContent>
+      ) : null}
 
       <CardFooter className='flex justify-end border-t p-3'>
         {data.hasType && (
